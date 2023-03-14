@@ -277,11 +277,35 @@ function SetupAccount(): ReactElement {
               >
                 <Input type="tel" />
               </Form.Item>
-              <Form.Item
-                label="Address"
-                name="address"
-                rules={[{ required: true, message: "Please add an address" }]}
-              >
+              <Form.Item label="Address">
+                <Form.Item
+                  name="addressLineOne"
+                  rules={[{ required: true, message: "" }]}
+                  hidden
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  name="addressLineTwo"
+                  rules={[{ required: true, message: "" }]}
+                  hidden
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  name="townCity"
+                  rules={[{ required: true, message: "" }]}
+                  hidden
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  name="postcode"
+                  rules={[{ required: true, message: "" }]}
+                  hidden
+                >
+                  <Input />
+                </Form.Item>
                 <Button
                   block={true}
                   type={!modalValues ? "link" : "text"}

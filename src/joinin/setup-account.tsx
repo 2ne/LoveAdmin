@@ -3,30 +3,99 @@ import { Layout, Typography, Button, Form, Input, Space, Modal } from "antd";
 const { Text, Title } = Typography;
 const { Header } = Layout;
 
-const onAddressFinish = (addressValues: any) => {
-  console.log("Success:", addressValues);
-};
+interface AddressValues {
+  addressLineOne: string;
+  addressLineTwo: string;
+  townCity: string;
+  postcode: string;
+}
 
-const onAddressFinishFailed = (addressErrorInfo: any) => {
-  console.log("Failed:", addressErrorInfo);
+interface AddressFormProps {
+  open: boolean;
+  onSave: (values: AddressValues) => void;
+  onCancel: () => void;
+}
+
+const AddressForm: React.FC<AddressFormProps> = ({
+  open,
+  onSave,
+  onCancel,
+}) => {
+  const [addressForm] = Form.useForm();
+  return (
+    <Modal
+      width={368}
+      maskClosable={false}
+      open={open}
+      title="Setup address"
+      okText="Save"
+      cancelText="Cancel"
+      onCancel={onCancel}
+      onOk={() => {
+        addressForm
+          .validateFields()
+          .then((values) => {
+            onSave(values);
+          })
+          .catch((info) => {
+            console.log("Validate Failed:", info);
+          });
+      }}
+    >
+      <Form
+        form={addressForm}
+        layout="vertical"
+        name="addressForm"
+        initialValues={{ modifier: "public" }}
+        className="hide-validation-asterix"
+      >
+        <Form.Item
+          label="Address line 1"
+          name="addressLineOne"
+          rules={[{ required: true, message: "Please enter an address" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Address line 2 (optional)" name="addressLineTwo">
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Town or city"
+          name="townCity"
+          rules={[{ required: true, message: "Please enter a town or city" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Postcode"
+          name="postcode"
+          rules={[{ required: true, message: "Please enter a postcode" }]}
+        >
+          <Input />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 };
 
 function SetupAccount(): ReactElement {
   const [detailsForm] = Form.useForm();
-  const [addressForm] = Form.useForm();
 
-  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [modalValues, setModalValues] = useState<AddressValues>();
 
-  const showAddressModal = () => {
-    setIsAddressModalOpen(true);
+  const onDetailsFinish = (values: any) => {
+    console.log("Success:", values);
   };
 
-  const handleAddressSave = () => {
-    setIsAddressModalOpen(false);
+  const onDetailsFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
   };
 
-  const handleAddressCancel = () => {
-    setIsAddressModalOpen(false);
+  const onSave = (values: any) => {
+    console.log("Received values of form: ", values);
+    setModalValues(values);
+    setOpen(false);
   };
 
   return (
@@ -132,7 +201,7 @@ function SetupAccount(): ReactElement {
                 Finish setting up your account
               </Title>
               <Title level={5} className="my-1 text-neutral-500">
-                jamestoone@gmail.com
+                hsimpson@foxtv.com
               </Title>
             </div>
             <div className="flex items-center gap-2">
@@ -147,112 +216,117 @@ function SetupAccount(): ReactElement {
                 Step 1 · Homer Simpson's details
               </Text>
             </div>
-            <Form layout="vertical" form={detailsForm}>
-              <Form.Item label="First name">
+            <Form
+              layout="vertical"
+              form={detailsForm}
+              name="detailsForm"
+              onFinish={onDetailsFinish}
+              onFinishFailed={onDetailsFinishFailed}
+              className="hide-validation-asterix"
+            >
+              <Form.Item
+                label="First name"
+                name="firstName"
+                rules={[{ required: true, message: "Please enter a name" }]}
+              >
                 <Input value="Homer" />
               </Form.Item>
-              <Form.Item label="Last name">
+              <Form.Item
+                label="Last name"
+                name="lastName"
+                rules={[{ required: true, message: "Please enter a name" }]}
+              >
                 <Input value="Simpson" />
               </Form.Item>
-              <Form.Item label="Date of birth" extra="Example · 31/04/1970">
+
+              <Form.Item
+                label="Date of birth"
+                extra="Example · 31/04/1970"
+                name="dob"
+                rules={[
+                  { required: true, message: "Please enter a date of birth" },
+                ]}
+              >
                 <Space.Compact>
                   <Input
                     inputMode="numeric"
                     maxLength={2}
                     placeholder="DD"
                     style={{ width: "25%" }}
+                    name="dobDD"
                   />
                   <Input
                     inputMode="numeric"
                     maxLength={2}
                     placeholder="MM"
                     style={{ width: "25%" }}
+                    name="dobMM"
                   />
                   <Input
                     inputMode="numeric"
                     maxLength={4}
                     placeholder="YYYY"
                     style={{ width: "50%" }}
+                    name="dobYYYY"
                   />
                 </Space.Compact>
               </Form.Item>
-              <Form.Item label="Contact number">
+              <Form.Item
+                label="Contact number"
+                name="contactNumber"
+                rules={[
+                  { required: true, message: "Please enter a contact number" },
+                ]}
+              >
                 <Input type="tel" />
               </Form.Item>
-              <Form.Item label="Email address">
-                <Input type="email" />
-              </Form.Item>
-              <Form.Item label="Address">
+              <Form.Item
+                label="Address"
+                name="address"
+                rules={[{ required: true, message: "Please add an address" }]}
+              >
                 <Button
                   block={true}
-                  type="link"
-                  onClick={showAddressModal}
-                  className="justify-center border border-solid border-primary-500"
+                  type={!modalValues ? "link" : "text"}
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  className={`${
+                    !modalValues
+                      ? "border-primary-500 justify-center"
+                      : "border-neutral-300 hover:bg-white hover:border-primary-500"
+                  } border border-solid `}
                 >
-                  Add address
+                  {!modalValues ? (
+                    "Add address"
+                  ) : (
+                    <div className="truncate -ml-1">
+                      <span>{modalValues.addressLineOne}, </span>
+                      {modalValues.addressLineTwo && (
+                        <span>{modalValues.addressLineTwo}, </span>
+                      )}
+                      <span>{modalValues.townCity}, </span>
+                      <span>{modalValues.postcode}</span>
+                    </div>
+                  )}
                 </Button>
+                <AddressForm
+                  open={open}
+                  onSave={onSave}
+                  onCancel={() => {
+                    setOpen(false);
+                  }}
+                />
               </Form.Item>
               <Form.Item className="flex justify-end">
-                <Button type="primary">Next</Button>
+                <Button type="primary" htmlType="submit">
+                  Next
+                </Button>
               </Form.Item>
             </Form>
           </div>
         </div>
       </Layout>
-      <Modal
-        title="Add address"
-        open={isAddressModalOpen}
-        onOk={handleAddressSave}
-        onCancel={handleAddressCancel}
-        width={368}
-        footer={null}
-        maskClosable={false}
-      >
-        <Form
-          id="addressForm"
-          layout="vertical"
-          form={addressForm}
-          onFinish={onAddressFinish}
-          onFinishFailed={onAddressFinishFailed}
-          className="hide-validation-asterix"
-        >
-          <Form.Item
-            label="Address line 1"
-            name="addressLineOne"
-            rules={[{ required: true, message: "Please enter an address" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Address line 2 (optional)" name="addressLineTwo">
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Town or city"
-            name="townCity"
-            rules={[{ required: true, message: "Please enter a town or city" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Postcode"
-            name="postcode"
-            rules={[{ required: true, message: "Please enter a postcode" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item className="mb-0 flex justify-end">
-            <Button onClick={handleAddressCancel}>Cancel</Button>
-            <Button
-              onClick={handleAddressSave}
-              type="primary"
-              htmlType="submit"
-              className="ml-3"
-            >
-              Save
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
     </Layout>
   );
 }

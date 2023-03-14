@@ -239,41 +239,38 @@ function SetupAccount(): ReactElement {
                 <Input value="Simpson" />
               </Form.Item>
 
-              <Form.Item
-                label="Date of birth"
-                extra="Example · 31/04/1970"
-                name="dob"
-                rules={[
-                  { required: true, message: "Please enter a date of birth" },
-                ]}
-              >
-                <Space.Compact>
-                  <Input
-                    inputMode="numeric"
-                    maxLength={2}
-                    placeholder="DD"
-                    style={{ width: "25%" }}
+              <Form.Item label="Date of birth" extra="Example · 31/04/1970">
+                <Space.Compact className="-space-x-px">
+                  <Form.Item
                     name="dobDD"
-                  />
-                  <Input
-                    inputMode="numeric"
-                    maxLength={2}
-                    placeholder="MM"
-                    style={{ width: "25%" }}
+                    rules={[{ required: true, message: "" }]}
+                    className="mb-0"
+                  >
+                    <Input inputMode="numeric" maxLength={2} placeholder="DD" />
+                  </Form.Item>
+                  <Form.Item
                     name="dobMM"
-                  />
-                  <Input
-                    inputMode="numeric"
-                    maxLength={4}
-                    placeholder="YYYY"
-                    style={{ width: "50%" }}
+                    rules={[{ required: true, message: "" }]}
+                    className="mb-0"
+                  >
+                    <Input inputMode="numeric" maxLength={2} placeholder="MM" />
+                  </Form.Item>
+                  <Form.Item
                     name="dobYYYY"
-                  />
+                    rules={[{ required: true, message: "" }]}
+                    className="mb-0"
+                  >
+                    <Input
+                      inputMode="numeric"
+                      maxLength={4}
+                      placeholder="YYYY"
+                    />
+                  </Form.Item>
                 </Space.Compact>
               </Form.Item>
               <Form.Item
-                label="Contact number"
-                name="contactNumber"
+                label="Mobile number"
+                name="mobileNumber"
                 rules={[
                   { required: true, message: "Please enter a contact number" },
                 ]}

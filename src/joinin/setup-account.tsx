@@ -1,0 +1,334 @@
+import React, { ReactElement, useState } from "react";
+import { Layout, Typography, Button, Form, Input, Space, Modal } from "antd";
+const { Text, Title } = Typography;
+const { Header } = Layout;
+
+interface AddressValues {
+  addressLineOne: string;
+  addressLineTwo: string;
+  townCity: string;
+  postcode: string;
+}
+
+interface AddressFormProps {
+  open: boolean;
+  onSave: (values: AddressValues) => void;
+  onCancel: () => void;
+}
+
+const AddressForm: React.FC<AddressFormProps> = ({
+  open,
+  onSave,
+  onCancel,
+}) => {
+  const [addressForm] = Form.useForm();
+  return (
+    <Modal
+      width={368}
+      maskClosable={false}
+      open={open}
+      title="Setup address"
+      okText="Save"
+      cancelText="Cancel"
+      onCancel={onCancel}
+      onOk={() => {
+        addressForm
+          .validateFields()
+          .then((values) => {
+            onSave(values);
+          })
+          .catch((info) => {
+            console.log("Validate Failed:", info);
+          });
+      }}
+    >
+      <Form
+        form={addressForm}
+        layout="vertical"
+        name="addressForm"
+        initialValues={{ modifier: "public" }}
+        className="hide-validation-asterix"
+      >
+        <Form.Item
+          label="Address line 1"
+          name="addressLineOne"
+          rules={[{ required: true, message: "Please enter an address" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item label="Address line 2 (optional)" name="addressLineTwo">
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Town or city"
+          name="townCity"
+          rules={[{ required: true, message: "Please enter a town or city" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Postcode"
+          name="postcode"
+          rules={[{ required: true, message: "Please enter a postcode" }]}
+        >
+          <Input />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+};
+
+function SetupAccount(): ReactElement {
+  const [detailsForm] = Form.useForm();
+
+  const [open, setOpen] = useState(false);
+  const [modalValues, setModalValues] = useState<AddressValues>();
+
+  const onDetailsFinish = (values: any) => {
+    console.log("Success:", values);
+  };
+
+  const onDetailsFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  const onSave = (values: any) => {
+    console.log("Received values of form: ", values);
+    setModalValues(values);
+    setOpen(false);
+  };
+
+  return (
+    <Layout className="min-h-screen">
+      <Header className="bg-neutral-800 px-4 flex items-center border-none shadow-none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="106"
+          height="34"
+          viewBox="0 0 106 34"
+          fill="none"
+          className="w-24 lg:w-auto text-primary-500"
+        >
+          <path
+            d="M8 3C8 4.10457 7.10457 5 6 5C4.89543 5 4 4.10457 4 3C4 1.89543 4.89543 1 6 1C7.10457 1 8 1.89543 8 3Z"
+            fill="currentColor"
+          />
+          <path
+            d="M6 9.5V27.5C6 29.7091 4.20914 31.5 2 31.5V31.5"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeMiterlimit="3.99393"
+            strokeLinecap="round"
+          />
+          <path
+            d="M35 3C35 4.10457 34.1046 5 33 5C31.8954 5 31 4.10457 31 3C31 1.89543 31.8954 1 33 1C34.1046 1 35 1.89543 35 3Z"
+            fill="currentColor"
+          />
+          <path
+            d="M33 10V23"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeMiterlimit="3.99393"
+            strokeLinecap="round"
+          />
+          <path
+            d="M40 23V15.5C40 12.4624 42.4624 10 45.5 10V10C48.5376 10 51 12.4624 51 15.5V23"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeMiterlimit="3.99393"
+            strokeLinecap="round"
+          />
+          <path
+            d="M65 23V15.5C65 12.4624 67.4624 10 70.5 10V10C73.5376 10 76 12.4624 76 15.5V23"
+            stroke="#fff"
+            strokeWidth="4"
+            strokeMiterlimit="3.99393"
+            strokeLinecap="round"
+          />
+          <path
+            d="M60 3C60 4.10457 59.1046 5 58 5C56.8954 5 56 4.10457 56 3C56 1.89543 56.8954 1 58 1C59.1046 1 60 1.89543 60 3Z"
+            fill="#fff"
+          />
+          <path
+            d="M58 10V23"
+            stroke="#fff"
+            strokeWidth="4"
+            strokeMiterlimit="3.99393"
+            strokeLinecap="round"
+          />
+          <path
+            d="M19.5 23C15.9101 23 13 20.0899 13 16.5C13 12.9101 15.9101 10 19.5 10C23.0899 10 26 12.9101 26 16.5C26 20.0899 23.0899 23 19.5 23Z"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeMiterlimit="3.99393"
+            strokeLinecap="round"
+          />
+          <path
+            d="M83 9L96.9059 15.0838C97.7048 15.4334 97.7048 16.5666 96.9059 16.9162L83 23"
+            stroke="currentColor"
+            strokeWidth="4"
+            strokeMiterlimit="3.99393"
+            strokeLinecap="round"
+          />
+        </svg>
+      </Header>
+      <Layout className="flex-row">
+        <div className="flex-1 relative hidden lg:block">
+          <img
+            className="absolute inset-0 h-full w-full object-cover"
+            src="https://app.joinin.online/images/about-hero.jpeg"
+            alt=""
+          />
+          <div className="absolute inset-0 h-full w-full bg-primary-500/70 grid place-items-center">
+            <div className="relative text-white leading-normal mx-auto w-full max-w-prose">
+              <div className="flex items-center tracking-tight text-3xl mb-6">
+                <Title level={1} className="text-white my-0">
+                  Ready to take part?
+                </Title>
+              </div>
+              <Title level={4} className="text-cyan-50 my-0">
+                You're here because your club or organisation uses joinin's
+                software. Sign in to your account to register for classes, renew
+                memberships, buy merchandise, and so much more!
+              </Title>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 bg-white p-12 sm:p-14 grid place-items-center">
+          <div className="m-auto max-w-xs w-full space-y-6">
+            <div>
+              <Title level={4} className="my-0">
+                Finish setting up your account
+              </Title>
+              <Title level={5} className="my-1 text-neutral-500">
+                hsimpson@foxtv.com
+              </Title>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex-shrink-0 h-4 w-4 bg-primary-50 border border-solid border-primary-500 rounded-full"></div>
+              <div className="flex-grow h-px w-full bg-neutral-300"></div>
+              <div className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></div>
+              <div className="flex-grow h-px w-full bg-neutral-300"></div>
+              <div className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></div>
+            </div>
+            <div>
+              <Text className="my-0 font-medium">
+                Step 1 · Homer Simpson's details
+              </Text>
+            </div>
+            <Form
+              layout="vertical"
+              form={detailsForm}
+              name="detailsForm"
+              onFinish={onDetailsFinish}
+              onFinishFailed={onDetailsFinishFailed}
+              className="hide-validation-asterix"
+            >
+              <Form.Item
+                label="First name"
+                name="firstName"
+                rules={[{ required: true, message: "Please enter a name" }]}
+              >
+                <Input value="Homer" />
+              </Form.Item>
+              <Form.Item
+                label="Last name"
+                name="lastName"
+                rules={[{ required: true, message: "Please enter a name" }]}
+              >
+                <Input value="Simpson" />
+              </Form.Item>
+
+              <Form.Item
+                label="Date of birth"
+                extra="Example · 31/04/1970"
+                name="dob"
+                rules={[
+                  { required: true, message: "Please enter a date of birth" },
+                ]}
+              >
+                <Space.Compact>
+                  <Input
+                    inputMode="numeric"
+                    maxLength={2}
+                    placeholder="DD"
+                    style={{ width: "25%" }}
+                    name="dobDD"
+                  />
+                  <Input
+                    inputMode="numeric"
+                    maxLength={2}
+                    placeholder="MM"
+                    style={{ width: "25%" }}
+                    name="dobMM"
+                  />
+                  <Input
+                    inputMode="numeric"
+                    maxLength={4}
+                    placeholder="YYYY"
+                    style={{ width: "50%" }}
+                    name="dobYYYY"
+                  />
+                </Space.Compact>
+              </Form.Item>
+              <Form.Item
+                label="Contact number"
+                name="contactNumber"
+                rules={[
+                  { required: true, message: "Please enter a contact number" },
+                ]}
+              >
+                <Input type="tel" />
+              </Form.Item>
+              <Form.Item
+                label="Address"
+                name="address"
+                rules={[{ required: true, message: "Please add an address" }]}
+              >
+                <Button
+                  block={true}
+                  type={!modalValues ? "link" : "text"}
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  className={`${
+                    !modalValues
+                      ? "border-primary-500 justify-center"
+                      : "border-neutral-300 hover:bg-white hover:border-primary-500"
+                  } border border-solid `}
+                >
+                  {!modalValues ? (
+                    "Add address"
+                  ) : (
+                    <div className="truncate -ml-1">
+                      <span>{modalValues.addressLineOne}, </span>
+                      {modalValues.addressLineTwo && (
+                        <span>{modalValues.addressLineTwo}, </span>
+                      )}
+                      <span>{modalValues.townCity}, </span>
+                      <span>{modalValues.postcode}</span>
+                    </div>
+                  )}
+                </Button>
+                <AddressForm
+                  open={open}
+                  onSave={onSave}
+                  onCancel={() => {
+                    setOpen(false);
+                  }}
+                />
+              </Form.Item>
+              <Form.Item className="flex justify-end">
+                <Button type="primary" htmlType="submit">
+                  Next
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </div>
+      </Layout>
+    </Layout>
+  );
+}
+
+export default SetupAccount;

@@ -1,3 +1,50 @@
-@import 'antd/dist/reset.css';
+@import "antd/dist/reset.css";
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap");
+@font-face {
+  font-family: "CircularStd";
+  src: url("https://assets.codepen.io/12596/CircularStd-Medium.woff")
+    format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
 @tailwind components;
 @tailwind utilities;
+
+h1.ant-typography,
+h2.ant-typography,
+h3.ant-typography,
+h4.ant-typography {
+  @apply font-display font-medium;
+}
+
+h5.ant-typography {
+  @apply font-medium;
+}
+
+.ant-btn {
+  @apply inline-flex items-center;
+}
+
+.ant-form-vertical .ant-form-item-label {
+  @apply pb-1;
+}
+
+.ant-form-vertical .ant-form-item-extra {
+  @apply pt-1;
+}
+
+.ant-form-item-required {
+  @apply inline-flex flex-row-reverse gap-x-1;
+}
+
+.hide-validation-asterix .ant-form-item-required:before {
+  @apply opacity-0;
+}
+
+.ant-form-vertical .ant-form-item {
+  @apply mb-6;
+}
+
+.ant-modal .ant-modal-header {
+  @apply mb-6;
+}

@@ -1,16 +1,18 @@
-import React, { ReactElement, useState } from 'react'
-import { Button } from 'antd'
+import React, { ReactElement } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Contact from "./loveadmin/contact";
+import SetupAccount from "./joinin/setup-account";
 
 function App(): ReactElement {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="p-20 border shadow-xl border-gray-50 rounded-xl">
-      <Button type="primary" onClick={() => setCount((count) => count + 1)}>
-        count is: {count}
-      </Button>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/Contact" element={<Contact />} />
+        <Route path="/SetupAccount" element={<SetupAccount />} />
+        <Route path="*" element={<Contact />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

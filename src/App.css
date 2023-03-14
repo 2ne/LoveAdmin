@@ -33,6 +33,10 @@ h5.ant-typography {
   @apply pt-1;
 }
 
+.ant-form-vertical .ant-form-item-has-error .ant-form-item-extra {
+  @apply opacity-0 h-0 overflow-hidden select-none p-0 min-h-[1rem];
+}
+
 .ant-form-item-required {
   @apply inline-flex flex-row-reverse gap-x-1;
 }

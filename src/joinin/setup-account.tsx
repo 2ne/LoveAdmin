@@ -97,7 +97,7 @@ function SetupAccount(): ReactElement {
 
   const onSave = (values: any) => {
     console.log("Received values of form: ", values);
-    detailsForm.setFieldsValue({...values});
+    detailsForm.setFieldsValue({ ...values });
     setModalValues(values);
     setOpen(false);
   };
@@ -287,28 +287,28 @@ function SetupAccount(): ReactElement {
                   rules={[{ required: true, message: "" }]}
                   hidden
                 >
-                  <Input />
+                  <Input readOnly />
                 </Form.Item>
                 <Form.Item
                   name="addressLineTwo"
-                  rules={[{ required: true, message: "" }]}
+                  rules={[{ required: false }]}
                   hidden
                 >
-                  <Input />
+                  <Input readOnly />
                 </Form.Item>
                 <Form.Item
                   name="townCity"
                   rules={[{ required: true, message: "" }]}
                   hidden
                 >
-                  <Input />
+                  <Input readOnly />
                 </Form.Item>
                 <Form.Item
                   name="postcode"
                   rules={[{ required: true, message: "" }]}
                   hidden
                 >
-                  <Input />
+                  <Input readOnly />
                 </Form.Item>
                 <Button
                   block={true}
@@ -320,7 +320,13 @@ function SetupAccount(): ReactElement {
                     !modalValues
                       ? "border-primary-500 justify-center"
                       : "border-neutral-300 hover:bg-white hover:border-primary-500"
-                  } border border-solid `}
+                  }
+                  ${
+                    !modalValues &&
+                    !validAddress &&
+                    " border-rose-500 text-rose-500 "
+                  }
+                   border border-solid `}
                 >
                   {!modalValues ? (
                     "Add address"
@@ -335,7 +341,11 @@ function SetupAccount(): ReactElement {
                     </div>
                   )}
                 </Button>
-                {!modalValues && !validAddress && 'ERROR' }
+                {!modalValues && !validAddress && (
+                  <div className="ant-form-item-explain-error">
+                    Please add an address
+                  </div>
+                )}
                 <AddressForm
                   open={open}
                   onSave={onSave}

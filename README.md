@@ -1,6 +1,6 @@
-## About
+## LoveAdmin Playground
 
-LoveAdmin playground using vite, React + tailwindcss + TypeScript with some tools preconfigured.
+Using vite, React + tailwindcss + TypeScript with some tools preconfigured.
 
 ### Libraries
 

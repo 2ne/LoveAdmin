@@ -197,7 +197,7 @@ function SetupAccount(): ReactElement {
         </svg>
       </Header>
       <Layout className="flex-row">
-        <div className="flex-1 relative hidden lg:block">
+        <div className="flex-1 sticky top-0 max-h-screen hidden lg:block">
           <img
             className="absolute inset-0 h-full w-full object-cover"
             src="https://app.joinin.online/images/about-hero.jpeg"
@@ -218,8 +218,8 @@ function SetupAccount(): ReactElement {
             </div>
           </div>
         </div>
-        <div className="flex-1 bg-white p-12 sm:p-14 grid place-items-center">
-          <div className="m-auto max-w-xs w-full space-y-6">
+        <div className="flex-1 bg-white p-12 sm:p-14 sm:pt-[10vh]">
+          <div className="mx-auto max-w-xs w-full space-y-6">
             <div>
               <Title level={4} className="my-0">
                 Finish setting up your account

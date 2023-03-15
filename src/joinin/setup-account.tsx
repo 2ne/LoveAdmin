@@ -83,13 +83,16 @@ function SetupAccount(): ReactElement {
 
   const [open, setOpen] = useState(false);
   const [modalValues, setModalValues] = useState<AddressValues>();
+  const [validAddress, setValidAddress] = useState(true);
 
   const onDetailsFinish = (values: any) => {
     console.log("Success:", values);
+    setValidAddress(true);
   };
 
   const onDetailsFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
+    setValidAddress(!!modalValues);
   };
 
   const onSave = (values: any) => {
@@ -332,6 +335,7 @@ function SetupAccount(): ReactElement {
                     </div>
                   )}
                 </Button>
+                {!modalValues && !validAddress && 'ERROR' }
                 <AddressForm
                   open={open}
                   onSave={onSave}

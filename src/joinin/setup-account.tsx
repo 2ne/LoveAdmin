@@ -1,5 +1,14 @@
 import React, { ReactElement, useState } from "react";
-import { Layout, Typography, Button, Form, Input, Space, Modal } from "antd";
+import {
+  Layout,
+  Typography,
+  Button,
+  Form,
+  Input,
+  Space,
+  Modal,
+  Switch,
+} from "antd";
 const { Text, Title } = Typography;
 const { Header } = Layout;
 
@@ -85,9 +94,13 @@ function SetupAccount(): ReactElement {
   const [modalValues, setModalValues] = useState<AddressValues>();
   const [validAddress, setValidAddress] = useState(true);
 
+  // just for prototype
+  const [stepTwo, setStepTwo] = useState(false);
+
   const onDetailsFinish = (values: any) => {
     console.log("Success:", values);
     setValidAddress(true);
+    setStepTwo(true);
   };
 
   const onDetailsFinishFailed = (errorInfo: any) => {
@@ -208,164 +221,347 @@ function SetupAccount(): ReactElement {
                 hsimpson@foxtv.com
               </Title>
             </div>
-            <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
-              <li className="contents">
-                <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
-              </li>
-              <li className="contents">
-                <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
-              </li>
-              <li className="contents">
-                <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
-              </li>
-            </ol>
-            <div>
-              <Text className="my-0 font-medium">
-                Step 1 · Homer Simpson's details
-              </Text>
-            </div>
-            <Form
-              layout="vertical"
-              form={detailsForm}
-              name="detailsForm"
-              onFinish={onDetailsFinish}
-              onFinishFailed={onDetailsFinishFailed}
-              className="hide-validation-asterix"
-            >
-              <Form.Item
-                label="First name"
-                name="firstName"
-                rules={[{ required: true, message: "Please enter a name" }]}
-              >
-                <Input value="Homer" />
-              </Form.Item>
-              <Form.Item
-                label="Last name"
-                name="lastName"
-                rules={[{ required: true, message: "Please enter a name" }]}
-              >
-                <Input value="Simpson" />
-              </Form.Item>
-              <Form.Item label="Date of birth" extra="Example · 31/04/1970">
-                <Space.Compact className="-space-x-px">
+            {!stepTwo && (
+              <section className="space-y-6">
+                {/* Step 1 */}
+                <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
+                  <li className="contents">
+                    <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
+                  </li>
+                  <li className="contents">
+                    <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
+                  </li>
+                </ol>
+                <div>
+                  <Text className="my-0 font-medium">
+                    Step 1 · Homer Simpson's details
+                  </Text>
+                </div>
+                <Form
+                  layout="vertical"
+                  form={detailsForm}
+                  name="detailsForm"
+                  onFinish={onDetailsFinish}
+                  onFinishFailed={onDetailsFinishFailed}
+                  className="hide-validation-asterix"
+                >
                   <Form.Item
-                    name="dobDD"
-                    rules={[{ required: true, message: "" }]}
-                    className="mb-0"
+                    label="First name"
+                    name="firstName"
+                    rules={[{ required: true, message: "Please enter a name" }]}
                   >
-                    <Input inputMode="numeric" maxLength={2} placeholder="DD" />
+                    <Input value="Homer" />
                   </Form.Item>
                   <Form.Item
-                    name="dobMM"
-                    rules={[{ required: true, message: "" }]}
-                    className="mb-0"
+                    label="Last name"
+                    name="lastName"
+                    rules={[{ required: true, message: "Please enter a name" }]}
                   >
-                    <Input inputMode="numeric" maxLength={2} placeholder="MM" />
+                    <Input value="Simpson" />
+                  </Form.Item>
+                  <Form.Item label="Date of birth" extra="Example · 31/04/1970">
+                    <Space.Compact className="-space-x-px">
+                      <Form.Item
+                        name="dobDD"
+                        rules={[{ required: true, message: "" }]}
+                        className="mb-0"
+                      >
+                        <Input
+                          inputMode="numeric"
+                          maxLength={2}
+                          placeholder="DD"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="dobMM"
+                        rules={[{ required: true, message: "" }]}
+                        className="mb-0"
+                      >
+                        <Input
+                          inputMode="numeric"
+                          maxLength={2}
+                          placeholder="MM"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="dobYYYY"
+                        rules={[{ required: true, message: "" }]}
+                        className="mb-0"
+                      >
+                        <Input
+                          inputMode="numeric"
+                          maxLength={4}
+                          placeholder="YYYY"
+                        />
+                      </Form.Item>
+                    </Space.Compact>
                   </Form.Item>
                   <Form.Item
-                    name="dobYYYY"
-                    rules={[{ required: true, message: "" }]}
-                    className="mb-0"
+                    label="Mobile number"
+                    name="mobileNumber"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter a contact number",
+                      },
+                    ]}
                   >
-                    <Input
-                      inputMode="numeric"
-                      maxLength={4}
-                      placeholder="YYYY"
-                    />
+                    <Input type="tel" />
                   </Form.Item>
-                </Space.Compact>
-              </Form.Item>
-              <Form.Item
-                label="Mobile number"
-                name="mobileNumber"
-                rules={[
-                  { required: true, message: "Please enter a contact number" },
-                ]}
-              >
-                <Input type="tel" />
-              </Form.Item>
-              <Form.Item label="Address">
-                <Form.Item
-                  name="addressLineOne"
-                  rules={[{ required: true, message: "" }]}
-                  hidden
-                >
-                  <Input readOnly />
-                </Form.Item>
-                <Form.Item
-                  name="addressLineTwo"
-                  rules={[{ required: false }]}
-                  hidden
-                >
-                  <Input readOnly />
-                </Form.Item>
-                <Form.Item
-                  name="townCity"
-                  rules={[{ required: true, message: "" }]}
-                  hidden
-                >
-                  <Input readOnly />
-                </Form.Item>
-                <Form.Item
-                  name="postcode"
-                  rules={[{ required: true, message: "" }]}
-                  hidden
-                >
-                  <Input readOnly />
-                </Form.Item>
-                <Button
-                  block={true}
-                  type={!modalValues ? "link" : "text"}
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                  className={`${
-                    !modalValues
-                      ? "border-primary-500 justify-center"
-                      : "border-neutral-300 hover:bg-white hover:border-primary-500"
-                  }
+                  <Form.Item label="Address">
+                    <Form.Item
+                      name="addressLineOne"
+                      rules={[{ required: true, message: "" }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Form.Item
+                      name="addressLineTwo"
+                      rules={[{ required: false }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Form.Item
+                      name="townCity"
+                      rules={[{ required: true, message: "" }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Form.Item
+                      name="postcode"
+                      rules={[{ required: true, message: "" }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Button
+                      block={true}
+                      type={!modalValues ? "link" : "text"}
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                      className={`${
+                        !modalValues
+                          ? "border-primary-500 justify-center"
+                          : "border-neutral-300 hover:bg-white hover:border-primary-500"
+                      }
                   ${
                     !modalValues &&
                     !validAddress &&
                     " border-rose-500 text-rose-500 "
                   }
                    border border-solid `}
-                >
-                  {!modalValues ? (
-                    "Add address"
-                  ) : (
-                    <div className="truncate -ml-1">
-                      <span>{modalValues.addressLineOne}, </span>
-                      {modalValues.addressLineTwo && (
-                        <span>{modalValues.addressLineTwo}, </span>
+                    >
+                      {!modalValues ? (
+                        "Add address"
+                      ) : (
+                        <div className="truncate -ml-1">
+                          <span>{modalValues.addressLineOne}, </span>
+                          {modalValues.addressLineTwo && (
+                            <span>{modalValues.addressLineTwo}, </span>
+                          )}
+                          <span>{modalValues.townCity}, </span>
+                          <span>{modalValues.postcode}</span>
+                        </div>
                       )}
-                      <span>{modalValues.townCity}, </span>
-                      <span>{modalValues.postcode}</span>
+                    </Button>
+                    {!modalValues && !validAddress && (
+                      <div className="ant-form-item-explain-error">
+                        Please add an address
+                      </div>
+                    )}
+                    <AddressForm
+                      open={open}
+                      onSave={onSave}
+                      onCancel={() => {
+                        setOpen(false);
+                      }}
+                    />
+                  </Form.Item>
+                  <Form.Item>
+                    <div className="flex justify-end">
+                      <Button type="primary" htmlType="submit">
+                        Next
+                      </Button>
                     </div>
-                  )}
-                </Button>
-                {!modalValues && !validAddress && (
-                  <div className="ant-form-item-explain-error">
-                    Please add an address
-                  </div>
-                )}
-                <AddressForm
-                  open={open}
-                  onSave={onSave}
-                  onCancel={() => {
-                    setOpen(false);
-                  }}
-                />
-              </Form.Item>
-              <Form.Item className="flex justify-end">
-                <Button type="primary" htmlType="submit">
-                  Next
-                </Button>
-              </Form.Item>
-            </Form>
+                  </Form.Item>
+                </Form>
+              </section>
+            )}
+            {stepTwo && (
+              <section className="space-y-6">
+                {/* Step 2 */}
+                <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
+                  <li className="contents">
+                    <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-500 rounded-full"></i>
+                  </li>
+                  <li className="contents">
+                    <div className="flex-grow h-px w-full bg-cyan-500"></div>
+                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
+                  </li>
+                </ol>
+                <div>
+                  <Text className="my-0 font-medium">
+                    Step 2 · Bart Simpson's details
+                  </Text>
+                </div>
+                <Form
+                  layout="vertical"
+                  form={detailsForm}
+                  name="detailsForm"
+                  onFinish={onDetailsFinish}
+                  onFinishFailed={onDetailsFinishFailed}
+                  className="hide-validation-asterix"
+                >
+                  <Form.Item
+                    label="First name"
+                    name="firstName"
+                    rules={[{ required: true, message: "Please enter a name" }]}
+                  >
+                    <Input value="Homer" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Last name"
+                    name="lastName"
+                    rules={[{ required: true, message: "Please enter a name" }]}
+                  >
+                    <Input value="Simpson" />
+                  </Form.Item>
+                  <Form.Item label="Date of birth" extra="Example · 31/04/1970">
+                    <Space.Compact className="-space-x-px">
+                      <Form.Item
+                        name="dobDD"
+                        rules={[{ required: true, message: "" }]}
+                        className="mb-0"
+                      >
+                        <Input
+                          inputMode="numeric"
+                          maxLength={2}
+                          placeholder="DD"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="dobMM"
+                        rules={[{ required: true, message: "" }]}
+                        className="mb-0"
+                      >
+                        <Input
+                          inputMode="numeric"
+                          maxLength={2}
+                          placeholder="MM"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="dobYYYY"
+                        rules={[{ required: true, message: "" }]}
+                        className="mb-0"
+                      >
+                        <Input
+                          inputMode="numeric"
+                          maxLength={4}
+                          placeholder="YYYY"
+                        />
+                      </Form.Item>
+                    </Space.Compact>
+                  </Form.Item>
+                  <Form.Item label="Address">
+                    <Form.Item
+                      name="addressLineOne"
+                      rules={[{ required: true, message: "" }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Form.Item
+                      name="addressLineTwo"
+                      rules={[{ required: false }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Form.Item
+                      name="townCity"
+                      rules={[{ required: true, message: "" }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Form.Item
+                      name="postcode"
+                      rules={[{ required: true, message: "" }]}
+                      hidden
+                    >
+                      <Input readOnly />
+                    </Form.Item>
+                    <Button
+                      block={true}
+                      type={!modalValues ? "link" : "text"}
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                      className={`${
+                        !modalValues
+                          ? "border-primary-500 justify-center"
+                          : "border-neutral-300 hover:bg-white hover:border-primary-500"
+                      }
+                  ${
+                    !modalValues &&
+                    !validAddress &&
+                    " border-rose-500 text-rose-500 "
+                  }
+                   border border-solid `}
+                    >
+                      {!modalValues ? (
+                        "Add address"
+                      ) : (
+                        <div className="truncate -ml-1">
+                          <span>{modalValues.addressLineOne}, </span>
+                          {modalValues.addressLineTwo && (
+                            <span>{modalValues.addressLineTwo}, </span>
+                          )}
+                          <span>{modalValues.townCity}, </span>
+                          <span>{modalValues.postcode}</span>
+                        </div>
+                      )}
+                    </Button>
+                    {!modalValues && !validAddress && (
+                      <div className="ant-form-item-explain-error">
+                        Please add an address
+                      </div>
+                    )}
+                    <AddressForm
+                      open={open}
+                      onSave={onSave}
+                      onCancel={() => {
+                        setOpen(false);
+                      }}
+                    />
+                  </Form.Item>
+                  <Form.Item valuePropName="checked">
+                    <div className="flex items-center gap-2">
+                      <Switch />
+                      <Text className="-mt-px">
+                        Send email notifications to this member
+                      </Text>
+                    </div>
+                  </Form.Item>
+                  <Form.Item>
+                    <div className="flex justify-between">
+                      <Button onClick={() => setStepTwo(false)}>Back</Button>
+                      <Button type="primary" htmlType="submit">
+                        Finish
+                      </Button>
+                    </div>
+                  </Form.Item>
+                </Form>
+              </section>
+            )}
           </div>
         </div>
       </Layout>

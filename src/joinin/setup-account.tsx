@@ -197,13 +197,13 @@ function SetupAccount(): ReactElement {
         </svg>
       </Header>
       <Layout className="flex-row">
-        <div className="flex-1 relative hidden lg:block">
+        <div className="flex-1 sticky top-0 max-h-screen hidden lg:block">
           <img
             className="absolute inset-0 h-full w-full object-cover"
             src="https://app.joinin.online/images/about-hero.jpeg"
             alt="bg-image"
           />
-          <div className="absolute inset-0 h-full w-full bg-primary-500/70 grid place-items-center">
+          <div className="absolute inset-0 h-full w-full bg-primary-500/70 grid place-items-center p-8">
             <div className="relative text-white leading-normal mx-auto w-full max-w-prose">
               <div className="flex items-center tracking-tight text-3xl mb-6">
                 <Title level={1} className="text-white my-0">
@@ -218,8 +218,8 @@ function SetupAccount(): ReactElement {
             </div>
           </div>
         </div>
-        <div className="flex-1 bg-white p-12 sm:p-14 grid place-items-center">
-          <div className="m-auto max-w-xs w-full space-y-6">
+        <div className="flex-1 bg-white p-12 sm:p-14 sm:pt-[10vh]">
+          <div className="mx-auto max-w-xs w-full space-y-6">
             <div>
               <Title level={4} className="my-0">
                 Finish setting up your account
@@ -228,19 +228,76 @@ function SetupAccount(): ReactElement {
                 hsimpson@foxtv.com
               </Title>
             </div>
+            <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
+              {stepTwo && (
+                <li className="contents [&+li>div]:bg-primary-500">
+                  <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                  <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-500 rounded-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="9"
+                      height="9"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-white"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </i>
+                </li>
+              )}
+              <li className="contents">
+                <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-white rounded-full">
+                  <div className="h-1 w-1 rounded-full bg-primary-500"></div>
+                </i>
+              </li>
+              {!stepTwo && (
+                <li className="contents">
+                  <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                  <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
+                </li>
+              )}
+            </ol>
+            {/* Current step 
+              <li className="contents">
+                <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-white rounded-full">
+                  <div className="h-1 w-1 rounded-full bg-primary-500"></div>
+                </i>
+              </li>*/}
+            {/* Pending step 
+              <li className="contents">
+                <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
+              </li>*/}
+            {/* Done step 
+              <li className="contents [&+li>div]:bg-primary-500">
+                <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-500 rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="9"
+                    height="9"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-white"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </i>
+              </li>*/}
             {!stepTwo && (
               <section className="space-y-6">
                 {/* Step 1 */}
-                <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
-                  <li className="contents">
-                    <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
-                  </li>
-                  <li className="contents">
-                    <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
-                  </li>
-                </ol>
                 <div>
                   <Text className="my-0 font-medium">
                     Step 1 · Homer Simpson's details
@@ -403,16 +460,6 @@ function SetupAccount(): ReactElement {
             {stepTwo && (
               <section className="space-y-6">
                 {/* Step 2 */}
-                <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
-                  <li className="contents">
-                    <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                    <i className="flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-500 rounded-full"></i>
-                  </li>
-                  <li className="contents">
-                    <div className="flex-grow h-px w-full bg-cyan-500"></div>
-                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
-                  </li>
-                </ol>
                 <div>
                   <Text className="my-0 font-medium">
                     Step 2 · Bart Simpson's details

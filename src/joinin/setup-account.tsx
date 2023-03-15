@@ -94,8 +94,7 @@ function SetupAccount(): ReactElement {
   const [modalValues, setModalValues] = useState<AddressValues>();
   const [validAddress, setValidAddress] = useState(true);
 
-  // just for prototype
-  const [stepTwo, setStepTwo] = useState(false);
+  const [inheritEmail, setInheritEmail] = useState(true);
 
   const onDetailsFinish = (values: any) => {
     console.log("Success:", values);
@@ -114,6 +113,14 @@ function SetupAccount(): ReactElement {
     setModalValues(values);
     setOpen(false);
   };
+
+  const onInheritEmailChange = (checked: boolean) => {
+    console.log(`switch to ${checked}`);
+    setInheritEmail(checked);
+  };
+
+  // just for prototype
+  const [stepTwo, setStepTwo] = useState(false);
 
   return (
     <Layout className="min-h-screen">
@@ -194,7 +201,7 @@ function SetupAccount(): ReactElement {
           <img
             className="absolute inset-0 h-full w-full object-cover"
             src="https://app.joinin.online/images/about-hero.jpeg"
-            alt=""
+            alt="bg-image"
           />
           <div className="absolute inset-0 h-full w-full bg-primary-500/70 grid place-items-center">
             <div className="relative text-white leading-normal mx-auto w-full max-w-prose">
@@ -545,12 +552,31 @@ function SetupAccount(): ReactElement {
                   </Form.Item>
                   <Form.Item valuePropName="checked">
                     <div className="flex items-center gap-2">
-                      <Switch />
+                      <Switch
+                        size="small"
+                        defaultChecked
+                        onChange={onInheritEmailChange}
+                      />
                       <Text className="-mt-px">
-                        Send email notifications to this member
+                        Use my email address for notifications
                       </Text>
                     </div>
                   </Form.Item>
+                  {!inheritEmail && (
+                    <Form.Item
+                      className="-mt-3"
+                      label="Email address"
+                      name="emailAddress"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter an email address",
+                        },
+                      ]}
+                    >
+                      <Input type="email" />
+                    </Form.Item>
+                  )}
                   <Form.Item>
                     <div className="flex justify-between">
                       <Button onClick={() => setStepTwo(false)}>Back</Button>

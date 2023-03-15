@@ -208,13 +208,20 @@ function SetupAccount(): ReactElement {
                 hsimpson@foxtv.com
               </Title>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="flex-shrink-0 h-4 w-4 bg-primary-50 border border-solid border-primary-500 rounded-full"></div>
-              <div className="flex-grow h-px w-full bg-neutral-300"></div>
-              <div className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></div>
-              <div className="flex-grow h-px w-full bg-neutral-300"></div>
-              <div className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></div>
-            </div>
+            <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
+              <li className="contents">
+                <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
+              </li>
+              <li className="contents">
+                <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
+              </li>
+              <li className="contents">
+                <div className="flex-grow h-px w-full bg-neutral-300"></div>
+                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
+              </li>
+            </ol>
             <div>
               <Text className="my-0 font-medium">
                 Step 1 · Homer Simpson's details
@@ -242,7 +249,6 @@ function SetupAccount(): ReactElement {
               >
                 <Input value="Simpson" />
               </Form.Item>
-
               <Form.Item label="Date of birth" extra="Example · 31/04/1970">
                 <Space.Compact className="-space-x-px">
                   <Form.Item

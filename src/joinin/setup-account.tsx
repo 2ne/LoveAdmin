@@ -94,6 +94,7 @@ function SetupAccount(): ReactElement {
 
   const onSave = (values: any) => {
     console.log("Received values of form: ", values);
+    detailsForm.setFieldsValue({...values});
     setModalValues(values);
     setOpen(false);
   };

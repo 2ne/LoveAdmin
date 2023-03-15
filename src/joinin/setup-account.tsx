@@ -203,7 +203,7 @@ function SetupAccount(): ReactElement {
             src="https://app.joinin.online/images/about-hero.jpeg"
             alt="bg-image"
           />
-          <div className="absolute inset-0 h-full w-full bg-primary-500/70 grid place-items-center">
+          <div className="absolute inset-0 h-full w-full bg-primary-500/70 grid place-items-center p-8">
             <div className="relative text-white leading-normal mx-auto w-full max-w-prose">
               <div className="flex items-center tracking-tight text-3xl mb-6">
                 <Title level={1} className="text-white my-0">

@@ -9,7 +9,7 @@ function App(): ReactElement {
       <Routes>
         <Route path="/Contact" element={<Contact />} />
         <Route path="/SetupAccount" element={<SetupAccount />} />
-        <Route path="*" element={<Contact />} />
+        <Route path="*" element={<SetupAccount />} />
       </Routes>
     </BrowserRouter>
   );

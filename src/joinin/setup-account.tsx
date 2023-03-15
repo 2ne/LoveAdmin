@@ -234,7 +234,9 @@ function SetupAccount(): ReactElement {
                 <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
                   <li className="contents">
                     <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                    <i className="flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
+                    <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-white rounded-full">
+                      <div className="h-1 w-1 rounded-full bg-primary-500"></div>
+                    </i>
                   </li>
                   <li className="contents">
                     <div className="flex-grow h-px w-full bg-neutral-300"></div>
@@ -425,7 +427,9 @@ function SetupAccount(): ReactElement {
                   </li>
                   <li className="contents">
                     <div className="flex-grow h-px w-full bg-cyan-500"></div>
-                    <i className="flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
+                    <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-white rounded-full">
+                      <div className="h-1 w-1 rounded-full bg-primary-500"></div>
+                    </i>
                   </li>
                 </ol>
                 <div>

@@ -1,21 +1,35 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   content: ["./dist/**/*.html", "./src/**/*.{js,jsx,ts,tsx}", "./*.html"],
   theme: {
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      black: "#18181b",
+      white: "#fff",
+      //primary colours
+      primary: colors.cyan,
+      success: colors.emerald,
+      warning: colors.amber,
+      danger: colors.rose,
+      neutral: colors.zinc,
+      //secondary colours
+      red: colors.red,
+      orange: colors.orange,
+      yellow: colors.yellow,
+      lime: colors.lime,
+      green: colors.green,
+      teal: colors.teal,
+      sky: colors.sky,
+      blue: colors.blue,
+      indigo: colors.indigo,
+      violet: colors.violet,
+      purple: colors.purple,
+      fuchsia: colors.fuchsia,
+      pink: colors.pink,
+    },
     extend: {
-      colors: {
-        primary: {
-          50: "#ecfeff",
-          100: "#cffafe",
-          200: "#a5f3fc",
-          300: "#67e8f9",
-          400: "#22d3ee",
-          500: "#06b6d4",
-          600: "#0891b2",
-          700: "#0e7490",
-          800: "#155e75",
-          900: "#164e63",
-        },
-      },
       fontFamily: {
         display: ["'CircularStd'", "sans-serif"],
       },

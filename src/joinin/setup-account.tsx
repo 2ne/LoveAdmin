@@ -234,7 +234,7 @@ function SetupAccount(): ReactElement {
                 <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
                   <li className="contents">
                     <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
+                    <i className="flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
                   </li>
                   <li className="contents">
                     <div className="flex-grow h-px w-full bg-neutral-300"></div>
@@ -406,11 +406,26 @@ function SetupAccount(): ReactElement {
                 <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
                   <li className="contents">
                     <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                    <i className="flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-500 rounded-full"></i>
+                    <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-500 rounded-full">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="9"
+                        height="9"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="text-white"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </i>
                   </li>
                   <li className="contents">
                     <div className="flex-grow h-px w-full bg-cyan-500"></div>
-                    <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
+                    <i className="flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-50 rounded-full"></i>
                   </li>
                 </ol>
                 <div>

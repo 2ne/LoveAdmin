@@ -94,8 +94,7 @@ function SetupAccount(): ReactElement {
   const [modalValues, setModalValues] = useState<AddressValues>();
   const [validAddress, setValidAddress] = useState(true);
 
-  // just for prototype
-  const [stepTwo, setStepTwo] = useState(false);
+  const [inheritEmail, setInheritEmail] = useState(true);
 
   const onDetailsFinish = (values: any) => {
     console.log("Success:", values);
@@ -114,6 +113,14 @@ function SetupAccount(): ReactElement {
     setModalValues(values);
     setOpen(false);
   };
+
+  const onInheritEmailChange = (checked: boolean) => {
+    console.log(`switch to ${checked}`);
+    setInheritEmail(checked);
+  };
+
+  // just for prototype
+  const [stepTwo, setStepTwo] = useState(false);
 
   return (
     <Layout className="min-h-screen">
@@ -545,12 +552,31 @@ function SetupAccount(): ReactElement {
                   </Form.Item>
                   <Form.Item valuePropName="checked">
                     <div className="flex items-center gap-2">
-                      <Switch />
+                      <Switch
+                        size="small"
+                        defaultChecked
+                        onChange={onInheritEmailChange}
+                      />
                       <Text className="-mt-px">
-                        Send email notifications to this member
+                        Use my email address for notifications
                       </Text>
                     </div>
                   </Form.Item>
+                  {!inheritEmail && (
+                    <Form.Item
+                      className="-mt-3"
+                      label="Email address"
+                      name="emailAddress"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter an email address",
+                        },
+                      ]}
+                    >
+                      <Input type="email" />
+                    </Form.Item>
+                  )}
                   <Form.Item>
                     <div className="flex justify-between">
                       <Button onClick={() => setStepTwo(false)}>Back</Button>

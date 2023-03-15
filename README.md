@@ -1,6 +1,6 @@
 ## About
 
-Template for vite, React + tailwindcss + TypeScript projects with some tools preconfigured.
+LoveAdmin playground using vite, React + tailwindcss + TypeScript with some tools preconfigured.
 
 ### Libraries
 

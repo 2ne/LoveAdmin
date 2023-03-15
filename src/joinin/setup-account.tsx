@@ -417,7 +417,7 @@ function SetupAccount(): ReactElement {
                   ${
                     !modalValues &&
                     !validAddress &&
-                    " border-rose-500 text-rose-500 "
+                    " border-error-500 text-error-500 "
                   }
                    border border-solid `}
                     >
@@ -567,7 +567,7 @@ function SetupAccount(): ReactElement {
                   ${
                     !modalValues &&
                     !validAddress &&
-                    " border-rose-500 text-rose-500 "
+                    " border-error-500 text-error-500 "
                   }
                    border border-solid `}
                     >

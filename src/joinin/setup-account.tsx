@@ -1,92 +1,9 @@
 import React, { ReactElement, useState } from "react";
-import {
-  Layout,
-  Typography,
-  Button,
-  Form,
-  Input,
-  Space,
-  Modal,
-  Switch,
-} from "antd";
+import { Layout, Typography, Button, Form, Input, Space, Switch } from "antd";
 import PublicMarketingColumn from "../components/publicMarketingColumn";
 import PublicHeader from "../components/publicHeader";
+import AddressModal, { AddressValues } from "../components/addressModal";
 const { Text, Title } = Typography;
-
-interface AddressValues {
-  addressLineOne: string;
-  addressLineTwo: string;
-  townCity: string;
-  postcode: string;
-}
-
-interface AddressFormProps {
-  open: boolean;
-  onSave: (values: AddressValues) => void;
-  onCancel: () => void;
-}
-
-const AddressForm: React.FC<AddressFormProps> = ({
-  open,
-  onSave,
-  onCancel,
-}) => {
-  const [addressForm] = Form.useForm();
-  return (
-    <Modal
-      width={368}
-      maskClosable={false}
-      open={open}
-      title="Setup address"
-      okText="Save"
-      cancelText="Cancel"
-      onCancel={onCancel}
-      onOk={() => {
-        addressForm
-          .validateFields()
-          .then((values) => {
-            onSave(values);
-          })
-          .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
-      }}
-    >
-      <Form
-        form={addressForm}
-        layout="vertical"
-        name="addressForm"
-        initialValues={{ modifier: "public" }}
-        className="hide-validation-asterix"
-      >
-        <Form.Item
-          label="Address line 1"
-          name="addressLineOne"
-          rules={[{ required: true, message: "Please enter an address" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item label="Address line 2 (optional)" name="addressLineTwo">
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Town or city"
-          name="townCity"
-          rules={[{ required: true, message: "Please enter a town or city" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Postcode"
-          name="postcode"
-          rules={[{ required: true, message: "Please enter a postcode" }]}
-        >
-          <Input />
-        </Form.Item>
-      </Form>
-    </Modal>
-  );
-};
 
 function SetupAccount(): ReactElement {
   const [detailsForm] = Form.useForm();
@@ -94,7 +11,6 @@ function SetupAccount(): ReactElement {
   const [open, setOpen] = useState(false);
   const [modalValues, setModalValues] = useState<AddressValues>();
   const [validAddress, setValidAddress] = useState(true);
-
   const [inheritEmail, setInheritEmail] = useState(true);
 
   const onDetailsFinish = (values: any) => {
@@ -145,7 +61,7 @@ function SetupAccount(): ReactElement {
               {stepTwo && (
                 <li className="contents [&+li>div]:bg-primary-500">
                   <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                  <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-cyan-500">
+                  <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-primary-500">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="9"
@@ -191,7 +107,7 @@ function SetupAccount(): ReactElement {
             {/* Done step 
               <li className="contents [&+li>div]:bg-primary-500">
                 <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-cyan-500">
+                <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-primary-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="9"
@@ -355,7 +271,7 @@ function SetupAccount(): ReactElement {
                         Please add an address
                       </div>
                     )}
-                    <AddressForm
+                    <AddressModal
                       open={open}
                       onSave={onSave}
                       onCancel={() => {
@@ -505,7 +421,7 @@ function SetupAccount(): ReactElement {
                         Please add an address
                       </div>
                     )}
-                    <AddressForm
+                    <AddressModal
                       open={open}
                       onSave={onSave}
                       onCancel={() => {

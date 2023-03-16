@@ -302,7 +302,6 @@ function SetupAccount(): ReactElement {
                         </div>
                       )}
                     </Button>
-
                     {!modalAddressValues && !isValidAddress && (
                       <div className="ant-form-item-explain-error">
                         Please add an address

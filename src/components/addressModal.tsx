@@ -44,7 +44,6 @@ const AddressModal: React.FC<AddressModalProps> = ({
         form={addressForm}
         layout="vertical"
         name="addressForm"
-        initialValues={{ modifier: "public" }}
         className="hide-validation-asterix"
       >
         <Form.Item

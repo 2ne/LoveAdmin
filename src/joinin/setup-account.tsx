@@ -6,7 +6,21 @@ import AddressModal, { AddressValues } from "../components/addressModal";
 const { Text, Title } = Typography;
 
 function SetupAccount(): ReactElement {
-  const [detailsForm] = Form.useForm();
+  const [accountHolderForm] = Form.useForm();
+  React.useEffect(() => {
+    accountHolderForm.setFieldsValue({
+      firstName: "Homer",
+      lastName: "Simpson",
+    });
+  }, []);
+
+  const [beneficiaryForm] = Form.useForm();
+  React.useEffect(() => {
+    beneficiaryForm.setFieldsValue({
+      firstName: "Bart",
+      lastName: "Simpson",
+    });
+  }, []);
 
   const [open, setOpen] = useState(false);
   const [modalValues, setModalValues] = useState<AddressValues>();
@@ -26,7 +40,7 @@ function SetupAccount(): ReactElement {
 
   const onSave = (values: any) => {
     console.log("Received values of form: ", values);
-    detailsForm.setFieldsValue({ ...values });
+    accountHolderForm.setFieldsValue({ ...values });
     setModalValues(values);
     setOpen(false);
   };
@@ -134,7 +148,7 @@ function SetupAccount(): ReactElement {
                 </div>
                 <Form
                   layout="vertical"
-                  form={detailsForm}
+                  form={accountHolderForm}
                   name="detailsForm"
                   onFinish={onDetailsFinish}
                   onFinishFailed={onDetailsFinishFailed}
@@ -145,14 +159,14 @@ function SetupAccount(): ReactElement {
                     name="firstName"
                     rules={[{ required: true, message: "Please enter a name" }]}
                   >
-                    <Input value="Homer" />
+                    <Input />
                   </Form.Item>
                   <Form.Item
                     label="Last name"
                     name="lastName"
                     rules={[{ required: true, message: "Please enter a name" }]}
                   >
-                    <Input value="Simpson" />
+                    <Input />
                   </Form.Item>
                   <Form.Item label="Date of birth" extra="Example · 31/04/1970">
                     <Space.Compact className="-space-x-px [&_.ant-form-item-label]:sr-only">
@@ -249,7 +263,7 @@ function SetupAccount(): ReactElement {
                   ${
                     !modalValues &&
                     !validAddress &&
-                    " border-error-500 text-error-500 "
+                    " border-danger-500 text-danger-500 "
                   }
                    border border-solid `}
                     >
@@ -299,8 +313,8 @@ function SetupAccount(): ReactElement {
                 </div>
                 <Form
                   layout="vertical"
-                  form={detailsForm}
-                  name="detailsForm"
+                  form={beneficiaryForm}
+                  name="beneficiaryForm"
                   onFinish={onDetailsFinish}
                   onFinishFailed={onDetailsFinishFailed}
                   className="hide-validation-asterix"
@@ -310,14 +324,14 @@ function SetupAccount(): ReactElement {
                     name="firstName"
                     rules={[{ required: true, message: "Please enter a name" }]}
                   >
-                    <Input value="Homer" />
+                    <Input />
                   </Form.Item>
                   <Form.Item
                     label="Last name"
                     name="lastName"
                     rules={[{ required: true, message: "Please enter a name" }]}
                   >
-                    <Input value="Simpson" />
+                    <Input />
                   </Form.Item>
                   <Form.Item label="Date of birth" extra="Example · 31/04/1970">
                     <Space.Compact className="-space-x-px">
@@ -399,7 +413,7 @@ function SetupAccount(): ReactElement {
                   ${
                     !modalValues &&
                     !validAddress &&
-                    " border-error-500 text-error-500 "
+                    " border-danger-500 text-danger-500 "
                   }
                    border border-solid `}
                     >

@@ -434,16 +434,21 @@ function SetupAccount(): ReactElement {
                         setIsAddressModalOpen(true);
                       }}
                       className={`${
-                        !modalAddressValues
-                          ? "border-primary-500 justify-center"
-                          : "border-neutral-300 hover:bg-white hover:border-primary-500"
+                        !modalAddressValues &&
+                        isValidAddress &&
+                        " border-primary-500 justify-center "
                       }
-                  ${
-                    !modalAddressValues &&
-                    !isValidAddress &&
-                    " border-danger-500 text-danger-500 "
-                  }
-                   border border-solid `}
+                      ${
+                        !modalAddressValues &&
+                        !isValidAddress &&
+                        " border-danger-500 text-danger-500 justify-center hover:text-danger-400 "
+                      }
+                      ${
+                        modalAddressValues &&
+                        isValidAddress &&
+                        " border-neutral-300 hover:bg-white hover:border-primary-500 "
+                      }
+                       border border-solid `}
                     >
                       {!modalAddressValues ? (
                         "Add address"

@@ -125,8 +125,8 @@ function SetupAccount(): ReactElement {
   return (
     <Layout className="min-h-screen">
       <Header className="flex items-center px-4 border-none shadow-none bg-neutral-800">
-        <h1>
-          <span className="sr-only">joinin</span>
+        <h1 className="contents">
+          <span className="sr-only">joinin.online</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="106"
@@ -204,7 +204,7 @@ function SetupAccount(): ReactElement {
           <img
             className="absolute inset-0 object-cover w-full h-full"
             src="https://app.joinin.online/images/about-hero.jpeg"
-            alt="bg-image"
+            alt="Background image showing a club photo in a gym"
           />
           <div className="absolute inset-0 grid w-full h-full p-8 bg-primary-500/70 place-items-center">
             <div className="relative w-full mx-auto leading-normal text-white max-w-prose">

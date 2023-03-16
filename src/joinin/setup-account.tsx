@@ -231,7 +231,10 @@ function SetupAccount(): ReactElement {
                 hsimpson@foxtv.com
               </Title>
             </div>
-            <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
+            <ol
+              className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden"
+              aria-label="Steps"
+            >
               {stepTwo && (
                 <li className="contents [&+li>div]:bg-primary-500">
                   <div className="flex-grow w-full h-px bg-neutral-300"></div>

@@ -131,7 +131,7 @@ function SetupAccount(): ReactElement {
           height="34"
           viewBox="0 0 106 34"
           fill="none"
-          className="w-24 lg:w-auto text-primary-500"
+          className="w-[5.5rem] text-primary-500"
         >
           <path
             d="M8 3C8 4.10457 7.10457 5 6 5C4.89543 5 4 4.10457 4 3C4 1.89543 4.89543 1 6 1C7.10457 1 8 1.89543 8 3Z"
@@ -206,7 +206,7 @@ function SetupAccount(): ReactElement {
           <div className="absolute inset-0 grid w-full h-full p-8 bg-primary-500/70 place-items-center">
             <div className="relative w-full mx-auto leading-normal text-white max-w-prose">
               <div className="flex items-center mb-6 text-3xl tracking-tight">
-                <Title level={1} className="my-0 text-white">
+                <Title level={2} className="my-0 text-white">
                   Ready to take part?
                 </Title>
               </div>

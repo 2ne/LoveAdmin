@@ -124,7 +124,7 @@ function SetupAccount(): ReactElement {
 
   return (
     <Layout className="min-h-screen">
-      <Header className="bg-neutral-800 px-4 flex items-center border-none shadow-none">
+      <Header className="flex items-center px-4 border-none shadow-none bg-neutral-800">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="106"
@@ -197,20 +197,20 @@ function SetupAccount(): ReactElement {
         </svg>
       </Header>
       <Layout className="flex-row">
-        <div className="flex-1 sticky top-0 max-h-screen hidden lg:block">
+        <div className="sticky top-0 flex-1 hidden max-h-screen lg:block">
           <img
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 object-cover w-full h-full"
             src="https://app.joinin.online/images/about-hero.jpeg"
             alt="bg-image"
           />
-          <div className="absolute inset-0 h-full w-full bg-primary-500/70 grid place-items-center p-8">
-            <div className="relative text-white leading-normal mx-auto w-full max-w-prose">
-              <div className="flex items-center tracking-tight text-3xl mb-6">
-                <Title level={1} className="text-white my-0">
+          <div className="absolute inset-0 grid w-full h-full p-8 bg-primary-500/70 place-items-center">
+            <div className="relative w-full mx-auto leading-normal text-white max-w-prose">
+              <div className="flex items-center mb-6 text-3xl tracking-tight">
+                <Title level={1} className="my-0 text-white">
                   Ready to take part?
                 </Title>
               </div>
-              <Title level={4} className="text-cyan-50 my-0">
+              <Title level={4} className="my-0 text-primary-50">
                 You're here because your club or organisation uses joinin's
                 software. Sign in to your account to register for classes, renew
                 memberships, buy merchandise, and so much more!
@@ -219,7 +219,7 @@ function SetupAccount(): ReactElement {
           </div>
         </div>
         <div className="flex-1 bg-white p-12 sm:p-14 sm:pt-[10vh]">
-          <div className="mx-auto max-w-xs w-full space-y-6">
+          <div className="w-full max-w-xs mx-auto space-y-6">
             <div>
               <Title level={4} className="my-0">
                 Finish setting up your account
@@ -231,8 +231,8 @@ function SetupAccount(): ReactElement {
             <ol className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden">
               {stepTwo && (
                 <li className="contents [&+li>div]:bg-primary-500">
-                  <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                  <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-500 rounded-full">
+                  <div className="flex-grow w-full h-px bg-neutral-300"></div>
+                  <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-cyan-500">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="9"
@@ -251,34 +251,34 @@ function SetupAccount(): ReactElement {
                 </li>
               )}
               <li className="contents">
-                <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-white rounded-full">
-                  <div className="h-1 w-1 rounded-full bg-primary-500"></div>
+                <div className="flex-grow w-full h-px bg-neutral-300"></div>
+                <i className="grid flex-shrink-0 w-4 h-4 bg-white border border-solid rounded-full place-items-center border-primary-500">
+                  <div className="w-1 h-1 rounded-full bg-primary-500"></div>
                 </i>
               </li>
               {!stepTwo && (
                 <li className="contents">
-                  <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                  <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
+                  <div className="flex-grow w-full h-px bg-neutral-300"></div>
+                  <i className="flex-shrink-0 w-4 h-4 bg-transparent border border-solid rounded-full border-neutral-300"></i>
                 </li>
               )}
             </ol>
             {/* Current step 
               <li className="contents">
-                <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-white rounded-full">
-                  <div className="h-1 w-1 rounded-full bg-primary-500"></div>
+                <div className="flex-grow w-full h-px bg-neutral-300"></div>
+                <i className="grid flex-shrink-0 w-4 h-4 bg-white border border-solid rounded-full place-items-center border-primary-500">
+                  <div className="w-1 h-1 rounded-full bg-primary-500"></div>
                 </i>
               </li>*/}
             {/* Pending step 
               <li className="contents">
-                <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                <i className="flex-shrink-0 h-4 w-4 bg-transparent border border-solid border-neutral-300 rounded-full"></i>
+                <div className="flex-grow w-full h-px bg-neutral-300"></div>
+                <i className="flex-shrink-0 w-4 h-4 bg-transparent border border-solid rounded-full border-neutral-300"></i>
               </li>*/}
             {/* Done step 
               <li className="contents [&+li>div]:bg-primary-500">
-                <div className="flex-grow h-px w-full bg-neutral-300"></div>
-                <i className="grid place-items-center flex-shrink-0 h-4 w-4 border border-solid border-primary-500 bg-cyan-500 rounded-full">
+                <div className="flex-grow w-full h-px bg-neutral-300"></div>
+                <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-cyan-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="9"
@@ -424,7 +424,7 @@ function SetupAccount(): ReactElement {
                       {!modalValues ? (
                         "Add address"
                       ) : (
-                        <div className="truncate -ml-1">
+                        <div className="-ml-1 truncate">
                           <span>{modalValues.addressLineOne}, </span>
                           {modalValues.addressLineTwo && (
                             <span>{modalValues.addressLineTwo}, </span>
@@ -574,7 +574,7 @@ function SetupAccount(): ReactElement {
                       {!modalValues ? (
                         "Add address"
                       ) : (
-                        <div className="truncate -ml-1">
+                        <div className="-ml-1 truncate">
                           <span>{modalValues.addressLineOne}, </span>
                           {modalValues.addressLineTwo && (
                             <span>{modalValues.addressLineTwo}, </span>

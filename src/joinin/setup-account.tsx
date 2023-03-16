@@ -374,7 +374,7 @@ function SetupAccount(): ReactElement {
                     rules={[
                       {
                         required: true,
-                        message: "Please enter a contact number",
+                        message: "Please enter a mobile number",
                       },
                     ]}
                   >

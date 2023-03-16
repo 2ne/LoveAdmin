@@ -5,6 +5,32 @@ import PublicHeader from "../components/publicHeader";
 import AddressModal, { AddressValues } from "../components/addressModal";
 const { Text, Title } = Typography;
 
+interface AccountHolderFormValues {
+  firstName: string;
+  lastName: string;
+  dobDD: number;
+  dobMM: number;
+  dobYYYY: number;
+  mobileNumber: string;
+  addressLineOne: string;
+  addressLineTwo?: string;
+  postcode: string;
+  townCity: string;
+}
+
+interface BeneficiaryFormValues {
+  firstName: string;
+  lastName: string;
+  dobDD: number;
+  dobMM: number;
+  dobYYYY: number;
+  addressLineOne: string;
+  addressLineTwo?: string;
+  postcode: string;
+  townCity: string;
+  emailAddress?: string;
+}
+
 function SetupAccount(): ReactElement {
   const [accountHolderForm] = Form.useForm();
   React.useEffect(() => {
@@ -23,31 +49,28 @@ function SetupAccount(): ReactElement {
   }, []);
 
   const [open, setOpen] = useState(false);
-  const [modalValues, setModalValues] = useState<AddressValues>();
+  const [modalAddressValues, setModalAddressValues] = useState<AddressValues>();
   const [validAddress, setValidAddress] = useState(true);
-  const [inheritEmail, setInheritEmail] = useState(true);
+  const [inheritAccountHolderEmail, setInheritAccountHolderEmail] =
+    useState(true);
 
   const onDetailsFinish = (values: any) => {
-    console.log("Success:", values);
     setValidAddress(true);
     setStepTwo(true);
   };
 
   const onDetailsFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-    setValidAddress(!!modalValues);
+    setValidAddress(!!modalAddressValues);
   };
 
   const onSave = (values: any) => {
-    console.log("Received values of form: ", values);
     accountHolderForm.setFieldsValue({ ...values });
-    setModalValues(values);
+    setModalAddressValues(values);
     setOpen(false);
   };
 
   const onInheritEmailChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-    setInheritEmail(checked);
+    setInheritAccountHolderEmail(checked);
   };
 
   // just for prototype
@@ -251,36 +274,36 @@ function SetupAccount(): ReactElement {
                     </Form.Item>
                     <Button
                       block={true}
-                      type={!modalValues ? "link" : "text"}
+                      type={!modalAddressValues ? "link" : "text"}
                       onClick={() => {
                         setOpen(true);
                       }}
                       className={`${
-                        !modalValues
+                        !modalAddressValues
                           ? "border-primary-500 justify-center"
                           : "border-neutral-300 hover:bg-white hover:border-primary-500"
                       }
                   ${
-                    !modalValues &&
+                    !modalAddressValues &&
                     !validAddress &&
                     " border-danger-500 text-danger-500 "
                   }
                    border border-solid `}
                     >
-                      {!modalValues ? (
+                      {!modalAddressValues ? (
                         "Add address"
                       ) : (
                         <div className="-ml-1 truncate">
-                          <span>{modalValues.addressLineOne}, </span>
-                          {modalValues.addressLineTwo && (
-                            <span>{modalValues.addressLineTwo}, </span>
+                          <span>{modalAddressValues.addressLineOne}, </span>
+                          {modalAddressValues.addressLineTwo && (
+                            <span>{modalAddressValues.addressLineTwo}, </span>
                           )}
-                          <span>{modalValues.townCity}, </span>
-                          <span>{modalValues.postcode}</span>
+                          <span>{modalAddressValues.townCity}, </span>
+                          <span>{modalAddressValues.postcode}</span>
                         </div>
                       )}
                     </Button>
-                    {!modalValues && !validAddress && (
+                    {!modalAddressValues && !validAddress && (
                       <div className="ant-form-item-explain-error">
                         Please add an address
                       </div>
@@ -401,36 +424,36 @@ function SetupAccount(): ReactElement {
                     </Form.Item>
                     <Button
                       block={true}
-                      type={!modalValues ? "link" : "text"}
+                      type={!modalAddressValues ? "link" : "text"}
                       onClick={() => {
                         setOpen(true);
                       }}
                       className={`${
-                        !modalValues
+                        !modalAddressValues
                           ? "border-primary-500 justify-center"
                           : "border-neutral-300 hover:bg-white hover:border-primary-500"
                       }
                   ${
-                    !modalValues &&
+                    !modalAddressValues &&
                     !validAddress &&
                     " border-danger-500 text-danger-500 "
                   }
                    border border-solid `}
                     >
-                      {!modalValues ? (
+                      {!modalAddressValues ? (
                         "Add address"
                       ) : (
                         <div className="-ml-1 truncate">
-                          <span>{modalValues.addressLineOne}, </span>
-                          {modalValues.addressLineTwo && (
-                            <span>{modalValues.addressLineTwo}, </span>
+                          <span>{modalAddressValues.addressLineOne}, </span>
+                          {modalAddressValues.addressLineTwo && (
+                            <span>{modalAddressValues.addressLineTwo}, </span>
                           )}
-                          <span>{modalValues.townCity}, </span>
-                          <span>{modalValues.postcode}</span>
+                          <span>{modalAddressValues.townCity}, </span>
+                          <span>{modalAddressValues.postcode}</span>
                         </div>
                       )}
                     </Button>
-                    {!modalValues && !validAddress && (
+                    {!modalAddressValues && !validAddress && (
                       <div className="ant-form-item-explain-error">
                         Please add an address
                       </div>
@@ -455,7 +478,7 @@ function SetupAccount(): ReactElement {
                       </Text>
                     </div>
                   </Form.Item>
-                  {!inheritEmail && (
+                  {!inheritAccountHolderEmail && (
                     <Form.Item
                       className="-mt-3.5"
                       label="Email address"

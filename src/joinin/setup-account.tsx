@@ -3,6 +3,7 @@ import { Layout, Typography, Button, Form, Input, Space, Switch } from "antd";
 import PublicMarketingColumn from "../components/publicMarketingColumn";
 import PublicHeader from "../components/publicHeader";
 import AddressModal, { AddressValues } from "../components/addressModal";
+import classNames from "classnames";
 const { Text, Title } = Typography;
 
 interface AccountHolderFormValues {
@@ -278,22 +279,15 @@ function SetupAccount(): ReactElement {
                       onClick={() => {
                         setIsAddressModalOpen(true);
                       }}
-                      className={`${
-                        !modalAddressValues &&
-                        isValidAddress &&
-                        " border-primary-500 justify-center "
-                      }
-                      ${
-                        !modalAddressValues &&
-                        !isValidAddress &&
-                        " border-danger-500 text-danger-500 justify-center hover:text-danger-400 "
-                      }
-                      ${
-                        modalAddressValues &&
-                        isValidAddress &&
-                        " border-neutral-300 hover:bg-white hover:border-primary-500 "
-                      }
-                       border border-solid `}
+                      className={classNames({
+                        "border border-solid": true,
+                        "border-primary-500 justify-center":
+                          !modalAddressValues && isValidAddress,
+                        "border-danger-500 text-danger-500 justify-center hover:text-danger-400":
+                          !modalAddressValues && !isValidAddress,
+                        "border-neutral-300 hover:bg-white hover:border-primary-500":
+                          modalAddressValues && isValidAddress,
+                      })}
                     >
                       {!modalAddressValues ? (
                         "Add address"
@@ -308,6 +302,7 @@ function SetupAccount(): ReactElement {
                         </div>
                       )}
                     </Button>
+
                     {!modalAddressValues && !isValidAddress && (
                       <div className="ant-form-item-explain-error">
                         Please add an address
@@ -433,22 +428,15 @@ function SetupAccount(): ReactElement {
                       onClick={() => {
                         setIsAddressModalOpen(true);
                       }}
-                      className={`${
-                        !modalAddressValues &&
-                        isValidAddress &&
-                        " border-primary-500 justify-center "
-                      }
-                      ${
-                        !modalAddressValues &&
-                        !isValidAddress &&
-                        " border-danger-500 text-danger-500 justify-center hover:text-danger-400 "
-                      }
-                      ${
-                        modalAddressValues &&
-                        isValidAddress &&
-                        " border-neutral-300 hover:bg-white hover:border-primary-500 "
-                      }
-                       border border-solid `}
+                      className={classNames({
+                        "border border-solid": true,
+                        "border-primary-500 justify-center":
+                          !modalAddressValues && isValidAddress,
+                        "border-danger-500 text-danger-500 justify-center hover:text-danger-400":
+                          !modalAddressValues && !isValidAddress,
+                        "border-neutral-300 hover:bg-white hover:border-primary-500":
+                          modalAddressValues && isValidAddress,
+                      })}
                     >
                       {!modalAddressValues ? (
                         "Add address"

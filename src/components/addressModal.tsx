@@ -9,22 +9,22 @@ export interface AddressValues {
 }
 
 interface AddressModalProps {
-  open: boolean;
-  onSave: (values: AddressValues) => void;
-  onCancel: () => void;
+  openModal: boolean;
+  onModalSave: (values: AddressValues) => void;
+  onModalCancel: () => void;
 }
 
 const AddressModal: React.FC<AddressModalProps> = ({
-  open,
-  onSave,
-  onCancel,
+  openModal: isModalOpen,
+  onModalSave: onSave,
+  onModalCancel: onCancel,
 }) => {
   const [addressForm] = Form.useForm();
   return (
     <Modal
       width={368}
       maskClosable={false}
-      visible={open}
+      open={isModalOpen}
       title="Setup address"
       okText="Save"
       cancelText="Cancel"

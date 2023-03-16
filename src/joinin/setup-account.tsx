@@ -48,25 +48,25 @@ function SetupAccount(): ReactElement {
     });
   }, []);
 
-  const [open, setOpen] = useState(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [modalAddressValues, setModalAddressValues] = useState<AddressValues>();
-  const [validAddress, setValidAddress] = useState(true);
+  const [isValidAddress, setIsValidAddress] = useState(true);
   const [inheritAccountHolderEmail, setInheritAccountHolderEmail] =
     useState(true);
 
   const onDetailsFinish = (values: any) => {
-    setValidAddress(true);
+    setIsValidAddress(true);
     setStepTwo(true);
   };
 
   const onDetailsFinishFailed = (errorInfo: any) => {
-    setValidAddress(!!modalAddressValues);
+    setIsValidAddress(!!modalAddressValues);
   };
 
   const onSave = (values: any) => {
     accountHolderForm.setFieldsValue({ ...values });
     setModalAddressValues(values);
-    setOpen(false);
+    setIsAddressModalOpen(false);
   };
 
   const onInheritEmailChange = (checked: boolean) => {
@@ -276,19 +276,24 @@ function SetupAccount(): ReactElement {
                       block={true}
                       type={!modalAddressValues ? "link" : "text"}
                       onClick={() => {
-                        setOpen(true);
+                        setIsAddressModalOpen(true);
                       }}
                       className={`${
-                        !modalAddressValues
-                          ? "border-primary-500 justify-center"
-                          : "border-neutral-300 hover:bg-white hover:border-primary-500"
+                        !modalAddressValues &&
+                        isValidAddress &&
+                        " border-primary-500 justify-center "
                       }
-                  ${
-                    !modalAddressValues &&
-                    !validAddress &&
-                    " border-danger-500 text-danger-500 "
-                  }
-                   border border-solid `}
+                      ${
+                        !modalAddressValues &&
+                        !isValidAddress &&
+                        " border-danger-500 text-danger-500 justify-center hover:text-danger-400 "
+                      }
+                      ${
+                        modalAddressValues &&
+                        isValidAddress &&
+                        " border-neutral-300 hover:bg-white hover:border-primary-500 "
+                      }
+                       border border-solid `}
                     >
                       {!modalAddressValues ? (
                         "Add address"
@@ -303,16 +308,16 @@ function SetupAccount(): ReactElement {
                         </div>
                       )}
                     </Button>
-                    {!modalAddressValues && !validAddress && (
+                    {!modalAddressValues && !isValidAddress && (
                       <div className="ant-form-item-explain-error">
                         Please add an address
                       </div>
                     )}
                     <AddressModal
-                      open={open}
-                      onSave={onSave}
-                      onCancel={() => {
-                        setOpen(false);
+                      openModal={isAddressModalOpen}
+                      onModalSave={onSave}
+                      onModalCancel={() => {
+                        setIsAddressModalOpen(false);
                       }}
                     />
                   </Form.Item>
@@ -426,7 +431,7 @@ function SetupAccount(): ReactElement {
                       block={true}
                       type={!modalAddressValues ? "link" : "text"}
                       onClick={() => {
-                        setOpen(true);
+                        setIsAddressModalOpen(true);
                       }}
                       className={`${
                         !modalAddressValues
@@ -435,7 +440,7 @@ function SetupAccount(): ReactElement {
                       }
                   ${
                     !modalAddressValues &&
-                    !validAddress &&
+                    !isValidAddress &&
                     " border-danger-500 text-danger-500 "
                   }
                    border border-solid `}
@@ -453,16 +458,16 @@ function SetupAccount(): ReactElement {
                         </div>
                       )}
                     </Button>
-                    {!modalAddressValues && !validAddress && (
+                    {!modalAddressValues && !isValidAddress && (
                       <div className="ant-form-item-explain-error">
                         Please add an address
                       </div>
                     )}
                     <AddressModal
-                      open={open}
-                      onSave={onSave}
-                      onCancel={() => {
-                        setOpen(false);
+                      openModal={isAddressModalOpen}
+                      onModalSave={onSave}
+                      onModalCancel={() => {
+                        setIsAddressModalOpen(false);
                       }}
                     />
                   </Form.Item>

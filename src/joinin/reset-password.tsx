@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import { Layout, Typography, Button, Form, Input } from "antd";
-import PublicMarketingColumn from "../components/publicMarketingColumn";
-import PublicHeader from "../components/publicHeader";
-import PublicFormTemplate from "../components/publicFormTemplate";
+import PublicMarketingColumn from "../components/public-marketing-column";
+import PublicHeader from "../components/public-header";
+import PublicFormTemplate from "../components/public-form-template";
 import { UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 const { Paragraph } = Typography;

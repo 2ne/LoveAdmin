@@ -1,11 +1,11 @@
 import React, { ReactElement, useState } from "react";
 import { Layout, Typography, Button, Form, Input, Space, Switch } from "antd";
-import PublicMarketingColumn from "../components/publicMarketingColumn";
-import PublicHeader from "../components/publicHeader";
-import AddressModal, { AddressValues } from "../components/addressModal";
+import PublicMarketingColumn from "../components/public-marketing-column";
+import PublicHeader from "../components/public-header";
+import AddressModal, { AddressValues } from "../components/address-modal";
 import classNames from "classnames";
 import Steps, { Step } from "../components/steps";
-import PublicFormTemplate from "../components/publicFormTemplate";
+import PublicFormTemplate from "../components/public-form-template";
 const { Text } = Typography;
 
 function getInitialSteps(): Step[] {

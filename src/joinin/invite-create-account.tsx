@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
 import { Layout, Typography, Button, Form, Input, Checkbox } from "antd";
-import PublicMarketingColumn from "../components/publicMarketingColumn";
-import PublicHeader from "../components/publicHeader";
-import PublicFormTemplate from "../components/publicFormTemplate";
+import PublicMarketingColumn from "../components/public-marketing-column";
+import PublicHeader from "../components/public-header";
+import PublicFormTemplate from "../components/public-form-template";
 const { Link, Paragraph } = Typography;
 
 function InviteCreateAccount(): ReactElement {

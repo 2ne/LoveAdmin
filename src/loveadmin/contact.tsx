@@ -21,13 +21,13 @@ const { Panel } = Collapse;
 function Contact(): ReactElement {
   return (
     <Layout className="min-h-screen">
-      <Header className="bg-neutral-800 px-4 flex items-center border-none shadow-none">
+      <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
         <Button
           type="text"
           shape="circle"
           icon={<MenuOutlined />}
           ghost
-          className="text-neutral-50 mr-3 hover:text-neutral-300"
+          className="mr-1.5 text-neutral-50 hover:text-neutral-300"
         />
         <div>
           <div>
@@ -68,7 +68,7 @@ function Contact(): ReactElement {
               </Button>
             </Dropdown>
           </div>
-          <div className="text-center py-10">
+          <div className="py-10 text-center">
             <div className="mb-4">
               <Avatar size="large">JT</Avatar>
             </div>
@@ -81,7 +81,7 @@ function Contact(): ReactElement {
             <Collapse
               defaultActiveKey={["1"]}
               size="small"
-              className="rounded-none -mx-px border-neutral-200"
+              className="-mx-px rounded-none border-neutral-200"
             >
               <Panel
                 header="This is panel header 1"

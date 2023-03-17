@@ -6,7 +6,7 @@ import AddressModal, { AddressValues } from "../components/addressModal";
 import classNames from "classnames";
 import Steps, { Step } from "../components/steps";
 import PublicFormTemplate from "../components/publicFormTemplate";
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 function getInitialSteps(): Step[] {
   return [

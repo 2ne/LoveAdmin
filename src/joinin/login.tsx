@@ -5,7 +5,7 @@ import PublicHeader from "../components/publicHeader";
 import PublicFormTemplate from "../components/publicFormTemplate";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-const { Text, Paragraph } = Typography;
+const { Paragraph } = Typography;
 const { Panel } = Collapse;
 
 function LoginJoinin(): ReactElement {

@@ -3,7 +3,7 @@ import { Layout, Typography, Button, Form, Input, Checkbox } from "antd";
 import PublicMarketingColumn from "../components/publicMarketingColumn";
 import PublicHeader from "../components/publicHeader";
 import PublicFormTemplate from "../components/publicFormTemplate";
-const { Text, Link, Paragraph } = Typography;
+const { Link, Paragraph } = Typography;
 
 function InviteCreateAccount(): ReactElement {
   const [inviteCreateAccountForm] = Form.useForm();

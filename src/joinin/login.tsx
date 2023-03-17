@@ -26,7 +26,7 @@ function LoginJoinin(): ReactElement {
       <PublicHeader product="joinin" />
       <Layout className="flex-row">
         <PublicMarketingColumn />
-        <PublicFormTemplate title="Sign into your joinin acount" center={true}>
+        <PublicFormTemplate title="Sign into your JoinIn acount" center={true}>
           <Form
             layout="vertical"
             form={loginJoininForm}
@@ -43,6 +43,7 @@ function LoginJoinin(): ReactElement {
               <Input
                 prefix={<UserOutlined className="mr-1.5" />}
                 placeholder="Email address"
+                type="email"
               />
             </Form.Item>
             <Form.Item

@@ -19,7 +19,7 @@ const PublicFormTemplate: React.FC<PublicFormTemplateProps> = ({
 }) => {
   return (
     <div
-      className={classNames("flex-1 bg-white p-12 sm:p-14", {
+      className={classNames("bg-white p-12 sm:p-14 basis-full", {
         "sm:pt-[10vh]": !center,
         "grid place-items-center": center,
       })}

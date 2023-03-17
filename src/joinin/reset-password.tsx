@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Layout, Typography, Button, Form, Input } from "antd";
+import { Layout, Typography, Button, Form, Input, Alert } from "antd";
 import PublicMarketingColumn from "../components/public-marketing-column";
 import PublicHeader from "../components/public-header";
 import PublicFormTemplate from "../components/public-form-template";
@@ -28,10 +28,6 @@ function ResetPasswordJoinin(): ReactElement {
             Enter the email address associated with your account, and we'll send
             you a link to reset your password.
           </Paragraph>
-          <Paragraph>
-            If you are having trouble logging in then please contact your
-            organisation to confirm your account email address.
-          </Paragraph>
           <Form
             layout="vertical"
             form={resetPasswordJoininForm}
@@ -46,6 +42,7 @@ function ResetPasswordJoinin(): ReactElement {
               rules={[{ required: true, message: "Please enter your email" }]}
             >
               <Input
+                type="email"
                 prefix={<UserOutlined className="mr-1.5" />}
                 placeholder="Email address"
               />
@@ -58,6 +55,13 @@ function ResetPasswordJoinin(): ReactElement {
           </Form>
           <div className="flex justify-center">
             <Link to="/LoginJoinin">Back to sign in</Link>
+          </div>
+          <div>
+            <Alert
+              className="mt-[5vh] text-center"
+              message="Having trouble logging in? Please contact your
+            organisation for help."
+            />
           </div>
         </PublicFormTemplate>
       </Layout>

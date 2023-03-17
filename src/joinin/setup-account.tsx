@@ -4,7 +4,19 @@ import PublicMarketingColumn from "../components/publicMarketingColumn";
 import PublicHeader from "../components/publicHeader";
 import AddressModal, { AddressValues } from "../components/addressModal";
 import classNames from "classnames";
+import Steps, { Step } from "../components/steps";
 const { Text, Title } = Typography;
+
+function getInitialSteps(): Step[] {
+  return [
+    { name: "Step 1 · Homer Simpson's details", href: "#", status: "current" },
+    {
+      name: "Step 2 · Bart Simpson's details",
+      href: "#",
+      status: "incomplete",
+    },
+  ];
+}
 
 interface AccountHolderFormValues {
   firstName: string;
@@ -57,7 +69,7 @@ function SetupAccount(): ReactElement {
 
   const onDetailsFinish = (values: any) => {
     setIsValidAddress(true);
-    setStepTwo(true);
+    goToStep(2);
   };
 
   const onDetailsFinishFailed = (errorInfo: any) => {
@@ -74,8 +86,31 @@ function SetupAccount(): ReactElement {
     setInheritAccountHolderEmail(checked);
   };
 
-  // just for prototype
-  const [stepTwo, setStepTwo] = useState(false);
+  const [steps, setSteps] = useState<Step[]>(getInitialSteps);
+
+  function getCurrentStep(steps: Step[]): Step | undefined {
+    return steps.find((step) => step.status === "current");
+  }
+
+  const currentStep = getCurrentStep(steps);
+
+  function goToStep(stepNumber: number) {
+    const updatedSteps = steps.map((step, index) => {
+      let newStatus: Step["status"];
+
+      if (index < stepNumber - 1) {
+        newStatus = "complete";
+      } else if (index === stepNumber - 1) {
+        newStatus = "current";
+      } else {
+        newStatus = "incomplete";
+      }
+
+      return { ...step, status: newStatus };
+    });
+
+    setSteps(updatedSteps);
+  }
 
   return (
     <Layout className="min-h-screen">
@@ -92,88 +127,18 @@ function SetupAccount(): ReactElement {
                 hsimpson@foxtv.com
               </Title>
             </div>
-            <ol
-              className="p-0 flex items-center gap-2 [&>li:first-child>div]:hidden"
-              aria-label="Steps"
-            >
-              {stepTwo && (
-                <li className="contents [&+li>div]:bg-primary-500">
-                  <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                  <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-primary-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="9"
-                      height="9"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-white"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </i>
-                </li>
-              )}
-              <li className="contents">
-                <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                <i className="grid flex-shrink-0 w-4 h-4 bg-white border border-solid rounded-full place-items-center border-primary-500">
-                  <div className="w-1 h-1 rounded-full bg-primary-500"></div>
-                </i>
-              </li>
-              {!stepTwo && (
-                <li className="contents">
-                  <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                  <i className="flex-shrink-0 w-4 h-4 bg-transparent border border-solid rounded-full border-neutral-300"></i>
-                </li>
-              )}
-            </ol>
-            {/* Current step 
-              <li className="contents">
-                <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                <i className="grid flex-shrink-0 w-4 h-4 bg-white border border-solid rounded-full place-items-center border-primary-500">
-                  <div className="w-1 h-1 rounded-full bg-primary-500"></div>
-                </i>
-              </li>*/}
-            {/* Pending step 
-              <li className="contents">
-                <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                <i className="flex-shrink-0 w-4 h-4 bg-transparent border border-solid rounded-full border-neutral-300"></i>
-              </li>*/}
-            {/* Done step 
-              <li className="contents [&+li>div]:bg-primary-500">
-                <div className="flex-grow w-full h-px bg-neutral-300"></div>
-                <i className="grid flex-shrink-0 w-4 h-4 border border-solid rounded-full place-items-center border-primary-500 bg-primary-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="9"
-                    height="9"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="text-white"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </i>
-              </li>*/}
-            {!stepTwo && (
+            <Steps steps={steps} />
+            {currentStep && currentStep.name.includes("Step 1") && (
               <section className="space-y-6">
-                {/* Step 1 */}
                 <div>
-                  <Text className="my-0 font-medium">
-                    Step 1 · Homer Simpson's details
-                  </Text>
+                  {currentStep && (
+                    <Text className="my-0 font-medium">{currentStep.name}</Text>
+                  )}
                 </div>
                 <Form
                   layout="vertical"
                   form={accountHolderForm}
-                  name="detailsForm"
+                  name="accountHolderForm"
                   onFinish={onDetailsFinish}
                   onFinishFailed={onDetailsFinishFailed}
                   className="hide-validation-asterix"
@@ -325,12 +290,17 @@ function SetupAccount(): ReactElement {
                 </Form>
               </section>
             )}
-            {stepTwo && (
+            {currentStep && currentStep.name.includes("Step 2") && (
               <section className="space-y-6">
-                {/* Step 2 */}
                 <div>
                   <Text className="my-0 font-medium">
-                    Step 2 · Bart Simpson's details
+                    <div>
+                      {currentStep && (
+                        <Text className="my-0 font-medium">
+                          {currentStep.name}
+                        </Text>
+                      )}
+                    </div>
                   </Text>
                 </div>
                 <Form
@@ -492,7 +462,7 @@ function SetupAccount(): ReactElement {
                   )}
                   <Form.Item>
                     <div className="flex justify-between">
-                      <Button onClick={() => setStepTwo(false)}>Back</Button>
+                      <Button onClick={() => goToStep(1)}>Back</Button>
                       <Button type="primary" htmlType="submit">
                         Finish
                       </Button>

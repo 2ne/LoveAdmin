@@ -4,7 +4,8 @@ import PublicMarketingColumn from "../components/publicMarketingColumn";
 import PublicHeader from "../components/publicHeader";
 import PublicFormTemplate from "../components/publicFormTemplate";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-const { Text, Link, Paragraph } = Typography;
+import { Link } from "react-router-dom";
+const { Text, Paragraph } = Typography;
 const { Panel } = Collapse;
 
 function LoginJoinin(): ReactElement {
@@ -41,7 +42,7 @@ function LoginJoinin(): ReactElement {
             >
               <Input
                 prefix={<UserOutlined className="mr-1.5" />}
-                placeholder="Username"
+                placeholder="Email address"
               />
             </Form.Item>
             <Form.Item
@@ -63,13 +64,11 @@ function LoginJoinin(): ReactElement {
               </Button>
             </Form.Item>
           </Form>
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <Button type="link" className="px-0" onClick={() => setOpen(true)}>
               Trouble signing in?
             </Button>
-            <Button type="link" className="px-0">
-              Reset password
-            </Button>
+            <Link to="/ResetPassword">Reset Password</Link>
           </div>
         </PublicFormTemplate>
       </Layout>

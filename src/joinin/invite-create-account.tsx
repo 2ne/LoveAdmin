@@ -3,7 +3,7 @@ import { Layout, Typography, Button, Form, Input, Checkbox } from "antd";
 import PublicMarketingColumn from "../components/publicMarketingColumn";
 import PublicHeader from "../components/publicHeader";
 import PublicFormTemplate from "../components/publicFormTemplate";
-const { Text, Link } = Typography;
+const { Text, Link, Paragraph } = Typography;
 
 function InviteCreateAccount(): ReactElement {
   const [inviteCreateAccountForm] = Form.useForm();
@@ -26,11 +26,11 @@ function InviteCreateAccount(): ReactElement {
           subtitle="jamestoone@gmail.com"
           center={true}
         >
-          <Text className="block">
+          <Paragraph>
             Please set a password for your joinin account. This will enable you
             to connect with
             <span className="font-medium"> Maidenhead Squash Club.</span>
-          </Text>
+          </Paragraph>
           <Form
             layout="vertical"
             form={inviteCreateAccountForm}

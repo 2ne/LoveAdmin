@@ -397,11 +397,11 @@ function SetupAccount(): ReactElement {
                     }}
                     className={classNames({
                       "border border-solid": true,
-                      "border-primary-500 justify-center":
+                      "border-primary-500":
                         !modalAddressValues && isValidAddress,
-                      "border-danger-500 text-danger-500 justify-center hover:text-danger-400":
+                      "border-danger-500 text-danger-500 hover:text-danger-400":
                         !modalAddressValues && !isValidAddress,
-                      "border-neutral-300 hover:bg-white hover:border-primary-500":
+                      "border-neutral-300 justify-start hover:bg-white hover:border-primary-500":
                         modalAddressValues && isValidAddress,
                     })}
                   >

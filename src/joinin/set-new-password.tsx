@@ -1,12 +1,13 @@
 import React, { ReactElement } from "react";
-import { Layout, Typography, Button, Form, Input, Checkbox } from "antd";
+import { Layout, Typography, Button, Form, Input } from "antd";
 import PublicMarketingColumn from "../components/public-marketing-column";
 import PublicHeader from "../components/public-header";
 import PublicFormTemplate from "../components/public-form-template";
-const { Link, Paragraph } = Typography;
+import { Link } from "react-router-dom";
+const { Paragraph } = Typography;
 
-function InviteCreateAccount(): ReactElement {
-  const [inviteCreateAccountForm] = Form.useForm();
+function SetNewPasswordJoinin(): ReactElement {
+  const [SetNewPasswordJoininForm] = Form.useForm();
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
@@ -22,19 +23,19 @@ function InviteCreateAccount(): ReactElement {
       <Layout className="flex-row">
         <PublicMarketingColumn />
         <PublicFormTemplate
-          title="Create your JoinIn account"
+          title="Create a new password"
           subtitle="jamestoone@gmail.com"
           center={true}
         >
           <Paragraph>
-            Please set a password for your JoinIn account. This will enable you
-            to connect with
-            <span className="font-medium"> Maidenhead Squash Club.</span>
+            Please set a new password for your{" "}
+            <span className="font-medium">JoinIn</span> account. Use a strong
+            password to keep your account secure.
           </Paragraph>
           <Form
             layout="vertical"
-            form={inviteCreateAccountForm}
-            name="inviteCreateAccountForm"
+            form={SetNewPasswordJoininForm}
+            name="SetNewPasswordJoininForm"
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             className="hide-validation-asterix"
@@ -48,30 +49,9 @@ function InviteCreateAccount(): ReactElement {
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item
-              name="acceptTermsConditions"
-              valuePropName="checked"
-              className="mb-0"
-              rules={[
-                {
-                  required: true,
-                  message: "Please accept terms to create an account",
-                },
-              ]}
-            >
-              <Checkbox>
-                I've read and agree with the{" "}
-                <Link href="https://ant.design" target="_blank">
-                  terms & conditions
-                </Link>
-              </Checkbox>
-            </Form.Item>
-            <Form.Item name="acceptMarketing" valuePropName="checked">
-              <Checkbox>I'd like to receive updates from joinin</Checkbox>
-            </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block>
-                Create account
+                Set password
               </Button>
             </Form.Item>
           </Form>
@@ -81,4 +61,4 @@ function InviteCreateAccount(): ReactElement {
   );
 }
 
-export default InviteCreateAccount;
+export default SetNewPasswordJoinin;

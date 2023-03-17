@@ -6,6 +6,7 @@ import InviteCreateAccount from "./joinin/invite-create-account";
 import LoginJoinin from "./joinin/login";
 import ResetPasswordJoinin from "./joinin/reset-password";
 import LinksPage from "./links";
+import SetNewPasswordJoinin from "./joinin/set-new-password";
 
 function App(): ReactElement {
   return (
@@ -16,6 +17,7 @@ function App(): ReactElement {
         <Route path="/SetupAccount" element={<SetupAccount />} />
         <Route path="/LoginJoinin" element={<LoginJoinin />} />
         <Route path="/ResetPassword" element={<ResetPasswordJoinin />} />
+        <Route path="/SetNewPassword" element={<SetNewPasswordJoinin />} />
         <Route path="*" element={<LinksPage />} />
       </Routes>
     </BrowserRouter>

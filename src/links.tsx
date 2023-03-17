@@ -15,6 +15,9 @@ function LinksPage(): ReactElement {
             <Link to="/ResetPassword">Reset password</Link>
           </li>
           <li>
+            <Link to="/SetNewPassword">Set new password</Link>
+          </li>
+          <li>
             <Link to="/InviteCreateAccount">Invite create account</Link>
           </li>
           <li>

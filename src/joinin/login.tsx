@@ -83,12 +83,12 @@ function LoginJoinin(): ReactElement {
       >
         <Collapse size="small" className="mb-1">
           <Panel
-            header="How do I know if I have an existing joinin account?"
+            header="How do I know if I have an existing JoinIn account?"
             key="1"
           >
             <Paragraph>
               If you've received an email from an organisation using joinin,
-              you'll have a joinin account already. The email address that was
+              you'll have a JoinIn account already. The email address that was
               contacted will be used for logging in. If you try to create an
               account again using the same email address, you will get an error
               telling you there is an account with that email address already
@@ -123,7 +123,7 @@ function LoginJoinin(): ReactElement {
               system.
             </Paragraph>
           </Panel>
-          <Panel header="How do I create a joinin account?" key="3">
+          <Panel header="How do I create a JoinIn account?" key="3">
             <Paragraph>
               When you checkout a product from an organisation's shop page, you
               will be prompted to sign in or create an account. To create an

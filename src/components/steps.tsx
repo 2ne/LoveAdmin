@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 
 export interface Step {
   name: string;
-  href: string;
   status: "complete" | "current" | "incomplete";
 }
 
@@ -27,10 +26,7 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                 >
                   <div className="h-0.5 w-full bg-primary-500" />
                 </div>
-                <a
-                  href="#"
-                  className="relative flex items-center justify-center w-6 h-6 rounded-full bg-primary-500 hover:bg-primary-900"
-                >
+                <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-primary-500">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -44,7 +40,7 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                     />
                   </svg>
                   <span className="sr-only">{step.name}</span>
-                </a>
+                </div>
               </>
             ) : step.status === "current" ? (
               <>
@@ -54,8 +50,7 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                 >
                   <div className="h-0.5 w-full bg-neutral-200" />
                 </div>
-                <a
-                  href="#"
+                <div
                   className="relative flex items-center justify-center w-6 h-6 bg-white border-2 border-solid rounded-full border-primary-500"
                   aria-current="step"
                 >
@@ -64,7 +59,7 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                     aria-hidden="true"
                   />
                   <span className="sr-only">{step.name}</span>
-                </a>
+                </div>
               </>
             ) : (
               <>
@@ -74,16 +69,13 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                 >
                   <div className="h-0.5 w-full bg-neutral-200" />
                 </div>
-                <a
-                  href="#"
-                  className="relative flex items-center justify-center w-6 h-6 bg-white border-2 border-solid rounded-full border-neutral-300 group hover:border-neutral-400"
-                >
+                <div className="relative flex items-center justify-center w-6 h-6 bg-white border-2 border-solid rounded-full border-neutral-300">
                   <span
-                    className="w-2 h-2 bg-transparent rounded-full group-hover:bg-neutral-300"
+                    className="w-2 h-2 bg-transparent rounded-full"
                     aria-hidden="true"
                   />
                   <span className="sr-only">{step.name}</span>
-                </a>
+                </div>
               </>
             )}
           </li>

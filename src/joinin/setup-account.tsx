@@ -9,10 +9,9 @@ const { Text, Title } = Typography;
 
 function getInitialSteps(): Step[] {
   return [
-    { name: "Step 1 · Homer Simpson's details", href: "#", status: "current" },
+    { name: "Step 1 · Homer Simpson's details", status: "current" },
     {
       name: "Step 2 · Bart Simpson's details",
-      href: "#",
       status: "incomplete",
     },
   ];
@@ -326,9 +325,10 @@ function SetupAccount(): ReactElement {
                     <Input />
                   </Form.Item>
                   <Form.Item label="Date of birth" extra="Example · 31/04/1970">
-                    <Space.Compact className="-space-x-px">
+                    <Space.Compact className="-space-x-px [&_.ant-form-item-label]:sr-only">
                       <Form.Item
                         name="dobDD"
+                        label="Day"
                         rules={[{ required: true, message: "" }]}
                         className="mb-0"
                       >
@@ -340,6 +340,7 @@ function SetupAccount(): ReactElement {
                       </Form.Item>
                       <Form.Item
                         name="dobMM"
+                        label="Month"
                         rules={[{ required: true, message: "" }]}
                         className="mb-0"
                       >
@@ -351,6 +352,7 @@ function SetupAccount(): ReactElement {
                       </Form.Item>
                       <Form.Item
                         name="dobYYYY"
+                        label="Year"
                         rules={[{ required: true, message: "" }]}
                         className="mb-0"
                       >

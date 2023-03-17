@@ -2,8 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap");
 @font-face {
   font-family: "CircularStd";
-  src: url("https://assets.codepen.io/12596/CircularStd-Medium.woff")
-    format("woff");
+  src: url("https://assets.codepen.io/12596/CircularStd-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
 }
@@ -31,6 +30,10 @@ h5.ant-typography {
 
 .ant-btn {
   @apply inline-flex items-center;
+}
+
+.ant-btn-block {
+  @apply justify-center;
 }
 
 .ant-form-vertical .ant-form-item-label {

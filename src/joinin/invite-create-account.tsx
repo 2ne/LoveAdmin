@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactElement } from "react";
 import { Layout, Typography, Button, Form, Input, Checkbox } from "antd";
 import PublicMarketingColumn from "../components/publicMarketingColumn";
 import PublicHeader from "../components/publicHeader";

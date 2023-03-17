@@ -26,18 +26,22 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                 >
                   <div className="h-0.5 w-full bg-primary-500" />
                 </div>
-                <div className="relative flex items-center justify-center w-6 h-6 rounded-full bg-primary-500">
+                <div className="relative flex items-center justify-center w-5 h-5 rounded-full bg-primary-500">
                   <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="w-4 h-4 text-white"
+                    className="text-white"
                   >
                     <path
-                      fillRule="evenodd"
-                      d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
-                      clipRule="evenodd"
-                    />
+                      d="M7.75 12.75L10 15.25L16.25 8.75"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>
                   </svg>
                   <span className="sr-only">{step.name}</span>
                 </div>
@@ -51,7 +55,7 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                   <div className="h-0.5 w-full bg-neutral-200" />
                 </div>
                 <div
-                  className="relative flex items-center justify-center w-6 h-6 bg-white border-2 border-solid rounded-full border-primary-500"
+                  className="relative flex items-center justify-center w-5 h-5 bg-white border-2 border-solid rounded-full border-primary-500"
                   aria-current="step"
                 >
                   <span
@@ -69,7 +73,7 @@ const Steps: React.FC<StepsProps> = ({ steps }): ReactElement => {
                 >
                   <div className="h-0.5 w-full bg-neutral-200" />
                 </div>
-                <div className="relative flex items-center justify-center w-6 h-6 bg-white border-2 border-solid rounded-full border-neutral-300">
+                <div className="relative flex items-center justify-center w-5 h-5 bg-white border-2 border-solid rounded-full border-neutral-300">
                   <span
                     className="w-2 h-2 bg-transparent rounded-full"
                     aria-hidden="true"

@@ -68,7 +68,7 @@ function LoginJoinin(): ReactElement {
             <Button type="link" className="px-0" onClick={() => setOpen(true)}>
               Trouble signing in?
             </Button>
-            <Link to="/ResetPassword">Reset Password</Link>
+            <Link to="/ResetPassword">Reset password</Link>
           </div>
         </PublicFormTemplate>
       </Layout>

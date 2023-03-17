@@ -25,12 +25,12 @@ function ResetPasswordJoinin(): ReactElement {
         <PublicMarketingColumn />
         <PublicFormTemplate title="Reset your password" center={true}>
           <Paragraph>
-            The email address you enter must belong to an
-            <span className="font-medium"> existing joinin account.</span>
+            Enter the email address associated with your account, and we'll send
+            you a link to reset your password.
           </Paragraph>
           <Paragraph>
-            If you do not receive the reset password email then please contact
-            your organisation to confirm your account email address.
+            If you are having trouble logging in then please contact your
+            organisation to confirm your account email address.
           </Paragraph>
           <Form
             layout="vertical"
@@ -52,7 +52,7 @@ function ResetPasswordJoinin(): ReactElement {
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block>
-                Send link to email
+                Continue
               </Button>
             </Form.Item>
           </Form>

@@ -40,7 +40,7 @@ const PublicMarketingColumn: React.FC<PublicMarketingColumnProps> = ({
 };
 
 PublicMarketingColumn.defaultProps = {
-  imgSrc: "https://app.joinin.online/images/about-hero.jpeg",
+  imgSrc: "./src/assets/about-hero.webp",
   imgAlt: "Background image showing a club photo in a gym",
   messageTitle: "Ready to take part?",
   messageBody:

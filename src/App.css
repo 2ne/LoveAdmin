@@ -2,13 +2,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap");
 @font-face {
   font-family: "CircularStd";
-  src: url("https://assets.codepen.io/12596/CircularStd-Medium.woff")
-    format("woff");
+  src: url("https://assets.codepen.io/12596/CircularStd-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
 }
 @tailwind components;
 @tailwind utilities;
+
+.min-h-screen {
+  min-height: 100svh;
+}
+
+.h-screen {
+  height: 100dvh;
+}
 
 h1.ant-typography,
 h2.ant-typography,
@@ -25,16 +32,16 @@ h5.ant-typography {
   @apply inline-flex items-center;
 }
 
+.ant-btn-block {
+  @apply justify-center;
+}
+
 .ant-form-vertical .ant-form-item-label {
   @apply pb-1;
 }
 
 .ant-form-vertical .ant-form-item-extra {
   @apply pt-1;
-}
-
-.ant-form-vertical .ant-form-item-has-error .ant-form-item-extra {
-  @apply opacity-0 h-0 overflow-hidden select-none p-0 min-h-[1rem];
 }
 
 .ant-form-item-required {

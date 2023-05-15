@@ -1,12 +1,15 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
+  DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
+  MailOutlined,
   MenuFoldOutlined,
   MenuOutlined,
   MenuUnfoldOutlined,
   PlusOutlined,
   SearchOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -196,6 +199,70 @@ const data = [
 ];
 
 function Contacts(): ReactElement {
+  const [selectedName, setSelectedName] = useState("");
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const handleContextMenu = (
+    event: React.MouseEvent<HTMLDivElement>,
+    record: DataType
+  ) => {
+    event.preventDefault();
+
+    setSelectedName(record.name);
+    setContextMenuPosition({ x: event.clientX, y: event.clientY });
+    setContextMenuVisible(true);
+  };
+
+  const hideContextMenu = () => {
+    setContextMenuVisible(false);
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <a href="#" className="hover:no-underline" onClick={hideContextMenu}>
+          <PlusOutlined className="mr-3" /> Add to product
+        </a>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <a href="#" className="hover:no-underline" onClick={hideContextMenu}>
+          <UsergroupAddOutlined className="mr-3" />
+          Add to group
+        </a>
+      ),
+      key: "1",
+    },
+    {
+      label: (
+        <a href="#" className="hover:no-underline" onClick={hideContextMenu}>
+          <MailOutlined className="mr-3" />
+          Invite to product
+        </a>
+      ),
+      key: "2",
+    },
+    {
+      label: (
+        <a
+          href="#"
+          className="text-red-500 hover:no-underline"
+          onClick={hideContextMenu}
+        >
+          <DeleteOutlined className="mr-3" />
+          Mark as inactive
+        </a>
+      ),
+      key: "3",
+    },
+  ];
+
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -271,17 +338,6 @@ function Contacts(): ReactElement {
 
   const hasSelected = selectedRowKeys.length > 0;
 
-  const items: MenuProps["items"] = [
-    {
-      label: <a href="#">1st menu item</a>,
-      key: "0",
-    },
-    {
-      label: <a href="#">2nd menu item</a>,
-      key: "1",
-    },
-  ];
-
   return (
     <Layout className="min-h-screen">
       <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
@@ -317,7 +373,7 @@ function Contacts(): ReactElement {
           collapsible
           collapsedWidth={0}
           collapsed={collapsed}
-          className="py-4 border-l-0 border-r border-solid border-y-0 bg-neutral-50 border-neutral-200"
+          className="border-l-0 border-r border-solid border-y-0 bg-neutral-50 border-neutral-200"
         >
           <ProductTree showSegmented={true} />
         </Sider>
@@ -345,6 +401,9 @@ function Contacts(): ReactElement {
                 dataSource={data}
                 pagination={false}
                 className="ant-table-sticky"
+                onRow={(record) => ({
+                  onContextMenu: (event) => handleContextMenu(event, record),
+                })}
               />
             </div>
           </div>
@@ -360,7 +419,11 @@ function Contacts(): ReactElement {
               <span className="mx-1.5">·</span>selected
             </span>
             <div className="flex items-center gap-2 ml-auto -mr-3">
-              <Dropdown menu={{ items }} trigger={["click"]}>
+              <Dropdown
+                placement="topLeft"
+                menu={{ items }}
+                trigger={["click"]}
+              >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
                     Manage
@@ -368,7 +431,11 @@ function Contacts(): ReactElement {
                   </Space>
                 </a>
               </Dropdown>
-              <Dropdown menu={{ items }} trigger={["click"]}>
+              <Dropdown
+                placement="topLeft"
+                menu={{ items }}
+                trigger={["click"]}
+              >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
                     Communicate
@@ -376,7 +443,11 @@ function Contacts(): ReactElement {
                   </Space>
                 </a>
               </Dropdown>
-              <Dropdown menu={{ items }} trigger={["click"]}>
+              <Dropdown
+                placement="topLeft"
+                menu={{ items }}
+                trigger={["click"]}
+              >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
                     Data
@@ -401,6 +472,28 @@ function Contacts(): ReactElement {
           </footer>
         </Content>
       </Layout>
+      {contextMenuVisible && (
+        <Dropdown
+          menu={{ items }}
+          open={contextMenuVisible}
+          trigger={["contextMenu"]}
+          autoAdjustOverflow
+          destroyPopupOnHide
+          getPopupContainer={() => document.body}
+          overlayStyle={{ position: "fixed" }}
+          onOpenChange={(visible) => !visible && hideContextMenu()}
+        >
+          <div
+            style={{
+              position: "fixed",
+              top: contextMenuPosition.y,
+              left: contextMenuPosition.x,
+              width: "1px",
+              height: "1px",
+            }}
+          ></div>
+        </Dropdown>
+      )}
     </Layout>
   );
 }

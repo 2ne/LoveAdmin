@@ -22,6 +22,37 @@ import { ColumnsType } from "antd/es/table/interface";
 const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 
+interface DataType {
+  key: React.Key;
+  name: string;
+  invoiced: number;
+  received: number;
+  pending: number;
+  outstanding: number;
+  credits: number;
+}
+
+const data = [
+  {
+    key: "1",
+    name: "Adult Gymnastics",
+    invoiced: 54.0,
+    received: 0,
+    pending: 0,
+    outstanding: 0,
+    credits: 0,
+  },
+  {
+    key: "2",
+    name: "Gymnastics 5-7 years",
+    invoiced: 42.0,
+    received: 0,
+    pending: 0,
+    outstanding: 0,
+    credits: 0,
+  },
+];
+
 function ProductSalesReport(): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -56,37 +87,6 @@ function ProductSalesReport(): ReactElement {
     },
   ];
 
-  interface DataType {
-    key: React.Key;
-    name: string;
-    invoiced: number;
-    received: number;
-    pending: number;
-    outstanding: number;
-    credits: number;
-  }
-
-  const data = [
-    {
-      key: "1",
-      name: "Adult Gymnastics",
-      invoiced: 54.0,
-      received: 0,
-      pending: 0,
-      outstanding: 0,
-      credits: 0,
-    },
-    {
-      key: "2",
-      name: "Gymnastics 5-7 years",
-      invoiced: 42.0,
-      received: 0,
-      pending: 0,
-      outstanding: 0,
-      credits: 0,
-    },
-  ];
-
   const columns: ColumnsType<DataType> = [
     {
       title: "Product description",
@@ -106,7 +106,10 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+          <a
+            href="#"
+            className="text-neutral-900 tabular-nums"
+          >{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -119,7 +122,10 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+          <a
+            href="#"
+            className="text-neutral-900 tabular-nums"
+          >{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -132,7 +138,10 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+          <a
+            href="#"
+            className="text-neutral-900 tabular-nums"
+          >{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -145,7 +154,10 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+          <a
+            href="#"
+            className="text-neutral-900 tabular-nums"
+          >{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -158,7 +170,10 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+          <a
+            href="#"
+            className="text-neutral-900 tabular-nums"
+          >{`£${text.toFixed(2)}`}</a>
         ),
     },
   ];
@@ -202,7 +217,7 @@ function ProductSalesReport(): ReactElement {
       </Header>
       <Layout>
         <Sider
-          width={300}
+          width={280}
           trigger={null}
           collapsible
           collapsedWidth={0}
@@ -213,7 +228,7 @@ function ProductSalesReport(): ReactElement {
         >
           <ProductTree />
         </Sider>
-        <Content className="bg-white">
+        <Content className="pb-16 bg-white">
           <div className="p-4">
             <div className="flex items-center mb-4">
               <Dropdown menu={{ items }} trigger={["click"]}>
@@ -248,6 +263,7 @@ function ProductSalesReport(): ReactElement {
                 size="small"
                 columns={columns}
                 dataSource={data}
+                className="ant-table-sticky"
                 summary={(pageData) => {
                   let totalInvoiced = 0;
                   let totalReceived = 0;
@@ -284,7 +300,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900"
+                              className="text-neutral-900 tabular-nums"
                             >{`£${totalInvoiced.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -298,7 +314,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900"
+                              className="text-neutral-900 tabular-nums"
                             >{`£${totalReceived.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -312,7 +328,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900"
+                              className="text-neutral-900 tabular-nums"
                             >{`£${totalPending.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -326,7 +342,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900"
+                              className="text-neutral-900 tabular-nums"
                             >{`£${totalOutstanding.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -340,7 +356,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900"
+                              className="text-neutral-900 tabular-nums"
                             >{`£${totalCredits.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -353,7 +369,7 @@ function ProductSalesReport(): ReactElement {
           </div>
           <footer
             className={`fixed gap-2 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 ${
-              collapsed ? " left-0 " : " left-[300px] "
+              collapsed ? " left-0 " : " left-[280px] "
             }`}
           >
             <Button onClick={toggleCollapsed} className="px-2">

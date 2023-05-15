@@ -8,12 +8,14 @@ import ResetPasswordJoinin from "./joinin/reset-password";
 import LinksPage from "./links";
 import SetNewPasswordJoinin from "./joinin/set-new-password";
 import ProductSalesReport from "./loveadmin/product-sales-report";
+import Contacts from "./loveadmin/contacts";
 
 function App(): ReactElement {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/Contact" element={<Contact />} />
+        <Route path="/Contacts" element={<Contacts />} />
         <Route path="/ProductSalesReport" element={<ProductSalesReport />} />
         <Route path="/InviteCreateAccount" element={<InviteCreateAccount />} />
         <Route path="/SetupAccount" element={<SetupAccount />} />

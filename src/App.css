@@ -60,3 +60,11 @@ h5.ant-typography {
 .ant-modal .ant-modal-header {
   @apply mb-6;
 }
+
+.ant-table-column-title {
+  @apply font-medium;
+}
+
+.ant-table-sticky .ant-table-thead {
+  @apply sticky z-10 top-0;
+}

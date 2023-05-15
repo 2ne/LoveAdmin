@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Tree, Input } from "antd";
+import { Tree, Input, Segmented } from "antd";
 import type { DataNode, TreeProps } from "antd/es/tree";
 
 const originalTreeData: DataNode[] = [
@@ -30,7 +30,11 @@ const originalTreeData: DataNode[] = [
   },
 ];
 
-const ProductTree: React.FC = () => {
+interface ProductTreeProps {
+  showSegmented?: boolean;
+}
+
+const ProductTree: React.FC<ProductTreeProps> = ({ showSegmented = false }) => {
   const [searchValue, setSearchValue] = useState("");
   const [treeData, setTreeData] = useState(originalTreeData);
 
@@ -83,6 +87,13 @@ const ProductTree: React.FC = () => {
 
   return (
     <>
+      {showSegmented && (
+        <Segmented
+          block
+          options={["Products", "Groups"]}
+          className="mb-4 bg-neutral-200/75"
+        />
+      )}
       <Input.Search
         placeholder="Search products..."
         onChange={onSearch}

@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
+  DownOutlined,
   DownloadOutlined,
   MenuFoldOutlined,
   MenuOutlined,
@@ -7,7 +8,16 @@ import {
   PlusOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Layout, Typography, Button, Breadcrumb, Table } from "antd";
+import {
+  Layout,
+  Typography,
+  Button,
+  Breadcrumb,
+  Table,
+  Dropdown,
+  Space,
+  MenuProps,
+} from "antd";
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
 const { Title } = Typography;
@@ -261,6 +271,17 @@ function Contacts(): ReactElement {
 
   const hasSelected = selectedRowKeys.length > 0;
 
+  const items: MenuProps["items"] = [
+    {
+      label: <a href="#">1st menu item</a>,
+      key: "0",
+    },
+    {
+      label: <a href="#">2nd menu item</a>,
+      key: "1",
+    },
+  ];
+
   return (
     <Layout className="min-h-screen">
       <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
@@ -328,7 +349,7 @@ function Contacts(): ReactElement {
             </div>
           </div>
           <div
-            className={`fixed transition-all duration-500 bg-white/95 right-0 z-20 w-full max-w-lg p-4 mx-auto border-t border-b-0 border-solid rounded shadow-md border-black/10 " ${
+            className={`fixed transition-all duration-500 bg-white/95 right-0 z-20 w-full max-w-lg px-5 py-2 mx-auto border-t border-b-0 border-solid flex items-center rounded shadow-md border-black/10 " ${
               collapsed ? " left-0 " : " left-[280px] "
             } ${
               hasSelected ? " opacity-100 bottom-20 " : " opacity-0 bottom-0 "
@@ -336,8 +357,34 @@ function Contacts(): ReactElement {
           >
             <span className="tabular-nums">{selectedRowKeys.length}</span>
             <span className="text-neutral-500">
-              <span className="mx-1.5">·</span>item selected
+              <span className="mx-1.5">·</span>selected
             </span>
+            <div className="flex items-center gap-2 ml-auto -mr-3">
+              <Dropdown menu={{ items }} trigger={["click"]}>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
+                    Manage
+                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
+                  </Space>
+                </a>
+              </Dropdown>
+              <Dropdown menu={{ items }} trigger={["click"]}>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
+                    Communicate
+                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
+                  </Space>
+                </a>
+              </Dropdown>
+              <Dropdown menu={{ items }} trigger={["click"]}>
+                <a onClick={(e) => e.preventDefault()}>
+                  <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
+                    Data
+                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
+                  </Space>
+                </a>
+              </Dropdown>
+            </div>
           </div>
           <footer
             className={`fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 ${

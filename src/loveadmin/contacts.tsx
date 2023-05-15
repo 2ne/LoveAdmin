@@ -296,9 +296,7 @@ function Contacts(): ReactElement {
           collapsible
           collapsedWidth={0}
           collapsed={collapsed}
-          className={`py-4 overflow-hidden border-l-0 border-r border-solid border-y-0 bg-neutral-50 border-neutral-200 ${
-            collapsed ? " px-0 " : " px-3 "
-          }`}
+          className="py-4 border-l-0 border-r border-solid border-y-0 bg-neutral-50 border-neutral-200"
         >
           <ProductTree showSegmented={true} />
         </Sider>

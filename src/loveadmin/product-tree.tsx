@@ -86,7 +86,7 @@ const ProductTree: React.FC<ProductTreeProps> = ({ showSegmented = false }) => {
   };
 
   return (
-    <>
+    <div className="sticky top-0 px-3 py-4 overflow-auto">
       {showSegmented && (
         <Segmented
           block
@@ -106,7 +106,7 @@ const ProductTree: React.FC<ProductTreeProps> = ({ showSegmented = false }) => {
         treeData={treeData}
         className="bg-transparent whitespace-nowrap"
       />
-    </>
+    </div>
   );
 };
 

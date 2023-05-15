@@ -93,7 +93,7 @@ const ProductTree: React.FC = () => {
         onSelect={onSelect}
         onCheck={onCheck}
         treeData={treeData}
-        className="bg-transparent"
+        className="bg-transparent whitespace-nowrap"
       />
     </>
   );

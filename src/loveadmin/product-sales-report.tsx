@@ -1,8 +1,7 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import {
   DownOutlined,
   DownloadOutlined,
-  ExportOutlined,
   MenuFoldOutlined,
   MenuOutlined,
   MenuUnfoldOutlined,
@@ -20,7 +19,7 @@ import {
 } from "antd";
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
-const { Text, Title } = Typography;
+const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 
 function ProductSalesReport(): ReactElement {
@@ -29,13 +28,30 @@ function ProductSalesReport(): ReactElement {
     setCollapsed(!collapsed);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1400) {
+        setCollapsed(true);
+      } else {
+        setCollapsed(false);
+      }
+    };
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const items: MenuProps["items"] = [
     {
-      label: <a href="https://www.antgroup.com">1st menu item</a>,
+      label: <a href="#">1st menu item</a>,
       key: "0",
     },
     {
-      label: <a href="https://www.aliyun.com">2nd menu item</a>,
+      label: <a href="#">2nd menu item</a>,
       key: "1",
     },
   ];

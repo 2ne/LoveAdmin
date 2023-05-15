@@ -17,6 +17,11 @@
   height: 100dvh;
 }
 
+a,
+.link {
+  @apply text-primary-600 hover:text-primary-500 hover:underline;
+}
+
 h1.ant-typography,
 h2.ant-typography,
 h3.ant-typography,
@@ -29,11 +34,7 @@ h5.ant-typography {
 }
 
 .ant-btn {
-  @apply inline-flex items-center;
-}
-
-.ant-btn-block {
-  @apply justify-center;
+  @apply inline-flex items-center justify-center;
 }
 
 .ant-form-vertical .ant-form-item-label {

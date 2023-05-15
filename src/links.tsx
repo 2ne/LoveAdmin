@@ -31,6 +31,9 @@ function LinksPage(): ReactElement {
           <li>
             <Link to="/Contact">Contact</Link>
           </li>
+          <li>
+            <Link to="/ProductSalesReport">Product Sales Report</Link>
+          </li>
         </ul>
       </div>
     </Layout>

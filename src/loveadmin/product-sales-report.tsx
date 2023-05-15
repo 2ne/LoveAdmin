@@ -59,31 +59,31 @@ function ProductSalesReport(): ReactElement {
   interface DataType {
     key: React.Key;
     name: string;
-    invoiced: string;
-    received: string;
-    pending: string;
-    outstanding: string;
-    credits: string;
+    invoiced: number;
+    received: number;
+    pending: number;
+    outstanding: number;
+    credits: number;
   }
 
   const data = [
     {
       key: "1",
       name: "Adult Gymnastics",
-      invoiced: "£54.00",
-      received: "",
-      pending: "",
-      outstanding: "",
-      credits: "",
+      invoiced: 54.0,
+      received: 0,
+      pending: 0,
+      outstanding: 0,
+      credits: 0,
     },
     {
       key: "2",
       name: "Gymnastics 5-7 years",
-      invoiced: "£42.00",
-      received: "",
-      pending: "",
-      outstanding: "",
-      credits: "",
+      invoiced: 42.0,
+      received: 0,
+      pending: 0,
+      outstanding: 0,
+      credits: 0,
     },
   ];
 
@@ -92,15 +92,7 @@ function ProductSalesReport(): ReactElement {
       title: "Product description",
       dataIndex: "name",
       key: "name",
-      render: (
-        text:
-          | boolean
-          | React.ReactChild
-          | React.ReactFragment
-          | React.ReactPortal
-          | null
-          | undefined
-      ) => <a>{text}</a>,
+      render: (text: string) => <a>{text}</a>,
       ellipsis: true,
       sorter: (a, b) => a.name.length - b.name.length,
     },
@@ -108,46 +100,66 @@ function ProductSalesReport(): ReactElement {
       title: "Invoiced",
       dataIndex: "invoiced",
       key: "invoiced",
-      ellipsis: true,
       align: "right",
-      sorter: (a, b) => a.invoiced.length - b.invoiced.length,
-      render: (text) => text || "-",
+      sorter: (a, b) => a.invoiced - b.invoiced,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+        ),
     },
     {
       title: "Received",
       dataIndex: "received",
       key: "received",
-      ellipsis: true,
       align: "right",
-      sorter: (a, b) => a.received.length - b.received.length,
-      render: (text) => text || "-",
+      sorter: (a, b) => a.received - b.received,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+        ),
     },
     {
       title: "Pending",
       dataIndex: "pending",
       key: "pending",
-      ellipsis: true,
       align: "right",
-      sorter: (a, b) => a.pending.length - b.pending.length,
-      render: (text) => text || "-",
+      sorter: (a, b) => a.pending - b.pending,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+        ),
     },
     {
       title: "Outstanding",
       dataIndex: "outstanding",
       key: "outstanding",
-      ellipsis: true,
       align: "right",
-      sorter: (a, b) => a.outstanding.length - b.outstanding.length,
-      render: (text) => text || "-",
+      sorter: (a, b) => a.outstanding - b.outstanding,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+        ),
     },
     {
       title: "Credits applied",
       dataIndex: "credits",
       key: "credits",
-      ellipsis: true,
       align: "right",
-      sorter: (a, b) => a.credits.length - b.credits.length,
-      render: (text) => text || "-",
+      sorter: (a, b) => a.credits - b.credits,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <a href="#" className="text-neutral-900">{`£${text.toFixed(2)}`}</a>
+        ),
     },
   ];
 
@@ -200,7 +212,7 @@ function ProductSalesReport(): ReactElement {
                 <a onClick={(e) => e.preventDefault()}>
                   <Space className="h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
                     This month
-                    <DownOutlined className="text-neutral-400" />
+                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
                   </Space>
                 </a>
               </Dropdown>
@@ -208,7 +220,7 @@ function ProductSalesReport(): ReactElement {
                 <a onClick={(e) => e.preventDefault()}>
                   <Space className="h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
                     All schedules
-                    <DownOutlined className="text-neutral-400" />
+                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
                   </Space>
                 </a>
               </Dropdown>
@@ -216,7 +228,7 @@ function ProductSalesReport(): ReactElement {
                 <a onClick={(e) => e.preventDefault()}>
                   <Space className="h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
                     All addresses
-                    <DownOutlined className="text-neutral-400" />
+                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
                   </Space>
                 </a>
               </Dropdown>
@@ -228,6 +240,106 @@ function ProductSalesReport(): ReactElement {
                 size="small"
                 columns={columns}
                 dataSource={data}
+                summary={(pageData) => {
+                  let totalInvoiced = 0;
+                  let totalReceived = 0;
+                  let totalPending = 0;
+                  let totalOutstanding = 0;
+                  let totalCredits = 0;
+
+                  pageData.forEach(
+                    ({ invoiced, received, pending, outstanding, credits }) => {
+                      totalInvoiced += invoiced;
+                      totalReceived += received;
+                      totalPending += pending;
+                      totalOutstanding += outstanding;
+                      totalCredits += credits;
+                    }
+                  );
+
+                  return (
+                    <Table.Summary fixed>
+                      <Table.Summary.Row className="border-b-0 bg-neutral-50">
+                        <Table.Summary.Cell
+                          index={0}
+                          className="font-medium border-b-0 rounded-bl-md rounded-br-md"
+                        >
+                          Totals
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell
+                          index={1}
+                          align="right"
+                          className="font-medium border-b-0"
+                        >
+                          {totalInvoiced === 0 ? (
+                            "-"
+                          ) : (
+                            <a
+                              href="#"
+                              className="text-neutral-900"
+                            >{`£${totalInvoiced.toFixed(2)}`}</a>
+                          )}
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell
+                          index={2}
+                          align="right"
+                          className="font-medium border-b-0"
+                        >
+                          {totalReceived === 0 ? (
+                            "-"
+                          ) : (
+                            <a
+                              href="#"
+                              className="text-neutral-900"
+                            >{`£${totalReceived.toFixed(2)}`}</a>
+                          )}
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell
+                          index={3}
+                          align="right"
+                          className="font-medium border-b-0"
+                        >
+                          {totalPending === 0 ? (
+                            "-"
+                          ) : (
+                            <a
+                              href="#"
+                              className="text-neutral-900"
+                            >{`£${totalPending.toFixed(2)}`}</a>
+                          )}
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell
+                          index={4}
+                          align="right"
+                          className="font-medium border-b-0"
+                        >
+                          {totalOutstanding === 0 ? (
+                            "-"
+                          ) : (
+                            <a
+                              href="#"
+                              className="text-neutral-900"
+                            >{`£${totalOutstanding.toFixed(2)}`}</a>
+                          )}
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell
+                          index={5}
+                          align="right"
+                          className="font-medium border-b-0"
+                        >
+                          {totalCredits === 0 ? (
+                            "-"
+                          ) : (
+                            <a
+                              href="#"
+                              className="text-neutral-900"
+                            >{`£${totalCredits.toFixed(2)}`}</a>
+                          )}
+                        </Table.Summary.Cell>
+                      </Table.Summary.Row>
+                    </Table.Summary>
+                  );
+                }}
               />
             </div>
           </div>

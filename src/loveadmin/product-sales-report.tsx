@@ -55,11 +55,19 @@ function ProductSalesReport(): ReactElement {
       key: "1",
       name: "Adult Gymnastics",
       invoiced: "£54.00",
+      received: "",
+      pending: "",
+      outstanding: "",
+      credits: "",
     },
     {
       key: "2",
       name: "Gymnastics 5-7 years",
       invoiced: "£42.00",
+      received: "",
+      pending: "",
+      outstanding: "",
+      credits: "",
     },
   ];
 
@@ -199,7 +207,12 @@ function ProductSalesReport(): ReactElement {
               <Checkbox className="ml-3">Show cancelled</Checkbox>
             </div>
             <div>
-              <Table size="small" columns={columns} dataSource={data} />
+              <Table
+                pagination={false}
+                size="small"
+                columns={columns}
+                dataSource={data}
+              />
             </div>
           </div>
           <footer

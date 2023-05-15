@@ -171,7 +171,7 @@ function ProductSalesReport(): ReactElement {
           shape="circle"
           icon={<MenuOutlined />}
           ghost
-          className="mr-3 -ml-3 text-neutral-50 hover:text-neutral-300"
+          className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
         />
         <div>
           <div>
@@ -181,10 +181,18 @@ function ProductSalesReport(): ReactElement {
           </div>
           <div>
             <Breadcrumb className="[&_li]:text-neutral-400">
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>Reports</Breadcrumb.Item>
-              <Breadcrumb.Item>Financials</Breadcrumb.Item>
-              <Breadcrumb.Item>Sales Reports</Breadcrumb.Item>
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Home
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Reports
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Financials
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Sales Reports
+              </Breadcrumb.Item>
               <Breadcrumb.Item className="text-neutral-50">
                 Product Sales Report
               </Breadcrumb.Item>

@@ -27,7 +27,7 @@ function Contact(): ReactElement {
           shape="circle"
           icon={<MenuOutlined />}
           ghost
-          className="mr-1.5 text-neutral-50 hover:text-neutral-300"
+          className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
         />
         <div>
           <div>
@@ -37,8 +37,12 @@ function Contact(): ReactElement {
           </div>
           <div>
             <Breadcrumb className="[&_li]:text-neutral-400">
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>Contacts</Breadcrumb.Item>
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Home
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Contacts
+              </Breadcrumb.Item>
               <Breadcrumb.Item className="text-neutral-50">
                 James Toone
               </Breadcrumb.Item>

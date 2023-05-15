@@ -12,11 +12,11 @@ const originalTreeData: DataNode[] = [
         key: "0-0-0",
         children: [
           {
-            title: "Gym 5-7yrs",
+            title: "Gym 5-7 years",
             key: "0-0-0-0",
           },
           {
-            title: "Gym 8yrs+",
+            title: "Gym 8 years +",
             key: "0-0-0-1",
           },
         ],

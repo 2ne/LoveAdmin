@@ -416,7 +416,7 @@ function ProductSalesReport(): ReactElement {
           </div>
           <footer
             className={`fixed gap-2 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 ${
-              collapsed ? " left-[55px] " : " left-[280px] "
+              collapsed ? " left-[20px] " : " left-[280px] "
             }`}
           >
             <div className="flex items-center gap-2 ml-auto">

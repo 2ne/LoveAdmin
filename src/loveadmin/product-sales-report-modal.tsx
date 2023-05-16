@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  CloseOutlined,
   CreditCardOutlined,
   DeleteOutlined,
   DownOutlined,
@@ -10,9 +9,19 @@ import {
   UserAddOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
-import { Layout, Button, Table, Dropdown, Space, Menu, Modal } from "antd";
+import {
+  Layout,
+  Typography,
+  Button,
+  Table,
+  Dropdown,
+  Space,
+  Menu,
+  Modal,
+} from "antd";
 import { ColumnsType } from "antd/es/table/interface";
 const { Content } = Layout;
+const { Title } = Typography;
 
 interface ProductSalesReportModalProps {
   visible: boolean;
@@ -241,12 +250,25 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
   return (
     <Modal
       title={
-        <div>
-          Sales Report
-          <span className="text-neutral-500">
-            <span className="mx-1.5">·</span>Adult Gymnastics for this month
-          </span>
-        </div>
+        <Title level={5}>
+          <span>Sales Report</span>
+          <span className="mx-1.5">·</span>
+          <span>Adult Gymnastics for this month</span>
+          <span className="mx-1.5 text-neutral-500">·</span>
+          {selectedRowKeys.length === 0 && (
+            <span className="text-neutral-500">12 records</span>
+          )}
+          {selectedRowKeys.length > 0 && (
+            <>
+              <span className="font-medium tabular-nums text-neutral-500">
+                {selectedRowKeys.length} of 12
+                <span className="ml-1">selected</span>
+              </span>
+              <span className="mx-1.5 text-neutral-500">·</span>
+              <a className="">Select all</a>
+            </>
+          )}
+        </Title>
       }
       open={visible}
       onOk={handleOk}
@@ -259,23 +281,20 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
         <Content className="pb-16 bg-white">
           <div className="relative">
             <div
-              className={`sticky bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
+              className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
                 hasSelected
                   ? " opacity-100 "
                   : " opacity-0 pointer-events-none "
               }`}
             >
               <div className="flex items-center gap-4 ml-4">
-                <div className="font-medium">
-                  {selectedRowKeys.length} selected
-                </div>
                 <Button
                   size="small"
                   type="text"
                   icon={<MailOutlined className="relative top-px" />}
                   className="px-0 hover:bg-transparent hover:underline"
                 >
-                  Message
+                  Message account owner
                 </Button>
                 <Button
                   size="small"
@@ -283,7 +302,7 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
                   icon={<PlusOutlined />}
                   className="px-0 hover:bg-transparent hover:underline"
                 >
-                  Add to...
+                  Add beneficiary to...
                 </Button>
                 <Button
                   size="small"
@@ -291,39 +310,8 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
                   icon={<UsergroupAddOutlined />}
                   className="px-0 hover:bg-transparent hover:underline"
                 >
-                  Invite to...
+                  Invite beneficiary to...
                 </Button>
-                <Dropdown
-                  placement="bottomLeft"
-                  getPopupContainer={() => document.body}
-                  overlayStyle={{ position: "fixed" }}
-                  overlay={
-                    <Menu>
-                      <Menu.Item key="1" onClick={hideContextMenu}>
-                        <CreditCardOutlined className="mr-3" /> Request adhoc
-                        payment
-                      </Menu.Item>
-                      <Menu.Item
-                        key="2"
-                        onClick={hideContextMenu}
-                        className="text-red-500"
-                      >
-                        <DeleteOutlined className="mr-3" /> Mark as inactive
-                      </Menu.Item>
-                    </Menu>
-                  }
-                  trigger={["click"]}
-                >
-                  <a
-                    onClick={(e) => e.preventDefault()}
-                    className="px-0 text-neutral-900"
-                  >
-                    <Space className="hover:bg-transparent hover:underline">
-                      More
-                      <DownOutlined className="-ml-0.5 w-2.5" />
-                    </Space>
-                  </a>
-                </Dropdown>
               </div>
             </div>
             <Table
@@ -361,15 +349,11 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
               </Menu.Item>
               <Menu.Divider />
               <Menu.Item key="2" onClick={hideContextMenu}>
-                <PlusOutlined className="mr-3" /> Add beneficiary to product
+                <PlusOutlined className="mr-3" /> Add beneficiary to...
               </Menu.Item>
               <Menu.Item key="3" onClick={hideContextMenu}>
-                <UserAddOutlined className="mr-3" /> Invite beneficiary to
+                <UserAddOutlined className="mr-3" /> Invite beneficiary to...
                 product
-              </Menu.Item>
-              <Menu.Item key="4" onClick={hideContextMenu}>
-                <UsergroupAddOutlined className="mr-3" /> Add beneficiary to
-                group
               </Menu.Item>
             </Menu>
           }

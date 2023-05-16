@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
-  CloseOutlined,
   CreditCardOutlined,
   DeleteOutlined,
   DownOutlined,
@@ -377,7 +376,7 @@ function Contacts(): ReactElement {
                 <span>Contacts</span>
                 <span className="mx-1.5 text-neutral-500">·</span>
                 {selectedRowKeys.length === 0 && (
-                  <span className="text-neutral-500">429</span>
+                  <span className="text-neutral-500">429 records</span>
                 )}
                 {selectedRowKeys.length > 0 && (
                   <>
@@ -399,7 +398,7 @@ function Contacts(): ReactElement {
             </div>
             <div className="relative">
               <div
-                className={`sticky bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
+                className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
                   hasSelected
                     ? " opacity-100 "
                     : " opacity-0 pointer-events-none "

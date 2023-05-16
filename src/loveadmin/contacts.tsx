@@ -372,14 +372,16 @@ function Contacts(): ReactElement {
             </div>
           </div>
           <div
-            className={`fixed transition-all duration-500 bg-white/95 right-0 z-20 w-full max-w-lg px-5 py-2 mx-auto border-t border-b-0 border-solid flex items-center rounded shadow-lg border-black/10 " ${
+            className={`fixed transition-all text-white duration-500 bg-primary-500/95 right-0 z-20 w-full max-w-lg px-5 py-2 mx-auto flex items-center rounded shadow-lg " ${
               collapsed ? " left-0 " : " left-[280px] "
             } ${
               hasSelected ? " opacity-100 bottom-20 " : " opacity-0 bottom-0 "
             }`}
           >
-            <span className="tabular-nums">{selectedRowKeys.length}</span>
-            <span className="text-neutral-500">
+            <span className="font-medium tabular-nums">
+              {selectedRowKeys.length}
+            </span>
+            <span className="font-medium text-white/80">
               <span className="mx-1.5">·</span>selected
             </span>
             <div className="flex items-center gap-2 ml-auto -mr-3">
@@ -408,19 +410,23 @@ function Contacts(): ReactElement {
                 trigger={["click"]}
               >
                 <a onClick={(e) => e.preventDefault()}>
-                  <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
+                  <Space className="border border-solid border-primary-400 bg-primary-600/20 h-8 px-2.5 transition-all rounded text-white hover:bg-primary-600/75">
                     Manage
-                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
+                    <DownOutlined className="-ml-0.5 w-2.5 text-white/90" />
                   </Space>
                 </a>
               </Dropdown>
-              <Button onClick={removeAllSelected} icon={<MailOutlined />}>
+              <Button
+                onClick={removeAllSelected}
+                icon={<MailOutlined />}
+                className="text-white border border-solid border-primary-400 bg-primary-600/20 hover:bg-primary-600/75"
+              >
                 Send message
               </Button>
               <Button
                 onClick={removeAllSelected}
                 type="text"
-                icon={<CloseOutlined className="scale-50 text-neutral-500" />}
+                icon={<CloseOutlined className="scale-50 text-white/90" />}
               ></Button>
             </div>
           </div>

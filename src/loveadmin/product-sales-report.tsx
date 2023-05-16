@@ -1,10 +1,14 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
+  DoubleLeftOutlined,
+  DoubleRightOutlined,
   DownOutlined,
   DownloadOutlined,
+  LeftOutlined,
   MenuFoldOutlined,
   MenuOutlined,
   MenuUnfoldOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -236,11 +240,40 @@ function ProductSalesReport(): ReactElement {
           width={280}
           trigger={null}
           collapsible
-          collapsedWidth={0}
+          collapsedWidth={20}
           collapsed={collapsed}
-          className="border-l-0 border-r border-solid border-y-0 bg-neutral-50 border-neutral-200"
+          className="transition-all border-l-0 border-r border-solid border-y-0 border-neutral-200 bg-neutral-50"
         >
-          <ProductTree />
+          <div
+            className={`transition-opacity ${
+              collapsed ? " opacity-0 pointer-events-none " : " opacity-100 "
+            }`}
+          >
+            <ProductTree />
+          </div>
+          <div
+            className={`fixed -translate-y-1/2 top-1/2 transition-all ${
+              collapsed ? "left-[7px]" : "left-[268px]"
+            }`}
+          >
+            {collapsed ? (
+              <Button
+                shape="circle"
+                onClick={toggleCollapsed}
+                className="w-6 h-6 min-w-0 shadow-md"
+              >
+                <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
+              </Button>
+            ) : (
+              <Button
+                shape="circle"
+                onClick={toggleCollapsed}
+                className="w-6 h-6 min-w-0 shadow-md"
+              >
+                <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
+              </Button>
+            )}
+          </div>
         </Sider>
         <Content className="pb-16 bg-white">
           <div className="p-4">
@@ -383,12 +416,9 @@ function ProductSalesReport(): ReactElement {
           </div>
           <footer
             className={`fixed gap-2 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 ${
-              collapsed ? " left-0 " : " left-[280px] "
+              collapsed ? " left-[55px] " : " left-[280px] "
             }`}
           >
-            <Button onClick={toggleCollapsed} className="px-2">
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </Button>
             <div className="flex items-center gap-2 ml-auto">
               <Button>Edit columns</Button>
               <Button icon={<DownloadOutlined />}>Export</Button>

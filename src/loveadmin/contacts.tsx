@@ -1,14 +1,15 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
   CloseOutlined,
+  CreditCardOutlined,
   DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
+  LeftOutlined,
   MailOutlined,
-  MenuFoldOutlined,
   MenuOutlined,
-  MenuUnfoldOutlined,
   PlusOutlined,
+  RightOutlined,
   SearchOutlined,
   UserAddOutlined,
   UsergroupAddOutlined,
@@ -213,7 +214,6 @@ function Contacts(): ReactElement {
     record: DataType
   ) => {
     event.preventDefault();
-    removeAllSelected();
     setSelectedName(record.name);
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuVisible(true);
@@ -335,20 +335,60 @@ function Contacts(): ReactElement {
           width={280}
           trigger={null}
           collapsible
-          collapsedWidth={0}
+          collapsedWidth={20}
           collapsed={collapsed}
-          className="border-l-0 border-r border-solid border-y-0 bg-neutral-50 border-neutral-200"
+          className="transition-all border-l-0 border-r border-solid border-y-0 border-neutral-200 bg-neutral-50"
         >
-          <ProductTree showSegmented={true} />
+          <div
+            className={`transition-opacity ${
+              collapsed ? " opacity-0 pointer-events-none " : " contents "
+            }`}
+          >
+            <ProductTree showSegmented={true} />
+          </div>
+          <div
+            className={`fixed -translate-y-1/2 top-1/2 transition-all ${
+              collapsed ? "left-[7px]" : "left-[268px]"
+            }`}
+          >
+            {collapsed ? (
+              <Button
+                shape="circle"
+                onClick={toggleCollapsed}
+                className="w-6 h-6 min-w-0 shadow-md"
+              >
+                <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
+              </Button>
+            ) : (
+              <Button
+                shape="circle"
+                onClick={toggleCollapsed}
+                className="w-6 h-6 min-w-0 shadow-md"
+              >
+                <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
+              </Button>
+            )}
+          </div>
         </Sider>
         <Content className="pb-16 bg-white">
           <div className="p-4">
             <div className="flex items-center gap-2 mt-0.5 mb-3">
               <Title level={5}>
                 <span>Contacts</span>
-                <span className="text-neutral-500">
-                  <span className="mx-1.5">·</span>429
-                </span>
+                <span className="mx-1.5 text-neutral-500">·</span>
+                {selectedRowKeys.length === 0 && (
+                  <span className="text-neutral-500">429</span>
+                )}
+                {selectedRowKeys.length > 0 && (
+                  <>
+                    <span className="font-medium tabular-nums text-neutral-500">
+                      {selectedRowKeys.length} of 429
+                      <span className="ml-1">selected</span>
+                    </span>
+                    <span className="mx-1.5 text-neutral-500">·</span>
+                    <a className="">Select all</a>
+                  </>
+                )}
               </Title>
               <div className="flex items-center gap-2 ml-auto">
                 <Button icon={<SearchOutlined />}>Search</Button>
@@ -357,7 +397,72 @@ function Contacts(): ReactElement {
                 </Button>
               </div>
             </div>
-            <div>
+            <div className="relative">
+              <div
+                className={`sticky bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
+                  hasSelected
+                    ? " opacity-100 "
+                    : " opacity-0 pointer-events-none "
+                }`}
+              >
+                <div className="flex items-center gap-4 ml-4">
+                  <Button
+                    size="small"
+                    type="text"
+                    icon={<MailOutlined className="relative top-px" />}
+                    className="px-0 hover:bg-transparent hover:underline"
+                  >
+                    Message
+                  </Button>
+                  <Button
+                    size="small"
+                    type="text"
+                    icon={<PlusOutlined />}
+                    className="px-0 hover:bg-transparent hover:underline"
+                  >
+                    Add to...
+                  </Button>
+                  <Button
+                    size="small"
+                    type="text"
+                    icon={<UsergroupAddOutlined />}
+                    className="px-0 hover:bg-transparent hover:underline"
+                  >
+                    Invite to...
+                  </Button>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item key="1" onClick={hideContextMenu}>
+                          <CreditCardOutlined className="mr-3" /> Request adhoc
+                          payment
+                        </Menu.Item>
+                        <Menu.Item
+                          key="2"
+                          onClick={hideContextMenu}
+                          className="text-red-500"
+                        >
+                          <DeleteOutlined className="mr-3" /> Mark as inactive
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
+                  >
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        More
+                        <DownOutlined className="-ml-0.5 w-2.5" />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </div>
+              </div>
               <Table
                 rowSelection={rowSelection}
                 size="small"
@@ -371,73 +476,11 @@ function Contacts(): ReactElement {
               />
             </div>
           </div>
-          <div
-            className={`fixed transition-all text-white duration-500 bg-primary-500/95 right-0 z-20 w-full max-w-lg px-5 py-2 mx-auto flex items-center rounded shadow-lg " ${
-              collapsed ? " left-0 " : " left-[280px] "
-            } ${
-              hasSelected ? " opacity-100 bottom-20 " : " opacity-0 bottom-0 "
-            }`}
-          >
-            <span className="font-medium tabular-nums">
-              {selectedRowKeys.length}
-              <span className="ml-1 text-white/80">selected</span>
-            </span>
-            <div className="flex items-center gap-2 ml-auto -mr-3">
-              <Button
-                onClick={removeAllSelected}
-                icon={<MailOutlined />}
-                className="text-white border border-solid border-primary-400 bg-primary-600/20 hover:bg-primary-600/75"
-              >
-                Send message
-              </Button>
-              <Dropdown
-                placement="topLeft"
-                getPopupContainer={() => document.body}
-                overlayStyle={{ position: "fixed" }}
-                overlay={
-                  <Menu>
-                    <Menu.Item key="0" onClick={hideContextMenu}>
-                      <PlusOutlined className="mr-3" /> Add to product
-                    </Menu.Item>
-                    <Menu.Item key="1" onClick={hideContextMenu}>
-                      <UsergroupAddOutlined className="mr-3" /> Add to group
-                    </Menu.Item>
-                    <Menu.Item key="2" onClick={hideContextMenu}>
-                      <MailOutlined className="mr-3" /> Invite to product
-                    </Menu.Item>
-                    <Menu.Item
-                      key="3"
-                      onClick={hideContextMenu}
-                      className="text-red-500"
-                    >
-                      <DeleteOutlined className="mr-3" /> Mark as inactive
-                    </Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space className="border border-solid border-primary-400 bg-primary-600/20 h-8 px-2.5 transition-all rounded text-white hover:bg-primary-600/75">
-                    Actions
-                    <DownOutlined className="-ml-0.5 w-2.5 text-white/90" />
-                  </Space>
-                </a>
-              </Dropdown>
-              <Button
-                onClick={removeAllSelected}
-                type="text"
-                icon={<CloseOutlined className="scale-50 text-white/90" />}
-              ></Button>
-            </div>
-          </div>
           <footer
             className={`fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 ${
-              collapsed ? " left-0 " : " left-[280px] "
+              collapsed ? " left-[20px] " : " left-[280px] "
             }`}
           >
-            <Button onClick={toggleCollapsed} className="px-2">
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </Button>
             <div className="flex items-center gap-2 ml-auto">
               <Button>Edit columns</Button>
               <Button icon={<DownloadOutlined />}>Export</Button>

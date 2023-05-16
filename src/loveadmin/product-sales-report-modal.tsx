@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
   CloseOutlined,
+  CreditCardOutlined,
+  DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
   MailOutlined,
@@ -155,7 +157,6 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
     record: DataType
   ) => {
     event.preventDefault();
-    removeAllSelected();
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuVisible(true);
   };
@@ -256,71 +257,86 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
     >
       <div>
         <Content className="pb-16 bg-white">
-          <div>
-            <div>
-              <Table
-                rowSelection={rowSelection}
-                size="small"
-                columns={columns}
-                dataSource={data}
-                pagination={false}
-                className="ant-table-sticky"
-                onRow={(record) => ({
-                  onContextMenu: (event) => handleContextMenu(event, record),
-                })}
-              />
+          <div className="relative">
+            <div
+              className={`sticky bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
+                hasSelected
+                  ? " opacity-100 "
+                  : " opacity-0 pointer-events-none "
+              }`}
+            >
+              <div className="flex items-center gap-4 ml-4">
+                <div className="font-medium">
+                  {selectedRowKeys.length} selected
+                </div>
+                <Button
+                  size="small"
+                  type="text"
+                  icon={<MailOutlined className="relative top-px" />}
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  Message
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  icon={<PlusOutlined />}
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  Add to...
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  icon={<UsergroupAddOutlined />}
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  Invite to...
+                </Button>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1" onClick={hideContextMenu}>
+                        <CreditCardOutlined className="mr-3" /> Request adhoc
+                        payment
+                      </Menu.Item>
+                      <Menu.Item
+                        key="2"
+                        onClick={hideContextMenu}
+                        className="text-red-500"
+                      >
+                        <DeleteOutlined className="mr-3" /> Mark as inactive
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
+                >
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="px-0 text-neutral-900"
+                  >
+                    <Space className="hover:bg-transparent hover:underline">
+                      More
+                      <DownOutlined className="-ml-0.5 w-2.5" />
+                    </Space>
+                  </a>
+                </Dropdown>
+              </div>
             </div>
-          </div>
-          <div
-            className={`fixed transition-all text-white left-0 duration-500 bg-primary-500/95 right-0 z-20 w-full max-w-lg px-5 py-2 mx-auto flex items-center rounded shadow-lg " ${
-              hasSelected ? " opacity-100 bottom-20 " : " opacity-0 bottom-0 "
-            }`}
-          >
-            <span className="font-medium tabular-nums">
-              {selectedRowKeys.length}
-              <span className="ml-1 text-white/80">selected</span>
-            </span>
-            <div className="flex items-center gap-2 ml-auto -mr-3">
-              <Button
-                onClick={removeAllSelected}
-                icon={<MailOutlined />}
-                className="text-white border border-solid border-primary-400 bg-primary-600/20 hover:bg-primary-600/75"
-              >
-                Message account owner
-              </Button>
-              <Dropdown
-                placement="topLeft"
-                overlay={
-                  <Menu>
-                    <Menu.Item key="0" onClick={hideContextMenu}>
-                      <PlusOutlined className="mr-3" /> Add beneficiary to
-                      product
-                    </Menu.Item>
-                    <Menu.Item key="1" onClick={hideContextMenu}>
-                      <MailOutlined className="mr-3" /> Invite beneficiary to
-                      product
-                    </Menu.Item>
-                    <Menu.Item key="2" onClick={hideContextMenu}>
-                      <UsergroupAddOutlined className="mr-3" /> Add beneficiary
-                      to group
-                    </Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space className="border border-solid border-primary-400 bg-primary-600/20 h-8 px-2.5 transition-all rounded text-white hover:bg-primary-600/75">
-                    Actions
-                    <DownOutlined className="-ml-0.5 w-2.5 text-white/90" />
-                  </Space>
-                </a>
-              </Dropdown>
-              <Button
-                onClick={removeAllSelected}
-                type="text"
-                icon={<CloseOutlined className="scale-50 text-white/90" />}
-              ></Button>
-            </div>
+            <Table
+              rowSelection={rowSelection}
+              size="small"
+              columns={columns}
+              dataSource={data}
+              pagination={false}
+              className="ant-table-sticky"
+              onRow={(record) => ({
+                onContextMenu: (event) => handleContextMenu(event, record),
+              })}
+            />
           </div>
           <footer className="fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
             <div className="flex items-center gap-2 ml-auto">

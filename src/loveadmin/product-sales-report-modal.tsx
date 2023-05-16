@@ -353,7 +353,6 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
               </Menu.Item>
               <Menu.Item key="3" onClick={hideContextMenu}>
                 <UserAddOutlined className="mr-3" /> Invite beneficiary to...
-                product
               </Menu.Item>
             </Menu>
           }

@@ -61,6 +61,10 @@ h5.ant-typography {
   @apply mb-6;
 }
 
+.ant-modal .ant-modal-title {
+  @apply font-medium;
+}
+
 .ant-table-column-title {
   @apply font-medium;
 }

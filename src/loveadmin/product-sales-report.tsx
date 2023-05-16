@@ -16,9 +16,11 @@ import {
   MenuProps,
   Checkbox,
   Table,
+  Modal,
 } from "antd";
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
+import ProductSalesReportModal from "./product-sales-report-modal";
 const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 
@@ -54,6 +56,20 @@ const data = [
 ];
 
 function ProductSalesReport(): ReactElement {
+  const [visible, setVisible] = useState(false);
+
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const handleOk = () => {
+    setVisible(false);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -92,7 +108,7 @@ function ProductSalesReport(): ReactElement {
       title: "Product description",
       dataIndex: "name",
       key: "name",
-      render: (text: string) => <a>{text}</a>,
+      render: (text: string) => <a onClick={showModal}>{text}</a>,
       ellipsis: true,
       sorter: (a, b) => a.name.length - b.name.length,
     },
@@ -380,6 +396,11 @@ function ProductSalesReport(): ReactElement {
           </footer>
         </Content>
       </Layout>
+      <ProductSalesReportModal
+        visible={visible}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </Layout>
   );
 }

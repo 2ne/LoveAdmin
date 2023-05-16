@@ -213,7 +213,7 @@ function Contacts(): ReactElement {
     record: DataType
   ) => {
     event.preventDefault();
-
+    removeAllSelected();
     setSelectedName(record.name);
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuVisible(true);
@@ -380,13 +380,20 @@ function Contacts(): ReactElement {
           >
             <span className="font-medium tabular-nums">
               {selectedRowKeys.length}
-            </span>
-            <span className="font-medium text-white/80">
-              <span className="mx-1.5">·</span>selected
+              <span className="ml-1 text-white/80">selected</span>
             </span>
             <div className="flex items-center gap-2 ml-auto -mr-3">
+              <Button
+                onClick={removeAllSelected}
+                icon={<MailOutlined />}
+                className="text-white border border-solid border-primary-400 bg-primary-600/20 hover:bg-primary-600/75"
+              >
+                Send message
+              </Button>
               <Dropdown
                 placement="topLeft"
+                getPopupContainer={() => document.body}
+                overlayStyle={{ position: "fixed" }}
                 overlay={
                   <Menu>
                     <Menu.Item key="0" onClick={hideContextMenu}>
@@ -411,18 +418,11 @@ function Contacts(): ReactElement {
               >
                 <a onClick={(e) => e.preventDefault()}>
                   <Space className="border border-solid border-primary-400 bg-primary-600/20 h-8 px-2.5 transition-all rounded text-white hover:bg-primary-600/75">
-                    Manage
+                    Actions
                     <DownOutlined className="-ml-0.5 w-2.5 text-white/90" />
                   </Space>
                 </a>
               </Dropdown>
-              <Button
-                onClick={removeAllSelected}
-                icon={<MailOutlined />}
-                className="text-white border border-solid border-primary-400 bg-primary-600/20 hover:bg-primary-600/75"
-              >
-                Send message
-              </Button>
               <Button
                 onClick={removeAllSelected}
                 type="text"
@@ -449,25 +449,25 @@ function Contacts(): ReactElement {
         <Dropdown
           overlay={
             <Menu>
-              <Menu.Item key="0" onClick={hideContextMenu}>
+              <Menu.Item key="1" onClick={hideContextMenu}>
+                <MailOutlined className="mr-3" /> Send message
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item key="2" onClick={hideContextMenu}>
                 <PlusOutlined className="mr-3" /> Add to product
               </Menu.Item>
-              <Menu.Item key="1" onClick={hideContextMenu}>
+              <Menu.Item key="3" onClick={hideContextMenu}>
                 <UsergroupAddOutlined className="mr-3" /> Add to group
               </Menu.Item>
-              <Menu.Item key="2" onClick={hideContextMenu}>
+              <Menu.Item key="4" onClick={hideContextMenu}>
                 <UserAddOutlined className="mr-3" /> Invite to product
               </Menu.Item>
               <Menu.Item
-                key="3"
+                key="5"
                 onClick={hideContextMenu}
                 className="text-red-500"
               >
                 <DeleteOutlined className="mr-3" /> Mark as inactive
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="4" onClick={hideContextMenu}>
-                <MailOutlined className="mr-3" /> Send message
               </Menu.Item>
             </Menu>
           }

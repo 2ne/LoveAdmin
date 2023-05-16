@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
+  CloseOutlined,
   DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
@@ -9,6 +10,7 @@ import {
   MenuUnfoldOutlined,
   PlusOutlined,
   SearchOutlined,
+  UserAddOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import {
@@ -19,7 +21,7 @@ import {
   Table,
   Dropdown,
   Space,
-  MenuProps,
+  Menu,
 } from "antd";
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
@@ -221,48 +223,6 @@ function Contacts(): ReactElement {
     setContextMenuVisible(false);
   };
 
-  const items: MenuProps["items"] = [
-    {
-      label: (
-        <a href="#" className="hover:no-underline" onClick={hideContextMenu}>
-          <PlusOutlined className="mr-3" /> Add to product
-        </a>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <a href="#" className="hover:no-underline" onClick={hideContextMenu}>
-          <UsergroupAddOutlined className="mr-3" />
-          Add to group
-        </a>
-      ),
-      key: "1",
-    },
-    {
-      label: (
-        <a href="#" className="hover:no-underline" onClick={hideContextMenu}>
-          <MailOutlined className="mr-3" />
-          Invite to product
-        </a>
-      ),
-      key: "2",
-    },
-    {
-      label: (
-        <a
-          href="#"
-          className="text-red-500 hover:no-underline"
-          onClick={hideContextMenu}
-        >
-          <DeleteOutlined className="mr-3" />
-          Mark as inactive
-        </a>
-      ),
-      key: "3",
-    },
-  ];
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -338,6 +298,10 @@ function Contacts(): ReactElement {
 
   const hasSelected = selectedRowKeys.length > 0;
 
+  const removeAllSelected = () => {
+    setSelectedRowKeys([]);
+  };
+
   return (
     <Layout className="min-h-screen">
       <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
@@ -408,7 +372,7 @@ function Contacts(): ReactElement {
             </div>
           </div>
           <div
-            className={`fixed transition-all duration-500 bg-white/95 right-0 z-20 w-full max-w-lg px-5 py-2 mx-auto border-t border-b-0 border-solid flex items-center rounded shadow-md border-black/10 " ${
+            className={`fixed transition-all duration-500 bg-white/95 right-0 z-20 w-full max-w-lg px-5 py-2 mx-auto border-t border-b-0 border-solid flex items-center rounded shadow-lg border-black/10 " ${
               collapsed ? " left-0 " : " left-[280px] "
             } ${
               hasSelected ? " opacity-100 bottom-20 " : " opacity-0 bottom-0 "
@@ -421,7 +385,26 @@ function Contacts(): ReactElement {
             <div className="flex items-center gap-2 ml-auto -mr-3">
               <Dropdown
                 placement="topLeft"
-                menu={{ items }}
+                overlay={
+                  <Menu>
+                    <Menu.Item key="0" onClick={hideContextMenu}>
+                      <PlusOutlined className="mr-3" /> Add to product
+                    </Menu.Item>
+                    <Menu.Item key="1" onClick={hideContextMenu}>
+                      <UsergroupAddOutlined className="mr-3" /> Add to group
+                    </Menu.Item>
+                    <Menu.Item key="2" onClick={hideContextMenu}>
+                      <MailOutlined className="mr-3" /> Invite to product
+                    </Menu.Item>
+                    <Menu.Item
+                      key="3"
+                      onClick={hideContextMenu}
+                      className="text-red-500"
+                    >
+                      <DeleteOutlined className="mr-3" /> Mark as inactive
+                    </Menu.Item>
+                  </Menu>
+                }
                 trigger={["click"]}
               >
                 <a onClick={(e) => e.preventDefault()}>
@@ -431,30 +414,14 @@ function Contacts(): ReactElement {
                   </Space>
                 </a>
               </Dropdown>
-              <Dropdown
-                placement="topLeft"
-                menu={{ items }}
-                trigger={["click"]}
-              >
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
-                    Communicate
-                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
-                  </Space>
-                </a>
-              </Dropdown>
-              <Dropdown
-                placement="topLeft"
-                menu={{ items }}
-                trigger={["click"]}
-              >
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space className="border border-solid border-neutral-200 h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
-                    Data
-                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
-                  </Space>
-                </a>
-              </Dropdown>
+              <Button onClick={removeAllSelected} icon={<MailOutlined />}>
+                Send message
+              </Button>
+              <Button
+                onClick={removeAllSelected}
+                type="text"
+                icon={<CloseOutlined className="scale-50 text-neutral-500" />}
+              ></Button>
             </div>
           </div>
           <footer
@@ -474,7 +441,30 @@ function Contacts(): ReactElement {
       </Layout>
       {contextMenuVisible && (
         <Dropdown
-          menu={{ items }}
+          overlay={
+            <Menu>
+              <Menu.Item key="0" onClick={hideContextMenu}>
+                <PlusOutlined className="mr-3" /> Add to product
+              </Menu.Item>
+              <Menu.Item key="1" onClick={hideContextMenu}>
+                <UsergroupAddOutlined className="mr-3" /> Add to group
+              </Menu.Item>
+              <Menu.Item key="2" onClick={hideContextMenu}>
+                <UserAddOutlined className="mr-3" /> Invite to product
+              </Menu.Item>
+              <Menu.Item
+                key="3"
+                onClick={hideContextMenu}
+                className="text-red-500"
+              >
+                <DeleteOutlined className="mr-3" /> Mark as inactive
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item key="4" onClick={hideContextMenu}>
+                <MailOutlined className="mr-3" /> Send message
+              </Menu.Item>
+            </Menu>
+          }
           open={contextMenuVisible}
           trigger={["contextMenu"]}
           autoAdjustOverflow

@@ -205,34 +205,32 @@ function ProductSalesReport(): ReactElement {
           type="text"
           shape="circle"
           icon={<MenuOutlined />}
-          ghost
           className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
         />
-        <div>
-          <div>
-            <Title level={5} className="text-neutral-50 !m-0">
+        <div className="flex flex-col justify-center gap-2">
+          <div className="flex">
+            <img
+              src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
+              className="object-contain h-[14px] ml-px"
+            />
+          </div>
+          <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
+              Home
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
+              Reports
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
+              Financials
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
+              Sales Reports
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="text-neutral-50">
               Product Sales Report
-            </Title>
-          </div>
-          <div>
-            <Breadcrumb className="[&_li]:text-neutral-400">
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Home
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Reports
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Financials
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Sales Reports
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="text-neutral-50">
-                Product Sales Report
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
+            </Breadcrumb.Item>
+          </Breadcrumb>
         </div>
       </Header>
       <Layout>

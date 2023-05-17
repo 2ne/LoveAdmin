@@ -86,7 +86,7 @@ const ProductTree: React.FC<ProductTreeProps> = ({ showSegmented = false }) => {
   };
 
   return (
-    <div className="sticky top-0 px-3 py-4 overflow-auto">
+    <div className="sticky top-0 max-h-screen p-4 overflow-auto">
       {showSegmented && (
         <Segmented
           block

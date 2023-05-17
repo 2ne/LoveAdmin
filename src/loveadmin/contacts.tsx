@@ -338,34 +338,24 @@ function Contacts(): ReactElement {
         >
           <div
             className={`transition-opacity ${
-              collapsed ? " opacity-0 pointer-events-none " : " contents "
+              collapsed ? " opacity-0 pointer-events-none " : " opacity-100 "
             }`}
           >
             <ProductTree showSegmented={true} />
           </div>
-          <div
-            className={`fixed -translate-y-1/2 top-1/2 transition-all ${
+          <Button
+            shape="circle"
+            onClick={toggleCollapsed}
+            className={`fixed -translate-y-1/2 top-1/2 transition-all w-6 h-6 min-w-0 shadow-md ${
               collapsed ? "left-[7px]" : "left-[268px]"
             }`}
           >
             {collapsed ? (
-              <Button
-                shape="circle"
-                onClick={toggleCollapsed}
-                className="w-6 h-6 min-w-0 shadow-md"
-              >
-                <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-              </Button>
+              <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
             ) : (
-              <Button
-                shape="circle"
-                onClick={toggleCollapsed}
-                className="w-6 h-6 min-w-0 shadow-md"
-              >
-                <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-              </Button>
+              <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
             )}
-          </div>
+          </Button>
         </Sider>
         <Content className="pb-16 bg-white">
           <div className="p-4">

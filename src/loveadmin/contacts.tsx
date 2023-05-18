@@ -372,10 +372,10 @@ function Contacts(): ReactElement {
                       {selectedRowKeys.length} of 429
                       <span className="ml-1">selected</span>
                     </span>
-                    <span className="mx-1.5 text-neutral-500">·</span>
-                    <a className="">Select all</a>
                   </>
                 )}
+                <span className="mx-1.5 text-neutral-500">·</span>
+                <a className="">Select all</a>
               </Title>
               <div className="flex items-center gap-2 ml-auto">
                 <Button icon={<SearchOutlined />}>Search</Button>
@@ -424,8 +424,8 @@ function Contacts(): ReactElement {
                     overlay={
                       <Menu>
                         <Menu.Item key="1" onClick={hideContextMenu}>
-                          <CreditCardOutlined className="mr-3" /> Request adhoc
-                          payment
+                          <CreditCardOutlined className="mr-3" /> Request
+                          one-off payment
                         </Menu.Item>
                         <Menu.Item
                           key="2"

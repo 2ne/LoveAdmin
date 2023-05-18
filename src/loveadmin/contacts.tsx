@@ -338,7 +338,7 @@ function Contacts(): ReactElement {
         >
           <div
             className={`transition-opacity ${
-              collapsed ? " opacity-0 pointer-events-none " : " opacity-100 "
+              collapsed ? " opacity-0 pointer-events-none " : " contents "
             }`}
           >
             <ProductTree showSegmented={true} />

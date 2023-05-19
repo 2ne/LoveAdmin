@@ -257,7 +257,7 @@ function Contact(): ReactElement {
       key: "1",
       label: `Activity`,
       children: (
-        <div className="py-6 pt-3 space-y-8">
+        <div className="py-6 pt-2 space-y-8">
           <section>
             <div>
               <Title level={5}>Finance</Title>
@@ -268,7 +268,7 @@ function Contact(): ReactElement {
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Account balance
                   </div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -284,7 +284,7 @@ function Contact(): ReactElement {
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Invoiced
                   </div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -300,7 +300,7 @@ function Contact(): ReactElement {
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Paid
                   </div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -314,7 +314,7 @@ function Contact(): ReactElement {
               <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="">Credit notes</div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -337,7 +337,7 @@ function Contact(): ReactElement {
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Upcoming renewals
                   </div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -350,7 +350,7 @@ function Contact(): ReactElement {
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Awaiting approval
                   </div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -363,7 +363,7 @@ function Contact(): ReactElement {
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Scheduled orders
                   </div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -376,7 +376,7 @@ function Contact(): ReactElement {
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Completed
                   </div>
-                  <div className="transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
@@ -496,7 +496,40 @@ function Contact(): ReactElement {
                 key="1"
                 className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
               >
-                <p>1</p>
+                <div className="space-y-3">
+                  <div>
+                    <div className="mb-1 text-xs text-neutral-500">
+                      First name
+                    </div>
+                    <div>James</div>
+                  </div>
+                  <div>
+                    <div className="mb-1 text-xs text-neutral-500">
+                      Last name
+                    </div>
+                    <div>Toone</div>
+                  </div>
+                  <div>
+                    <div className="mb-1 text-xs text-neutral-500">
+                      Date of birth
+                    </div>
+                    <div>14 April 1986 · 37 years old</div>
+                  </div>
+                  <div>
+                    <div className="mb-1 text-xs text-neutral-500">Gender</div>
+                    <div>Male</div>
+                  </div>
+                  <div>
+                    <div className="mb-1 text-xs text-neutral-500">Email</div>
+                    <div>jamestoone@me.com</div>
+                  </div>
+                  <div>
+                    <div className="mb-1 text-xs text-neutral-500">
+                      Contact number
+                    </div>
+                    <div>07994884991</div>
+                  </div>
+                </div>
               </Panel>
               <Panel
                 header="Address"

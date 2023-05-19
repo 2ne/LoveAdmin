@@ -134,65 +134,140 @@ function Contact(): ReactElement {
             </Collapse>
           </div>
         </aside>
-        <Content className="p-6">
-          <div className="grid grid-cols-4 gap-4">
-            <div className="grid gap-3 p-6 bg-white shadow-sm">
-              <div className="flex gap-2 text-base font-medium text-neutral-600">
-                <div className="">Account balance</div>
-                <div className="mt-px text-neutral-400">
-                  <RightOutlined className="w-3 h-3" />
+        <Content className="px-8 py-6 space-y-7">
+          <section>
+            <div>
+              <Title level={5}>Finance</Title>
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Account balance
+                  </div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none text-danger-600">
+                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-danger-50 place-items-center">
+                    <span>£</span>
+                  </div>
+                  <div className="">-100.00</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none text-danger-600">
-                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-danger-50 place-items-center">
-                  <span>£</span>
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Invoiced
+                  </div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
                 </div>
-                <div className="">-100.00</div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                    <span>£</span>
+                  </div>
+                  <div className="">520.00</div>
+                </div>
+              </div>
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Paid
+                  </div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                    <span>£</span>
+                  </div>
+                  <div className="">400.00</div>
+                </div>
+              </div>
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="">Credit notes</div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                    <span>£</span>
+                  </div>
+                  <div className="">20.00</div>
+                </div>
               </div>
             </div>
-            <div className="grid gap-3 p-6 bg-white shadow-sm">
-              <div className="flex gap-2 text-base font-medium text-neutral-600">
-                <div className="">Invoiced</div>
-                <div className="mt-px text-neutral-400">
-                  <RightOutlined className="w-3 h-3" />
+          </section>
+          <section>
+            <div>
+              <Title level={5}>Orders</Title>
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Upcoming renewals
+                  </div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                  <div className="">2</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none">
-                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
-                  <span>£</span>
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Awaiting approval
+                  </div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
                 </div>
-                <div className="">520.00</div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                  <div className="">2</div>
+                </div>
+              </div>
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Scheduled orders
+                  </div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                  <div className="">2</div>
+                </div>
+              </div>
+              <div className="grid gap-4 p-6 transition-all bg-white shadow-sm cursor-pointer h-[7.25rem] hover:shadow-md group">
+                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-600 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Completed
+                  </div>
+                  <div className="mt-px transition-all text-neutral-400 group-hover:text-neutral-800 group-hover:ml-0.5">
+                    <RightOutlined className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                  <div className="">2</div>
+                </div>
               </div>
             </div>
-            <div className="grid gap-3 p-6 bg-white shadow-sm">
-              <div className="flex gap-2 text-base font-medium text-neutral-600">
-                <div className="">Paid</div>
-                <div className="mt-px text-neutral-400">
-                  <RightOutlined className="w-3 h-3" />
-                </div>
-              </div>
-              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none">
-                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
-                  <span>£</span>
-                </div>
-                <div className="">400.00</div>
-              </div>
+          </section>
+          <section>
+            <div>
+              <Title level={5}>Active products</Title>
             </div>
-            <div className="grid gap-3 p-6 bg-white shadow-sm">
-              <div className="flex gap-2 text-base font-medium text-neutral-600">
-                <div className="">Credit notes</div>
-                <div className="mt-px text-neutral-400">
-                  <RightOutlined className="w-3 h-3" />
-                </div>
-              </div>
-              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none">
-                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
-                  <span>£</span>
-                </div>
-                <div className="">20.00</div>
-              </div>
-            </div>
-          </div>
+          </section>
         </Content>
         <aside className="bg-white p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm">
           Sider

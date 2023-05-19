@@ -25,6 +25,7 @@ import {
 } from "antd";
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
+import { Link } from "react-router-dom";
 const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 
@@ -250,7 +251,7 @@ function Contacts(): ReactElement {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text: string) => <a>{text}</a>,
+      render: (text: string) => <Link to="/Contact">{text}</Link>,
       ellipsis: true,
       sorter: (a, b) => a.name.length - b.name.length,
     },

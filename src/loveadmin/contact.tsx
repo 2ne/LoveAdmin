@@ -14,7 +14,8 @@ import {
   Menu,
   Collapse,
 } from "antd";
-const { Text, Title } = Typography;
+import { Link } from "react-router-dom";
+const { Title } = Typography;
 const { Header, Content } = Layout;
 const { Panel } = Collapse;
 
@@ -26,35 +27,35 @@ function Contact(): ReactElement {
           type="text"
           shape="circle"
           icon={<MenuOutlined />}
-          ghost
           className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
         />
-        <div>
-          <div>
-            <Title level={5} className="text-neutral-50 !m-0">
+        <div className="flex flex-col justify-center gap-2">
+          <div className="flex">
+            <img
+              src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
+              className="object-contain h-[14px] ml-px"
+            />
+          </div>
+          <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
+              Home
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
               Contacts
-            </Title>
-          </div>
-          <div>
-            <Breadcrumb className="[&_li]:text-neutral-400">
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Home
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Contacts
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="text-neutral-50">
-                James Toone
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="text-neutral-50">
+              James Toone
+            </Breadcrumb.Item>
+          </Breadcrumb>
         </div>
       </Header>
       <Layout hasSider={true}>
         <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[440px] min-w-[280px] overflow-hidden">
           <div className="flex items-center justify-between">
-            <Button type="link" icon={<ArrowLeftOutlined />}>
-              Contacts
+            <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
+              <Link to="/Contacts" className="ml-2">
+                Contacts
+              </Link>
             </Button>
             <Dropdown
               overlay={
@@ -72,7 +73,7 @@ function Contact(): ReactElement {
               </Button>
             </Dropdown>
           </div>
-          <div className="py-10 text-center">
+          <div className="pt-6 pb-10 text-center">
             <div className="mb-4">
               <Avatar size="large">JT</Avatar>
             </div>

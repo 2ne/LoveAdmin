@@ -257,7 +257,7 @@ function Contact(): ReactElement {
       key: "1",
       label: `Activity`,
       children: (
-        <div className="px-8 py-6 pt-3 space-y-8">
+        <div className="py-6 pt-3 space-y-8">
           <section>
             <div>
               <Title level={5}>Finance</Title>
@@ -453,7 +453,7 @@ function Contact(): ReactElement {
         </div>
       </Header>
       <Layout hasSider={true}>
-        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden z-10">
+        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
           <div className="flex items-center justify-between">
             <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
               <Link to="/Contacts" className="ml-2">
@@ -536,7 +536,7 @@ function Contact(): ReactElement {
             </Collapse>
           </div>
         </aside>
-        <Content className="">
+        <Content className="px-8">
           <Tabs
             defaultActiveKey="1"
             items={tabs}
@@ -544,7 +544,7 @@ function Contact(): ReactElement {
             rootClassName="custom-tab"
           />
         </Content>
-        <aside className="bg-white p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 z-10">
+        <aside className="bg-white p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300">
           Sider
         </aside>
       </Layout>

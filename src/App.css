@@ -95,10 +95,6 @@ h5.ant-typography {
   @apply !text-primary-500;
 }
 
-.custom-tab .ant-tabs-nav {
-  @apply bg-white;
-}
-
 .custom-tab > .ant-tabs-nav .ant-tabs-tab {
-  @apply !ml-8 !mr-0;
+  @apply !ml-0 !mr-7;
 }

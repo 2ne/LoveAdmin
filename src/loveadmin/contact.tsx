@@ -3,6 +3,7 @@ import {
   MenuOutlined,
   ArrowLeftOutlined,
   DownOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -50,7 +51,7 @@ function Contact(): ReactElement {
         </div>
       </Header>
       <Layout hasSider={true}>
-        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[440px] min-w-[280px] overflow-hidden">
+        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm overflow-hidden">
           <div className="flex items-center justify-between">
             <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
               <Link to="/Contacts" className="ml-2">
@@ -89,22 +90,43 @@ function Contact(): ReactElement {
               className="-mx-px rounded-none border-neutral-200"
             >
               <Panel
-                header="This is panel header 1"
+                header="Contact details"
                 key="1"
                 className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
               >
                 <p>1</p>
               </Panel>
               <Panel
-                header="This is panel header 2"
+                header="Address"
                 key="2"
                 className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
               >
                 <p>1</p>
               </Panel>
               <Panel
-                header="This is panel header 3"
+                header="Medical"
                 key="3"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Emergency contacts"
+                key="4"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Account owner"
+                key="5"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Linked accounts"
+                key="6"
                 className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
               >
                 <p>1</p>
@@ -112,8 +134,67 @@ function Contact(): ReactElement {
             </Collapse>
           </div>
         </aside>
-        <Content className="p-4">Content</Content>
-        <aside className="bg-white p-2.5 w-1/4 max-w-[440px] min-w-[280px]">
+        <Content className="p-6">
+          <div className="grid grid-cols-4 gap-4">
+            <div className="grid gap-3 p-6 bg-white shadow-sm">
+              <div className="flex gap-2 text-base font-medium text-neutral-600">
+                <div className="">Account balance</div>
+                <div className="mt-px text-neutral-400">
+                  <RightOutlined className="w-3 h-3" />
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none text-danger-600">
+                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-danger-50 place-items-center">
+                  <span>£</span>
+                </div>
+                <div className="">-100.00</div>
+              </div>
+            </div>
+            <div className="grid gap-3 p-6 bg-white shadow-sm">
+              <div className="flex gap-2 text-base font-medium text-neutral-600">
+                <div className="">Invoiced</div>
+                <div className="mt-px text-neutral-400">
+                  <RightOutlined className="w-3 h-3" />
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none">
+                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                  <span>£</span>
+                </div>
+                <div className="">520.00</div>
+              </div>
+            </div>
+            <div className="grid gap-3 p-6 bg-white shadow-sm">
+              <div className="flex gap-2 text-base font-medium text-neutral-600">
+                <div className="">Paid</div>
+                <div className="mt-px text-neutral-400">
+                  <RightOutlined className="w-3 h-3" />
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none">
+                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                  <span>£</span>
+                </div>
+                <div className="">400.00</div>
+              </div>
+            </div>
+            <div className="grid gap-3 p-6 bg-white shadow-sm">
+              <div className="flex gap-2 text-base font-medium text-neutral-600">
+                <div className="">Credit notes</div>
+                <div className="mt-px text-neutral-400">
+                  <RightOutlined className="w-3 h-3" />
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5 mb-1 text-xl font-medium leading-none">
+                <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                  <span>£</span>
+                </div>
+                <div className="">20.00</div>
+              </div>
+            </div>
+          </div>
+        </Content>
+        <aside className="bg-white p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm">
           Sider
         </aside>
       </Layout>

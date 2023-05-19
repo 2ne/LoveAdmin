@@ -264,7 +264,7 @@ function Contact(): ReactElement {
             <div>
               <Title level={5}>Finance</Title>
             </div>
-            <div className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4 gap-2 2xl:gap-4">
+            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 2xl:gap-4">
               <div className="grid gap-4 p-4 2xl:p-6 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] 2xl:h-[7.25rem] hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
@@ -315,7 +315,9 @@ function Contact(): ReactElement {
               </div>
               <div className="grid gap-4 p-4 2xl:p-6 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] 2xl:h-[7.25rem] hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="">Credit notes</div>
+                  <div className="truncate max-w-[calc(100%-1.25rem)]">
+                    Credit notes
+                  </div>
                   <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                     <RightOutlined className="w-3 h-3" />
                   </div>
@@ -333,7 +335,7 @@ function Contact(): ReactElement {
             <div>
               <Title level={5}>Orders</Title>
             </div>
-            <div className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-4 gap-2 2xl:gap-4">
+            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 2xl:gap-4">
               <div className="grid gap-4 p-4 2xl:p-6 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] 2xl:h-[7.25rem] hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
@@ -455,7 +457,7 @@ function Contact(): ReactElement {
         </div>
       </Header>
       <Layout hasSider={true}>
-        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[340px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
+        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
           <div className="flex items-center justify-between">
             <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
               <Link to="/Contacts" className="ml-2">
@@ -579,7 +581,7 @@ function Contact(): ReactElement {
             rootClassName="custom-tab"
           />
         </Content>
-        <aside className="bg-white p-2.5 w-1/4 max-w-[340px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300">
+        <aside className="bg-white p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300">
           Sider
         </aside>
       </Layout>

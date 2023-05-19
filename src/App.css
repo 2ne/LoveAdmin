@@ -96,5 +96,5 @@ h5.ant-typography {
 }
 
 .custom-tab > .ant-tabs-nav .ant-tabs-tab {
-  @apply !ml-0 !mr-7;
+  @apply !ml-0 !mr-9;
 }

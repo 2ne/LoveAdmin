@@ -457,7 +457,7 @@ function Contact(): ReactElement {
         </div>
       </Header>
       <Layout hasSider={true}>
-        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[320px] @2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
+        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
           <div className="flex items-center justify-between">
             <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
               <Link to="/Contacts" className="ml-2">
@@ -581,7 +581,7 @@ function Contact(): ReactElement {
             rootClassName="custom-tab"
           />
         </Content>
-        <aside className="bg-white p-2.5 w-1/4 max-w-[320px] @2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300">
+        <aside className="bg-white p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300">
           Sider
         </aside>
       </Layout>

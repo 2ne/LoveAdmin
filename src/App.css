@@ -86,3 +86,19 @@ h5.ant-typography {
 .ant-breadcrumb ol {
   @apply flex-nowrap;
 }
+
+.ant-tabs .ant-tabs-tab {
+  @apply justify-center !ml-6 !mr-2 min-w-[50px];
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn .text-neutral-500 {
+  @apply !text-primary-500;
+}
+
+.custom-tab .ant-tabs-nav {
+  @apply bg-white;
+}
+
+.custom-tab > .ant-tabs-nav .ant-tabs-tab {
+  @apply !ml-8 !mr-0;
+}

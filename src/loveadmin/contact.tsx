@@ -4,6 +4,9 @@ import {
   ArrowLeftOutlined,
   DownOutlined,
   RightOutlined,
+  CalendarOutlined,
+  EnvironmentOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -14,6 +17,8 @@ import {
   Dropdown,
   Menu,
   Collapse,
+  Tabs,
+  TabsProps,
 } from "antd";
 import { Link } from "react-router-dom";
 const { Title } = Typography;
@@ -21,120 +26,238 @@ const { Header, Content } = Layout;
 const { Panel } = Collapse;
 
 function Contact(): ReactElement {
-  return (
-    <Layout className="min-h-screen">
-      <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
-        <Button
-          type="text"
-          shape="circle"
-          icon={<MenuOutlined />}
-          className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
-        />
-        <div className="flex flex-col justify-center gap-2">
-          <div className="flex">
-            <img
-              src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
-              className="object-contain h-[14px] ml-px"
-            />
+  const onChange = (key: string) => {
+    console.log(key);
+  };
+
+  const activeProducts: TabsProps["items"] = [
+    {
+      key: "1",
+      label: `All`,
+      children: (
+        <div className="p-6 pt-2 [&>*:not(:first-child)]:mt-4 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
+          <div className="flex gap-3.5">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="font-medium">Parent and Child</div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-neutral-500">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Fridays at 14:00 - 14:45
+                    <span className="mx-1.5">·</span>
+                    <span className="link">View dates</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Home
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Contacts
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="text-neutral-50">
-              James Toone
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          <div className="flex gap-3.5">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1519311726-5cced7383240?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="font-medium">Bubble the Seahorse</div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-neutral-500">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Tuesdays at 10:00 - 11:00
+                    <span className="mx-1.5">·</span>
+                    <span className="link">View dates</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-3.5">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1560090995-01632a28895b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="font-medium">Swimming Annual</div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-neutral-500">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Membership
+                    <span className="mx-1.5">·</span>
+                    <span>May 2023 - May 2024</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </Header>
-      <Layout hasSider={true}>
-        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between">
-            <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
-              <Link to="/Contacts" className="ml-2">
-                Contacts
-              </Link>
-            </Button>
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item>Menu Item 1</Menu.Item>
-                  <Menu.Item>Menu Item 2</Menu.Item>
-                  <Menu.Item>Menu Item 3</Menu.Item>
-                </Menu>
-              }
-              trigger={["click"]}
-            >
-              <Button type="text" onClick={(e) => e.preventDefault()}>
-                <span>Actions</span>
-                <DownOutlined className="ml-1.5 [&>svg]:mt-px [&>svg]:w-3 [&>svg]:h-3" />
-              </Button>
-            </Dropdown>
-          </div>
-          <div className="pt-6 pb-10 text-center">
-            <div className="mb-4">
-              <Avatar size="large">JT</Avatar>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <div>
+          Classes
+          <span className="text-neutral-500">
+            <span className="mx-1.5">·</span>2
+          </span>
+        </div>
+      ),
+      children: (
+        <div className="p-6 pt-2 [&>*:not(:first-child)]:mt-4 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
+          <div className="flex gap-3.5">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+              />
             </div>
-            <div className="space-y-1">
-              <div className="font-medium">James Toone</div>
-              <div className="text-neutral-500">jamestoone@gmail.com</div>
+            <div className="flex-grow">
+              <div className="font-medium">Parent and Child</div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-neutral-500">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Fridays at 14:00 - 14:45
+                    <span className="mx-1.5">·</span>
+                    <span className="link">View dates</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="-mx-3">
-            <Collapse
-              defaultActiveKey={["1"]}
-              size="small"
-              className="-mx-px rounded-none border-neutral-200"
-            >
-              <Panel
-                header="Contact details"
-                key="1"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
-              >
-                <p>1</p>
-              </Panel>
-              <Panel
-                header="Address"
-                key="2"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
-              >
-                <p>1</p>
-              </Panel>
-              <Panel
-                header="Medical"
-                key="3"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
-              >
-                <p>1</p>
-              </Panel>
-              <Panel
-                header="Emergency contacts"
-                key="4"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
-              >
-                <p>1</p>
-              </Panel>
-              <Panel
-                header="Account owner"
-                key="5"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
-              >
-                <p>1</p>
-              </Panel>
-              <Panel
-                header="Linked accounts"
-                key="6"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
-              >
-                <p>1</p>
-              </Panel>
-            </Collapse>
+          <div className="flex gap-3.5">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1519311726-5cced7383240?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="font-medium">Bubble the Seahorse</div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-neutral-500">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Tuesdays at 10:00 - 11:00
+                    <span className="mx-1.5">·</span>
+                    <span className="link">View dates</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </aside>
-        <Content className="px-8 py-6 space-y-7">
+        </div>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        <div>
+          Memberships
+          <span className="text-neutral-500">
+            <span className="mx-1.5">·</span>1
+          </span>
+        </div>
+      ),
+      children: (
+        <div className="p-6 pt-2 [&>*:not(:first-child)]:mt-4 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
+          <div className="flex gap-3.5">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1560090995-01632a28895b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="font-medium">Swimming Annual</div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-neutral-500">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Membership
+                    <span className="mx-1.5">·</span>
+                    <span>May 2023 - May 2024</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-neutral-500">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "4",
+      label: `Events`,
+      children: (
+        <div className="p-6 pt-2 text-neutral-500">No events purchased</div>
+      ),
+    },
+  ];
+
+  const tabs: TabsProps["items"] = [
+    {
+      key: "1",
+      label: `Activity`,
+      children: (
+        <div className="px-8 py-6 pt-3 space-y-8">
           <section>
             <div>
               <Title level={5}>Finance</Title>
@@ -267,9 +390,161 @@ function Contact(): ReactElement {
             <div>
               <Title level={5}>Active products</Title>
             </div>
+            <div className="grid gap-4 transition-all bg-white shadow-sm">
+              <Tabs
+                defaultActiveKey="1"
+                items={activeProducts}
+                onChange={onChange}
+              />
+            </div>
           </section>
+        </div>
+      ),
+    },
+    {
+      key: "2",
+      label: `Finance`,
+      children: <div>Finance</div>,
+    },
+    {
+      key: "3",
+      label: `Messaging`,
+      children: <div>Messaging</div>,
+    },
+    {
+      key: "4",
+      label: `Attendance`,
+      children: <div>Attendance</div>,
+    },
+    {
+      key: "5",
+      label: `Development programme`,
+      children: <div>Development programme</div>,
+    },
+  ];
+
+  return (
+    <Layout className="min-h-screen">
+      <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
+        <Button
+          type="text"
+          shape="circle"
+          icon={<MenuOutlined />}
+          className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
+        />
+        <div className="flex flex-col justify-center gap-2">
+          <div className="flex">
+            <img
+              src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
+              className="object-contain h-[14px] ml-px"
+            />
+          </div>
+          <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
+              Home
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="cursor-pointer hover:underline">
+              Contacts
+            </Breadcrumb.Item>
+            <Breadcrumb.Item className="text-neutral-50">
+              James Toone
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+      </Header>
+      <Layout hasSider={true}>
+        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden z-10">
+          <div className="flex items-center justify-between">
+            <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
+              <Link to="/Contacts" className="ml-2">
+                Contacts
+              </Link>
+            </Button>
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item>Menu Item 1</Menu.Item>
+                  <Menu.Item>Menu Item 2</Menu.Item>
+                  <Menu.Item>Menu Item 3</Menu.Item>
+                </Menu>
+              }
+              trigger={["click"]}
+            >
+              <Button type="text" onClick={(e) => e.preventDefault()}>
+                <span>Actions</span>
+                <DownOutlined className="ml-1.5 [&>svg]:mt-px [&>svg]:w-3 [&>svg]:h-3" />
+              </Button>
+            </Dropdown>
+          </div>
+          <div className="pt-6 pb-10 text-center">
+            <div className="mb-4">
+              <Avatar size="large">JT</Avatar>
+            </div>
+            <div className="space-y-1">
+              <div className="font-medium">James Toone</div>
+              <div className="text-neutral-500">jamestoone@gmail.com</div>
+            </div>
+          </div>
+          <div className="-mx-3">
+            <Collapse
+              defaultActiveKey={["1"]}
+              size="small"
+              className="-mx-px rounded-none border-neutral-200"
+            >
+              <Panel
+                header="Contact details"
+                key="1"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Address"
+                key="2"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Medical"
+                key="3"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Emergency contacts"
+                key="4"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Account owner"
+                key="5"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header="Linked accounts"
+                key="6"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <p>1</p>
+              </Panel>
+            </Collapse>
+          </div>
+        </aside>
+        <Content className="">
+          <Tabs
+            defaultActiveKey="1"
+            items={tabs}
+            onChange={onChange}
+            rootClassName="custom-tab"
+          />
         </Content>
-        <aside className="bg-white p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm">
+        <aside className="bg-white p-2.5 w-1/4 max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 z-10">
           Sider
         </aside>
       </Layout>

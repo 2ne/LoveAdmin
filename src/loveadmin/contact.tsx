@@ -265,7 +265,7 @@ function Contact(): ReactElement {
               <Title level={5}>Finance</Title>
             </div>
             <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-4">
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Account balance
@@ -274,14 +274,14 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none text-danger-600">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none text-danger-600">
                   <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-danger-50 place-items-center">
                     <span>£</span>
                   </div>
                   <div className="">-100.00</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Invoiced
@@ -290,14 +290,14 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
                     <span>£</span>
                   </div>
                   <div className="">520.00</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Paid
@@ -306,14 +306,14 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
                     <span>£</span>
                   </div>
                   <div className="">400.00</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Credit notes
@@ -322,7 +322,7 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
                     <span>£</span>
                   </div>
@@ -336,7 +336,7 @@ function Contact(): ReactElement {
               <Title level={5}>Orders</Title>
             </div>
             <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-4">
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Upcoming renewals
@@ -345,11 +345,11 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="">2</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Awaiting approval
@@ -358,11 +358,11 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="">0</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Scheduled orders
@@ -371,11 +371,11 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="">1</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer h-[6.5rem] @2xl:h-[7.25rem] hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Completed
@@ -384,7 +384,7 @@ function Contact(): ReactElement {
                     <RightOutlined className="w-3 h-3" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 text-xl font-medium leading-none">
+                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="">12</div>
                 </div>
               </div>

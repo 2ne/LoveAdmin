@@ -8,6 +8,7 @@ import {
   EnvironmentOutlined,
   UserOutlined,
   EditOutlined,
+  PlusOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -37,7 +38,7 @@ function Contact(): ReactElement {
       key: "1",
       label: `All`,
       children: (
-        <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
+        <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 @2xl:pt-2 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
           <div className="flex gap-3.5">
             <div>
               <img
@@ -139,7 +140,7 @@ function Contact(): ReactElement {
         </div>
       ),
       children: (
-        <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
+        <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 @2xl:pt-2 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
           <div className="flex gap-3.5">
             <div>
               <img
@@ -212,7 +213,7 @@ function Contact(): ReactElement {
         </div>
       ),
       children: (
-        <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
+        <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 @2xl:pt-2 [&>*:not(:last-child)]:pb-4 [&>*]:border-b [&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
           <div className="flex gap-3.5">
             <div>
               <img
@@ -604,8 +605,39 @@ function Contact(): ReactElement {
             rootClassName="ant-tabs-contact"
           />
         </Content>
-        <aside className="bg-white p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300">
-          Sider
+        <aside className="bg-white p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
+          <div className="-mx-3 -mt-[calc(0.625rem+1px)]">
+            <Collapse
+              defaultActiveKey={["1"]}
+              size="small"
+              className="-mx-px rounded-none border-neutral-200"
+            >
+              <Panel
+                header="Notes"
+                extra={
+                  <Button
+                    type="primary"
+                    size="small"
+                    className="-mr-1.5"
+                    icon={<PlusOutlined />}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                    }}
+                  >
+                    Add note
+                  </Button>
+                }
+                key="1"
+                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
+              >
+                <div className="my-1 font-medium">This is a note title</div>
+                <p className="text-neutral-600">
+                  This is some note text. I am not sure how long a note would be
+                  but this is just a guess.
+                </p>
+              </Panel>
+            </Collapse>
+          </div>
         </aside>
       </Layout>
     </Layout>

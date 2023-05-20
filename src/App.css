@@ -95,6 +95,6 @@ h5.ant-typography {
   @apply !text-primary-500;
 }
 
-.custom-tab > .ant-tabs-nav .ant-tabs-tab {
+.ant-tabs.ant-tabs-contact > .ant-tabs-nav .ant-tabs-tab {
   @apply !ml-0 !mr-6 2xl:!mr-8;
 }

@@ -506,7 +506,7 @@ function Contact(): ReactElement {
                     <div className="mb-1 text-xs text-neutral-500">
                       First name
                     </div>
-                    <Input value="James" />
+                    <div>James</div>
                   </div>
                   <div>
                     <div className="mb-1 text-xs text-neutral-500">
@@ -579,7 +579,7 @@ function Contact(): ReactElement {
             defaultActiveKey="1"
             items={tabs}
             onChange={onChange}
-            rootClassName="custom-tab"
+            rootClassName="ant-tabs-contact"
           />
         </Content>
         <aside className="bg-white p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300">

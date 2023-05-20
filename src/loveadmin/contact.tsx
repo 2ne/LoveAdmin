@@ -19,6 +19,7 @@ import {
   Collapse,
   Tabs,
   TabsProps,
+  Input,
 } from "antd";
 import { Link } from "react-router-dom";
 const { Title } = Typography;
@@ -505,7 +506,7 @@ function Contact(): ReactElement {
                     <div className="mb-1 text-xs text-neutral-500">
                       First name
                     </div>
-                    <div>James</div>
+                    <Input value="James" />
                   </div>
                   <div>
                     <div className="mb-1 text-xs text-neutral-500">

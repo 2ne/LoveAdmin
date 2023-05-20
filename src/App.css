@@ -47,6 +47,18 @@ h5.ant-typography {
   @apply inline-flex items-center justify-center;
 }
 
+.ant-btn.ant-btn-input {
+  @apply -mx-2 px-2 w-[calc(100%+1.25rem)];
+}
+
+.ant-btn.ant-btn-input .anticon {
+  @apply transition-opacity;
+}
+
+.ant-btn.ant-btn-input:not(:hover) .anticon {
+  @apply opacity-0;
+}
+
 .ant-form-vertical .ant-form-item-label {
   @apply pb-1;
 }

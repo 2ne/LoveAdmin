@@ -7,6 +7,7 @@ import {
   CalendarOutlined,
   EnvironmentOutlined,
   UserOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -501,38 +502,59 @@ function Contact(): ReactElement {
                 key="1"
                 className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-neural-200"
               >
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   <div>
-                    <div className="mb-1 text-xs text-neutral-500">
-                      First name
-                    </div>
-                    <div>James</div>
+                    <div className="text-xs text-neutral-500">First name</div>
+                    <Button type="text" block className="ant-btn-input">
+                      <span className="flex-grow text-left">James</span>
+                      <EditOutlined />
+                    </Button>
                   </div>
                   <div>
-                    <div className="mb-1 text-xs text-neutral-500">
-                      Last name
-                    </div>
-                    <div>Toone</div>
+                    <div className="text-xs text-neutral-500">Last name</div>
+                    <Button type="text" block className="ant-btn-input">
+                      <span className="flex-grow text-left">Toone</span>
+                      <EditOutlined />
+                    </Button>
                   </div>
                   <div>
-                    <div className="mb-1 text-xs text-neutral-500">
+                    <div className="text-xs text-neutral-500">
                       Date of birth
                     </div>
-                    <div>14 April 1986 · 37 years old</div>
+                    <Button type="text" block className="ant-btn-input">
+                      <span className="flex-grow text-left">
+                        14 April 1986
+                        <span className="text-neutral-500">
+                          <span className="mx-1.5">·</span>37 years old
+                        </span>
+                      </span>
+                      <EditOutlined />
+                    </Button>
                   </div>
                   <div>
-                    <div className="mb-1 text-xs text-neutral-500">Gender</div>
-                    <div>Male</div>
+                    <div className="text-xs text-neutral-500">Gender</div>
+                    <Button type="text" block className="ant-btn-input">
+                      <span className="flex-grow text-left">Male</span>
+                      <EditOutlined />
+                    </Button>
                   </div>
                   <div>
-                    <div className="mb-1 text-xs text-neutral-500">Email</div>
-                    <div>jamestoone@me.com</div>
+                    <div className="text-xs text-neutral-500">Email</div>
+                    <Button type="text" block className="ant-btn-input">
+                      <span className="flex-grow text-left">
+                        jamestoone@me.com
+                      </span>
+                      <EditOutlined />
+                    </Button>
                   </div>
                   <div>
-                    <div className="mb-1 text-xs text-neutral-500">
+                    <div className="text-xs text-neutral-500">
                       Contact number
                     </div>
-                    <div>07994884991</div>
+                    <Button type="text" block className="ant-btn-input">
+                      <span className="flex-grow text-left">07994884991</span>
+                      <EditOutlined />
+                    </Button>
                   </div>
                 </div>
               </Panel>

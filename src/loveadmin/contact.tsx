@@ -634,8 +634,7 @@ function Contact(): ReactElement {
               >
                 <div className="[&>*:not(:last-child)]:mb-5 mb-2">
                   <div className="space-y-1.5">
-                    <div className="font-medium">This is a note title</div>
-                    <div className="text-neutral-600">
+                    <div>
                       This is some note text. I am not sure how long a note
                       would be but this is just a guess.
                     </div>
@@ -644,8 +643,7 @@ function Contact(): ReactElement {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <div className="font-medium">This is a note title</div>
-                    <div className="text-neutral-600">
+                    <div>
                       This is some note text. I am not sure how long a note
                       would be but this is just a guess.
                     </div>

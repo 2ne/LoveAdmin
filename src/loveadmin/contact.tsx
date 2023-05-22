@@ -260,15 +260,15 @@ function Contact(): ReactElement {
   const tabs: TabsProps["items"] = [
     {
       key: "1",
-      label: `Activity`,
+      label: `Dashboard`,
       children: (
         <div className="py-6 pt-2 space-y-8">
           <section>
             <div>
               <Title level={5}>Finance</Title>
             </div>
-            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-4">
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Account balance
@@ -284,7 +284,7 @@ function Contact(): ReactElement {
                   <div className="">-100.00</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Invoiced
@@ -300,7 +300,7 @@ function Contact(): ReactElement {
                   <div className="">520.00</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Paid
@@ -316,7 +316,7 @@ function Contact(): ReactElement {
                   <div className="">400.00</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Credit notes
@@ -338,8 +338,8 @@ function Contact(): ReactElement {
             <div>
               <Title level={5}>Orders</Title>
             </div>
-            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-4">
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Upcoming renewals
@@ -352,7 +352,7 @@ function Contact(): ReactElement {
                   <div className="">2</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Awaiting approval
@@ -365,7 +365,7 @@ function Contact(): ReactElement {
                   <div className="">0</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Scheduled orders
@@ -378,7 +378,7 @@ function Contact(): ReactElement {
                   <div className="">1</div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-4 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
                     Completed
@@ -485,7 +485,9 @@ function Contact(): ReactElement {
           </div>
           <div className="pt-6 pb-10 text-center">
             <div className="mb-4">
-              <Avatar size="large">JT</Avatar>
+              <Avatar size="large" className="bg-indigo-500">
+                JT
+              </Avatar>
             </div>
             <div className="space-y-1">
               <div className="font-medium">James Toone</div>
@@ -503,60 +505,60 @@ function Contact(): ReactElement {
                 key="1"
                 className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
-                <div className="space-y-2.5">
-                  <div>
-                    <div className="text-xs text-neutral-500">First name</div>
-                    <Button type="text" block className="ant-btn-input">
-                      <span className="flex-grow text-left">James</span>
-                      <EditOutlined />
-                    </Button>
-                  </div>
-                  <div>
-                    <div className="text-xs text-neutral-500">Last name</div>
-                    <Button type="text" block className="ant-btn-input">
-                      <span className="flex-grow text-left">Toone</span>
-                      <EditOutlined />
-                    </Button>
-                  </div>
-                  <div>
-                    <div className="text-xs text-neutral-500">
-                      Date of birth
+                <div className="-mt-1.5 space-y-1">
+                  <Button type="text" block className="ant-btn-input">
+                    <div className="flex-grow text-left">
+                      <div className="text-xs mb-0.5 text-neutral-500">
+                        First name
+                      </div>
+                      <div>James</div>
                     </div>
-                    <Button type="text" block className="ant-btn-input">
-                      <span className="flex-grow text-left">
+                  </Button>
+                  <Button type="text" block className="ant-btn-input">
+                    <div className="flex-grow text-left">
+                      <div className="text-xs mb-0.5 text-neutral-500">
+                        Last name
+                      </div>
+                      <div>Toone</div>
+                    </div>
+                  </Button>
+                  <Button type="text" block className="ant-btn-input">
+                    <div className="flex-grow text-left">
+                      <div className="text-xs mb-0.5 text-neutral-500">
+                        Date of birth
+                      </div>
+                      <div>
                         14 April 1986
                         <span className="text-neutral-500">
                           <span className="mx-1.5">·</span>37 years old
                         </span>
-                      </span>
-                      <EditOutlined />
-                    </Button>
-                  </div>
-                  <div>
-                    <div className="text-xs text-neutral-500">Gender</div>
-                    <Button type="text" block className="ant-btn-input">
-                      <span className="flex-grow text-left">Male</span>
-                      <EditOutlined />
-                    </Button>
-                  </div>
-                  <div>
-                    <div className="text-xs text-neutral-500">Email</div>
-                    <Button type="text" block className="ant-btn-input">
-                      <span className="flex-grow text-left">
-                        jamestoone@me.com
-                      </span>
-                      <EditOutlined />
-                    </Button>
-                  </div>
-                  <div>
-                    <div className="text-xs text-neutral-500">
-                      Contact number
+                      </div>
                     </div>
-                    <Button type="text" block className="ant-btn-input">
-                      <span className="flex-grow text-left">07994884991</span>
-                      <EditOutlined />
-                    </Button>
-                  </div>
+                  </Button>
+                  <Button type="text" block className="ant-btn-input">
+                    <div className="flex-grow text-left">
+                      <div className="text-xs mb-0.5 text-neutral-500">
+                        Gender
+                      </div>
+                      <div>Male</div>
+                    </div>
+                  </Button>
+                  <Button type="text" block className="ant-btn-input">
+                    <div className="flex-grow text-left">
+                      <div className="text-xs mb-0.5 text-neutral-500">
+                        Email
+                      </div>
+                      <div>jamestoone@me.com</div>
+                    </div>
+                  </Button>
+                  <Button type="text" block className="ant-btn-input">
+                    <div className="flex-grow text-left">
+                      <div className="text-xs mb-0.5 text-neutral-500">
+                        Contact number
+                      </div>
+                      <div>07994884991</div>
+                    </div>
+                  </Button>
                 </div>
               </Panel>
               <Panel
@@ -630,11 +632,28 @@ function Contact(): ReactElement {
                 key="1"
                 className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
-                <div className="mb-1 font-medium">This is a note title</div>
-                <p className="text-neutral-600">
-                  This is some note text. I am not sure how long a note would be
-                  but this is just a guess.
-                </p>
+                <div className="[&>*:not(:last-child)]:mb-5 mb-2">
+                  <div className="space-y-1.5">
+                    <div className="font-medium">This is a note title</div>
+                    <div className="text-neutral-600">
+                      This is some note text. I am not sure how long a note
+                      would be but this is just a guess.
+                    </div>
+                    <div className="text-neutral-400">
+                      James Toone · 7 Feb 09:59
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <div className="font-medium">This is a note title</div>
+                    <div className="text-neutral-600">
+                      This is some note text. I am not sure how long a note
+                      would be but this is just a guess.
+                    </div>
+                    <div className="text-neutral-400">
+                      James Toone · 7 Feb 09:59
+                    </div>
+                  </div>
+                </div>
               </Panel>
             </Collapse>
           </div>

@@ -496,12 +496,12 @@ function Contact(): ReactElement {
             <Collapse
               defaultActiveKey={["1"]}
               size="small"
-              className="-mx-px rounded-none border-neutral-200"
+              className="-mx-px rounded-none !border-neutral-200"
             >
               <Panel
                 header="Contact details"
                 key="1"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <div className="space-y-2.5">
                   <div>
@@ -562,35 +562,35 @@ function Contact(): ReactElement {
               <Panel
                 header="Address"
                 key="2"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <p>1</p>
               </Panel>
               <Panel
                 header="Medical"
                 key="3"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <p>1</p>
               </Panel>
               <Panel
                 header="Emergency contacts"
                 key="4"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <p>1</p>
               </Panel>
               <Panel
                 header="Account owner"
                 key="5"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <p>1</p>
               </Panel>
               <Panel
                 header="Linked accounts"
                 key="6"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <p>1</p>
               </Panel>
@@ -610,7 +610,7 @@ function Contact(): ReactElement {
             <Collapse
               defaultActiveKey={["1"]}
               size="small"
-              className="-mx-px rounded-none border-neutral-200"
+              className="-mx-px rounded-none !border-neutral-200"
             >
               <Panel
                 header="Notes"
@@ -628,7 +628,7 @@ function Contact(): ReactElement {
                   </Button>
                 }
                 key="1"
-                className="px-2.5 bg-white rounded-none border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <div className="mb-1 font-medium">This is a note title</div>
                 <p className="text-neutral-600">

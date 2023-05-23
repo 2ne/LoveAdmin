@@ -358,9 +358,9 @@ function Contact(): ReactElement {
           </section>
           <section>
             <div>
-              <Title level={5}>Orders</Title>
+              <Title level={5}>Invoices</Title>
             </div>
-            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
+            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-3 gap-2 @2xl:gap-3">
               <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
                 <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                   <div className="truncate max-w-[calc(100%-1.25rem)]">
@@ -398,19 +398,6 @@ function Contact(): ReactElement {
                 </div>
                 <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
                   <div className="">1</div>
-                </div>
-              </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Completed
-                  </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
-                  <div className="">12</div>
                 </div>
               </div>
             </div>

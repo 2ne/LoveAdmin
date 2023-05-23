@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import {
   MenuOutlined,
   ArrowLeftOutlined,
@@ -9,6 +9,7 @@ import {
   UserOutlined,
   EditOutlined,
   PlusOutlined,
+  LeftOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -21,14 +22,35 @@ import {
   Collapse,
   Tabs,
   TabsProps,
-  Input,
 } from "antd";
 import { Link } from "react-router-dom";
 const { Title } = Typography;
-const { Header, Content } = Layout;
+const { Header, Sider, Content } = Layout;
 const { Panel } = Collapse;
 
 function Contact(): ReactElement {
+  const [collapsed, setCollapsed] = useState(false);
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1400) {
+        setCollapsed(true);
+      } else {
+        setCollapsed(false);
+      }
+    };
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const onChange = (key: string) => {
     console.log(key);
   };
@@ -607,12 +629,30 @@ function Contact(): ReactElement {
             rootClassName="ant-tabs-contact"
           />
         </Content>
-        <aside className="bg-white p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
-          <div className="-mx-3 -mt-[calc(0.625rem+1px)]">
+        <Sider
+          width={320}
+          trigger={null}
+          collapsible
+          collapsedWidth={20}
+          collapsed={collapsed}
+          className="sticky top-0 max-h-screen bg-white shadow-sm shadow-neutral-300 will-change-transform"
+        >
+          <Button
+            shape="circle"
+            onClick={toggleCollapsed}
+            className="fixed w-6 h-6 min-w-0 transition-all -translate-y-1/2 shadow-md -left-3 top-1/2 "
+          >
+            {!collapsed ? (
+              <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
+            ) : (
+              <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
+            )}
+          </Button>
+          <div className="">
             <Collapse
               defaultActiveKey={["1"]}
               size="small"
-              className="-mx-px rounded-none !border-neutral-200"
+              className="rounded-none !border-neutral-200 !border-l-0 !border-t-0"
             >
               <Panel
                 header="Notes"
@@ -630,7 +670,7 @@ function Contact(): ReactElement {
                   </Button>
                 }
                 key="1"
-                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
               >
                 <div className="[&>*:not(:last-child)]:mb-5 mb-2">
                   <div className="space-y-1.5">
@@ -655,7 +695,7 @@ function Contact(): ReactElement {
               </Panel>
             </Collapse>
           </div>
-        </aside>
+        </Sider>
       </Layout>
     </Layout>
   );

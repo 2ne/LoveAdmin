@@ -10,6 +10,10 @@ import {
   EditOutlined,
   PlusOutlined,
   LeftOutlined,
+  DeleteOutlined,
+  MailOutlined,
+  UsergroupAddOutlined,
+  CreditCardOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -284,136 +288,162 @@ function Contact(): ReactElement {
       key: "1",
       label: `Dashboard`,
       children: (
-        <div className="py-6 pt-2 space-y-8">
-          <section>
+        <div className="pt-2 pb-6">
+          <section className="flex items-end justify-between mb-4">
             <div>
-              <Title level={5}>Finance</Title>
+              <Title level={5} className="!mb-0">
+                Overview
+              </Title>
             </div>
-            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Account balance
-                  </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none text-danger-600">
-                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-danger-50 place-items-center">
-                    <span>£</span>
-                  </div>
-                  <div className="">-100.00</div>
-                </div>
-              </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Invoiced
-                  </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
-                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
-                    <span>£</span>
-                  </div>
-                  <div className="">520.00</div>
-                </div>
-              </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Paid
-                  </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
-                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
-                    <span>£</span>
-                  </div>
-                  <div className="">400.00</div>
-                </div>
-              </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Credit notes
-                  </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
-                  <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
-                    <span>£</span>
-                  </div>
-                  <div className="">20.00</div>
-                </div>
-              </div>
+            <div>
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item>Last 28 days</Menu.Item>
+                    <Menu.Item>Last 90 days</Menu.Item>
+                    <Menu.Item>Last 6 months</Menu.Item>
+                    <Menu.Item>Last 12 months</Menu.Item>
+                    <Menu.Divider></Menu.Divider>
+                    <Menu.Item>Select date range...</Menu.Item>
+                  </Menu>
+                }
+                trigger={["click"]}
+              >
+                <Button onClick={(e) => e.preventDefault()} className="px-3">
+                  <span>Last 12 months</span>
+                  <CalendarOutlined className="ml-2" />
+                </Button>
+              </Dropdown>
             </div>
           </section>
-          <section>
-            <div>
-              <Title level={5}>Invoices</Title>
-            </div>
-            <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-3 gap-2 @2xl:gap-3">
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Upcoming renewals
+          <div className="space-y-8">
+            <section>
+              <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
+                <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+                  <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                    <div className="truncate max-w-[calc(100%-1.25rem)]">
+                      Outstanding
+                    </div>
+                    <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
+                      <RightOutlined className="w-3 h-3" />
+                    </div>
                   </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
+                  <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none text-danger-600">
+                    <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-danger-50 place-items-center">
+                      <span>£</span>
+                    </div>
+                    <div className="">-100.00</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
-                  <div className="">2</div>
+                <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+                  <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                    <div className="truncate max-w-[calc(100%-1.25rem)]">
+                      Invoiced
+                    </div>
+                    <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
+                      <RightOutlined className="w-3 h-3" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
+                    <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                      <span>£</span>
+                    </div>
+                    <div className="">520.00</div>
+                  </div>
+                </div>
+                <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+                  <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                    <div className="truncate max-w-[calc(100%-1.25rem)]">
+                      Paid
+                    </div>
+                    <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
+                      <RightOutlined className="w-3 h-3" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
+                    <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                      <span>£</span>
+                    </div>
+                    <div className="">400.00</div>
+                  </div>
+                </div>
+                <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+                  <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                    <div className="truncate max-w-[calc(100%-1.25rem)]">
+                      Credit notes
+                    </div>
+                    <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
+                      <RightOutlined className="w-3 h-3" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
+                    <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
+                      <span>£</span>
+                    </div>
+                    <div className="">20.00</div>
+                  </div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Awaiting approval
+            </section>
+            <section>
+              <div>
+                <Title level={5}>Invoices</Title>
+              </div>
+              <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-3 gap-2 @2xl:gap-3">
+                <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+                  <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                    <div className="truncate max-w-[calc(100%-1.25rem)]">
+                      Upcoming renewals
+                    </div>
+                    <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
+                      <RightOutlined className="w-3 h-3" />
+                    </div>
                   </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
+                  <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
+                    <div className="">2</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
-                  <div className="">0</div>
+                <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+                  <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                    <div className="truncate max-w-[calc(100%-1.25rem)]">
+                      Awaiting approval
+                    </div>
+                    <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
+                      <RightOutlined className="w-3 h-3" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
+                    <div className="">0</div>
+                  </div>
+                </div>
+                <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
+                  <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+                    <div className="truncate max-w-[calc(100%-1.25rem)]">
+                      Scheduled orders
+                    </div>
+                    <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
+                      <RightOutlined className="w-3 h-3" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
+                    <div className="">1</div>
+                  </div>
                 </div>
               </div>
-              <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-                <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
-                  <div className="truncate max-w-[calc(100%-1.25rem)]">
-                    Scheduled orders
-                  </div>
-                  <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
-                    <RightOutlined className="w-3 h-3" />
-                  </div>
-                </div>
-                <div className="flex items-center gap-2.5 h-8 text-xl font-medium leading-none">
-                  <div className="">1</div>
-                </div>
+            </section>
+            <section>
+              <div>
+                <Title level={5}>Active products</Title>
               </div>
-            </div>
-          </section>
-          <section>
-            <div>
-              <Title level={5}>Active products</Title>
-            </div>
-            <div className="grid gap-4 transition-all bg-white shadow-sm">
-              <Tabs
-                defaultActiveKey="1"
-                items={activeProducts}
-                onChange={onChange}
-              />
-            </div>
-          </section>
+              <div className="grid gap-4 transition-all bg-white shadow-sm">
+                <Tabs
+                  defaultActiveKey="1"
+                  items={activeProducts}
+                  onChange={onChange}
+                />
+              </div>
+            </section>
+          </div>
         </div>
       ),
     },
@@ -469,7 +499,7 @@ function Contact(): ReactElement {
         </div>
       </Header>
       <Layout hasSider={true}>
-        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[400px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
+        <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[320px] 2xl:max-w-[340px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
           <div className="flex items-center justify-between">
             <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
               <Link to="/Contacts" className="ml-2">
@@ -479,9 +509,27 @@ function Contact(): ReactElement {
             <Dropdown
               overlay={
                 <Menu>
-                  <Menu.Item>Menu Item 1</Menu.Item>
-                  <Menu.Item>Menu Item 2</Menu.Item>
-                  <Menu.Item>Menu Item 3</Menu.Item>
+                  <Menu.Item>
+                    <MailOutlined className="relative mr-3 top-px" />
+                    Message
+                  </Menu.Item>
+                  <Menu.Item>
+                    <PlusOutlined className="mr-3" />
+                    Add to...
+                  </Menu.Item>
+                  <Menu.Item>
+                    <UsergroupAddOutlined className="mr-3" />
+                    Invite to...
+                  </Menu.Item>
+                  <Menu.Item>
+                    <CreditCardOutlined className="mr-3" />
+                    Request payment
+                  </Menu.Item>
+                  <Menu.Divider></Menu.Divider>
+                  <Menu.Item className="text-red-500">
+                    <DeleteOutlined className="mr-3" />
+                    Mark as inactive
+                  </Menu.Item>
                 </Menu>
               }
               trigger={["click"]}
@@ -609,15 +657,17 @@ function Contact(): ReactElement {
           </div>
         </aside>
         <Content className="px-6 @2xl:px-8 @container">
-          <Tabs
-            defaultActiveKey="1"
-            items={tabs}
-            onChange={onChange}
-            rootClassName="ant-tabs-contact"
-          />
+          <div className="max-w-screen-lg mx-auto">
+            <Tabs
+              defaultActiveKey="1"
+              items={tabs}
+              onChange={onChange}
+              rootClassName="ant-tabs-contact"
+            />
+          </div>
         </Content>
         <Sider
-          width={320}
+          width={340}
           trigger={null}
           collapsible
           collapsedWidth={20}
@@ -627,7 +677,7 @@ function Contact(): ReactElement {
           <Button
             shape="circle"
             onClick={toggleCollapsed}
-            className="fixed w-6 h-6 min-w-0 transition-all -translate-y-1/2 shadow-md -left-3 top-1/2 "
+            className="fixed w-6 h-6 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md -left-3 top-1/2"
           >
             {!collapsed ? (
               <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
@@ -635,53 +685,55 @@ function Contact(): ReactElement {
               <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
             )}
           </Button>
-          <div className="">
-            <Collapse
-              defaultActiveKey={["1"]}
-              size="small"
-              className="rounded-none !border-neutral-200 !border-l-0 !border-t-0"
-            >
-              <Panel
-                header="Notes"
-                extra={
-                  <Button
-                    type="primary"
-                    size="small"
-                    className="-mr-1.5"
-                    icon={<PlusOutlined />}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                    }}
-                  >
-                    Add note
-                  </Button>
-                }
-                key="1"
-                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+          {!collapsed && (
+            <div>
+              <Collapse
+                defaultActiveKey={["1"]}
+                size="small"
+                className="rounded-none !border-neutral-200 !border-l-0 !border-t-0 !border-r-0"
               >
-                <div className="[&>*:not(:last-child)]:mb-5 mb-2">
-                  <div className="space-y-1.5">
-                    <div>
-                      This is some note text. I am not sure how long a note
-                      would be but this is just a guess.
+                <Panel
+                  header="Notes"
+                  extra={
+                    <Button
+                      type="primary"
+                      size="small"
+                      className="-mr-1.5"
+                      icon={<PlusOutlined />}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
+                    >
+                      Add note
+                    </Button>
+                  }
+                  key="1"
+                  className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+                >
+                  <div className="[&>*:not(:last-child)]:mb-5 mb-2">
+                    <div className="space-y-1.5">
+                      <div>
+                        This is some note text. I am not sure how long a note
+                        would be but this is just a guess.
+                      </div>
+                      <div className="text-neutral-400">
+                        James Toone · 7 Feb 09:59
+                      </div>
                     </div>
-                    <div className="text-neutral-400">
-                      James Toone · 7 Feb 09:59
+                    <div className="space-y-1.5">
+                      <div>
+                        This is some note text. I am not sure how long a note
+                        would be but this is just a guess.
+                      </div>
+                      <div className="text-neutral-400">
+                        James Toone · 7 Feb 09:59
+                      </div>
                     </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <div>
-                      This is some note text. I am not sure how long a note
-                      would be but this is just a guess.
-                    </div>
-                    <div className="text-neutral-400">
-                      James Toone · 7 Feb 09:59
-                    </div>
-                  </div>
-                </div>
-              </Panel>
-            </Collapse>
-          </div>
+                </Panel>
+              </Collapse>
+            </div>
+          )}
         </Sider>
       </Layout>
     </Layout>

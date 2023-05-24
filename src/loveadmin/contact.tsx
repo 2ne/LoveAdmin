@@ -7,7 +7,6 @@ import {
   CalendarOutlined,
   EnvironmentOutlined,
   UserOutlined,
-  EditOutlined,
   PlusOutlined,
   LeftOutlined,
   DeleteOutlined,
@@ -540,7 +539,7 @@ function Contact(): ReactElement {
               </Button>
             </Dropdown>
           </div>
-          <div className="pt-6 pb-10 text-center">
+          <div className="pt-4 pb-8 text-center">
             <div className="mb-4">
               <Avatar size="large" className="bg-indigo-500">
                 JT

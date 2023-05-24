@@ -13,6 +13,8 @@ import {
   MailOutlined,
   UsergroupAddOutlined,
   CreditCardOutlined,
+  WarningOutlined,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -625,7 +627,32 @@ function Contact(): ReactElement {
                 <p>1</p>
               </Panel>
               <Panel
-                header="Medical"
+                header={
+                  <>
+                    Manadate
+                    <span className="text-neutral-500">
+                      <span className="mx-1.5">·</span>Active
+                    </span>
+                  </>
+                }
+                extra={
+                  <CheckCircleOutlined className="-mr-1 text-primary-500" />
+                }
+                key="3"
+                className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+              >
+                <p>1</p>
+              </Panel>
+              <Panel
+                header={
+                  <>
+                    Medical
+                    <span className="text-neutral-500">
+                      <span className="mx-1.5">·</span>2 conditions
+                    </span>
+                  </>
+                }
+                extra={<WarningOutlined className="-mr-1 text-danger-500" />}
                 key="3"
                 className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
@@ -646,7 +673,14 @@ function Contact(): ReactElement {
                 <p>1</p>
               </Panel>
               <Panel
-                header="Linked accounts"
+                header={
+                  <>
+                    Linked accounts
+                    <span className="text-neutral-500">
+                      <span className="mx-1.5">·</span>2
+                    </span>
+                  </>
+                }
                 key="6"
                 className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >

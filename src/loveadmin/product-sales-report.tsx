@@ -126,10 +126,7 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a
-            href="#"
-            className="text-neutral-900 tabular-nums"
-          >{`£${text.toFixed(2)}`}</a>
+          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -142,10 +139,7 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a
-            href="#"
-            className="text-neutral-900 tabular-nums"
-          >{`£${text.toFixed(2)}`}</a>
+          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -158,10 +152,7 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a
-            href="#"
-            className="text-neutral-900 tabular-nums"
-          >{`£${text.toFixed(2)}`}</a>
+          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -174,10 +165,7 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a
-            href="#"
-            className="text-neutral-900 tabular-nums"
-          >{`£${text.toFixed(2)}`}</a>
+          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
         ),
     },
     {
@@ -190,10 +178,7 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a
-            href="#"
-            className="text-neutral-900 tabular-nums"
-          >{`£${text.toFixed(2)}`}</a>
+          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
         ),
     },
   ];
@@ -335,7 +320,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900 tabular-nums"
+                              className="tabular-nums"
                             >{`£${totalInvoiced.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -349,7 +334,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900 tabular-nums"
+                              className="tabular-nums"
                             >{`£${totalReceived.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -363,7 +348,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900 tabular-nums"
+                              className="tabular-nums"
                             >{`£${totalPending.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -377,7 +362,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900 tabular-nums"
+                              className="tabular-nums"
                             >{`£${totalOutstanding.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -391,7 +376,7 @@ function ProductSalesReport(): ReactElement {
                           ) : (
                             <a
                               href="#"
-                              className="text-neutral-900 tabular-nums"
+                              className="tabular-nums"
                             >{`£${totalCredits.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>

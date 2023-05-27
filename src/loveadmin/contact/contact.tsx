@@ -168,9 +168,10 @@ function Contact(): ReactElement {
             <ContactDetails />
           </div>
         </aside>
-        <Content className="px-6 @2xl:px-8 @container">
+        <Content className="px-6 py-3 @2xl:px-8 @container">
           <div className="max-w-screen-lg mx-auto">
             <Tabs
+              type="card"
               defaultActiveKey="1"
               items={tabs}
               onChange={onChange}

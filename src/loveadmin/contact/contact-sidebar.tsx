@@ -45,6 +45,48 @@ function ContactSidebar(): ReactElement {
           </div>
         </div>
       </Panel>
+      <Panel
+        header="Consents"
+        key="2"
+        className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+      >
+        <p>1</p>
+      </Panel>
+      <Panel
+        header="Forms"
+        key="3"
+        className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+      >
+        <p>1</p>
+      </Panel>
+      <Panel
+        header="Shared files"
+        key="4"
+        className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+      >
+        <p>1</p>
+      </Panel>
+      <Panel
+        header="Product invitations"
+        key="5"
+        className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+      >
+        <p>1</p>
+      </Panel>
+      <Panel
+        header="Roles"
+        key="6"
+        className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+      >
+        <p>1</p>
+      </Panel>
+      <Panel
+        header="Timeline"
+        key="7"
+        className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
+      >
+        <p>1</p>
+      </Panel>
     </Collapse>
   );
 }

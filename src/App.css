@@ -52,7 +52,7 @@ h5.ant-typography {
 }
 
 .ant-form-vertical .ant-form-item-label {
-  @apply pb-1;
+  @apply pb-1 font-medium;
 }
 
 .ant-form-vertical .ant-form-item-extra {

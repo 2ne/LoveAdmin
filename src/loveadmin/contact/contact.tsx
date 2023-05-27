@@ -1,12 +1,9 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import {
   MenuOutlined,
   ArrowLeftOutlined,
   DownOutlined,
   RightOutlined,
-  CalendarOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
   PlusOutlined,
   LeftOutlined,
   DeleteOutlined,
@@ -15,6 +12,10 @@ import {
   CreditCardOutlined,
   WarningOutlined,
   CheckCircleOutlined,
+  CheckCircleFilled,
+  PlusCircleFilled,
+  CloseCircleFilled,
+  CloseOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -27,6 +28,10 @@ import {
   Collapse,
   Tabs,
   TabsProps,
+  Popover,
+  Form,
+  Input,
+  InputRef,
 } from "antd";
 import { Link } from "react-router-dom";
 import ContactDashboard from "./dashboard";
@@ -35,6 +40,10 @@ const { Header, Sider, Content } = Layout;
 const { Panel } = Collapse;
 
 function Contact(): ReactElement {
+  const [open, setOpen] = useState(false);
+  const [form] = Form.useForm();
+  const [firstName, setName] = useState("James");
+
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -88,6 +97,55 @@ function Contact(): ReactElement {
       children: <div>Development programme</div>,
     },
   ];
+
+  const hide = () => {
+    setOpen(false);
+  };
+
+  const handleOpenChange = (
+    open: boolean | ((prevState: boolean) => boolean)
+  ) => {
+    setOpen(open);
+  };
+
+  const onFinish = (values: { firstName: React.SetStateAction<string> }) => {
+    setName(values.firstName);
+    hide();
+  };
+
+  const content = (
+    <div className="p-1 pb-2 min-w-[14.5rem]">
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        className="flex items-end gap-2 [&_.ant-form-item-has-error+.ant-form-item_.ant-btn]:top-[-1.35rem]"
+        requiredMark={false}
+      >
+        <Form.Item
+          name="firstName"
+          initialValue={firstName}
+          label="First name"
+          className="!mb-0 flex-grow"
+          rules={[{ required: true, message: "Please enter a first name" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item className="!mb-0">
+          <Button
+            type="text"
+            htmlType="submit"
+            icon={
+              <CheckCircleFilled className="[&>svg]:h-[1.1rem] [&>svg]:w-[1.1rem] group-hover:text-primary-400 transition-colors" />
+            }
+            shape="circle"
+            size="small"
+            className="text-primary-500 !px-0 hover:!bg-transparent group"
+          ></Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
 
   return (
     <Layout className="min-h-screen">
@@ -183,14 +241,22 @@ function Contact(): ReactElement {
                 className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
               >
                 <div className="-mt-1.5 space-y-1">
-                  <Button type="text" block className="ant-btn-input">
-                    <div className="flex-grow text-left">
-                      <div className="text-xs mb-0.5 text-neutral-500">
-                        First name
+                  <Popover
+                    content={content}
+                    trigger="click"
+                    open={open}
+                    onOpenChange={handleOpenChange}
+                    placement="right"
+                  >
+                    <Button type="text" block className="ant-btn-input">
+                      <div className="flex-grow text-left">
+                        <div className="text-xs mb-0.5 text-neutral-500">
+                          First name
+                        </div>
+                        <div>{firstName}</div>
                       </div>
-                      <div>James</div>
-                    </div>
-                  </Button>
+                    </Button>
+                  </Popover>
                   <Button type="text" block className="ant-btn-input">
                     <div className="flex-grow text-left">
                       <div className="text-xs mb-0.5 text-neutral-500">

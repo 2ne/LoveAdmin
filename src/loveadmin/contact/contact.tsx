@@ -20,14 +20,20 @@ import {
   Menu,
   Tabs,
   TabsProps,
+  Modal,
+  Typography,
 } from "antd";
 import { Link } from "react-router-dom";
 import ContactDashboard from "./dashboard";
 import ContactDetails from "./contact-details";
 import ContactSidebar from "./contact-sidebar";
 const { Header, Sider, Content } = Layout;
+const { Title } = Typography;
+interface ContactProps {
+  renderInModal?: boolean;
+}
 
-function Contact(): ReactElement {
+function Contact({ renderInModal = true }: ContactProps): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -82,89 +88,111 @@ function Contact(): ReactElement {
     },
   ];
 
-  return (
+  const actions = (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item>
+            <MailOutlined className="relative mr-3 top-px" />
+            Message
+          </Menu.Item>
+          <Menu.Item>
+            <PlusOutlined className="mr-3" />
+            Add to...
+          </Menu.Item>
+          <Menu.Item>
+            <UsergroupAddOutlined className="mr-3" />
+            Invite to...
+          </Menu.Item>
+          <Menu.Item>
+            <CreditCardOutlined className="mr-3" />
+            Request payment
+          </Menu.Item>
+          <Menu.Divider></Menu.Divider>
+          <Menu.Item className="text-red-500">
+            <DeleteOutlined className="mr-3" />
+            Mark as inactive
+          </Menu.Item>
+        </Menu>
+      }
+      trigger={["click"]}
+    >
+      <Button
+        type="text"
+        onClick={(e) => e.preventDefault()}
+        className="px-2.5"
+      >
+        <span>Actions</span>
+        <DownOutlined className="ml-1.5 [&>svg]:mt-px [&>svg]:w-3 [&>svg]:h-3" />
+      </Button>
+    </Dropdown>
+  );
+
+  const content = (
     <Layout className="min-h-screen">
-      <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
-        <Button
-          type="text"
-          shape="circle"
-          icon={<MenuOutlined />}
-          className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
-        />
-        <div className="flex flex-col justify-center gap-2">
-          <div className="flex">
-            <img
-              src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
-              className="object-contain h-[14px] ml-px"
-            />
+      {!renderInModal && (
+        <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
+          <Button
+            type="text"
+            shape="circle"
+            icon={<MenuOutlined />}
+            className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
+          />
+          <div className="flex flex-col justify-center gap-2">
+            <div className="flex">
+              <img
+                src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
+                className="object-contain h-[14px] ml-px"
+              />
+            </div>
+            <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Home
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="cursor-pointer hover:underline">
+                Contacts
+              </Breadcrumb.Item>
+              <Breadcrumb.Item className="text-neutral-50">
+                James Toone
+              </Breadcrumb.Item>
+            </Breadcrumb>
           </div>
-          <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Home
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Contacts
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="text-neutral-50">
-              James Toone
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </Header>
+        </Header>
+      )}
       <Layout hasSider={true}>
         <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[340px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">
-          <div className="flex items-center justify-between">
-            <Button type="link" icon={<ArrowLeftOutlined />} className="-ml-1">
-              <Link to="/Contacts" className="ml-2">
-                Contacts
-              </Link>
-            </Button>
-            <Dropdown
-              overlay={
-                <Menu>
-                  <Menu.Item>
-                    <MailOutlined className="relative mr-3 top-px" />
-                    Message
-                  </Menu.Item>
-                  <Menu.Item>
-                    <PlusOutlined className="mr-3" />
-                    Add to...
-                  </Menu.Item>
-                  <Menu.Item>
-                    <UsergroupAddOutlined className="mr-3" />
-                    Invite to...
-                  </Menu.Item>
-                  <Menu.Item>
-                    <CreditCardOutlined className="mr-3" />
-                    Request payment
-                  </Menu.Item>
-                  <Menu.Divider></Menu.Divider>
-                  <Menu.Item className="text-red-500">
-                    <DeleteOutlined className="mr-3" />
-                    Mark as inactive
-                  </Menu.Item>
-                </Menu>
-              }
-              trigger={["click"]}
-            >
-              <Button type="text" onClick={(e) => e.preventDefault()}>
-                <span>Actions</span>
-                <DownOutlined className="ml-1.5 [&>svg]:mt-px [&>svg]:w-3 [&>svg]:h-3" />
-              </Button>
-            </Dropdown>
-          </div>
-          <div className="pt-4 pb-8 text-center">
-            <div className="mb-4">
-              <Avatar size="large" className="bg-indigo-500">
-                JT
-              </Avatar>
-            </div>
-            <div className="space-y-1">
-              <div className="font-medium">James Toone</div>
-              <div className="text-neutral-500">jamestoone@gmail.com</div>
-            </div>
-          </div>
-          <div className="-mx-3">
+          {!renderInModal && (
+            <>
+              <div className="flex items-center justify-between">
+                <Button
+                  type="link"
+                  icon={<ArrowLeftOutlined />}
+                  className="-ml-1"
+                >
+                  <Link to="/Contacts" className="ml-2">
+                    Contacts
+                  </Link>
+                </Button>
+                {actions}
+              </div>
+              <div className="pt-4 pb-8 text-center">
+                <div className="mb-4">
+                  <Avatar size="large" className="bg-indigo-500">
+                    JT
+                  </Avatar>
+                </div>
+                <div className="space-y-1">
+                  <div className="font-medium">James Toone</div>
+                  <div className="text-neutral-500">jamestoone@gmail.com</div>
+                </div>
+              </div>
+            </>
+          )}
+          <div
+            className={`-mx-3 ${
+              renderInModal ? "mt-[calc(-0.625rem-1px)]" : ""
+            }`}
+          >
             <ContactDetails />
           </div>
         </aside>
@@ -203,6 +231,31 @@ function Contact(): ReactElement {
       </Layout>
     </Layout>
   );
+
+  if (renderInModal) {
+    return (
+      <Modal
+        title={
+          <div className="flex items-center gap-2.5">
+            <Avatar size="small" className="bg-indigo-500">
+              <span className="text-xs">JT</span>
+            </Avatar>
+            <Title level={5} className="mb-0">
+              James Toone
+            </Title>
+            <div>{actions}</div>
+          </div>
+        }
+        open={true}
+        footer={null}
+        rootClassName="ant-modal-fullscreen"
+      >
+        {content}
+      </Modal>
+    );
+  }
+
+  return content;
 }
 
 export default Contact;

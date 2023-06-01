@@ -110,3 +110,15 @@ h5.ant-typography {
 .ant-tabs-contact > .ant-tabs-nav::before {
   @apply !border-b-neutral-300;
 }
+
+.ant-modal-fullscreen .ant-modal {
+  @apply !w-full !max-w-none !p-0 !inset-0;
+}
+
+.ant-modal-fullscreen .ant-modal .ant-modal-header {
+  @apply !mb-0 !rounded-none !h-14 border-solid border-0 !border-b !border-b-neutral-200 !py-3 !px-4;
+}
+
+.ant-modal-fullscreen .ant-modal .ant-modal-content {
+  @apply !rounded-none !shadow-none !p-0;
+}

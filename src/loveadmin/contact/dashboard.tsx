@@ -15,6 +15,7 @@ import {
   CreditCardOutlined,
   WarningOutlined,
   CheckCircleOutlined,
+  WarningFilled,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -27,6 +28,7 @@ import {
   Collapse,
   Tabs,
   TabsProps,
+  Alert,
 } from "antd";
 import { Link } from "react-router-dom";
 const { Title } = Typography;
@@ -264,6 +266,34 @@ function ContactDashboard(): ReactElement {
 
   return (
     <div className="pt-2 pb-6">
+      <div className="mb-4">
+        <Alert
+          message="Mandate has been cancelled"
+          type="error"
+          showIcon
+          icon={<WarningFilled />}
+          closable
+          className="mb-3"
+          action={
+            <Button size="small" type="text">
+              View details
+            </Button>
+          }
+        />
+        <Alert
+          message="New medical condition"
+          type="error"
+          showIcon
+          icon={<WarningFilled />}
+          closable
+          className="mb-3"
+          action={
+            <Button size="small" type="text">
+              View details
+            </Button>
+          }
+        />
+      </div>
       <section className="flex items-end justify-between mb-4">
         <div>
           <Title level={5} className="!mb-0">

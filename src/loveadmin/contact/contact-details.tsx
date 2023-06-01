@@ -1,6 +1,7 @@
 import {
   CheckCircleFilled,
   CheckCircleOutlined,
+  CheckOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
 import { Collapse, Popover, Button, Form, Input } from "antd";
@@ -27,13 +28,13 @@ function ContactDetails(): ReactElement {
     hide();
   };
 
-  const content = (
+  const editDetailContent = (
     <div className="p-1 pb-2 min-w-[14.5rem]">
       <Form
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        className="flex items-end gap-2 [&_.ant-form-item-has-error+.ant-form-item_.ant-btn]:top-[-1.35rem]"
+        className="flex items-end gap-2 [&_.ant-form-item-has-error+.ant-form-item_.ant-btn]:top-[-1.375rem]"
         requiredMark={false}
       >
         <Form.Item
@@ -47,14 +48,9 @@ function ContactDetails(): ReactElement {
         </Form.Item>
         <Form.Item className="!mb-0">
           <Button
-            type="text"
+            type="primary"
             htmlType="submit"
-            icon={
-              <CheckCircleFilled className="[&>svg]:h-[1.1rem] [&>svg]:w-[1.1rem] group-hover:text-primary-400 transition-colors" />
-            }
-            shape="circle"
-            size="small"
-            className="text-primary-500 !px-0 hover:!bg-transparent group"
+            icon={<CheckOutlined />}
           ></Button>
         </Form.Item>
       </Form>
@@ -74,7 +70,7 @@ function ContactDetails(): ReactElement {
       >
         <div className="-mt-1.5 space-y-1">
           <Popover
-            content={content}
+            content={editDetailContent}
             trigger="click"
             open={open}
             onOpenChange={handleOpenChange}

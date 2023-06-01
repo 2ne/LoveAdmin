@@ -99,14 +99,14 @@ h5.ant-typography {
   @apply !text-primary-500;
 }
 
-.ant-tabs.ant-tabs-contact > .ant-tabs-nav .ant-tabs-tab {
+.ant-tabs-contact > .ant-tabs-nav .ant-tabs-tab {
   @apply !ml-0 !rounded-none !-mr-px !border-neutral-200;
 }
 
-.ant-tabs.ant-tabs-contact > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active {
+.ant-tabs-contact > .ant-tabs-nav .ant-tabs-tab.ant-tabs-tab-active {
   @apply !bg-transparent !border-neutral-300 !border-b-neutral-100 z-10;
 }
 
-.ant-tabs.ant-tabs-contact > .ant-tabs-nav::before {
+.ant-tabs-contact > .ant-tabs-nav::before {
   @apply !border-b-neutral-300;
 }

@@ -413,6 +413,7 @@ function ContactDashboard(): ReactElement {
               defaultActiveKey="1"
               items={activeProducts}
               onChange={onChange}
+              className="min-w-0"
             />
           </div>
         </section>

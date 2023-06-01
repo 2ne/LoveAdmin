@@ -238,7 +238,7 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
         title={
           <div className="flex items-center gap-2.5">
             <Avatar size="small" className="bg-indigo-500">
-              <span className="text-xs">JT</span>
+              <span className="relative text-xs -top-px">JT</span>
             </Avatar>
             <Title level={5} className="mb-0">
               James Toone

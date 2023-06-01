@@ -50,11 +50,11 @@ function Contact(): ReactElement {
     };
   }, []);
 
-  const onChange = (key: string) => {
+  const onTabsContactChange = (key: string) => {
     console.log(key);
   };
 
-  const tabs: TabsProps["items"] = [
+  const contactTabs: TabsProps["items"] = [
     {
       key: "1",
       label: `Dashboard`,
@@ -173,8 +173,8 @@ function Contact(): ReactElement {
             <Tabs
               type="card"
               defaultActiveKey="1"
-              items={tabs}
-              onChange={onChange}
+              items={contactTabs}
+              onChange={onTabsContactChange}
               rootClassName="ant-tabs-contact"
             />
           </div>

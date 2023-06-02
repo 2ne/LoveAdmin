@@ -248,7 +248,7 @@ function ContactDashboard(): ReactElement {
 
   return (
     <div className="pt-2 pb-6">
-      <div className="mb-4">
+      <div className="mb-4 empty:mb-0">
         <Alert
           message="Mandate has been cancelled"
           type="error"

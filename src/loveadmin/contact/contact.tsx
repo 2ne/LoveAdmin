@@ -33,7 +33,7 @@ interface ContactProps {
   renderInModal?: boolean;
 }
 
-function Contact({ renderInModal = true }: ContactProps): ReactElement {
+function Contact({ renderInModal = false }: ContactProps): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -118,9 +118,9 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
       trigger={["click"]}
     >
       <Button
-        type="text"
+        type={!renderInModal ? "text" : "default"}
         onClick={(e) => e.preventDefault()}
-        className="px-2.5"
+        className={!renderInModal ? "" : "ml-2"}
       >
         <span>Actions</span>
         <DownOutlined className="ml-1.5 [&>svg]:mt-px [&>svg]:w-3 [&>svg]:h-3" />
@@ -213,7 +213,7 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
           collapsible
           collapsedWidth={20}
           collapsed={collapsed}
-          className="sticky top-0 max-h-screen bg-white shadow-sm shadow-neutral-300 will-change-transform"
+          className="min-h-screen bg-white shadow-sm shadow-neutral-300 will-change-transform"
         >
           <Button
             shape="circle"

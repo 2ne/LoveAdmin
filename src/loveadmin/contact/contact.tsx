@@ -213,12 +213,14 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
           collapsible
           collapsedWidth={20}
           collapsed={collapsed}
-          className="min-h-screen bg-white shadow-sm shadow-neutral-300 will-change-transform"
+          className="min-h-screen bg-white shadow-sm shadow-neutral-300"
         >
           <Button
             shape="circle"
             onClick={toggleCollapsed}
-            className="fixed w-6 h-6 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md -left-3 top-1/2"
+            className={`fixed w-6 h-6 top-1/2 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md ${
+              collapsed ? " right-[25px] " : " right-[346px] "
+            }`}
           >
             {!collapsed ? (
               <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
@@ -226,6 +228,7 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
               <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
             )}
           </Button>
+
           {!collapsed && <ContactSidebar />}
         </Sider>
       </Layout>

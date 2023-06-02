@@ -1,39 +1,21 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import {
-  MenuOutlined,
-  ArrowLeftOutlined,
-  DownOutlined,
   RightOutlined,
   CalendarOutlined,
   EnvironmentOutlined,
   UserOutlined,
-  PlusOutlined,
-  LeftOutlined,
-  DeleteOutlined,
-  MailOutlined,
-  UsergroupAddOutlined,
-  CreditCardOutlined,
-  WarningOutlined,
-  CheckCircleOutlined,
   WarningFilled,
 } from "@ant-design/icons";
 import {
-  Avatar,
-  Layout,
   Typography,
   Button,
-  Breadcrumb,
   Dropdown,
   Menu,
-  Collapse,
   Tabs,
   TabsProps,
   Alert,
 } from "antd";
-import { Link } from "react-router-dom";
 const { Title } = Typography;
-const { Header, Sider, Content } = Layout;
-const { Panel } = Collapse;
 
 function ContactDashboard(): ReactElement {
   const activeProducts: TabsProps["items"] = [

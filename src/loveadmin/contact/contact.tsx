@@ -27,6 +27,10 @@ import { Link } from "react-router-dom";
 import ContactDashboard from "./dashboard";
 import ContactDetails from "./contact-details";
 import ContactSidebar from "./contact-sidebar";
+import Finance from "./finance";
+import Messaging from "./messaging";
+import Attendance from "./Attendance";
+import DevelopmentProgramme from "./development-programme";
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 interface ContactProps {
@@ -41,12 +45,9 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 1400) {
-        setCollapsed(true);
-      } else {
-        setCollapsed(false);
-      }
+      setCollapsed(window.innerWidth < 1400);
     };
+
     handleResize();
 
     window.addEventListener("resize", handleResize);
@@ -69,22 +70,22 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
     {
       key: "2",
       label: `Finance`,
-      children: <div>Finance</div>,
+      children: <Finance />,
     },
     {
       key: "3",
       label: `Messaging`,
-      children: <div>Messaging</div>,
+      children: <Messaging />,
     },
     {
       key: "4",
       label: `Attendance`,
-      children: <div>Attendance</div>,
+      children: <Attendance />,
     },
     {
       key: "5",
       label: `Development programme`,
-      children: <div>Development programme</div>,
+      children: <DevelopmentProgramme />,
     },
   ];
 

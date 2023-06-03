@@ -15,5 +15,7 @@
   },
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "CodeGPT.organizationId": "org-ZsGa5saw9W04HvRPgp3pdWg7",
+  "CodeGPT.model": "gpt-4"
 }

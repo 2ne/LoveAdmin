@@ -1,5 +1,4 @@
 import {
-  CheckCircleFilled,
   CheckCircleOutlined,
   CheckOutlined,
   WarningOutlined,

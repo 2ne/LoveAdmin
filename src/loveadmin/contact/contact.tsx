@@ -29,8 +29,9 @@ import ContactDetails from "./contact-details";
 import ContactSidebar from "./contact-sidebar";
 import Finance from "./finance";
 import Messaging from "./messaging";
-import Attendance from "./Attendance";
+import Attendance from "./attendance";
 import DevelopmentProgramme from "./development-programme";
+import useScrollBarWidth from "../../components/useScrollBarWidth";
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 interface ContactProps {
@@ -42,6 +43,8 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
+
+  const scrollbarWidth = useScrollBarWidth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -219,9 +222,12 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
           <Button
             shape="circle"
             onClick={toggleCollapsed}
-            className={`fixed w-6 h-6 top-1/2 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md ${
-              collapsed ? " right-[25px] " : " right-[346px] "
-            }`}
+            style={{
+              right: collapsed
+                ? `calc(8px + ${scrollbarWidth}px)`
+                : `calc(328px + ${scrollbarWidth}px)`,
+            }}
+            className="fixed w-6 h-6 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md top-1/2"
           >
             {!collapsed ? (
               <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
@@ -229,7 +235,6 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
               <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
             )}
           </Button>
-
           {!collapsed && <ContactSidebar />}
         </Sider>
       </Layout>

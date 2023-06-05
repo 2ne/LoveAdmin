@@ -426,7 +426,7 @@ function Contacts(): ReactElement {
                       <Menu>
                         <Menu.Item key="1" onClick={hideContextMenu}>
                           <CreditCardOutlined className="mr-3" /> Request
-                          one-off payment
+                          payment
                         </Menu.Item>
                         <Menu.Item
                           key="2"

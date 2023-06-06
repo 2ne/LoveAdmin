@@ -301,9 +301,11 @@ const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
           </div>
           <footer className="flex items-center transition-all py-2.5 px-2 bg-white">
             <div className="flex items-center gap-2 ml-auto">
-              <Button size="small">Edit columns</Button>
+              <Button size="small">
+                <div className="text-xs">Edit columns</div>
+              </Button>
               <Button size="small" icon={<DownloadOutlined />}>
-                Export
+                <div className="ml-1.5 text-xs">Export</div>
               </Button>
             </div>
           </footer>

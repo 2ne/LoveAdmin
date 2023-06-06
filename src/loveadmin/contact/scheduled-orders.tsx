@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import {
+  CalendarOutlined,
   CreditCardOutlined,
-  DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
+  EditOutlined,
   MailOutlined,
   PlusOutlined,
+  StopOutlined,
   UserAddOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
@@ -19,144 +21,53 @@ import {
   DatePicker,
   Radio,
   RadioChangeEvent,
+  Space,
 } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
+import { StopCircle } from "react-feather";
 const { Content } = Layout;
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
 
-interface ScheduledOrdersProps {
-  visible: boolean;
-  handleOk: () => void;
-  handleCancel: () => void;
-}
-
 interface DataType {
   key: React.Key;
-  invoiceNumber: string;
-  status: string;
+  orderNumber: string;
   beneficiary: string;
-  date: string;
+  product: string;
   quantity: number;
-  invoiced: number;
+  unitPrice: number;
+  createdDate: string;
+  invoiceDate: string;
+  total: number;
 }
 
 const data = [
   {
     key: "1",
-    invoiceNumber: "#462378",
-    status: "Pending",
+    orderNumber: "#472389",
+    createdDate: "14 May 2023",
     beneficiary: "James Toone",
-    date: "15 May 2023",
-    quantity: 1,
-    invoiced: 54.0,
+    product:
+      "Juniors juggling class, Junior schedule, 60 mins, ending 6 Nov 2023",
+    quantity: 22,
+    unitPrice: 5,
+    invoiceDate: "15 May 2023",
+    total: 110.0,
   },
   {
     key: "2",
-    invoiceNumber: "#462379",
-    status: "Paid",
-    beneficiary: "John Doe",
-    date: "16 May 2023",
-    quantity: 3,
-    invoiced: 120.0,
-  },
-  {
-    key: "3",
-    invoiceNumber: "#462380",
-    status: "Outstanding",
-    beneficiary: "Sarah Smith",
-    date: "17 May 2023",
-    quantity: 2,
-    invoiced: 100.0,
-  },
-  {
-    key: "4",
-    invoiceNumber: "#462381",
-    status: "Paid",
-    beneficiary: "Emily Johnson",
-    date: "18 May 2023",
-    quantity: 1,
-    invoiced: 60.0,
-  },
-  {
-    key: "5",
-    invoiceNumber: "#462382",
-    status: "Pending",
-    beneficiary: "Robert Brown",
-    date: "19 May 2023",
-    quantity: 4,
-    invoiced: 200.0,
-  },
-  {
-    key: "6",
-    invoiceNumber: "#462383",
-    status: "Paid",
-    beneficiary: "Michael Davis",
-    date: "20 May 2023",
-    quantity: 2,
-    invoiced: 140.0,
-  },
-  {
-    key: "7",
-    invoiceNumber: "#462384",
-    status: "Outstanding",
-    beneficiary: "Jessica Miller",
-    date: "21 May 2023",
-    quantity: 1,
-    invoiced: 50.0,
-  },
-  {
-    key: "8",
-    invoiceNumber: "#462385",
-    status: "Paid",
-    beneficiary: "Thomas Wilson",
-    date: "22 May 2023",
-    quantity: 1,
-    invoiced: 180.0,
-  },
-  {
-    key: "9",
-    invoiceNumber: "#462386",
-    status: "Pending",
-    beneficiary: "Jennifer Taylor",
-    date: "23 May 2023",
-    quantity: 1,
-    invoiced: 120.0,
-  },
-  {
-    key: "10",
-    invoiceNumber: "#462387",
-    status: "Outstanding",
-    beneficiary: "David Moore",
-    date: "24 May 2023",
-    quantity: 2,
-    invoiced: 70.0,
-  },
-  {
-    key: "11",
-    invoiceNumber: "#462388",
-    status: "Paid",
-    beneficiary: "Mary Johnson",
-    date: "25 May 2023",
-    quantity: 1,
-    invoiced: 240.0,
-  },
-  {
-    key: "12",
-    invoiceNumber: "#462389",
-    status: "Pending",
-    beneficiary: "William Jackson",
-    date: "26 May 2023",
-    quantity: 2,
-    invoiced: 110.0,
+    orderNumber: "#472389 (R)",
+    createdDate: "9 May 2023",
+    beneficiary: "Bill Murray",
+    product: "Seahorse Swimmer, Junior schedule, 45 mins, ending 12 May 2023",
+    quantity: 10,
+    unitPrice: 10,
+    invoiceDate: "11 May 2023",
+    total: 100.0,
   },
 ];
 
-const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
-  visible,
-  handleOk,
-  handleCancel,
-}) => {
+const ScheduledOrders: React.FC = () => {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -180,56 +91,87 @@ const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "Invoice #",
-      dataIndex: "invoiceNumber",
-      key: "invoiceNumber",
+      title: "Order #",
+      dataIndex: "orderNumber",
+      key: "orderNumber",
       render: (text: string) => <a>{text}</a>,
       ellipsis: true,
-      sorter: (a, b) => a.invoiceNumber.length - b.invoiceNumber.length,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (text: string) => <a>{text}</a>,
-      ellipsis: true,
-      sorter: (a, b) => a.status.length - b.status.length,
+      sorter: (a, b) => a.orderNumber.length - b.orderNumber.length,
+      width: 60,
+      fixed: "left",
     },
     {
       title: "Beneficiary",
       dataIndex: "beneficiary",
       key: "beneficiary",
+      render: (text: string) => <a>{text}</a>,
       ellipsis: true,
       sorter: (a, b) => a.beneficiary.length - b.beneficiary.length,
-      render: (text: string) => <a>{text}</a>,
+      width: 110,
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Product",
+      dataIndex: "product",
+      key: "product",
       ellipsis: true,
-      sorter: (a, b) => a.date.length - b.date.length,
+      width: 180,
+      render: (text: string) => <a>{text}</a>,
+      sorter: (a, b) => a.product.length - b.product.length,
     },
     {
-      title: "Quantity",
+      title: "Qty",
       dataIndex: "quantity",
       key: "quantity",
       align: "right",
-      ellipsis: true,
       sorter: (a, b) => a.quantity - b.quantity,
+      width: 60,
     },
     {
-      title: "Invoiced",
-      dataIndex: "invoiced",
-      key: "invoiced",
+      title: "Unit price",
+      dataIndex: "unitPrice",
+      key: "unitPrice",
       align: "right",
-      sorter: (a, b) => a.invoiced - b.invoiced,
+      sorter: (a, b) => a.quantity - b.quantity,
       render: (text: number) =>
         text === 0 ? (
           "-"
         ) : (
           <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
         ),
+      width: 80,
+    },
+    {
+      title: "Created",
+      dataIndex: "createdDate",
+      key: "createdDate",
+      ellipsis: true,
+      align: "right",
+      sorter: (a, b) => a.createdDate.length - b.createdDate.length,
+      width: 80,
+    },
+    {
+      title: "Invoiced",
+      dataIndex: "invoiceDate",
+      key: "invoiceDate",
+      ellipsis: true,
+      align: "right",
+      sorter: (a, b) => a.invoiceDate.length - b.invoiceDate.length,
+      width: 80,
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+      align: "right",
+      sorter: (a, b) => a.total - b.total,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
+        ),
+      fixed: "right",
+      width: 60,
     },
   ];
 
@@ -268,7 +210,7 @@ const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
         <Content className="bg-white border border-solid rounded border-neutral-200">
           <div className="relative">
             <div
-              className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
+              className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-12 transition-all z-20 flex items-center -mb-[38px] " ${
                 hasSelected
                   ? " opacity-100 "
                   : " opacity-0 pointer-events-none "
@@ -281,7 +223,7 @@ const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
                   icon={<MailOutlined className="relative top-px" />}
                   className="px-0 hover:bg-transparent hover:underline"
                 >
-                  Message account owner
+                  Send message
                 </Button>
                 <Button
                   size="small"
@@ -299,11 +241,53 @@ const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
                 >
                   Invite beneficiary to...
                 </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  icon={<CreditCardOutlined />}
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  Request payment
+                </Button>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1" onClick={hideContextMenu}>
+                        <CalendarOutlined className="mr-3" /> Edit invoice date
+                      </Menu.Item>
+                      <Menu.Item key="2" onClick={hideContextMenu}>
+                        <EditOutlined className="mr-3" /> Edit gross amount
+                      </Menu.Item>
+                      <Menu.Item
+                        key="3"
+                        onClick={hideContextMenu}
+                        className="text-danger-500"
+                      >
+                        <StopOutlined className="mr-3" /> Cancel order
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
+                >
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="px-0 text-neutral-900"
+                  >
+                    <Space className="hover:bg-transparent hover:underline">
+                      More
+                      <DownOutlined className="-ml-0.5 w-2.5" />
+                    </Space>
+                  </a>
+                </Dropdown>
               </div>
             </div>
             <Table
               rowSelection={rowSelection}
               size="small"
+              scroll={{ x: 1300 }}
               columns={columns}
               dataSource={data}
               pagination={false}

@@ -87,6 +87,15 @@ h5.ant-typography {
   @apply sticky z-10 top-0;
 }
 
+.ant-table-content {
+  @apply overscroll-x-none;
+}
+
+/* stops showing table header info while row is selected */
+.opacity-100 + .ant-table-wrapper th:not(:first-child) > * {
+  @apply opacity-0;
+}
+
 .ant-breadcrumb ol {
   @apply flex-nowrap;
 }

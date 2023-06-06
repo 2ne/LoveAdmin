@@ -15,13 +15,15 @@ import {
   Button,
   Table,
   Dropdown,
-  Space,
   Menu,
-  Modal,
+  DatePicker,
+  Radio,
+  RadioChangeEvent,
 } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
 const { Content } = Layout;
 const { Title } = Typography;
+const { RangePicker } = DatePicker;
 
 interface ScheduledOrdersProps {
   visible: boolean;
@@ -247,11 +249,23 @@ const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
     setSelectedRowKeys([]);
   };
 
+  const [radioValue, setRadioValue] = useState(1);
+
+  const onRadioValueChange = (e: RadioChangeEvent) => {
+    setRadioValue(e.target.value);
+  };
+
   return (
     <div>
-      <div></div>
+      <div className="flex flex-row-reverse items-center gap-1 mb-3">
+        <RangePicker />
+        <Radio.Group onChange={onRadioValueChange} value={radioValue}>
+          <Radio value={1}>Date created</Radio>
+          <Radio value={2}>Date payable</Radio>
+        </Radio.Group>
+      </div>
       <div>
-        <Content className="bg-white">
+        <Content className="bg-white border border-solid rounded border-neutral-200">
           <div className="relative">
             <div
               className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
@@ -299,13 +313,11 @@ const ScheduledOrders: React.FC<ScheduledOrdersProps> = ({
               })}
             />
           </div>
-          <footer className="flex items-center transition-all py-2.5 px-2 bg-white">
+          <footer className="flex items-center transition-all py-2.5 px-2 bg-neutral-50 rounded-b">
             <div className="flex items-center gap-2 ml-auto">
-              <Button size="small">
-                <div className="text-xs">Edit columns</div>
-              </Button>
+              <Button size="small">Edit columns</Button>
               <Button size="small" icon={<DownloadOutlined />}>
-                <div className="ml-1.5 text-xs">Export</div>
+                Export
               </Button>
             </div>
           </footer>

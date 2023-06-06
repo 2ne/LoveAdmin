@@ -1,5 +1,6 @@
 import { Tabs, TabsProps } from "antd";
 import React, { ReactElement } from "react";
+import ScheduledOrders from "./scheduled-orders";
 
 const Finance: React.FC = (): ReactElement => {
   const financeItems: TabsProps["items"] = [
@@ -21,7 +22,7 @@ const Finance: React.FC = (): ReactElement => {
     {
       key: "4",
       label: `Scheduled orders`,
-      children: <div>4</div>,
+      children: <ScheduledOrders />,
     },
   ];
 

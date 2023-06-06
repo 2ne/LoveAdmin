@@ -47,6 +47,10 @@ h5.ant-typography {
   @apply inline-flex items-center justify-center;
 }
 
+.ant-btn.ant-btn-sm {
+  @apply text-xs;
+}
+
 .ant-btn.ant-btn-input {
   @apply -mx-2.5 px-2.5 h-auto w-[calc(100%+1.25rem)];
 }

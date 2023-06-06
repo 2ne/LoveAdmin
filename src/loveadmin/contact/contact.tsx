@@ -38,7 +38,7 @@ interface ContactProps {
   renderInModal?: boolean;
 }
 
-function Contact({ renderInModal = true }: ContactProps): ReactElement {
+function Contact({ renderInModal = false }: ContactProps): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);

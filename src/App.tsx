@@ -9,6 +9,7 @@ import LinksPage from "./links";
 import SetNewPasswordJoinin from "./joinin/set-new-password";
 import ProductSalesReport from "./loveadmin/product-sales-report";
 import Contacts from "./loveadmin/contacts";
+import DevProgrammeModal from "./loveadmin/dev-programme/dev-programme";
 
 function App(): ReactElement {
   return (
@@ -17,6 +18,7 @@ function App(): ReactElement {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Contacts" element={<Contacts />} />
         <Route path="/ProductSalesReport" element={<ProductSalesReport />} />
+        <Route path="/DevProgramme" element={<DevProgrammeModal />} />
         <Route path="/InviteCreateAccount" element={<InviteCreateAccount />} />
         <Route path="/SetupAccount" element={<SetupAccount />} />
         <Route path="/LoginJoinin" element={<LoginJoinin />} />

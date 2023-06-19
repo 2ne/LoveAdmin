@@ -1,24 +1,12 @@
 import React, { useState } from "react";
 import {
-  CreditCardOutlined,
-  DeleteOutlined,
-  DownOutlined,
   DownloadOutlined,
   MailOutlined,
   PlusOutlined,
   UserAddOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
-import {
-  Layout,
-  Typography,
-  Button,
-  Table,
-  Dropdown,
-  Space,
-  Menu,
-  Modal,
-} from "antd";
+import { Layout, Typography, Button, Table, Dropdown, Menu, Modal } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
 const { Content } = Layout;
 const { Title } = Typography;

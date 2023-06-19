@@ -131,3 +131,32 @@ h5.ant-typography {
 .ant-modal-fullscreen .ant-modal .ant-modal-content {
   @apply !rounded-none !shadow-none !p-0;
 }
+
+.ant-select-float * {
+  @apply cursor-pointer;
+}
+
+.ant-select-float .ant-select-selection-item {
+  @apply border-0 bg-transparent mr-0 pr-0;
+}
+
+.ant-select-float .ant-select-selection-overflow-item:not(:nth-last-child(-n + 2)) .ant-select-selection-item-content:after {
+  @apply content-[","];
+}
+
+.ant-select-float .ant-select-selection-overflow-item:not(:first-child) {
+  @apply -ml-1;
+}
+
+.ant-select-float .ant-select-selection-item-remove,
+.ant-select-float .ant-select-selection-overflow-item-suffix {
+  @apply hidden;
+}
+
+.ant-select-float .ant-select-selection-item-content {
+  @apply m-0 relative top-px;
+}
+
+.ant-select-float .ant-select-selector {
+  @apply pe-7 !important;
+}

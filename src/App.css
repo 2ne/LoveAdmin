@@ -172,5 +172,5 @@ h5.ant-typography {
 }
 
 .ant-table-bg-reset tr.ant-table-expanded-row > td {
-  @apply bg-neutral-50 !important;
+  @apply bg-neutral-50 pb-8 !important;
 }

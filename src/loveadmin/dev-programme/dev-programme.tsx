@@ -7,7 +7,15 @@ import {
   PlayCircleFilled,
   StarFilled,
 } from "@ant-design/icons";
-import { Layout, Typography, Button, Table, Select, Progress } from "antd";
+import {
+  Layout,
+  Typography,
+  Button,
+  Table,
+  Select,
+  Progress,
+  Radio,
+} from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
 const { Content } = Layout;
@@ -25,27 +33,109 @@ interface DataType {
 interface ExpandedDataType {
   key: React.Key;
   name: string;
-  progress: string;
+  progress: number;
 }
 
 const DevProgrammeModal: React.FC = () => {
+  const [radioGroupValue, setRadioGroupValue] = useState<string | null>(null);
+
+  const onRadioChange = (value: string) => {
+    setRadioGroupValue((prevValue) => (prevValue === value ? null : value));
+  };
+
   const expandedRowRender = () => {
     const columns: TableColumnsType<ExpandedDataType> = [
-      { title: "Name", dataIndex: "name", key: "name" },
-      { title: "Progress", dataIndex: "progress", key: "progress" },
-      { title: "Action", key: "operation", render: () => <a>Publish</a> },
+      {
+        title: "Name",
+        dataIndex: "name",
+        key: "name",
+        sorter: (a, b) => a.name.length - b.name.length,
+        defaultSortOrder: "ascend",
+        width: 400,
+      },
+      {
+        title: "Progress",
+        dataIndex: "progress",
+        key: "progress",
+        sorter: (a, b) => a.progress - b.progress,
+        render: () => (
+          <div className="pr-8">
+            <Radio.Group buttonStyle="solid" value={radioGroupValue}>
+              <Radio.Button
+                onClick={() => onRadioChange("NotAchieved")}
+                value="NotAchieved"
+                className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
+              >
+                <div className="flex items-center gap-2 -ml-1">
+                  <CloseCircleFilled className="text-danger-500" />
+                  <span>Not achieved</span>
+                </div>
+              </Radio.Button>
+              <Radio.Button
+                onClick={() => onRadioChange("WorkingOn")}
+                value="WorkingOn"
+                className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
+              >
+                <div className="flex items-center gap-2 -ml-1">
+                  <PlayCircleFilled className="text-primary-500" />
+                  <span>Working on</span>
+                </div>
+              </Radio.Button>
+              <Radio.Button
+                onClick={() => onRadioChange("Completed")}
+                value="Completed"
+                className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
+              >
+                <div className="flex items-center gap-2 -ml-1">
+                  <CheckCircleFilled className="text-success-500" />
+                  <span>Completed</span>
+                </div>
+              </Radio.Button>
+              <Radio.Button
+                onClick={() => onRadioChange("Achieved")}
+                value="Achieved"
+                className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
+              >
+                <div className="flex items-center gap-2 -ml-1">
+                  <StarFilled className="text-yellow-500" />
+                  <span>Achieved</span>
+                </div>
+              </Radio.Button>
+            </Radio.Group>
+          </div>
+        ),
+      },
+      {
+        title: "",
+        align: "right",
+        key: "operation",
+        render: () => (
+          <Button
+            type="text"
+            size="small"
+            icon={<EllipsisOutlined className="text-neutral-500" />}
+          ></Button>
+        ),
+      },
     ];
 
-    const data = [];
-    for (let i = 0; i < 3; ++i) {
-      data.push({
-        key: i.toString(),
-        name: "This is production name",
-        progress: "Upgraded: 56",
-      });
-    }
+    const data = [
+      {
+        key: "1",
+        name: "James Toone",
+        progress: 70,
+      },
+    ];
 
-    return <Table columns={columns} dataSource={data} pagination={false} />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        rowSelection={{ ...rowSelectionExpand }}
+        size="small"
+      />
+    );
   };
 
   const columns: TableColumnsType<DataType> = [
@@ -54,7 +144,7 @@ const DevProgrammeModal: React.FC = () => {
       dataIndex: "skill",
       key: "skill",
       render: (text: string) => <a>{text}</a>,
-      width: 740,
+      width: 720,
     },
     {
       title: "Level",
@@ -77,8 +167,9 @@ const DevProgrammeModal: React.FC = () => {
       dataIndex: "progress",
       key: "progress",
       width: 340,
+      sorter: (a, b) => a.progress - b.progress,
       render: (progress: number, record: DataType) => (
-        <div className="pr-10">
+        <div className="pr-8">
           <Progress
             percent={record.progress}
             size="small"
@@ -92,7 +183,11 @@ const DevProgrammeModal: React.FC = () => {
       align: "right",
       key: "operation",
       render: () => (
-        <Button type="text" size="small" icon={<EllipsisOutlined />}></Button>
+        <Button
+          type="text"
+          size="small"
+          icon={<EllipsisOutlined className="text-neutral-500" />}
+        ></Button>
       ),
     },
   ];
@@ -189,6 +284,22 @@ const DevProgrammeModal: React.FC = () => {
     },
   ];
 
+  const rowSelectionExpand: TableRowSelection<ExpandedDataType> = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        "selectedRows: ",
+        selectedRows
+      );
+    },
+    onSelect: (record, selected, selectedRows) => {
+      console.log(record, selected, selectedRows);
+    },
+    onSelectAll: (selected, selectedRows, changeRows) => {
+      console.log(selected, selectedRows, changeRows);
+    },
+  };
+
   const rowSelection: TableRowSelection<DataType> = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -281,12 +392,6 @@ const DevProgrammeModal: React.FC = () => {
               </Option>
               <Option value="2" label="Level 2">
                 Level 2
-              </Option>
-              <Option value="3" label="Level 3">
-                Level 3
-              </Option>
-              <Option value="4" label="Level 4">
-                Level 4
               </Option>
             </Select>
             <Text className="mt-px absolute h-3 px-1 text-[11px] font-medium leading-3 bg-white pointer-events-none left-2 -top-2">

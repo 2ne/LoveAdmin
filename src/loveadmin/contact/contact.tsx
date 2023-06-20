@@ -201,7 +201,7 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
           </div>
         </aside>
         <Content className="px-6 py-3 @2xl:px-8 @container">
-          <div className="max-w-screen-lg mx-auto">
+          <div className="max-w-[66rem] mx-auto">
             <Tabs
               type="card"
               defaultActiveKey="1"

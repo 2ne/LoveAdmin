@@ -1,21 +1,6 @@
 import React, { useState } from "react";
-import {
-  CheckCircleFilled,
-  CloseCircleFilled,
-  DownloadOutlined,
-  EllipsisOutlined,
-  PlayCircleFilled,
-  StarFilled,
-} from "@ant-design/icons";
-import {
-  Layout,
-  Typography,
-  Button,
-  Table,
-  Select,
-  Progress,
-  Radio,
-} from "antd";
+import { DownloadOutlined } from "@ant-design/icons";
+import { Layout, Typography, Button, Table, Select, Tooltip } from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
 const { Content } = Layout;
@@ -25,169 +10,84 @@ const { Option } = Select;
 interface DataType {
   key: React.Key;
   skill: string;
-  levelValue: number;
-  participants: number;
-  progress: number;
-}
-
-interface ExpandedDataType {
-  key: React.Key;
-  name: string;
-  progress: number;
+  level: number;
+  overallProgress: number;
+  notAchieved: number;
+  workingOn: number;
+  completed: number;
+  achieved: number;
+  notStarted: number;
 }
 
 const DevProgrammeModal: React.FC = () => {
-  const [radioGroupValue, setRadioGroupValue] = useState<string | null>(null);
-
-  const onRadioChange = (value: string) => {
-    setRadioGroupValue((prevValue) => (prevValue === value ? null : value));
-  };
-
-  const expandedRowRender = () => {
-    const columns: TableColumnsType<ExpandedDataType> = [
-      {
-        title: "Name",
-        dataIndex: "name",
-        key: "name",
-        sorter: (a, b) => a.name.length - b.name.length,
-        defaultSortOrder: "ascend",
-        width: 400,
-      },
-      {
-        title: "Progress",
-        dataIndex: "progress",
-        key: "progress",
-        sorter: (a, b) => a.progress - b.progress,
-        render: () => (
-          <div className="pr-8">
-            <Radio.Group buttonStyle="solid" value={radioGroupValue}>
-              <Radio.Button
-                onClick={() => onRadioChange("NotAchieved")}
-                value="NotAchieved"
-                className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-              >
-                <div className="flex items-center gap-2 -ml-1">
-                  <CloseCircleFilled className="text-danger-500" />
-                  <span>Not achieved</span>
-                </div>
-              </Radio.Button>
-              <Radio.Button
-                onClick={() => onRadioChange("WorkingOn")}
-                value="WorkingOn"
-                className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-              >
-                <div className="flex items-center gap-2 -ml-1">
-                  <PlayCircleFilled className="text-primary-500" />
-                  <span>Working on</span>
-                </div>
-              </Radio.Button>
-              <Radio.Button
-                onClick={() => onRadioChange("Completed")}
-                value="Completed"
-                className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-              >
-                <div className="flex items-center gap-2 -ml-1">
-                  <CheckCircleFilled className="text-success-500" />
-                  <span>Completed</span>
-                </div>
-              </Radio.Button>
-              <Radio.Button
-                onClick={() => onRadioChange("Achieved")}
-                value="Achieved"
-                className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-              >
-                <div className="flex items-center gap-2 -ml-1">
-                  <StarFilled className="text-yellow-500" />
-                  <span>Achieved</span>
-                </div>
-              </Radio.Button>
-            </Radio.Group>
-          </div>
-        ),
-      },
-      {
-        title: "",
-        align: "right",
-        key: "operation",
-        render: () => (
-          <Button
-            type="text"
-            size="small"
-            icon={<EllipsisOutlined className="text-neutral-500" />}
-          ></Button>
-        ),
-      },
-    ];
-
-    const data = [
-      {
-        key: "1",
-        name: "James Toone",
-        progress: 70,
-      },
-    ];
-
-    return (
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-        rowSelection={{ ...rowSelectionExpand }}
-        size="small"
-      />
-    );
-  };
-
   const columns: TableColumnsType<DataType> = [
     {
       title: "Skill",
       dataIndex: "skill",
       key: "skill",
       render: (text: string) => <a>{text}</a>,
-      width: 720,
+      width: 700,
     },
     {
       title: "Level",
-      dataIndex: "levelValue",
+      dataIndex: "level",
       key: "level",
       width: 340,
-      sorter: (a, b) => a.levelValue - b.levelValue,
+      sorter: (a, b) => a.level - b.level,
       defaultSortOrder: "ascend",
-      render: (levelValue: number, record: DataType) => (
-        <div>
-          <div>Level {levelValue}</div>
-          <div className="text-neutral-500">
-            {record.participants} participants
-          </div>
-        </div>
-      ),
+      render: (level: number) => <div>Level {level}</div>,
     },
     {
       title: "Progress",
-      dataIndex: "progress",
-      key: "progress",
+      dataIndex: "overallProgress",
+      key: "overallProgress",
       width: 340,
-      sorter: (a, b) => a.progress - b.progress,
-      render: (progress: number, record: DataType) => (
-        <div className="pr-8">
-          <Progress
-            percent={record.progress}
-            size="small"
-            className="[&_.ant-progress-bg]:bg-primary-500"
-          />
+      sorter: (a, b) => a.overallProgress - b.overallProgress,
+      render: (overallProgress, record) => (
+        <div className="flex items-center gap-3">
+          <div className="flex flex-grow h-2 min-w-0 gap-px overflow-hidden rounded-full bg-neutral-100">
+            {record.notAchieved > 0 && (
+              <Tooltip title={<>Not achieved · {record.notAchieved}%</>}>
+                <div
+                  className="h-full bg-danger-500"
+                  style={{ width: `${record.notAchieved}%` }}
+                ></div>
+              </Tooltip>
+            )}
+            {record.workingOn > 0 && (
+              <Tooltip title={<>Working on · {record.workingOn}%</>}>
+                <div
+                  className="h-full bg-primary-500"
+                  style={{ width: `${record.workingOn}%` }}
+                ></div>
+              </Tooltip>
+            )}
+            {record.completed > 0 && (
+              <Tooltip title={<>Completed · {record.completed}%</>}>
+                <div
+                  className="h-full bg-success-500"
+                  style={{ width: `${record.completed}%` }}
+                ></div>
+              </Tooltip>
+            )}
+            {record.achieved > 0 && (
+              <Tooltip title={<>Achieved · {record.achieved}%</>}>
+                <div
+                  className="h-full bg-yellow-500"
+                  style={{ width: `${record.achieved}%` }}
+                ></div>
+              </Tooltip>
+            )}
+            {record.notStarted > 0 && (
+              <Tooltip title={<>Not started · {record.notStarted}%</>}>
+                <div
+                  className="h-full bg-neutral-200"
+                  style={{ width: `${record.notStarted}%` }}
+                ></div>
+              </Tooltip>
+            )}
+          </div>
         </div>
-      ),
-    },
-    {
-      title: "",
-      align: "right",
-      key: "operation",
-      render: () => (
-        <Button
-          type="text"
-          size="small"
-          icon={<EllipsisOutlined className="text-neutral-500" />}
-        ></Button>
       ),
     },
   ];
@@ -196,109 +96,141 @@ const DevProgrammeModal: React.FC = () => {
     {
       key: "1",
       skill: "Enter the water safely",
-      levelValue: 1,
-      participants: 7,
-      progress: 70,
+      level: 1,
+      notStarted: 10,
+      notAchieved: 5,
+      workingOn: 15,
+      completed: 30,
+      achieved: 40,
+      overallProgress: 70,
     },
     {
       key: "2",
       skill:
         "Move forward for a distance of 5 metres, feet may be on or off the floor",
-      levelValue: 1,
-      participants: 7,
-      progress: 60,
+      level: 1,
+      notStarted: 30,
+      notAchieved: 0,
+      workingOn: 10,
+      completed: 30,
+      achieved: 30,
+      overallProgress: 60,
     },
     {
       key: "3",
       skill:
         "Move backwards for a distance of 5 metres, feet may be on or off the floor",
-      levelValue: 1,
-      participants: 7,
-      progress: 30,
+      level: 1,
+      notStarted: 40,
+      notAchieved: 20,
+      workingOn: 10,
+      completed: 15,
+      achieved: 15,
+      overallProgress: 30,
     },
     {
       key: "4",
       skill:
         "Move sideways for a distance of 5 metres, feet may be on or off the floor",
-      levelValue: 1,
-      participants: 7,
-      progress: 80,
+      level: 1,
+      notStarted: 10,
+      notAchieved: 0,
+      workingOn: 10,
+      completed: 40,
+      achieved: 40,
+      overallProgress: 80,
     },
     {
       key: "5",
       skill: "Scoop the water and wash the face",
-      levelValue: 1,
-      participants: 7,
-      progress: 20,
+      level: 1,
+      notStarted: 60,
+      notAchieved: 10,
+      workingOn: 10,
+      completed: 10,
+      achieved: 10,
+      overallProgress: 20,
     },
     {
       key: "6",
       skill: "Be comfortable with water showered from overhead",
-      levelValue: 1,
-      participants: 7,
-      progress: 10,
+      level: 1,
+      notStarted: 70,
+      notAchieved: 10,
+      workingOn: 10,
+      completed: 5,
+      achieved: 5,
+      overallProgress: 10,
     },
     {
       key: "7",
       skill:
         "Move from a flat floating position on the back and return to standing",
-      levelValue: 1,
-      participants: 7,
-      progress: 40,
+      level: 1,
+      notStarted: 30,
+      notAchieved: 20,
+      workingOn: 10,
+      completed: 20,
+      achieved: 20,
+      overallProgress: 40,
     },
     {
       key: "8",
       skill:
         "Move from a flat floating position on the front and return to standing",
-      levelValue: 1,
-      participants: 7,
-      progress: 40,
+      level: 1,
+      notStarted: 30,
+      notAchieved: 20,
+      workingOn: 10,
+      completed: 20,
+      achieved: 20,
+      overallProgress: 40,
     },
     {
       key: "9",
       skill: "Push and glide in a flat position on the front from a wall",
-      levelValue: 2,
-      participants: 14,
-      progress: 10,
+      level: 2,
+      notStarted: 70,
+      notAchieved: 10,
+      workingOn: 10,
+      completed: 5,
+      achieved: 5,
+      overallProgress: 10,
     },
     {
       key: "10",
       skill: "Push and glide in a flat position on the back from a wall",
-      levelValue: 2,
-      participants: 14,
-      progress: 40,
+      level: 2,
+      notStarted: 30,
+      notAchieved: 20,
+      workingOn: 10,
+      completed: 20,
+      achieved: 20,
+      overallProgress: 40,
     },
     {
       key: "11",
       skill: "Give examples of two pool rules",
-      levelValue: 2,
-      participants: 14,
-      progress: 40,
+      level: 2,
+      notStarted: 30,
+      notAchieved: 20,
+      workingOn: 10,
+      completed: 20,
+      achieved: 20,
+      overallProgress: 40,
     },
     {
       key: "12",
       skill: "Exit the water safely",
-      levelValue: 2,
-      participants: 14,
-      progress: 40,
+      level: 2,
+      notStarted: 30,
+      notAchieved: 20,
+      workingOn: 10,
+      completed: 20,
+      achieved: 20,
+      overallProgress: 40,
     },
   ];
-
-  const rowSelectionExpand: TableRowSelection<ExpandedDataType> = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
-    },
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
-    },
-  };
 
   const rowSelection: TableRowSelection<DataType> = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -322,9 +254,9 @@ const DevProgrammeModal: React.FC = () => {
         <div>
           <Title level={5} className="flex items-center gap-2 mb-0.5">
             <span>Thursday Beginners Class</span>
-            <div className="relative top-px flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full bg-warning-100/60">
-              <div className="p-px w-1.5 h-1.5 rounded-full bg-warning-500"></div>
-              <div className="py-px text-warning-600">Progress 30%</div>
+            <div className="relative top-px flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full bg-primary-100/50">
+              <div className="p-px w-1.5 h-1.5 rounded-full bg-primary-500"></div>
+              <div className="py-px text-primary-600">Progress 30%</div>
             </div>
           </Title>
           <Text className="text-sm text-neutral-500">
@@ -336,46 +268,6 @@ const DevProgrammeModal: React.FC = () => {
           </Text>
         </div>
         <div className="flex items-center gap-3.5 ml-auto">
-          <div className="relative">
-            <Select
-              mode="multiple"
-              placeholder="Select progress..."
-              optionLabelProp="label"
-              className="min-w-[10rem]"
-              rootClassName="ant-select-float"
-              popupMatchSelectWidth={true}
-              showSearch={false}
-              placement="bottomRight"
-            >
-              <Option value="NotAchieved" label="Not achieved">
-                <div className="flex items-center gap-2.5">
-                  <CloseCircleFilled className="text-danger-500" />
-                  <span>Not achieved</span>
-                </div>
-              </Option>
-              <Option value="WorkingOn" label="Working on">
-                <div className="flex items-center gap-2.5">
-                  <PlayCircleFilled className="text-primary-500" />
-                  <span>Working on</span>
-                </div>
-              </Option>
-              <Option value="Completed" label="Completed">
-                <div className="flex items-center gap-2.5">
-                  <CheckCircleFilled className="text-success-500" />
-                  <span>Completed</span>
-                </div>
-              </Option>
-              <Option value="Achieved" label="Achieved">
-                <div className="flex items-center gap-2.5">
-                  <StarFilled className="text-yellow-500" />
-                  <span>Achieved</span>
-                </div>
-              </Option>
-            </Select>
-            <Text className="mt-px absolute h-3 px-1 text-[11px] font-medium leading-3 bg-white pointer-events-none left-2 -top-2">
-              Progress
-            </Text>
-          </div>
           <div className="relative">
             <Select
               mode="multiple"
@@ -405,7 +297,6 @@ const DevProgrammeModal: React.FC = () => {
           <div className="relative">
             <Table
               columns={columns}
-              expandable={{ expandedRowRender }}
               dataSource={data}
               size="small"
               pagination={false}
@@ -415,7 +306,6 @@ const DevProgrammeModal: React.FC = () => {
           </div>
           <footer className="fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
             <div className="flex items-center gap-2 ml-auto">
-              <Button>Edit columns</Button>
               <Button icon={<DownloadOutlined />}>Export</Button>
             </div>
           </footer>
@@ -423,7 +313,6 @@ const DevProgrammeModal: React.FC = () => {
       </div>
       <footer className="fixed gap-2 left-0 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
         <div className="flex items-center gap-2 ml-auto">
-          <Button>Edit columns</Button>
           <Button icon={<DownloadOutlined />}>Export</Button>
         </div>
       </footer>

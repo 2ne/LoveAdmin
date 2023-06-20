@@ -4,6 +4,7 @@ import {
   CloseCircleFilled,
   DownloadOutlined,
   EllipsisOutlined,
+  MinusCircleOutlined,
   PlayCircleFilled,
   StarFilled,
 } from "@ant-design/icons";
@@ -369,6 +370,12 @@ const DevProgrammeModal: React.FC = () => {
                 <div className="flex items-center gap-2.5">
                   <StarFilled className="text-yellow-500" />
                   <span>Achieved</span>
+                </div>
+              </Option>
+              <Option value="NotStarted" label="Not started">
+                <div className="flex items-center gap-2.5">
+                  <MinusCircleOutlined className="text-neutral-500" />
+                  <span>Not started</span>
                 </div>
               </Option>
             </Select>

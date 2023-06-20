@@ -135,7 +135,7 @@ function ContactDetails(): ReactElement {
       <Panel
         header={
           <>
-            Manadate
+            Mandate
             <span className="text-neutral-500">
               <span className="mx-1.5">·</span>Active
             </span>

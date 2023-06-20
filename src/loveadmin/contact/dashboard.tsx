@@ -349,13 +349,13 @@ function ContactDashboard(): ReactElement {
                 <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
                   <span>£</span>
                 </div>
-                <div className="">400.00</div>
+                <div className="">420.00</div>
               </div>
             </div>
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
-                  Credit notes
+                  Pending
                 </div>
                 <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                   <RightOutlined className="w-3 h-3" />
@@ -365,7 +365,7 @@ function ContactDashboard(): ReactElement {
                 <div className="grid w-8 h-8 pb-0.5 text-center rounded-full bg-neutral-100 place-items-center">
                   <span>£</span>
                 </div>
-                <div className="">20.00</div>
+                <div className="">100.00</div>
               </div>
             </div>
           </div>

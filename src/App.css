@@ -160,3 +160,17 @@ h5.ant-typography {
 .ant-select-float .ant-select-selector {
   @apply pe-7 !important;
 }
+
+.ant-table-bg-reset .ant-table-column-sort,
+.ant-table-bg-reset .ant-table-thead .ant-table-cell {
+  @apply bg-neutral-50 !important;
+}
+
+.ant-table-bg-reset td.ant-table-column-sort,
+.ant-table-bg-reset td.ant-table-cell {
+  @apply bg-white !important;
+}
+
+.ant-table-bg-reset tr.ant-table-expanded-row > td {
+  @apply bg-neutral-50 !important;
+}

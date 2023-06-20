@@ -305,7 +305,7 @@ const DevProgrammeModal: React.FC = () => {
               size="small"
               pagination={false}
               rowSelection={{ ...rowSelection }}
-              className="ant-table-sticky"
+              className="ant-table-sticky ant-table-bg-reset"
             />
           </div>
           <footer className="fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">

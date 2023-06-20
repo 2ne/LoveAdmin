@@ -202,19 +202,14 @@ const data = [
 ];
 
 function Contacts(): ReactElement {
-  const [selectedName, setSelectedName] = useState("");
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
 
-  const handleContextMenu = (
-    event: React.MouseEvent<HTMLDivElement>,
-    record: DataType
-  ) => {
+  const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setSelectedName(record.name);
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setContextMenuVisible(true);
   };
@@ -287,19 +282,12 @@ function Contacts(): ReactElement {
   ];
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
-  };
-
-  const hasSelected = selectedRowKeys.length > 0;
-
-  const removeAllSelected = () => {
-    setSelectedRowKeys([]);
   };
 
   return (
@@ -388,7 +376,7 @@ function Contacts(): ReactElement {
             <div className="relative">
               <div
                 className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
-                  hasSelected
+                  selectedRowKeys.length > 0
                     ? " opacity-100 "
                     : " opacity-0 pointer-events-none "
                 }`}
@@ -458,8 +446,8 @@ function Contacts(): ReactElement {
                 dataSource={data}
                 pagination={false}
                 className="ant-table-sticky"
-                onRow={(record) => ({
-                  onContextMenu: (event) => handleContextMenu(event, record),
+                onRow={() => ({
+                  onContextMenu: (event) => handleContextMenu(event),
                 })}
               />
             </div>

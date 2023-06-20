@@ -1,5 +1,21 @@
 import React, { useState } from "react";
-import { DownloadOutlined } from "@ant-design/icons";
+import {
+  CheckCircleFilled,
+  CheckCircleOutlined,
+  CloseCircleFilled,
+  CloseCircleOutlined,
+  CreditCardOutlined,
+  DeleteOutlined,
+  DownloadOutlined,
+  MailOutlined,
+  MinusCircleOutlined,
+  PlayCircleFilled,
+  PlayCircleOutlined,
+  PlusOutlined,
+  StarFilled,
+  StarOutlined,
+  UsergroupAddOutlined,
+} from "@ant-design/icons";
 import { Layout, Typography, Button, Table, Select, Tooltip } from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -20,6 +36,9 @@ interface DataType {
 }
 
 const DevProgrammeModal: React.FC = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedLevels, setSelectedLevels] = useState<number[]>([]);
+
   const columns: TableColumnsType<DataType> = [
     {
       title: "Skill",
@@ -233,20 +252,14 @@ const DevProgrammeModal: React.FC = () => {
   ];
 
   const rowSelection: TableRowSelection<DataType> = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
-    },
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows);
-    },
-    onSelectAll: (selected, selectedRows, changeRows) => {
-      console.log(selected, selectedRows, changeRows);
+    onChange: (selectedRowKeys) => {
+      setSelectedRowKeys(selectedRowKeys);
     },
   };
+
+  const filteredData = data.filter((item) =>
+    selectedLevels.length ? selectedLevels.includes(item.level) : true
+  );
 
   return (
     <div className="px-6 py-4">
@@ -278,11 +291,13 @@ const DevProgrammeModal: React.FC = () => {
               popupMatchSelectWidth={true}
               showSearch={false}
               placement="bottomRight"
+              value={selectedLevels} // Set the current value
+              onChange={setSelectedLevels} // Update the selected levels when the selection changes
             >
-              <Option value="1" label="Level 1">
+              <Option value={1} label="Level 1">
                 Level 1
               </Option>
-              <Option value="2" label="Level 2">
+              <Option value={2} label="Level 2">
                 Level 2
               </Option>
             </Select>
@@ -295,13 +310,78 @@ const DevProgrammeModal: React.FC = () => {
       <div>
         <Content className="pb-16 bg-white">
           <div className="relative">
+            <div
+              className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
+                selectedRowKeys.length > 0
+                  ? " opacity-100 "
+                  : " opacity-0 pointer-events-none "
+              }`}
+            >
+              <div className="ml-4 font-medium">
+                {selectedRowKeys.length} skill
+                {selectedRowKeys.length > 1 ? "s" : ""} selected
+              </div>
+              <div className="mx-3 text-neutral-500">|</div>
+              <div className="flex items-center gap-4">
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <CloseCircleOutlined />
+                    <span>Not achieved</span>
+                  </div>
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <PlayCircleOutlined />
+                    <span>Working on</span>
+                  </div>
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircleOutlined />
+                    <span>Completed</span>
+                  </div>
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <StarOutlined />
+                    <span>Achieved</span>
+                  </div>
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <MinusCircleOutlined />
+                    <span>Not started</span>
+                  </div>
+                </Button>
+              </div>
+            </div>
             <Table
               columns={columns}
-              dataSource={data}
+              dataSource={filteredData}
               size="small"
               pagination={false}
               rowSelection={{ ...rowSelection }}
-              className="ant-table-sticky ant-table-bg-reset"
+              className="ant-table-sticky [&_tr>*:last-child]:pl-6"
             />
           </div>
           <footer className="fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">

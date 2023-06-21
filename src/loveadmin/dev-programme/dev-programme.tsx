@@ -7,7 +7,15 @@ import {
   PlayCircleOutlined,
   StarOutlined,
 } from "@ant-design/icons";
-import { Layout, Typography, Button, Table, Select, Tooltip } from "antd";
+import {
+  Layout,
+  Typography,
+  Button,
+  Table,
+  Select,
+  Tooltip,
+  notification,
+} from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
 const { Content } = Layout;
@@ -80,7 +88,7 @@ const DevProgrammeModal: React.FC = () => {
             {record.achieved > 0 && (
               <Tooltip title={<>Achieved · {record.achieved}%</>}>
                 <div
-                  className="h-full bg-yellow-500"
+                  className="h-full bg-yellow-400"
                   style={{ width: `${record.achieved}%` }}
                 ></div>
               </Tooltip>
@@ -240,9 +248,110 @@ const DevProgrammeModal: React.FC = () => {
   ];
 
   const rowSelection: TableRowSelection<DataType> = {
+    selectedRowKeys,
     onChange: (selectedRowKeys) => {
       setSelectedRowKeys(selectedRowKeys);
     },
+  };
+
+  const notAchieved = () => {
+    setSelectedRowKeys([]);
+
+    notification.open({
+      message: `${selectedRowKeys.length} skill${
+        selectedRowKeys.length !== 1 ? "s" : ""
+      } set to Not Achieved.`,
+      description: (
+        <Button
+          type="primary"
+          size="small"
+          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+        >
+          Undo
+        </Button>
+      ),
+      placement: "bottomRight",
+    });
+  };
+
+  const workingOn = () => {
+    setSelectedRowKeys([]);
+
+    notification.open({
+      message: `${selectedRowKeys.length} skill${
+        selectedRowKeys.length !== 1 ? "s" : ""
+      } set to Working On.`,
+      description: (
+        <Button
+          type="primary"
+          size="small"
+          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+        >
+          Undo
+        </Button>
+      ),
+      placement: "bottomRight",
+    });
+  };
+
+  const completed = () => {
+    setSelectedRowKeys([]);
+
+    notification.open({
+      message: `${selectedRowKeys.length} skill${
+        selectedRowKeys.length !== 1 ? "s" : ""
+      } set to Completed.`,
+      description: (
+        <Button
+          type="primary"
+          size="small"
+          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+        >
+          Undo
+        </Button>
+      ),
+      placement: "bottomRight",
+    });
+  };
+
+  const achieved = () => {
+    setSelectedRowKeys([]);
+
+    notification.open({
+      message: `${selectedRowKeys.length} skill${
+        selectedRowKeys.length !== 1 ? "s" : ""
+      } set to Achieved.`,
+      description: (
+        <Button
+          type="primary"
+          size="small"
+          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+        >
+          Undo
+        </Button>
+      ),
+      placement: "bottomRight",
+    });
+  };
+
+  const notStarted = () => {
+    setSelectedRowKeys([]);
+
+    notification.open({
+      message: `${selectedRowKeys.length} skill${
+        selectedRowKeys.length !== 1 ? "s" : ""
+      } set to Not Started.`,
+      description: (
+        <Button
+          type="primary"
+          size="small"
+          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+        >
+          Undo
+        </Button>
+      ),
+      placement: "bottomRight",
+    });
   };
 
   const filteredData = data.filter((item) =>
@@ -314,6 +423,7 @@ const DevProgrammeModal: React.FC = () => {
                   size="small"
                   type="text"
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={notAchieved}
                 >
                   <div className="flex items-center gap-1.5">
                     <CloseCircleOutlined />
@@ -324,6 +434,7 @@ const DevProgrammeModal: React.FC = () => {
                   size="small"
                   type="text"
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={workingOn}
                 >
                   <div className="flex items-center gap-1.5">
                     <PlayCircleOutlined />
@@ -334,6 +445,7 @@ const DevProgrammeModal: React.FC = () => {
                   size="small"
                   type="text"
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={completed}
                 >
                   <div className="flex items-center gap-1.5">
                     <CheckCircleOutlined />
@@ -344,6 +456,7 @@ const DevProgrammeModal: React.FC = () => {
                   size="small"
                   type="text"
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={achieved}
                 >
                   <div className="flex items-center gap-1.5">
                     <StarOutlined />
@@ -354,6 +467,7 @@ const DevProgrammeModal: React.FC = () => {
                   size="small"
                   type="text"
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={notStarted}
                 >
                   <div className="flex items-center gap-1.5">
                     <MinusCircleOutlined />
@@ -367,7 +481,7 @@ const DevProgrammeModal: React.FC = () => {
               dataSource={filteredData}
               size="small"
               pagination={false}
-              rowSelection={{ ...rowSelection }}
+              rowSelection={{ ...rowSelection, selectedRowKeys }}
               className="ant-table-sticky [&_tr>*:last-child]:pl-6"
             />
           </div>

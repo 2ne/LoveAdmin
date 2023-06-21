@@ -32,6 +32,7 @@ module.exports = {
     extend: {
       fontFamily: {
         display: ["'CircularStd'", "sans-serif"],
+        body: ["'Barlow'", "sans-serif"],
       },
     },
   },

@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Typography, Button, Table, Dropdown, Menu, Modal } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
+import { DevProgrammeDataType } from "./dev-programme";
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -14,6 +15,7 @@ interface DevProgrammeParticipantsModalProps {
   visible: boolean;
   handleOk: () => void;
   handleCancel: () => void;
+  rowData: DevProgrammeDataType;
 }
 
 interface DataType {
@@ -30,7 +32,7 @@ const data = [
 
 const DevProgrammeParticipantsModal: React.FC<
   DevProgrammeParticipantsModalProps
-> = ({ visible, handleOk, handleCancel }) => {
+> = ({ visible, handleOk, handleCancel, rowData }) => {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -83,23 +85,14 @@ const DevProgrammeParticipantsModal: React.FC<
     <Modal
       title={
         <Title level={5}>
-          <span>Sales Report</span>
-          <span className="mx-1.5">·</span>
-          <span>Adult Gymnastics for this month</span>
-          <span className="mx-1.5 text-neutral-500">·</span>
-          {selectedRowKeys.length === 0 && (
-            <span className="text-neutral-500">12 records</span>
-          )}
-          {selectedRowKeys.length > 0 && (
-            <>
-              <span className="font-medium tabular-nums text-neutral-500">
-                {selectedRowKeys.length} of 12
-                <span className="ml-1">selected</span>
-              </span>
-              <span className="mx-1.5 text-neutral-500">·</span>
-              <a className="">Select all</a>
-            </>
-          )}
+          <div className="mb-0.5">
+            Level {rowData.level}
+            <span className="mx-1.5">·</span>
+            {rowData.skill}
+          </div>
+          <div className="text-sm font-normal text-neutral-500">
+            Select participants and set their progress towards this skill...
+          </div>
         </Title>
       }
       open={visible}
@@ -107,6 +100,7 @@ const DevProgrammeParticipantsModal: React.FC<
       onCancel={handleCancel}
       centered
       footer={false}
+      className="w-full max-w-2xl"
     >
       <div>
         <Content className="pb-2 bg-white">

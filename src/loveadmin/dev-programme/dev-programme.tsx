@@ -23,7 +23,7 @@ const { Content } = Layout;
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-interface DataType {
+export interface DevProgrammeDataType {
   key: React.Key;
   skill: string;
   level: number;
@@ -36,9 +36,16 @@ interface DataType {
 }
 
 const DevProgrammeModal: React.FC = () => {
+  const [selectedRowData, setSelectedRowData] = useState<DevProgrammeDataType>(
+    {}
+  );
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [selectedLevels, setSelectedLevels] = useState<number[]>([]);
+
   const [visible, setVisible] = useState(false);
 
-  const showModal = () => {
+  const showModal = (rowData: DevProgrammeDataType) => {
+    setSelectedRowData(rowData);
     setVisible(true);
   };
 
@@ -50,15 +57,14 @@ const DevProgrammeModal: React.FC = () => {
     setVisible(false);
   };
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [selectedLevels, setSelectedLevels] = useState<number[]>([]);
-
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<DevProgrammeDataType> = [
     {
       title: "Skill",
       dataIndex: "skill",
       key: "skill",
-      render: (text: string) => <a onClick={showModal}>{text}</a>,
+      render: (text: string, record: DevProgrammeDataType) => (
+        <a onClick={() => showModal(record)}>{text}</a>
+      ),
     },
     {
       title: "Level",
@@ -262,7 +268,7 @@ const DevProgrammeModal: React.FC = () => {
     },
   ];
 
-  const rowSelection: TableRowSelection<DataType> = {
+  const rowSelection: TableRowSelection<DevProgrammeDataType> = {
     selectedRowKeys,
     onChange: (selectedRowKeys) => {
       setSelectedRowKeys(selectedRowKeys);
@@ -516,6 +522,7 @@ const DevProgrammeModal: React.FC = () => {
         visible={visible}
         handleOk={handleOk}
         handleCancel={handleCancel}
+        rowData={selectedRowData}
       />
     </div>
   );

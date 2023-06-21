@@ -174,3 +174,19 @@ h5.ant-typography {
 .ant-table-bg-reset tr.ant-table-expanded-row > td {
   @apply bg-neutral-50 pb-8 !important;
 }
+
+.scrollbar-thin-x::-webkit-scrollbar {
+  @apply h-[5px] cursor-pointer;
+}
+
+.scrollbar-thin-x::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}
+
+.scrollbar-thin-x::-webkit-scrollbar-thumb {
+  @apply h-[5px] bg-neutral-300;
+}
+
+.scrollbar-thin-x::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-400;
+}

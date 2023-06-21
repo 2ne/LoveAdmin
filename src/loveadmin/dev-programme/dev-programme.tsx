@@ -1,20 +1,11 @@
 import React, { useState } from "react";
 import {
-  CheckCircleFilled,
   CheckCircleOutlined,
-  CloseCircleFilled,
   CloseCircleOutlined,
-  CreditCardOutlined,
-  DeleteOutlined,
   DownloadOutlined,
-  MailOutlined,
   MinusCircleOutlined,
-  PlayCircleFilled,
   PlayCircleOutlined,
-  PlusOutlined,
-  StarFilled,
   StarOutlined,
-  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Layout, Typography, Button, Table, Select, Tooltip } from "antd";
 import type { TableColumnsType } from "antd";
@@ -45,13 +36,11 @@ const DevProgrammeModal: React.FC = () => {
       dataIndex: "skill",
       key: "skill",
       render: (text: string) => <a>{text}</a>,
-      width: 700,
     },
     {
       title: "Level",
       dataIndex: "level",
       key: "level",
-      width: 340,
       sorter: (a, b) => a.level - b.level,
       defaultSortOrder: "ascend",
       render: (level: number) => <div>Level {level}</div>,
@@ -60,7 +49,6 @@ const DevProgrammeModal: React.FC = () => {
       title: "Progress",
       dataIndex: "overallProgress",
       key: "overallProgress",
-      width: 340,
       sorter: (a, b) => a.overallProgress - b.overallProgress,
       render: (overallProgress, record) => (
         <div className="flex items-center gap-3">
@@ -311,13 +299,13 @@ const DevProgrammeModal: React.FC = () => {
         <Content className="pb-16 bg-white">
           <div className="relative">
             <div
-              className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
+              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-10 transition-all pr-4 z-20 flex items-center -mb-[38px] " ${
                 selectedRowKeys.length > 0
                   ? " opacity-100 "
                   : " opacity-0 pointer-events-none "
               }`}
             >
-              <div className="ml-4 font-medium">
+              <div className="font-medium whitespace-nowrap">
                 {selectedRowKeys.length} skill
                 {selectedRowKeys.length > 1 ? "s" : ""} selected
               </div>

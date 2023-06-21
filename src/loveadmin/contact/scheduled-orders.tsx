@@ -210,7 +210,7 @@ const ScheduledOrders: React.FC = () => {
         <Content className="bg-white border border-solid rounded border-neutral-200">
           <div className="relative">
             <div
-              className={`sticky overflow-x-auto bg-neutral-50 h-[38px] top-0 ml-12 transition-all z-20 flex items-center -mb-[38px] " ${
+              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin bg-neutral-50 h-[38px] top-0 ml-12 transition-all z-20 flex items-center -mb-[38px] " ${
                 hasSelected
                   ? " opacity-100 "
                   : " opacity-0 pointer-events-none "

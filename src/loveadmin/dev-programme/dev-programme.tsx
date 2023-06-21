@@ -18,6 +18,7 @@ import {
 } from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
+import DevProgrammeParticipantsModal from "./dev-programme-participants-modal";
 const { Content } = Layout;
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -35,6 +36,20 @@ interface DataType {
 }
 
 const DevProgrammeModal: React.FC = () => {
+  const [visible, setVisible] = useState(false);
+
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const handleOk = () => {
+    setVisible(false);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [selectedLevels, setSelectedLevels] = useState<number[]>([]);
 
@@ -43,7 +58,7 @@ const DevProgrammeModal: React.FC = () => {
       title: "Skill",
       dataIndex: "skill",
       key: "skill",
-      render: (text: string) => <a>{text}</a>,
+      render: (text: string) => <a onClick={showModal}>{text}</a>,
     },
     {
       title: "Level",
@@ -497,6 +512,11 @@ const DevProgrammeModal: React.FC = () => {
           <Button icon={<DownloadOutlined />}>Export</Button>
         </div>
       </footer>
+      <DevProgrammeParticipantsModal
+        visible={visible}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </div>
   );
 };

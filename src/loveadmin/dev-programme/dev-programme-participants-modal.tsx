@@ -11,7 +11,7 @@ import { ColumnsType } from "antd/es/table/interface";
 const { Content } = Layout;
 const { Title } = Typography;
 
-interface ProductSalesReportModalProps {
+interface DevProgrammeParticipantsModalProps {
   visible: boolean;
   handleOk: () => void;
   handleCancel: () => void;
@@ -138,11 +138,9 @@ const data = [
   },
 ];
 
-const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
-  visible,
-  handleOk,
-  handleCancel,
-}) => {
+const DevProgrammeParticipantsModal: React.FC<
+  DevProgrammeParticipantsModalProps
+> = ({ visible, handleOk, handleCancel }) => {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
@@ -261,7 +259,6 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-      wrapClassName="[&_.ant-modal-content]:rounded-none [&_.ant-modal-content]:min-h-screen [&>*]:w-full [&>*]:max-w-full"
       centered
       footer={false}
     >
@@ -314,20 +311,8 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
               })}
             />
           </div>
-          <footer className="fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
-            <div className="flex items-center gap-2 ml-auto">
-              <Button>Edit columns</Button>
-              <Button icon={<DownloadOutlined />}>Export</Button>
-            </div>
-          </footer>
         </Content>
       </div>
-      <footer className="fixed gap-2 left-0 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
-        <div className="flex items-center gap-2 ml-auto">
-          <Button>Edit columns</Button>
-          <Button icon={<DownloadOutlined />}>Export</Button>
-        </div>
-      </footer>
       {contextMenuVisible && (
         <Dropdown
           overlay={
@@ -367,4 +352,4 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
   );
 };
 
-export default ProductSalesReportModal;
+export default DevProgrammeParticipantsModal;

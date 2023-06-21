@@ -100,7 +100,7 @@ const DevProgrammeParticipantsModal: React.FC<
       onCancel={handleCancel}
       centered
       footer={false}
-      className="w-full max-w-2xl"
+      className="w-full max-w-3xl"
     >
       <div>
         <Content className="pb-2 bg-white">

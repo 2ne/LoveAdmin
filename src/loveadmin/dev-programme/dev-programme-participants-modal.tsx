@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  DownloadOutlined,
   MailOutlined,
   PlusOutlined,
   UserAddOutlined,
@@ -19,122 +18,13 @@ interface DevProgrammeParticipantsModalProps {
 
 interface DataType {
   key: React.Key;
-  invoiceNumber: string;
-  status: string;
-  beneficiary: string;
-  date: string;
-  quantity: number;
-  invoiced: number;
+  name: string;
 }
 
 const data = [
   {
     key: "1",
-    invoiceNumber: "#462378",
-    status: "Pending",
-    beneficiary: "James Toone",
-    date: "15 May 2023",
-    quantity: 1,
-    invoiced: 54.0,
-  },
-  {
-    key: "2",
-    invoiceNumber: "#462379",
-    status: "Paid",
-    beneficiary: "John Doe",
-    date: "16 May 2023",
-    quantity: 3,
-    invoiced: 120.0,
-  },
-  {
-    key: "3",
-    invoiceNumber: "#462380",
-    status: "Outstanding",
-    beneficiary: "Sarah Smith",
-    date: "17 May 2023",
-    quantity: 2,
-    invoiced: 100.0,
-  },
-  {
-    key: "4",
-    invoiceNumber: "#462381",
-    status: "Paid",
-    beneficiary: "Emily Johnson",
-    date: "18 May 2023",
-    quantity: 1,
-    invoiced: 60.0,
-  },
-  {
-    key: "5",
-    invoiceNumber: "#462382",
-    status: "Pending",
-    beneficiary: "Robert Brown",
-    date: "19 May 2023",
-    quantity: 4,
-    invoiced: 200.0,
-  },
-  {
-    key: "6",
-    invoiceNumber: "#462383",
-    status: "Paid",
-    beneficiary: "Michael Davis",
-    date: "20 May 2023",
-    quantity: 2,
-    invoiced: 140.0,
-  },
-  {
-    key: "7",
-    invoiceNumber: "#462384",
-    status: "Outstanding",
-    beneficiary: "Jessica Miller",
-    date: "21 May 2023",
-    quantity: 1,
-    invoiced: 50.0,
-  },
-  {
-    key: "8",
-    invoiceNumber: "#462385",
-    status: "Paid",
-    beneficiary: "Thomas Wilson",
-    date: "22 May 2023",
-    quantity: 1,
-    invoiced: 180.0,
-  },
-  {
-    key: "9",
-    invoiceNumber: "#462386",
-    status: "Pending",
-    beneficiary: "Jennifer Taylor",
-    date: "23 May 2023",
-    quantity: 1,
-    invoiced: 120.0,
-  },
-  {
-    key: "10",
-    invoiceNumber: "#462387",
-    status: "Outstanding",
-    beneficiary: "David Moore",
-    date: "24 May 2023",
-    quantity: 2,
-    invoiced: 70.0,
-  },
-  {
-    key: "11",
-    invoiceNumber: "#462388",
-    status: "Paid",
-    beneficiary: "Mary Johnson",
-    date: "25 May 2023",
-    quantity: 1,
-    invoiced: 240.0,
-  },
-  {
-    key: "12",
-    invoiceNumber: "#462389",
-    status: "Pending",
-    beneficiary: "William Jackson",
-    date: "26 May 2023",
-    quantity: 2,
-    invoiced: 110.0,
+    participant: "James Toone",
   },
 ];
 
@@ -164,56 +54,12 @@ const DevProgrammeParticipantsModal: React.FC<
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "Invoice #",
-      dataIndex: "invoiceNumber",
-      key: "invoiceNumber",
+      title: "Participant",
+      dataIndex: "participant",
+      key: "participant",
+      ellipsis: true,
+      sorter: (a, b) => a.participant.length - b.participant.length,
       render: (text: string) => <a>{text}</a>,
-      ellipsis: true,
-      sorter: (a, b) => a.invoiceNumber.length - b.invoiceNumber.length,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (text: string) => <a>{text}</a>,
-      ellipsis: true,
-      sorter: (a, b) => a.status.length - b.status.length,
-    },
-    {
-      title: "Beneficiary",
-      dataIndex: "beneficiary",
-      key: "beneficiary",
-      ellipsis: true,
-      sorter: (a, b) => a.beneficiary.length - b.beneficiary.length,
-      render: (text: string) => <a>{text}</a>,
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      ellipsis: true,
-      sorter: (a, b) => a.date.length - b.date.length,
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-      align: "right",
-      ellipsis: true,
-      sorter: (a, b) => a.quantity - b.quantity,
-    },
-    {
-      title: "Invoiced",
-      dataIndex: "invoiced",
-      key: "invoiced",
-      align: "right",
-      sorter: (a, b) => a.invoiced - b.invoiced,
-      render: (text: number) =>
-        text === 0 ? (
-          "-"
-        ) : (
-          <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
-        ),
     },
   ];
 
@@ -263,7 +109,7 @@ const DevProgrammeParticipantsModal: React.FC<
       footer={false}
     >
       <div>
-        <Content className="pb-16 bg-white">
+        <Content className="pb-2 bg-white">
           <div className="relative">
             <div
               className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${

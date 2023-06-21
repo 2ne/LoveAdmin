@@ -1,12 +1,29 @@
 import React, { useState } from "react";
 import {
+  CheckCircleFilled,
+  CheckCircleOutlined,
+  CloseCircleFilled,
+  CloseCircleOutlined,
   MailOutlined,
+  MinusCircleOutlined,
+  PlayCircleFilled,
+  PlayCircleOutlined,
   PlusOutlined,
+  StarFilled,
+  StarOutlined,
   UserAddOutlined,
-  UsergroupAddOutlined,
 } from "@ant-design/icons";
-import { Layout, Typography, Button, Table, Dropdown, Menu, Modal } from "antd";
-import { ColumnsType } from "antd/es/table/interface";
+import {
+  Layout,
+  Typography,
+  Button,
+  Table,
+  Dropdown,
+  Menu,
+  Modal,
+  Radio,
+} from "antd";
+import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
 import { DevProgrammeDataType } from "./dev-programme";
 const { Content } = Layout;
 const { Title } = Typography;
@@ -20,39 +37,92 @@ interface DevProgrammeParticipantsModalProps {
 
 interface DataType {
   key: React.Key;
-  name: string;
+  participant: string;
 }
 
 const data = [
   {
     key: "1",
     participant: "James Toone",
+    progress: "completed",
+  },
+  {
+    key: "2",
+    participant: "Sarah Johnson",
+    progress: "completed",
+  },
+  {
+    key: "3",
+    participant: "Robert Smith",
+    progress: "completed",
+  },
+  {
+    key: "4",
+    participant: "Jessica Davis",
+    progress: "completed",
+  },
+  {
+    key: "5",
+    participant: "Michael Miller",
+    progress: "completed",
+  },
+  {
+    key: "6",
+    participant: "Emily Clark",
+    progress: "completed",
+  },
+  {
+    key: "7",
+    participant: "John White",
+    progress: "completed",
+  },
+  {
+    key: "8",
+    participant: "Emma Lewis",
+    progress: "completed",
+  },
+  {
+    key: "9",
+    participant: "William Green",
+    progress: "completed",
+  },
+  {
+    key: "10",
+    participant: "Sophia Brown",
+    progress: "completed",
+  },
+  {
+    key: "11",
+    participant: "Jacob Black",
+    progress: "completed",
+  },
+  {
+    key: "12",
+    participant: "Olivia Taylor",
+    progress: "completed",
+  },
+  {
+    key: "13",
+    participant: "Lucas Turner",
+    progress: "completed",
+  },
+  {
+    key: "14",
+    participant: "Mia Anderson",
+    progress: "completed",
   },
 ];
 
 const DevProgrammeParticipantsModal: React.FC<
   DevProgrammeParticipantsModalProps
 > = ({ visible, handleOk, handleCancel, rowData }) => {
-  const [contextMenuVisible, setContextMenuVisible] = useState(false);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-
-  const handleContextMenu = (
-    event: React.MouseEvent<HTMLDivElement>,
-    record: DataType
-  ) => {
-    event.preventDefault();
-    setContextMenuPosition({ x: event.clientX, y: event.clientY });
-    setContextMenuVisible(true);
-  };
-
-  const hideContextMenu = () => {
-    setContextMenuVisible(false);
-  };
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  const [radioGroupValue, setRadioGroupValue] = useState<string | null>(null);
+
+  const onRadioChange = (value: string) => {
+    setRadioGroupValue((prevValue) => (prevValue === value ? null : value));
+  };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -62,6 +132,62 @@ const DevProgrammeParticipantsModal: React.FC<
       ellipsis: true,
       sorter: (a, b) => a.participant.length - b.participant.length,
       render: (text: string) => <a>{text}</a>,
+      width: 210,
+    },
+    {
+      title: "Progress",
+      dataIndex: "progress",
+      key: "progress",
+      render: () => (
+        <div>
+          <Radio.Group
+            buttonStyle="solid"
+            value={radioGroupValue}
+            className="flex whitespace-nowrap"
+          >
+            <Radio.Button
+              onClick={() => onRadioChange("NotAchieved")}
+              value="NotAchieved"
+              className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+            >
+              <div className="flex items-center gap-2 -ml-1">
+                <CloseCircleFilled className="text-danger-500" />
+                <span>Not achieved</span>
+              </div>
+            </Radio.Button>
+            <Radio.Button
+              onClick={() => onRadioChange("WorkingOn")}
+              value="WorkingOn"
+              className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+            >
+              <div className="flex items-center gap-2 -ml-1">
+                <PlayCircleFilled className="text-primary-500" />
+                <span>Working on</span>
+              </div>
+            </Radio.Button>
+            <Radio.Button
+              onClick={() => onRadioChange("Completed")}
+              value="Completed"
+              className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+            >
+              <div className="flex items-center gap-2 -ml-1">
+                <CheckCircleFilled className="text-success-500" />
+                <span>Completed</span>
+              </div>
+            </Radio.Button>
+            <Radio.Button
+              onClick={() => onRadioChange("Achieved")}
+              value="Achieved"
+              className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+            >
+              <div className="flex items-center gap-2 -ml-1">
+                <StarFilled className="text-yellow-500" />
+                <span>Achieved</span>
+              </div>
+            </Radio.Button>
+          </Radio.Group>
+        </div>
+      ),
     },
   ];
 
@@ -70,14 +196,30 @@ const DevProgrammeParticipantsModal: React.FC<
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
-  const rowSelection = {
+  const rowSelection: TableRowSelection<DevProgrammeDataType> = {
     selectedRowKeys,
-    onChange: onSelectChange,
+    onChange: (selectedRowKeys) => {
+      setSelectedRowKeys(selectedRowKeys);
+    },
   };
 
-  const hasSelected = selectedRowKeys.length > 0;
-
   const removeAllSelected = () => {
+    setSelectedRowKeys([]);
+  };
+
+  const notAchieved = () => {
+    setSelectedRowKeys([]);
+  };
+  const workingOn = () => {
+    setSelectedRowKeys([]);
+  };
+  const completed = () => {
+    setSelectedRowKeys([]);
+  };
+  const achieved = () => {
+    setSelectedRowKeys([]);
+  };
+  const notStarted = () => {
     setSelectedRowKeys([]);
   };
 
@@ -91,7 +233,7 @@ const DevProgrammeParticipantsModal: React.FC<
             {rowData.skill}
           </div>
           <div className="text-sm font-normal text-neutral-500">
-            Select participants and set their progress towards this skill...
+            Select participants and set their progress for this skill...
           </div>
         </Title>
       }
@@ -106,36 +248,71 @@ const DevProgrammeParticipantsModal: React.FC<
         <Content className="pb-2 bg-white">
           <div className="relative">
             <div
-              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
-                hasSelected
+              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-10 transition-all pr-4 z-20 flex items-center -mb-[38px] " ${
+                selectedRowKeys.length > 0
                   ? " opacity-100 "
                   : " opacity-0 pointer-events-none "
               }`}
             >
-              <div className="flex items-center gap-4 ml-4">
+              <div className="font-medium whitespace-nowrap">
+                {selectedRowKeys.length} selected
+              </div>
+              <div className="mx-3 text-neutral-500">|</div>
+              <div className="flex items-center gap-4">
                 <Button
                   size="small"
                   type="text"
-                  icon={<MailOutlined className="relative top-px" />}
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={notAchieved}
                 >
-                  Message account owner
+                  <div className="flex items-center gap-1.5">
+                    <CloseCircleOutlined />
+                    <span>Not achieved</span>
+                  </div>
                 </Button>
                 <Button
                   size="small"
                   type="text"
-                  icon={<PlusOutlined />}
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={workingOn}
                 >
-                  Add beneficiary to...
+                  <div className="flex items-center gap-1.5">
+                    <PlayCircleOutlined />
+                    <span>Working on</span>
+                  </div>
                 </Button>
                 <Button
                   size="small"
                   type="text"
-                  icon={<UsergroupAddOutlined />}
                   className="px-0 hover:bg-transparent hover:underline"
+                  onClick={completed}
                 >
-                  Invite beneficiary to...
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircleOutlined />
+                    <span>Completed</span>
+                  </div>
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                  onClick={achieved}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <StarOutlined />
+                    <span>Achieved</span>
+                  </div>
+                </Button>
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                  onClick={notStarted}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <MinusCircleOutlined />
+                    <span>Not started</span>
+                  </div>
                 </Button>
               </div>
             </div>
@@ -146,48 +323,10 @@ const DevProgrammeParticipantsModal: React.FC<
               dataSource={data}
               pagination={false}
               className="ant-table-sticky"
-              onRow={(record) => ({
-                onContextMenu: (event) => handleContextMenu(event, record),
-              })}
             />
           </div>
         </Content>
       </div>
-      {contextMenuVisible && (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="1" onClick={hideContextMenu}>
-                <MailOutlined className="mr-3" /> Message account owner
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="2" onClick={hideContextMenu}>
-                <PlusOutlined className="mr-3" /> Add beneficiary to...
-              </Menu.Item>
-              <Menu.Item key="3" onClick={hideContextMenu}>
-                <UserAddOutlined className="mr-3" /> Invite beneficiary to...
-              </Menu.Item>
-            </Menu>
-          }
-          open={contextMenuVisible}
-          trigger={["contextMenu"]}
-          autoAdjustOverflow
-          destroyPopupOnHide
-          getPopupContainer={() => document.body}
-          overlayStyle={{ position: "fixed" }}
-          onOpenChange={(visible) => !visible && hideContextMenu()}
-        >
-          <div
-            style={{
-              position: "fixed",
-              top: contextMenuPosition.y,
-              left: contextMenuPosition.x,
-              width: "1px",
-              height: "1px",
-            }}
-          ></div>
-        </Dropdown>
-      )}
     </Modal>
   );
 };

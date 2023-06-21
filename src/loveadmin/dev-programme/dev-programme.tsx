@@ -306,8 +306,7 @@ const DevProgrammeModal: React.FC = () => {
               }`}
             >
               <div className="font-medium whitespace-nowrap">
-                {selectedRowKeys.length} skill
-                {selectedRowKeys.length > 1 ? "s" : ""} selected
+                {selectedRowKeys.length} selected
               </div>
               <div className="mx-3 text-neutral-500">|</div>
               <div className="flex items-center gap-4">

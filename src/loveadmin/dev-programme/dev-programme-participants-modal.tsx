@@ -4,27 +4,24 @@ import {
   CheckCircleOutlined,
   CloseCircleFilled,
   CloseCircleOutlined,
-  MailOutlined,
   MinusCircleOutlined,
   PlayCircleFilled,
   PlayCircleOutlined,
-  PlusOutlined,
   StarFilled,
   StarOutlined,
-  UserAddOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
   Typography,
   Button,
   Table,
-  Dropdown,
-  Menu,
   Modal,
   Radio,
+  Tooltip,
+  Space,
 } from "antd";
 import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
-import { DevProgrammeDataType } from "./dev-programme";
+import { DevProgrammeDataType as ImportedDevProgrammeDataType } from "./dev-programme";
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -32,10 +29,10 @@ interface DevProgrammeParticipantsModalProps {
   visible: boolean;
   handleOk: () => void;
   handleCancel: () => void;
-  rowData: DevProgrammeDataType;
+  rowData: ImportedDevProgrammeDataType;
 }
 
-interface DataType {
+interface DevProgrammeDataType {
   key: React.Key;
   participant: string;
 }
@@ -117,14 +114,18 @@ const DevProgrammeParticipantsModal: React.FC<
   DevProgrammeParticipantsModalProps
 > = ({ visible, handleOk, handleCancel, rowData }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [progressStatus, setProgressStatus] = useState<
+    Record<string, string | null>
+  >({});
 
-  const [radioGroupValue, setRadioGroupValue] = useState<string | null>(null);
-
-  const onRadioChange = (value: string) => {
-    setRadioGroupValue((prevValue) => (prevValue === value ? null : value));
+  const onRadioChange = (value: string, key: React.Key) => {
+    setProgressStatus((prevStatus) => ({
+      ...prevStatus,
+      [key.toString()]: prevStatus[key.toString()] === value ? null : value,
+    }));
   };
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<DevProgrammeDataType> = [
     {
       title: "Participant",
       dataIndex: "participant",
@@ -132,58 +133,49 @@ const DevProgrammeParticipantsModal: React.FC<
       ellipsis: true,
       sorter: (a, b) => a.participant.length - b.participant.length,
       render: (text: string) => <a>{text}</a>,
-      width: 210,
+      width: 320,
     },
     {
       title: "Progress",
       dataIndex: "progress",
       key: "progress",
-      render: () => (
+      render: (_, record) => (
         <div>
           <Radio.Group
             buttonStyle="solid"
-            value={radioGroupValue}
-            className="flex whitespace-nowrap"
+            value={progressStatus[record.key.toString()]}
+            className="flex whitespace-nowrap ant-radio-group-progress"
           >
             <Radio.Button
-              onClick={() => onRadioChange("NotAchieved")}
+              onClick={() => onRadioChange("NotAchieved", record.key)}
               value="NotAchieved"
-              className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+              className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
             >
-              <div className="flex items-center gap-2 -ml-1">
-                <CloseCircleFilled className="text-danger-500" />
-                <span>Not achieved</span>
-              </div>
+              <CloseCircleFilled className="text-danger-500" />
             </Radio.Button>
+
             <Radio.Button
-              onClick={() => onRadioChange("WorkingOn")}
+              onClick={() => onRadioChange("WorkingOn", record.key)}
               value="WorkingOn"
-              className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+              className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
             >
-              <div className="flex items-center gap-2 -ml-1">
-                <PlayCircleFilled className="text-primary-500" />
-                <span>Working on</span>
-              </div>
+              <PlayCircleFilled className="text-primary-500" />
             </Radio.Button>
+
             <Radio.Button
-              onClick={() => onRadioChange("Completed")}
+              onClick={() => onRadioChange("Completed", record.key)}
               value="Completed"
-              className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+              className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
             >
-              <div className="flex items-center gap-2 -ml-1">
-                <CheckCircleFilled className="text-success-500" />
-                <span>Completed</span>
-              </div>
+              <CheckCircleFilled className="text-success-500" />
             </Radio.Button>
+
             <Radio.Button
-              onClick={() => onRadioChange("Achieved")}
+              onClick={() => onRadioChange("Achieved", record.key)}
               value="Achieved"
-              className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white w-full"
+              className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
             >
-              <div className="flex items-center gap-2 -ml-1">
-                <StarFilled className="text-yellow-500" />
-                <span>Achieved</span>
-              </div>
+              <StarFilled className="text-yellow-500" />
             </Radio.Button>
           </Radio.Group>
         </div>
@@ -322,7 +314,35 @@ const DevProgrammeParticipantsModal: React.FC<
               columns={columns}
               dataSource={data}
               pagination={false}
-              className="ant-table-sticky"
+              className="ant-table-sticky ant-table-modal-scroll-y"
+              scroll={{ y: 0 }}
+              footer={() => (
+                <div className="flex items-center justify-end">
+                  <div className="font-medium">Key</div>
+                  <div className="mx-3 text-neutral-500">|</div>
+                  <div className="flex gap-4">
+                    <div className="flex items-center gap-1.5">
+                      <CloseCircleFilled className="text-danger-500" />
+                      <span>Not achieved</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <PlayCircleFilled className="text-primary-500" />
+                      <span>Working on</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <CheckCircleFilled className="text-success-500" />
+                      <span>Completed</span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <StarFilled className="text-yellow-500" />
+                      <span>Achieved</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             />
           </div>
         </Content>

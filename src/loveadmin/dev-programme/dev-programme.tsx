@@ -279,17 +279,18 @@ const DevProgrammeModal: React.FC = () => {
     setSelectedRowKeys([]);
 
     notification.open({
-      message: `${selectedRowKeys.length} skill${
-        selectedRowKeys.length !== 1 ? "s" : ""
-      } set to Not Achieved.`,
+      message: "Skill Progress Updated",
       description: (
-        <Button
-          type="primary"
-          size="small"
-          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
-        >
-          Undo
-        </Button>
+        <>
+          14 participants set to Not Achieved.
+          <Button
+            type="primary"
+            size="small"
+            className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+          >
+            Undo
+          </Button>
+        </>
       ),
       placement: "bottomRight",
     });
@@ -299,17 +300,18 @@ const DevProgrammeModal: React.FC = () => {
     setSelectedRowKeys([]);
 
     notification.open({
-      message: `${selectedRowKeys.length} skill${
-        selectedRowKeys.length !== 1 ? "s" : ""
-      } set to Working On.`,
+      message: "Skill Progress Updated",
       description: (
-        <Button
-          type="primary"
-          size="small"
-          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
-        >
-          Undo
-        </Button>
+        <>
+          14 participants set to Working On.
+          <Button
+            type="primary"
+            size="small"
+            className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+          >
+            Undo
+          </Button>
+        </>
       ),
       placement: "bottomRight",
     });
@@ -319,17 +321,18 @@ const DevProgrammeModal: React.FC = () => {
     setSelectedRowKeys([]);
 
     notification.open({
-      message: `${selectedRowKeys.length} skill${
-        selectedRowKeys.length !== 1 ? "s" : ""
-      } set to Completed.`,
+      message: "Skill Progress Updated",
       description: (
-        <Button
-          type="primary"
-          size="small"
-          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
-        >
-          Undo
-        </Button>
+        <>
+          14 participants set to Completed.
+          <Button
+            type="primary"
+            size="small"
+            className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+          >
+            Undo
+          </Button>
+        </>
       ),
       placement: "bottomRight",
     });
@@ -339,17 +342,18 @@ const DevProgrammeModal: React.FC = () => {
     setSelectedRowKeys([]);
 
     notification.open({
-      message: `${selectedRowKeys.length} skill${
-        selectedRowKeys.length !== 1 ? "s" : ""
-      } set to Achieved.`,
+      message: "Skill Progress Updated",
       description: (
-        <Button
-          type="primary"
-          size="small"
-          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
-        >
-          Undo
-        </Button>
+        <>
+          14 participants set to Achieved.
+          <Button
+            type="primary"
+            size="small"
+            className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+          >
+            Undo
+          </Button>
+        </>
       ),
       placement: "bottomRight",
     });
@@ -359,7 +363,7 @@ const DevProgrammeModal: React.FC = () => {
     setSelectedRowKeys([]);
 
     notification.open({
-      message: "Skill Progress",
+      message: "Skill Progress Updated",
       description: (
         <>
           14 participants set to Not Started.

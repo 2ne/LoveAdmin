@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
   ArrowRightOutlined,
+  CalendarOutlined,
   CheckCircleFilled,
   CheckCircleOutlined,
   CloseCircleFilled,
   CloseCircleOutlined,
   CreditCardOutlined,
-  DeleteOutlined,
   DownOutlined,
   MailOutlined,
   MinusCircleOutlined,
@@ -134,6 +134,17 @@ const DevProgrammeParticipantsModal: React.FC<
   DevProgrammeParticipantsModalProps
 > = ({ visible, handleOk, handleCancel, rowData }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const defaultItem = { key: "all-time", label: "All time" };
+  const [selectedItem, setSelectedItem] = useState(defaultItem);
+  const menuItems = [
+    { key: "today", label: "Today" },
+    { key: "last-7-days", label: "Last 7 days" },
+    { key: "last-28-days", label: "Last 28 days" },
+    { key: "last-90-days", label: "Last 90 days" },
+    { key: "last-year", label: "Last year" },
+    { key: "all-time", label: "All time" },
+  ];
+  const [showKey, setShowKey] = useState(false);
   const [progressStatus, setProgressStatus] = useState<
     Record<string, string | null>
   >(dataToProgressStatus(data));
@@ -406,29 +417,80 @@ const DevProgrammeParticipantsModal: React.FC<
               className="ant-table-sticky ant-table-modal-scroll-y"
               scroll={{ y: 0 }}
               footer={() => (
-                <div className="flex items-center justify-end">
-                  <div className="font-medium">Key</div>
-                  <div className="mx-3 text-neutral-500">|</div>
-                  <div className="flex gap-4">
-                    <div className="flex items-center gap-1.5">
-                      <CloseCircleFilled className="text-danger-500" />
-                      <span>Not achieved</span>
-                    </div>
+                <div className="flex flex-row-reverse justify-between">
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu
+                        selectedKeys={[selectedItem.key]}
+                        onClick={({ key }) =>
+                          setSelectedItem(
+                            menuItems.find((item) => item.key === key) ||
+                              defaultItem
+                          )
+                        }
+                      >
+                        {menuItems.map((item) => (
+                          <Menu.Item key={item.key}>{item.label}</Menu.Item>
+                        ))}
+                      </Menu>
+                    }
+                    trigger={["click"]}
+                  >
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <span className="font-medium">
+                          {selectedItem.label}
+                        </span>
+                        <CalendarOutlined className="relative" />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <div className="flex items-center justify-end">
+                    {showKey ? (
+                      <>
+                        <a
+                          onClick={() => setShowKey(false)}
+                          className="font-medium text-neutral-900"
+                        >
+                          Hide key
+                        </a>
+                        <div className="mx-2.5 text-neutral-400">|</div>
+                        <div className="flex gap-4 text-neutral-700">
+                          <div className="flex items-center gap-1.5">
+                            <CloseCircleFilled className="text-danger-500" />
+                            <span>Not achieved</span>
+                          </div>
 
-                    <div className="flex items-center gap-1.5">
-                      <PlayCircleFilled className="text-primary-500" />
-                      <span>Working on</span>
-                    </div>
+                          <div className="flex items-center gap-1.5">
+                            <PlayCircleFilled className="text-primary-500" />
+                            <span>Working on</span>
+                          </div>
 
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircleFilled className="text-success-500" />
-                      <span>Completed</span>
-                    </div>
+                          <div className="flex items-center gap-1.5">
+                            <CheckCircleFilled className="text-success-500" />
+                            <span>Completed</span>
+                          </div>
 
-                    <div className="flex items-center gap-1.5">
-                      <StarFilled className="text-yellow-500" />
-                      <span>Achieved</span>
-                    </div>
+                          <div className="flex items-center gap-1.5">
+                            <StarFilled className="text-yellow-500" />
+                            <span>Achieved</span>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <a
+                        onClick={() => setShowKey(true)}
+                        className="font-medium text-neutral-900"
+                      >
+                        Show key
+                      </a>
+                    )}
                   </div>
                 </div>
               )}

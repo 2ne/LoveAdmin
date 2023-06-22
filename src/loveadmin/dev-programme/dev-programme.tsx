@@ -387,7 +387,7 @@ const DevProgrammeModal: React.FC = () => {
             <span>Thursday Beginners Class</span>
             <div className="relative top-px flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full bg-primary-100/50">
               <div className="p-px w-1.5 h-1.5 rounded-full bg-primary-500"></div>
-              <div className="py-px text-primary-600">Progress 30%</div>
+              <div className="py-px text-primary-600">Progress 35%</div>
             </div>
           </Title>
           <Text className="text-sm text-neutral-500">

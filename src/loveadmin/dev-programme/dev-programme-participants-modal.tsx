@@ -154,6 +154,7 @@ const DevProgrammeParticipantsModal: React.FC<
       sorter: (a, b) => a.participant.localeCompare(b.participant),
       render: (text: string) => <a>{text}</a>,
       width: 320,
+      filterSearch: true,
     },
     {
       title: "Progress",
@@ -264,10 +265,18 @@ const DevProgrammeParticipantsModal: React.FC<
     <Modal
       title={
         <Title level={5}>
-          <div className="mb-0.5">
-            Level {rowData.level}
-            <span className="mx-1.5">·</span>
-            {rowData.skill}
+          <div className="flex items-center gap-2 mb-0.5">
+            <Tooltip title={`Level ${rowData.level} · ${rowData.skill}`}>
+              <div className="inline-flex min-w-0 max-w-[calc(100%-9rem)]">
+                <div className="whitespace-nowrap">Level {rowData.level}</div>
+                <div className="mx-1.5">·</div>
+                <div className="truncate">{rowData.skill}</div>
+              </div>
+            </Tooltip>
+            <div className="whitespace-nowrap relative top-px inline-flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full bg-primary-100/50">
+              <div className="p-px w-1.5 h-1.5 rounded-full bg-primary-500"></div>
+              <div className="py-px text-primary-600">Progress 80%</div>
+            </div>
           </div>
           <div className="text-sm font-normal text-neutral-500">
             Select participants and set their progress for this skill...

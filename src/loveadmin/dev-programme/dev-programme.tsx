@@ -359,17 +359,18 @@ const DevProgrammeModal: React.FC = () => {
     setSelectedRowKeys([]);
 
     notification.open({
-      message: `${selectedRowKeys.length} skill${
-        selectedRowKeys.length !== 1 ? "s" : ""
-      } set to Not Started.`,
+      message: "Skill Progress",
       description: (
-        <Button
-          type="primary"
-          size="small"
-          className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
-        >
-          Undo
-        </Button>
+        <>
+          14 participants set to Not Started.
+          <Button
+            type="primary"
+            size="small"
+            className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
+          >
+            Undo
+          </Button>
+        </>
       ),
       placement: "bottomRight",
     });

@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import {
+  ArrowRightOutlined,
   CheckCircleFilled,
   CheckCircleOutlined,
   CloseCircleFilled,
   CloseCircleOutlined,
+  CreditCardOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  MailOutlined,
   MinusCircleOutlined,
   PlayCircleFilled,
   PlayCircleOutlined,
+  PlusOutlined,
   StarFilled,
   StarOutlined,
 } from "@ant-design/icons";
@@ -19,6 +25,8 @@ import {
   Radio,
   Tooltip,
   Space,
+  Dropdown,
+  Menu,
 } from "antd";
 import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
 import { DevProgrammeDataType as ImportedDevProgrammeDataType } from "./dev-programme";
@@ -35,13 +43,14 @@ interface DevProgrammeParticipantsModalProps {
 interface DevProgrammeDataType {
   key: React.Key;
   participant: string;
+  progress: string;
 }
 
 const data = [
   {
     key: "1",
     participant: "James Toone",
-    progress: "completed",
+    progress: "notAchieved",
   },
   {
     key: "2",
@@ -51,12 +60,12 @@ const data = [
   {
     key: "3",
     participant: "Robert Smith",
-    progress: "completed",
+    progress: "workingOn",
   },
   {
     key: "4",
     participant: "Jessica Davis",
-    progress: "completed",
+    progress: "achieved",
   },
   {
     key: "5",
@@ -66,7 +75,7 @@ const data = [
   {
     key: "6",
     participant: "Emily Clark",
-    progress: "completed",
+    progress: "achieved",
   },
   {
     key: "7",
@@ -76,39 +85,50 @@ const data = [
   {
     key: "8",
     participant: "Emma Lewis",
-    progress: "completed",
+    progress: "workingOn",
   },
   {
     key: "9",
     participant: "William Green",
-    progress: "completed",
+    progress: "achieved",
   },
   {
     key: "10",
     participant: "Sophia Brown",
-    progress: "completed",
+    progress: "achieved",
   },
   {
     key: "11",
     participant: "Jacob Black",
-    progress: "completed",
+    progress: "achieved",
   },
   {
     key: "12",
     participant: "Olivia Taylor",
-    progress: "completed",
+    progress: "workingOn",
   },
   {
     key: "13",
     participant: "Lucas Turner",
-    progress: "completed",
+    progress: "workingOn",
   },
   {
     key: "14",
     participant: "Mia Anderson",
-    progress: "completed",
+    progress: "achieved",
   },
 ];
+
+const dataToProgressStatus = (
+  data: DevProgrammeDataType[]
+): Record<string, string> => {
+  const progressStatus: Record<string, string> = {};
+  data.forEach(({ key, progress }) => {
+    progressStatus[key.toString()] =
+      progress.charAt(0).toUpperCase() + progress.slice(1);
+  });
+  return progressStatus;
+};
 
 const DevProgrammeParticipantsModal: React.FC<
   DevProgrammeParticipantsModalProps
@@ -116,7 +136,7 @@ const DevProgrammeParticipantsModal: React.FC<
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [progressStatus, setProgressStatus] = useState<
     Record<string, string | null>
-  >({});
+  >(dataToProgressStatus(data));
 
   const onRadioChange = (value: string, key: React.Key) => {
     setProgressStatus((prevStatus) => ({
@@ -131,7 +151,7 @@ const DevProgrammeParticipantsModal: React.FC<
       dataIndex: "participant",
       key: "participant",
       ellipsis: true,
-      sorter: (a, b) => a.participant.length - b.participant.length,
+      sorter: (a, b) => a.participant.localeCompare(b.participant),
       render: (text: string) => <a>{text}</a>,
       width: 320,
     },
@@ -139,6 +159,26 @@ const DevProgrammeParticipantsModal: React.FC<
       title: "Progress",
       dataIndex: "progress",
       key: "progress",
+      filters: [
+        { text: "Not achieved", value: "notAchieved" },
+        { text: "Working on", value: "workingOn" },
+        { text: "Completed", value: "completed" },
+        { text: "Achieved", value: "achieved" },
+        { text: "Not started", value: "notStarted" },
+      ],
+      onFilter: (value, record) =>
+        record.progress.indexOf(value as string) === 0,
+      sorter: (a, b) => {
+        const sortOrder: { [key: string]: number } = {
+          notAchieved: 0,
+          workingOn: 1,
+          completed: 2,
+          achieved: 3,
+          notStarted: 4,
+        };
+
+        return sortOrder[a.progress] - sortOrder[b.progress];
+      },
       render: (_, record) => (
         <div>
           <Radio.Group
@@ -146,37 +186,42 @@ const DevProgrammeParticipantsModal: React.FC<
             value={progressStatus[record.key.toString()]}
             className="flex whitespace-nowrap ant-radio-group-progress"
           >
-            <Radio.Button
-              onClick={() => onRadioChange("NotAchieved", record.key)}
-              value="NotAchieved"
-              className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-            >
-              <CloseCircleFilled className="text-danger-500" />
-            </Radio.Button>
-
-            <Radio.Button
-              onClick={() => onRadioChange("WorkingOn", record.key)}
-              value="WorkingOn"
-              className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-            >
-              <PlayCircleFilled className="text-primary-500" />
-            </Radio.Button>
-
-            <Radio.Button
-              onClick={() => onRadioChange("Completed", record.key)}
-              value="Completed"
-              className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-            >
-              <CheckCircleFilled className="text-success-500" />
-            </Radio.Button>
-
-            <Radio.Button
-              onClick={() => onRadioChange("Achieved", record.key)}
-              value="Achieved"
-              className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white"
-            >
-              <StarFilled className="text-yellow-500" />
-            </Radio.Button>
+            <Tooltip title="Not achieved" rootClassName="pointer-events-none">
+              <Radio.Button
+                onClick={() => onRadioChange("NotAchieved", record.key)}
+                value="NotAchieved"
+                className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+              >
+                <CloseCircleFilled className="transition-colors opacity-60 text-danger-500" />
+              </Radio.Button>
+            </Tooltip>
+            <Tooltip title="Working on" rootClassName="pointer-events-none">
+              <Radio.Button
+                onClick={() => onRadioChange("WorkingOn", record.key)}
+                value="WorkingOn"
+                className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+              >
+                <PlayCircleFilled className="transition-colors opacity-60 text-primary-500" />
+              </Radio.Button>
+            </Tooltip>
+            <Tooltip title="Completed" rootClassName="pointer-events-none">
+              <Radio.Button
+                onClick={() => onRadioChange("Completed", record.key)}
+                value="Completed"
+                className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+              >
+                <CheckCircleFilled className="transition-colors opacity-60 text-success-500" />
+              </Radio.Button>
+            </Tooltip>
+            <Tooltip title="Achieved" rootClassName="pointer-events-none">
+              <Radio.Button
+                onClick={() => onRadioChange("Achieved", record.key)}
+                value="Achieved"
+                className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+              >
+                <StarFilled className="text-yellow-500 transition-colors opacity-60" />
+              </Radio.Button>
+            </Tooltip>
           </Radio.Group>
         </div>
       ),
@@ -234,13 +279,13 @@ const DevProgrammeParticipantsModal: React.FC<
       onCancel={handleCancel}
       centered
       footer={false}
-      className="w-full max-w-3xl"
+      className="w-full max-w-[49rem]"
     >
       <div>
         <Content className="pb-2 bg-white">
           <div className="relative">
             <div
-              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-10 transition-all pr-4 z-20 flex items-center -mb-[38px] " ${
+              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-6 transition-all pr-4 pl-4 z-20 flex items-center -mb-[38px] " ${
                 selectedRowKeys.length > 0
                   ? " opacity-100 "
                   : " opacity-0 pointer-events-none "
@@ -250,7 +295,7 @@ const DevProgrammeParticipantsModal: React.FC<
                 {selectedRowKeys.length} selected
               </div>
               <div className="mx-3 text-neutral-500">|</div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3.5">
                 <Button
                   size="small"
                   type="text"
@@ -306,6 +351,41 @@ const DevProgrammeParticipantsModal: React.FC<
                     <span>Not started</span>
                   </div>
                 </Button>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item>
+                        <MailOutlined className="relative mr-3 top-px" />
+                        Message
+                      </Menu.Item>
+                      <Menu.Item>
+                        <CreditCardOutlined className="mr-3" /> Request payment
+                      </Menu.Item>
+                      <Menu.Item>
+                        <PlusOutlined className="mr-3" />
+                        Add to class
+                      </Menu.Item>
+                      <Menu.Item>
+                        <ArrowRightOutlined className="mr-3" />
+                        Move class
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
+                >
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="px-0 text-neutral-900"
+                  >
+                    <Space className="hover:bg-transparent hover:underline">
+                      More...
+                      <DownOutlined className="-ml-0.5 w-2.5" />
+                    </Space>
+                  </a>
+                </Dropdown>
               </div>
             </div>
             <Table

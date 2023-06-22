@@ -213,8 +213,8 @@ h5.ant-typography {
   line-height: 26px;
   padding-left: 6px;
   padding-right: 6px;
-  border-radius: 4px;
-  margin-right: 8px;
+  border-radius: 100px;
+  margin-right: 10px;
   border-width: 1px;
 }
 

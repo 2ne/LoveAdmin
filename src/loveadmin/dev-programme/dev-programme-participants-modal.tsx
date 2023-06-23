@@ -141,7 +141,7 @@ const DevProgrammeParticipantsModal: React.FC<
     { key: "last-7-days", label: "Last 7 days" },
     { key: "last-28-days", label: "Last 28 days" },
     { key: "last-90-days", label: "Last 90 days" },
-    { key: "last-year", label: "Last year" },
+    { key: "last-12-months", label: "Last 12 months" },
     { key: "all-time", label: "All time" },
   ];
   const [showKey, setShowKey] = useState(false);

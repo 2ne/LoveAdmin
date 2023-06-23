@@ -3,7 +3,7 @@ import {
   CheckOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
-import { Collapse, Popover, Button, Form, Input } from "antd";
+import { Collapse, Popover, Button, Form, Input, message } from "antd";
 import React, { ReactElement, useState } from "react";
 const { Panel } = Collapse;
 
@@ -25,6 +25,7 @@ function ContactDetails(): ReactElement {
   const onFinish = (values: { firstName: React.SetStateAction<string> }) => {
     setName(values.firstName);
     hide();
+    message.success("Details updated");
   };
 
   const editDetailContent = (
@@ -112,7 +113,9 @@ function ContactDetails(): ReactElement {
           <Button type="text" block className="ant-btn-input">
             <div className="flex-grow text-left">
               <div className="text-xs mb-0.5 text-neutral-500">Email</div>
-              <div>jamestoone@me.com</div>
+              <div>
+                <a href="mailto:jamestoone@me.com">jamestoone@me.com</a>
+              </div>
             </div>
           </Button>
           <Button type="text" block className="ant-btn-input">
@@ -120,7 +123,9 @@ function ContactDetails(): ReactElement {
               <div className="text-xs mb-0.5 text-neutral-500">
                 Contact number
               </div>
-              <div>07994884991</div>
+              <div>
+                <a href="tel:07994884991">07994884991</a>
+              </div>
             </div>
           </Button>
         </div>

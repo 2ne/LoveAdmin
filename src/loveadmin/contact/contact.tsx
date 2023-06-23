@@ -100,14 +100,20 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
             <MailOutlined className="relative mr-3 top-px" />
             Message
           </Menu.Item>
-          <Menu.Item>
-            <PlusOutlined className="mr-3" />
-            Add to...
-          </Menu.Item>
-          <Menu.Item>
-            <UsergroupAddOutlined className="mr-3" />
-            Invite to...
-          </Menu.Item>
+          <Menu.SubMenu
+            title="Add to..."
+            icon={<PlusOutlined className="mr-3" />}
+          >
+            <Menu.Item>Product</Menu.Item>
+            <Menu.Item>Group</Menu.Item>
+          </Menu.SubMenu>
+          <Menu.SubMenu
+            title="Invite to..."
+            icon={<UsergroupAddOutlined className="mr-3" />}
+          >
+            <Menu.Item>Product</Menu.Item>
+            <Menu.Item>Group</Menu.Item>
+          </Menu.SubMenu>
           <Menu.Item>
             <CreditCardOutlined className="mr-3" />
             Request payment

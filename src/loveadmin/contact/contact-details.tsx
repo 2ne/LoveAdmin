@@ -3,10 +3,19 @@ import {
   CheckOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
-import { Collapse, Popover, Button, Form, Input, message } from "antd";
+import {
+  Collapse,
+  Popover,
+  Button,
+  Form,
+  Input,
+  message,
+  Typography,
+} from "antd";
 import React, { ReactElement, useState } from "react";
 import AddNoteModal from "./notes-modal";
 const { Panel } = Collapse;
+const { Title } = Typography;
 
 function ContactDetails(): ReactElement {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -166,7 +175,31 @@ function ContactDetails(): ReactElement {
           key="3"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
         >
-          <p>1</p>
+          <div>
+            <dl className="px-4 py-3 rounded-md bg-neutral-100">
+              <dt className="pb-2 mb-2.5 border-t-0 border-b border-solid border-b-neutral-300/75 border-x-0">
+                <Title level={5} className="m-0">
+                  GoCardless
+                </Title>
+              </dt>
+              <div className="grid grid-cols-2 gap-x-3">
+                <dt className="block text-sm">Mandate identifier</dt>
+                <dd className="block w-full text-sm text-right">
+                  MD000SXP3DNAQ2
+                </dd>
+              </div>
+              <div className="grid grid-cols-2 gap-x-3">
+                <dt className="block text-sm">Status </dt>
+                <dd className="block w-full text-sm text-right">Created</dd>
+              </div>
+              <div className="grid grid-cols-2 gap-x-3">
+                <dt className="block text-sm">Date created</dt>
+                <dd className="block w-full text-sm text-right">
+                  27 Apr 2023 15:15:07
+                </dd>
+              </div>
+            </dl>
+          </div>
         </Panel>
         <Panel
           header={

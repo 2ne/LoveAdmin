@@ -183,18 +183,18 @@ function ContactDetails(): ReactElement {
                 </Title>
               </dt>
               <div className="grid grid-cols-2 gap-x-3">
-                <dt className="block text-sm">Mandate identifier</dt>
-                <dd className="block w-full text-sm text-right">
+                <dt className="block">Mandate identifier</dt>
+                <dd className="block w-full mb-1.5 text-right">
                   MD000SXP3DNAQ2
                 </dd>
               </div>
               <div className="grid grid-cols-2 gap-x-3">
-                <dt className="block text-sm">Status </dt>
-                <dd className="block w-full text-sm text-right">Created</dd>
+                <dt className="block">Status </dt>
+                <dd className="block w-full mb-1.5 text-right">Created</dd>
               </div>
               <div className="grid grid-cols-2 gap-x-3">
-                <dt className="block text-sm">Date created</dt>
-                <dd className="block w-full text-sm text-right">
+                <dt className="block">Date created</dt>
+                <dd className="block w-full mb-1.5 text-right">
                   27 Apr 2023 15:15:07
                 </dd>
               </div>

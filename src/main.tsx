@@ -13,6 +13,7 @@ ReactDOM.render(
           colorTextHeading: "#262626", // tw neutral 800
           colorText: "#262626", // tw neutral 800
           colorTextDescription: "#737373", // tw neutral 500
+          colorInfo: "#06b6d4", // tw cyan 500
           colorPrimary: "#06b6d4", // tw cyan 500
           colorSuccess: "#10b981", // tw emerald 500
           colorWarning: "#f59e0b", // tw amber 500

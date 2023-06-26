@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import {
+  CheckCircleFilled,
   CheckCircleOutlined,
+  CloseCircleFilled,
   CloseCircleOutlined,
   DownloadOutlined,
   MinusCircleOutlined,
+  PlayCircleFilled,
   PlayCircleOutlined,
+  StarFilled,
   StarOutlined,
 } from "@ant-design/icons";
 import {
@@ -36,6 +40,7 @@ export interface DevProgrammeDataType {
 }
 
 const DevProgrammeModal: React.FC = () => {
+  const [showKey, setShowKey] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState<DevProgrammeDataType>(
     {}
   );
@@ -511,15 +516,38 @@ const DevProgrammeModal: React.FC = () => {
               className="ant-table-sticky [&_tr>*:last-child]:pl-6"
             />
           </div>
-          <footer className="fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
-            <div className="flex items-center gap-2 ml-auto">
-              <Button icon={<DownloadOutlined />}>Export</Button>
-            </div>
-          </footer>
         </Content>
       </div>
-      <footer className="fixed gap-2 left-0 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
+      <footer className="font-body fixed gap-2 left-0 flex items-center justify-between bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
+        <div className="flex items-center justify-end pr-0.5">
+          {showKey ? (
+            <>
+              <Button onClick={() => setShowKey(false)}>Hide key</Button>
+              <div className="flex gap-4 ml-2 text-sm text-neutral-700">
+                <div className="flex items-center gap-1.5">
+                  <CloseCircleFilled className="text-danger-500" />
+                  <span>Not achieved</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <PlayCircleFilled className="text-primary-500" />
+                  <span>Working on</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircleFilled className="text-success-500" />
+                  <span>Completed</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <StarFilled className="text-yellow-500" />
+                  <span>Achieved</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <Button onClick={() => setShowKey(true)}>Show key</Button>
+          )}
+        </div>
         <div className="flex items-center gap-2 ml-auto">
+          <Button>Edit columns</Button>
           <Button icon={<DownloadOutlined />}>Export</Button>
         </div>
       </footer>

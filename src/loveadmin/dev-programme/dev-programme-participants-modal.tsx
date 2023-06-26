@@ -8,6 +8,7 @@ import {
   CloseCircleOutlined,
   CreditCardOutlined,
   DownOutlined,
+  DownloadOutlined,
   MailOutlined,
   MinusCircleOutlined,
   PlayCircleFilled,
@@ -134,16 +135,6 @@ const DevProgrammeParticipantsModal: React.FC<
   DevProgrammeParticipantsModalProps
 > = ({ visible, handleOk, handleCancel, rowData }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const defaultItem = { key: "all-time", label: "All time" };
-  const [selectedItem, setSelectedItem] = useState(defaultItem);
-  const menuItems = [
-    { key: "today", label: "Today" },
-    { key: "last-7-days", label: "Last 7 days" },
-    { key: "last-28-days", label: "Last 28 days" },
-    { key: "last-90-days", label: "Last 90 days" },
-    { key: "last-12-months", label: "Last 12 months" },
-    { key: "all-time", label: "All time" },
-  ];
   const [showKey, setShowKey] = useState(false);
   const [progressStatus, setProgressStatus] = useState<
     Record<string, string | null>
@@ -417,51 +408,14 @@ const DevProgrammeParticipantsModal: React.FC<
               className="ant-table-sticky ant-table-modal-scroll-y"
               scroll={{ y: 0 }}
               footer={() => (
-                <div className="flex flex-row-reverse items-center justify-between">
-                  {/* No longer needed <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu
-                        selectedKeys={[selectedItem.key]}
-                        onClick={({ key }) =>
-                          setSelectedItem(
-                            menuItems.find((item) => item.key === key) ||
-                              defaultItem
-                          )
-                        }
-                      >
-                        {menuItems.map((item) => (
-                          <Menu.Item key={item.key}>{item.label}</Menu.Item>
-                        ))}
-                      </Menu>
-                    }
-                    trigger={["click"]}
-                  >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <span className="font-medium">
-                          {selectedItem.label}
-                        </span>
-                        <CalendarOutlined className="relative" />
-                      </Space>
-                    </a>
-                  </Dropdown> */}
+                <div className="flex items-center justify-between">
                   <div className="flex items-center justify-end pr-0.5">
                     {showKey ? (
                       <>
-                        <a
-                          onClick={() => setShowKey(false)}
-                          className="font-medium pb-0.5 text-neutral-900"
-                        >
+                        <Button onClick={() => setShowKey(false)} size="small">
                           Hide key
-                        </a>
-                        <div className="mx-2.5 text-neutral-400">|</div>
-                        <div className="flex gap-4 text-neutral-700">
+                        </Button>
+                        <div className="flex gap-4 ml-2 text-neutral-700">
                           <div className="flex items-center gap-1.5">
                             <CloseCircleFilled className="text-danger-500" />
                             <span>Not achieved</span>
@@ -484,13 +438,19 @@ const DevProgrammeParticipantsModal: React.FC<
                         </div>
                       </>
                     ) : (
-                      <a
-                        onClick={() => setShowKey(true)}
-                        className="font-medium pb-0.5 text-neutral-900"
-                      >
+                      <Button onClick={() => setShowKey(true)} size="small">
                         Show key
-                      </a>
+                      </Button>
                     )}
+                  </div>
+                  <div className="flex gap-1.5">
+                    <Button size="small">Edit columns</Button>
+                    <Button
+                      size="small"
+                      icon={<DownloadOutlined className="-mr-0.5" />}
+                    >
+                      Export
+                    </Button>
                   </div>
                 </div>
               )}

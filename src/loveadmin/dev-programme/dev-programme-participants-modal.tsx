@@ -204,7 +204,7 @@ const DevProgrammeParticipantsModal: React.FC<
                 value="NotAchieved"
                 className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CloseCircleFilled className="transition-colors opacity-60 text-danger-500" />
+                <CloseCircleFilled className="absolute inset-0 transition-colors opacity-60 text-danger-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Working on" rootClassName="pointer-events-none">
@@ -213,7 +213,7 @@ const DevProgrammeParticipantsModal: React.FC<
                 value="WorkingOn"
                 className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <PlayCircleFilled className="transition-colors opacity-60 text-primary-500" />
+                <PlayCircleFilled className="absolute inset-0 transition-colors opacity-60 text-primary-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Completed" rootClassName="pointer-events-none">
@@ -222,7 +222,7 @@ const DevProgrammeParticipantsModal: React.FC<
                 value="Completed"
                 className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CheckCircleFilled className="transition-colors opacity-60 text-success-500" />
+                <CheckCircleFilled className="absolute inset-0 transition-colors opacity-60 text-success-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Achieved" rootClassName="pointer-events-none">
@@ -231,7 +231,7 @@ const DevProgrammeParticipantsModal: React.FC<
                 value="Achieved"
                 className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <StarFilled className="text-yellow-500 transition-colors opacity-60" />
+                <StarFilled className="absolute inset-0 text-yellow-500 transition-colors opacity-60 place-content-center" />
               </Radio.Button>
             </Tooltip>
           </Radio.Group>
@@ -417,8 +417,8 @@ const DevProgrammeParticipantsModal: React.FC<
               className="ant-table-sticky ant-table-modal-scroll-y"
               scroll={{ y: 0 }}
               footer={() => (
-                <div className="flex flex-row-reverse justify-between">
-                  <Dropdown
+                <div className="flex flex-row-reverse items-center justify-between">
+                  {/* No longer needed <Dropdown
                     placement="bottomLeft"
                     getPopupContainer={() => document.body}
                     overlayStyle={{ position: "fixed" }}
@@ -450,13 +450,13 @@ const DevProgrammeParticipantsModal: React.FC<
                         <CalendarOutlined className="relative" />
                       </Space>
                     </a>
-                  </Dropdown>
-                  <div className="flex items-center justify-end">
+                  </Dropdown> */}
+                  <div className="flex items-center justify-end pr-0.5">
                     {showKey ? (
                       <>
                         <a
                           onClick={() => setShowKey(false)}
-                          className="font-medium text-neutral-900"
+                          className="font-medium pb-0.5 text-neutral-900"
                         >
                           Hide key
                         </a>
@@ -486,7 +486,7 @@ const DevProgrammeParticipantsModal: React.FC<
                     ) : (
                       <a
                         onClick={() => setShowKey(true)}
-                        className="font-medium text-neutral-900"
+                        className="font-medium pb-0.5 text-neutral-900"
                       >
                         Show key
                       </a>

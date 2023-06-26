@@ -93,7 +93,7 @@ function ContactSidebar(): ReactElement {
           <p>1</p>
         </Panel>
         <Panel
-          header="Timeline"
+          header="Change log"
           key="7"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
         >

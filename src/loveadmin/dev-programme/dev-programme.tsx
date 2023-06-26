@@ -292,7 +292,7 @@ const DevProgrammeModal: React.FC = () => {
           </Button>
         </>
       ),
-      placement: "bottomRight",
+      placement: "top",
     });
   };
 

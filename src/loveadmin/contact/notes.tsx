@@ -1,4 +1,4 @@
-import { CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined, EllipsisOutlined } from "@ant-design/icons";
 import { Popover, Button, Form, Input, message } from "antd";
 import React, { useState } from "react";
 const { TextArea } = Input;
@@ -53,22 +53,30 @@ const Notes: React.FC = () => {
     </div>
   );
   return (
-    <div className="-mx-3 -my-2">
-      <Popover
-        content={editDetailContent}
-        trigger="click"
-        open={open}
-        onOpenChange={handleOpenChange}
-        placement="right"
-      >
-        <div className="[&>*:not(:last-child)]:mb-5 mb-2 hover:bg-neutral-100 transition-colors px-3 py-2 rounded-md cursor-pointer">
-          <div className="space-y-1.5">
-            <div>{note}</div>
-            <div className="text-neutral-400">James Toone · 7 Feb 09:59</div>
+    <ul className="p-0 -mx-3 -my-2">
+      <li className="relative block group">
+        <Button
+          type="text"
+          icon={<EllipsisOutlined />}
+          size="small"
+          className="absolute transition-all bg-white opacity-0 pointer-events-none hover:text-primary-600 hover:bg-neutral-50 bottom-2 right-2 group-hover:opacity-100 group-hover:pointer-events-auto active:bg-neutral-100"
+        ></Button>
+        <Popover
+          content={editDetailContent}
+          trigger="click"
+          open={open}
+          onOpenChange={handleOpenChange}
+          placement="right"
+        >
+          <div className="[&>*:not(:last-child)]:mb-5 mb-2 hover:bg-neutral-100 transition-colors px-3 py-2 rounded-md cursor-pointer">
+            <div className="space-y-1.5">
+              <div>{note}</div>
+              <div className="text-neutral-400">James Toone · 7 Feb 09:59</div>
+            </div>
           </div>
-        </div>
-      </Popover>
-    </div>
+        </Popover>
+      </li>
+    </ul>
   );
 };
 

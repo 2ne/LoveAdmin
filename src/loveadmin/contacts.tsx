@@ -351,19 +351,19 @@ function Contacts(): ReactElement {
             <div className="flex items-center gap-2 mt-0.5 mb-3">
               <Title level={5}>
                 <span>Contacts</span>
-                <span className="mx-1.5 text-neutral-500">·</span>
+                <span className="mx-1.5 text-subtitle">·</span>
                 {selectedRowKeys.length === 0 && (
-                  <span className="text-neutral-500">429 records</span>
+                  <span className="text-subtitle">429 records</span>
                 )}
                 {selectedRowKeys.length > 0 && (
                   <>
-                    <span className="font-medium tabular-nums text-neutral-500">
+                    <span className="font-medium tabular-nums text-subtitle">
                       {selectedRowKeys.length} of 429
                       <span className="ml-1">selected</span>
                     </span>
                   </>
                 )}
-                <span className="mx-1.5 text-neutral-500">·</span>
+                <span className="mx-1.5 text-subtitle">·</span>
                 <a className="">Select all</a>
               </Title>
               <div className="flex items-center gap-2 ml-auto">

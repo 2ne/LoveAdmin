@@ -103,27 +103,25 @@ function ContactDetails(): ReactElement {
             >
               <Button type="text" block className="ant-btn-input">
                 <div className="flex-grow text-left">
-                  <div className="text-xs mb-0.5 text-neutral-500">
-                    First name
-                  </div>
+                  <div className="text-xs mb-0.5 text-subtitle">First name</div>
                   <div>{firstName}</div>
                 </div>
               </Button>
             </Popover>
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">Last name</div>
+                <div className="text-xs mb-0.5 text-subtitle">Last name</div>
                 <div>Toone</div>
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">
+                <div className="text-xs mb-0.5 text-subtitle">
                   Date of birth
                 </div>
                 <div>
                   14 April 1986
-                  <span className="text-neutral-500">
+                  <span className="text-subtitle">
                     <span className="mx-1.5">·</span>37 years old
                   </span>
                 </div>
@@ -131,13 +129,13 @@ function ContactDetails(): ReactElement {
             </Button>
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">Gender</div>
+                <div className="text-xs mb-0.5 text-subtitle">Gender</div>
                 <div>Male</div>
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">Email</div>
+                <div className="text-xs mb-0.5 text-subtitle">Email</div>
                 <div>
                   <a href="mailto:jamestoone@me.com">jamestoone@me.com</a>
                 </div>
@@ -145,7 +143,7 @@ function ContactDetails(): ReactElement {
             </Button>
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">
+                <div className="text-xs mb-0.5 text-subtitle">
                   Contact number
                 </div>
                 <div>
@@ -166,7 +164,7 @@ function ContactDetails(): ReactElement {
           header={
             <>
               Mandate
-              <span className="text-neutral-500">
+              <span className="text-subtitle">
                 <span className="mx-1.5">·</span>Active
               </span>
             </>
@@ -205,7 +203,7 @@ function ContactDetails(): ReactElement {
           header={
             <>
               Medical
-              <span className="text-neutral-500">
+              <span className="text-subtitle">
                 <span className="mx-1.5">·</span>2 conditions
               </span>
             </>
@@ -217,7 +215,7 @@ function ContactDetails(): ReactElement {
           <div className="-mt-1.5 space-y-1">
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">
+                <div className="text-xs mb-0.5 text-subtitle">
                   Behavioural conditions
                 </div>
                 <div>ADHD</div>
@@ -225,13 +223,13 @@ function ContactDetails(): ReactElement {
             </Button>
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">Allergies</div>
+                <div className="text-xs mb-0.5 text-subtitle">Allergies</div>
                 <div>Very allergic to bee stings</div>
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
               <div className="flex-grow text-left">
-                <div className="text-xs mb-0.5 text-neutral-500">
+                <div className="text-xs mb-0.5 text-subtitle">
                   Medical notes
                 </div>
                 <a onClick={handleAddNoteClick}>Add note</a>
@@ -257,7 +255,7 @@ function ContactDetails(): ReactElement {
           header={
             <>
               Linked accounts
-              <span className="text-neutral-500">
+              <span className="text-subtitle">
                 <span className="mx-1.5">·</span>2
               </span>
             </>

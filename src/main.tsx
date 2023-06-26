@@ -10,9 +10,10 @@ ReactDOM.render(
     <ConfigProvider
       theme={{
         token: {
-          colorTextHeading: "#262626", // tw neutral 800
-          colorText: "#262626", // tw neutral 800
-          colorTextDescription: "#737373", // tw neutral 500
+          colorTextHeading: "#262626", // tw zinc 900
+          colorText: "#27272a", // tw zinc 800
+          colorTextDescription: "#71717a", // tw zinc 500
+          colorTextPlaceholder: "#a1a1aa", // tw zinc 400
           colorInfo: "#06b6d4", // tw cyan 500
           colorPrimary: "#06b6d4", // tw cyan 500
           colorSuccess: "#10b981", // tw emerald 500

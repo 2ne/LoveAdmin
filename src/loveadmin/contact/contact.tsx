@@ -193,7 +193,7 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
                 </div>
                 <div className="space-y-1">
                   <div className="font-medium">James Toone</div>
-                  <div className="text-neutral-500">jamestoone@gmail.com</div>
+                  <div className="text-subtitle">jamestoone@gmail.com</div>
                 </div>
               </div>
             </>

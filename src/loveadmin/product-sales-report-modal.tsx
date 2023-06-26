@@ -242,17 +242,17 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
           <span>Sales Report</span>
           <span className="mx-1.5">·</span>
           <span>Adult Gymnastics for this month</span>
-          <span className="mx-1.5 text-neutral-500">·</span>
+          <span className="mx-1.5 text-subtitle">·</span>
           {selectedRowKeys.length === 0 && (
-            <span className="text-neutral-500">12 records</span>
+            <span className="text-subtitle">12 records</span>
           )}
           {selectedRowKeys.length > 0 && (
             <>
-              <span className="font-medium tabular-nums text-neutral-500">
+              <span className="font-medium tabular-nums text-subtitle">
                 {selectedRowKeys.length} of 12
                 <span className="ml-1">selected</span>
               </span>
-              <span className="mx-1.5 text-neutral-500">·</span>
+              <span className="mx-1.5 text-subtitle">·</span>
               <a className="">Select all</a>
             </>
           )}

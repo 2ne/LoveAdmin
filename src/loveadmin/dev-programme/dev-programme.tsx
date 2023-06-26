@@ -400,7 +400,7 @@ const DevProgrammeModal: React.FC = () => {
               <div className="py-px text-primary-600">Progress 35%</div>
             </div>
           </Title>
-          <Text className="text-sm text-neutral-500">
+          <Text className="text-sm text-subtitle">
             <span>9 Feb @ 16:00 - 17:00</span>
             <span className="mx-1.5">·</span>
             <span>Level 1 & 2</span>
@@ -448,7 +448,7 @@ const DevProgrammeModal: React.FC = () => {
               <div className="font-medium whitespace-nowrap">
                 {selectedRowKeys.length} selected
               </div>
-              <div className="mx-3 text-neutral-500">|</div>
+              <div className="mx-3 text-subtitle">|</div>
               <div className="flex items-center gap-4">
                 <Button
                   size="small"

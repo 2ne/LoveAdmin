@@ -101,7 +101,7 @@ h5.ant-typography {
   @apply justify-center !ml-6 !mr-2 min-w-[50px];
 }
 
-.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn .text-neutral-500 {
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn .text-subtitle {
   @apply !text-primary-500;
 }
 

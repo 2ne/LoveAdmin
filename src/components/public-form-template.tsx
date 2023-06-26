@@ -30,7 +30,7 @@ const PublicFormTemplate: React.FC<PublicFormTemplateProps> = ({
             {title}
           </Title>
           {subtitle && (
-            <Title level={5} className="my-1 text-neutral-500">
+            <Title level={5} className="my-1 text-subtitle">
               {subtitle}
             </Title>
           )}

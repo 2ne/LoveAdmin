@@ -34,7 +34,7 @@ function ContactDashboard(): ReactElement {
             <div className="flex-grow">
               <div className="font-medium">Parent and Child</div>
               <div className="mt-0.5 space-y-px">
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <CalendarOutlined className="" />
                   <span>
                     Fridays at 14:00 - 14:45
@@ -42,11 +42,11 @@ function ContactDashboard(): ReactElement {
                     <span className="link">View dates</span>
                   </span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <EnvironmentOutlined className="" />
                   <span>Quaterway House, Ely Road, Little Thetford</span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <UserOutlined className="" />
                   <span>Jacob Toone</span>
                 </div>
@@ -63,7 +63,7 @@ function ContactDashboard(): ReactElement {
             <div className="flex-grow">
               <div className="font-medium">Bubble the Seahorse</div>
               <div className="mt-0.5 space-y-px">
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <CalendarOutlined className="" />
                   <span>
                     Tuesdays at 10:00 - 11:00
@@ -71,11 +71,11 @@ function ContactDashboard(): ReactElement {
                     <span className="link">View dates</span>
                   </span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <EnvironmentOutlined className="" />
                   <span>Quaterway House, Ely Road, Little Thetford</span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <UserOutlined className="" />
                   <span>Jacob Toone</span>
                 </div>
@@ -92,7 +92,7 @@ function ContactDashboard(): ReactElement {
             <div className="flex-grow">
               <div className="font-medium">Swimming Annual</div>
               <div className="mt-0.5 space-y-px">
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <CalendarOutlined className="" />
                   <span>
                     Membership
@@ -100,11 +100,11 @@ function ContactDashboard(): ReactElement {
                     <span>May 2023 - May 2024</span>
                   </span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <EnvironmentOutlined className="" />
                   <span>Quaterway House, Ely Road, Little Thetford</span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <UserOutlined className="" />
                   <span>Jacob Toone</span>
                 </div>
@@ -119,7 +119,7 @@ function ContactDashboard(): ReactElement {
       label: (
         <div>
           Classes
-          <span className="text-neutral-500">
+          <span className="text-subtitle">
             <span className="mx-1.5">·</span>2
           </span>
         </div>
@@ -136,7 +136,7 @@ function ContactDashboard(): ReactElement {
             <div className="flex-grow">
               <div className="font-medium">Parent and Child</div>
               <div className="mt-0.5 space-y-px">
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <CalendarOutlined className="" />
                   <span>
                     Fridays at 14:00 - 14:45
@@ -144,11 +144,11 @@ function ContactDashboard(): ReactElement {
                     <span className="link">View dates</span>
                   </span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <EnvironmentOutlined className="" />
                   <span>Quaterway House, Ely Road, Little Thetford</span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <UserOutlined className="" />
                   <span>Jacob Toone</span>
                 </div>
@@ -165,7 +165,7 @@ function ContactDashboard(): ReactElement {
             <div className="flex-grow">
               <div className="font-medium">Bubble the Seahorse</div>
               <div className="mt-0.5 space-y-px">
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <CalendarOutlined className="" />
                   <span>
                     Tuesdays at 10:00 - 11:00
@@ -173,11 +173,11 @@ function ContactDashboard(): ReactElement {
                     <span className="link">View dates</span>
                   </span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <EnvironmentOutlined className="" />
                   <span>Quaterway House, Ely Road, Little Thetford</span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <UserOutlined className="" />
                   <span>Jacob Toone</span>
                 </div>
@@ -192,7 +192,7 @@ function ContactDashboard(): ReactElement {
       label: (
         <div>
           Memberships
-          <span className="text-neutral-500">
+          <span className="text-subtitle">
             <span className="mx-1.5">·</span>1
           </span>
         </div>
@@ -209,7 +209,7 @@ function ContactDashboard(): ReactElement {
             <div className="flex-grow">
               <div className="font-medium">Swimming Annual</div>
               <div className="mt-0.5 space-y-px">
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <CalendarOutlined className="" />
                   <span>
                     Membership
@@ -217,11 +217,11 @@ function ContactDashboard(): ReactElement {
                     <span>May 2023 - May 2024</span>
                   </span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <EnvironmentOutlined className="" />
                   <span>Quaterway House, Ely Road, Little Thetford</span>
                 </div>
-                <div className="flex gap-1.5 text-neutral-500">
+                <div className="flex gap-1.5 text-subtitle">
                   <UserOutlined className="" />
                   <span>Jacob Toone</span>
                 </div>
@@ -235,7 +235,7 @@ function ContactDashboard(): ReactElement {
       key: "4",
       label: `Events`,
       children: (
-        <div className="p-4 pt-2 @2xl:p-6 text-neutral-500">
+        <div className="p-4 pt-2 @2xl:p-6 text-subtitle">
           No events purchased
         </div>
       ),
@@ -307,7 +307,7 @@ function ContactDashboard(): ReactElement {
         <section>
           <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-              <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+              <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Outstanding
                 </div>
@@ -323,7 +323,7 @@ function ContactDashboard(): ReactElement {
               </div>
             </div>
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-              <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+              <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Invoiced
                 </div>
@@ -339,7 +339,7 @@ function ContactDashboard(): ReactElement {
               </div>
             </div>
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-              <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+              <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">Paid</div>
                 <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
                   <RightOutlined className="w-3 h-3" />
@@ -353,7 +353,7 @@ function ContactDashboard(): ReactElement {
               </div>
             </div>
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-              <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+              <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Pending
                 </div>
@@ -376,7 +376,7 @@ function ContactDashboard(): ReactElement {
           </div>
           <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-3 gap-2 @2xl:gap-3">
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-              <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+              <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Upcoming renewals
                 </div>
@@ -389,7 +389,7 @@ function ContactDashboard(): ReactElement {
               </div>
             </div>
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-              <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+              <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Awaiting approval
                 </div>
@@ -402,7 +402,7 @@ function ContactDashboard(): ReactElement {
               </div>
             </div>
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group">
-              <div className="flex min-w-0 gap-2 font-medium transition-all text-neutral-500 group-hover:text-neutral-800 group-hover:underline underline-offset-2">
+              <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Scheduled orders
                 </div>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   ArrowRightOutlined,
-  CalendarOutlined,
   CheckCircleFilled,
   CheckCircleOutlined,
   CloseCircleFilled,
@@ -280,7 +279,7 @@ const DevProgrammeParticipantsModal: React.FC<
               <div className="py-px text-primary-600">Progress 80%</div>
             </div>
           </div>
-          <div className="text-sm font-normal text-neutral-500">
+          <div className="text-sm font-normal text-subtitle">
             Select participants and set their progress for this skill...
           </div>
         </Title>
@@ -305,7 +304,7 @@ const DevProgrammeParticipantsModal: React.FC<
               <div className="font-medium whitespace-nowrap">
                 {selectedRowKeys.length} selected
               </div>
-              <div className="mx-3 text-neutral-500">|</div>
+              <div className="mx-3 text-subtitle">|</div>
               <div className="flex items-center gap-3.5">
                 <Button
                   size="small"

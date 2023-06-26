@@ -31,7 +31,7 @@ function ContactSidebar(): ReactElement {
           header={
             <>
               Notes
-              <span className="text-neutral-500">
+              <span className="text-subtitle">
                 <span className="mx-1.5">·</span>1
               </span>
             </>

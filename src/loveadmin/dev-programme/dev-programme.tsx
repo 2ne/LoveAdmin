@@ -523,7 +523,7 @@ const DevProgrammeModal: React.FC = () => {
           {showKey ? (
             <>
               <Button onClick={() => setShowKey(false)}>Hide key</Button>
-              <div className="flex gap-4 ml-2 text-sm text-neutral-700">
+              <div className="flex gap-4 ml-3 text-sm text-neutral-700">
                 <div className="flex items-center gap-1.5">
                   <CloseCircleFilled className="text-danger-500" />
                   <span>Not achieved</span>

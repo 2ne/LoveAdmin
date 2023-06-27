@@ -32,18 +32,27 @@ function ContactDetails(): ReactElement {
     setIsModalVisible(false);
   };
 
-  const [open, setOpen] = useState(false);
+  const [openEditFirstName, setOpenEditFirstName] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
   const [form] = Form.useForm();
   const [firstName, setName] = useState("James");
+  const [address, setAddress] = useState("28 Longhurst");
 
   const hide = () => {
-    setOpen(false);
+    setOpenEditFirstName(false);
+    setOpenAddress(false);
   };
 
-  const handleOpenChange = (
+  const handleOpenFirstNameChange = (
     open: boolean | ((prevState: boolean) => boolean)
   ) => {
-    setOpen(open);
+    setOpenEditFirstName(open);
+  };
+
+  const handleOpenAddressChange = (
+    open: boolean | ((prevState: boolean) => boolean)
+  ) => {
+    setOpenAddress(open);
   };
 
   const onFinish = (values: { firstName: React.SetStateAction<string> }) => {
@@ -52,7 +61,15 @@ function ContactDetails(): ReactElement {
     message.success("Details updated");
   };
 
-  const editDetailContent = (
+  const onEditAddressFinish = (values: {
+    address: React.SetStateAction<string>;
+  }) => {
+    setAddress(values.address);
+    hide();
+    message.success("Details updated");
+  };
+
+  const editFirstName = (
     <div className="p-1 pb-2 min-w-[14.5rem]">
       <Form
         form={form}
@@ -81,6 +98,74 @@ function ContactDetails(): ReactElement {
     </div>
   );
 
+  const editAddress = (
+    <div className="p-1 pb-2 min-w-[14.5rem]">
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onEditAddressFinish}
+        className="flex flex-col gap-2"
+        requiredMark={false}
+      >
+        <Form.Item
+          name="houseNameOrNumber"
+          label="House name or number"
+          className="!mb-0 flex-grow"
+          rules={[{ required: true, message: "" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="street"
+          label="Street"
+          className="!mb-0 flex-grow"
+          rules={[{ required: true, message: "" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="town"
+          label="Town"
+          className="!mb-0 flex-grow"
+          rules={[{ required: true, message: "" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="postCode"
+          label="Post code"
+          className="!mb-0 flex-grow"
+          rules={[{ required: true, message: "" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="county"
+          label="County"
+          className="!mb-0 flex-grow"
+          rules={[{ required: true, message: "" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="country"
+          label="Country"
+          className="!mb-0 flex-grow"
+          rules={[{ required: true, message: "" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item className="!mt-2 !mb-0">
+          <Button
+            type="primary"
+            htmlType="submit"
+            icon={<CheckOutlined />}
+          ></Button>
+        </Form.Item>
+      </Form>
+    </div>
+  );
+
   return (
     <>
       <Collapse
@@ -95,27 +180,27 @@ function ContactDetails(): ReactElement {
         >
           <div className="-mt-1.5 space-y-1">
             <Popover
-              content={editDetailContent}
+              content={editFirstName}
               trigger="click"
-              open={open}
-              onOpenChange={handleOpenChange}
+              open={openEditFirstName}
+              onOpenChange={handleOpenFirstNameChange}
               placement="right"
             >
               <Button type="text" block className="ant-btn-input">
-                <div className="flex-grow text-left">
+                <div className="flex-grow min-w-0 text-left">
                   <div className="text-xs mb-0.5 text-subtitle">First name</div>
                   <div>{firstName}</div>
                 </div>
               </Button>
             </Popover>
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">Last name</div>
                 <div>Toone</div>
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Date of birth
                 </div>
@@ -128,13 +213,13 @@ function ContactDetails(): ReactElement {
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">Gender</div>
                 <div>Male</div>
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">Email</div>
                 <div>
                   <a href="mailto:jamestoone@me.com">jamestoone@me.com</a>
@@ -142,7 +227,7 @@ function ContactDetails(): ReactElement {
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Contact number
                 </div>
@@ -151,14 +236,24 @@ function ContactDetails(): ReactElement {
                 </div>
               </div>
             </Button>
+            <Popover
+              content={editAddress}
+              trigger="click"
+              open={openAddress}
+              onOpenChange={handleOpenAddressChange}
+              placement="right"
+            >
+              <Button type="text" block className="ant-btn-input">
+                <div className="flex-grow min-w-0 text-left">
+                  <div className="text-xs mb-0.5 text-subtitle">Address</div>
+                  <div className="truncate">
+                    28 Longhurst, Burgess Hill, West Sussex, RH150 0TG, United
+                    Kingdom
+                  </div>
+                </div>
+              </Button>
+            </Popover>
           </div>
-        </Panel>
-        <Panel
-          header="Address"
-          key="2"
-          className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
-        >
-          <p>1</p>
         </Panel>
         <Panel
           header={
@@ -214,7 +309,7 @@ function ContactDetails(): ReactElement {
         >
           <div className="-mt-1.5 space-y-1">
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Behavioural conditions
                 </div>
@@ -222,13 +317,13 @@ function ContactDetails(): ReactElement {
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">Allergies</div>
                 <div>Very allergic to bee stings</div>
               </div>
             </Button>
             <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow text-left">
+              <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Medical notes
                 </div>

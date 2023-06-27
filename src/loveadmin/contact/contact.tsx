@@ -233,7 +233,7 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
                 ? `calc(8px + ${scrollbarWidth}px)`
                 : `calc(328px + ${scrollbarWidth}px)`,
             }}
-            className="fixed w-6 h-6 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md top-1/2"
+            className="fixed z-20 w-6 h-6 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md top-1/2"
           >
             {!collapsed ? (
               <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />

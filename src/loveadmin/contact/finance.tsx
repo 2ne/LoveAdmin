@@ -35,7 +35,7 @@ const Finance: React.FC = (): ReactElement => {
         defaultActiveKey="1"
         items={financeItems}
         onChange={onChange}
-        className="[&_.ant-tabs-tab]:!ml-0 [&_.ant-tabs-tab]:!mr-6"
+        className="[&_.ant-tabs-tab]:!ml-0 [&_.ant-tabs-tab]:!mr-6 [&_.ant-tabs-nav:before]:border-neutral-200"
       />
     </div>
   );

@@ -3,6 +3,7 @@ import { Collapse, Button } from "antd";
 import React, { ReactElement, useState } from "react";
 import Notes from "./notes";
 import AddNoteModal from "./notes-modal";
+import ChangeLog from "./change-log";
 const { Panel } = Collapse;
 
 function ContactSidebar(): ReactElement {
@@ -97,7 +98,7 @@ function ContactSidebar(): ReactElement {
           key="7"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
         >
-          <p>1</p>
+          <ChangeLog />
         </Panel>
       </Collapse>
       <AddNoteModal

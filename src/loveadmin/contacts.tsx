@@ -390,22 +390,58 @@ function Contacts(): ReactElement {
                   >
                     Message
                   </Button>
-                  <Button
-                    size="small"
-                    type="text"
-                    icon={<PlusOutlined />}
-                    className="px-0 hover:bg-transparent hover:underline"
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item key="1" onClick={hideContextMenu}>
+                          Product
+                        </Menu.Item>
+                        <Menu.Item key="2" onClick={hideContextMenu}>
+                          Group
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    Add to...
-                  </Button>
-                  <Button
-                    size="small"
-                    type="text"
-                    icon={<UsergroupAddOutlined />}
-                    className="px-0 hover:bg-transparent hover:underline"
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <PlusOutlined />
+                        Add to...
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item key="1" onClick={hideContextMenu}>
+                          Product
+                        </Menu.Item>
+                        <Menu.Item key="2" onClick={hideContextMenu}>
+                          Group
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    Invite to...
-                  </Button>
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <UsergroupAddOutlined />
+                        Invite to...
+                      </Space>
+                    </a>
+                  </Dropdown>
                   <Dropdown
                     placement="bottomLeft"
                     getPopupContainer={() => document.body}

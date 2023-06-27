@@ -235,15 +235,14 @@ function SetupAccount(): ReactElement {
                   </Form.Item>
                   <Button
                     block={true}
-                    type={!modalAddressValues ? "link" : "text"}
                     onClick={() => {
                       setIsAddressModalOpen(true);
                     }}
                     className={classNames({
                       "border border-solid": true,
-                      "border-primary-500":
+                      "border-primary-500 text-primary-600 hover:text-primary-500 hover:underline":
                         !modalAddressValues && isValidAddress,
-                      "border-danger-500 text-danger-500 hover:text-danger-400":
+                      "border-danger-500 text-danger-500 hover:text-danger-400 hover:underline":
                         !modalAddressValues && !isValidAddress,
                       "border-neutral-300 justify-start hover:bg-white hover:border-primary-500":
                         modalAddressValues && isValidAddress,

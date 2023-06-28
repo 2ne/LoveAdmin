@@ -541,7 +541,7 @@ const DevProgrammeModal: React.FC = () => {
         </Content>
       </div>
       <footer className="font-body fixed gap-2 left-0 flex items-center justify-between bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
-        <div className="flex items-center justify-end pr-0.5">
+        <div className="w-full flex-grow flex items-center justify-start pr-0.5">
           <Popover
             content={<PopoverContent />}
             trigger="click"
@@ -557,7 +557,7 @@ const DevProgrammeModal: React.FC = () => {
             className="bg-neutral-200/75 w-52"
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end flex-grow w-full gap-2">
           <Button>Edit columns</Button>
           <Button icon={<DownloadOutlined />}>Export</Button>
         </div>

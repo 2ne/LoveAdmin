@@ -19,6 +19,7 @@ import {
   Select,
   Tooltip,
   notification,
+  Segmented,
 } from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -546,7 +547,14 @@ const DevProgrammeModal: React.FC = () => {
             <Button onClick={() => setShowKey(true)}>Show key</Button>
           )}
         </div>
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="mx-auto">
+          <Segmented
+            block
+            options={["Skill", "Participants"]}
+            className="bg-neutral-200/75 w-52"
+          />
+        </div>
+        <div className="flex items-center gap-2">
           <Button>Edit columns</Button>
           <Button icon={<DownloadOutlined />}>Export</Button>
         </div>

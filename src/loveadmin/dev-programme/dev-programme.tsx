@@ -20,6 +20,7 @@ import {
   Tooltip,
   notification,
   Segmented,
+  Popover,
 } from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -41,7 +42,6 @@ export interface DevProgrammeDataType {
 }
 
 const DevProgrammeModal: React.FC = () => {
-  const [showKey, setShowKey] = useState(false);
   const [selectedRowData, setSelectedRowData] = useState<DevProgrammeDataType>(
     {}
   );
@@ -62,6 +62,27 @@ const DevProgrammeModal: React.FC = () => {
   const handleCancel = () => {
     setVisible(false);
   };
+
+  const PopoverContent = () => (
+    <div className="flex gap-4 pr-2 text-sm text-neutral-700">
+      <div className="flex items-center gap-1.5">
+        <CloseCircleFilled className="text-danger-500" />
+        <span>Not achieved</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <PlayCircleFilled className="text-primary-500" />
+        <span>Working on</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <CheckCircleFilled className="text-success-500" />
+        <span>Completed</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <StarFilled className="text-yellow-500" />
+        <span>Achieved</span>
+      </div>
+    </div>
+  );
 
   const columns: TableColumnsType<DevProgrammeDataType> = [
     {
@@ -521,31 +542,13 @@ const DevProgrammeModal: React.FC = () => {
       </div>
       <footer className="font-body fixed gap-2 left-0 flex items-center justify-between bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
         <div className="flex items-center justify-end pr-0.5">
-          {showKey ? (
-            <>
-              <Button onClick={() => setShowKey(false)}>Hide key</Button>
-              <div className="flex gap-4 ml-3 text-sm text-neutral-700">
-                <div className="flex items-center gap-1.5">
-                  <CloseCircleFilled className="text-danger-500" />
-                  <span>Not achieved</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <PlayCircleFilled className="text-primary-500" />
-                  <span>Working on</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircleFilled className="text-success-500" />
-                  <span>Completed</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <StarFilled className="text-yellow-500" />
-                  <span>Achieved</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <Button onClick={() => setShowKey(true)}>Show key</Button>
-          )}
+          <Popover
+            content={<PopoverContent />}
+            trigger="click"
+            placement="topLeft"
+          >
+            <Button>Show key</Button>
+          </Popover>
         </div>
         <div className="mx-auto">
           <Segmented

@@ -27,6 +27,7 @@ import {
   Space,
   Dropdown,
   Menu,
+  Popover,
 } from "antd";
 import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
 import { DevProgrammeDataType as ImportedDevProgrammeDataType } from "./dev-programme";
@@ -134,7 +135,6 @@ const DevProgrammeParticipantsModal: React.FC<
   DevProgrammeParticipantsModalProps
 > = ({ visible, handleOk, handleCancel, rowData }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [showKey, setShowKey] = useState(false);
   const [progressStatus, setProgressStatus] = useState<
     Record<string, string | null>
   >(dataToProgressStatus(data));
@@ -261,6 +261,27 @@ const DevProgrammeParticipantsModal: React.FC<
   const notStarted = () => {
     setSelectedRowKeys([]);
   };
+
+  const PopoverContent = () => (
+    <div className="flex gap-4 pr-2 text-sm text-neutral-700">
+      <div className="flex items-center gap-1.5">
+        <CloseCircleFilled className="text-danger-500" />
+        <span>Not achieved</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <PlayCircleFilled className="text-primary-500" />
+        <span>Working on</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <CheckCircleFilled className="text-success-500" />
+        <span>Completed</span>
+      </div>
+      <div className="flex items-center gap-1.5">
+        <StarFilled className="text-yellow-500" />
+        <span>Achieved</span>
+      </div>
+    </div>
+  );
 
   return (
     <Modal
@@ -408,40 +429,13 @@ const DevProgrammeParticipantsModal: React.FC<
               scroll={{ y: 0 }}
               footer={() => (
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center justify-end pr-0.5">
-                    {showKey ? (
-                      <>
-                        <Button onClick={() => setShowKey(false)} size="small">
-                          Hide key
-                        </Button>
-                        <div className="flex gap-4 ml-2 text-neutral-700">
-                          <div className="flex items-center gap-1.5">
-                            <CloseCircleFilled className="text-danger-500" />
-                            <span>Not achieved</span>
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            <PlayCircleFilled className="text-primary-500" />
-                            <span>Working on</span>
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            <CheckCircleFilled className="text-success-500" />
-                            <span>Completed</span>
-                          </div>
-
-                          <div className="flex items-center gap-1.5">
-                            <StarFilled className="text-yellow-500" />
-                            <span>Achieved</span>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <Button onClick={() => setShowKey(true)} size="small">
-                        Show key
-                      </Button>
-                    )}
-                  </div>
+                  <Popover
+                    content={<PopoverContent />}
+                    trigger="click"
+                    placement="topLeft"
+                  >
+                    <Button size="small">Show key</Button>
+                  </Popover>
                   <div className="flex gap-1.5">
                     <Button size="small">Edit columns</Button>
                     <Button

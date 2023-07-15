@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
-import { Modal, Dropdown, Menu, Tag } from "antd";
+import { Modal, Dropdown, Menu, Tag, Checkbox } from "antd";
 import { PlusOutlined, UpOutlined } from "@ant-design/icons";
 
 interface CustomQuill extends ReactQuill {
@@ -263,7 +263,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       okText="Send"
       onOk={onOk}
       onCancel={onCancel}
-      className="max-w-md"
+      className="max-w-lg"
     >
       <div className="flex gap-2 mb-4">
         <div>To:</div>
@@ -301,7 +301,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
           )}
         </div>
       </div>
-      <div className="relative mb-5">
+      <div className="relative mb-6">
         <div className="absolute top-2 left-3">
           <Dropdown overlay={menu} trigger={["click"]}>
             <a
@@ -317,7 +317,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
           ref={quillRef}
           modules={modules}
           onChange={handleTextChange}
-          placeholder="Type message here..."
+          placeholder="Type your message here..."
         />
         <div className="flex items-center justify-between px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
           <div className="flex items-center gap-1">
@@ -331,6 +331,9 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
             <span className="tabular-nums">{messageCount}</span>
           </div>
         </div>
+      </div>
+      <div className="absolute bottom-6 left-6">
+        <Checkbox>Send to all beneficiaries</Checkbox>
       </div>
     </Modal>
   );

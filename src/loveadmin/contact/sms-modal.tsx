@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
-import { Modal, Dropdown, Menu } from "antd";
+import { Modal, Dropdown, Menu, Tag } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 interface CustomQuill extends ReactQuill {
@@ -18,6 +18,18 @@ interface SMSModalProps {
 const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
+  const [recipients, setRecipients] = useState<string[]>([
+    "Jacob Toone",
+    "Simon Avery",
+    "Jacob Toone",
+    "Simon Avery",
+    "Jacob Toone",
+    "Simon Avery",
+    "Jacob Toone",
+    "Simon Avery",
+    "Jacob Toone",
+    "Simon Avery",
+  ]);
   const quillRef = useRef<CustomQuill>(null);
 
   useEffect(() => {
@@ -205,6 +217,16 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       onCancel={onCancel}
       className="max-w-md"
     >
+      <div className="flex gap-2 mb-4">
+        <div>To:</div>
+        <div className="flex-grow">
+          {recipients.map((recipient, index) => (
+            <Tag bordered={false} key={index} className="!mr-1 !mb-1">
+              {recipient}
+            </Tag>
+          ))}
+        </div>
+      </div>
       <div className="relative mb-5">
         <div className="absolute top-2 left-3">
           <Dropdown overlay={menu} trigger={["click"]}>

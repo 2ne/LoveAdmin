@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
 import { Modal, Dropdown, Menu, Tag } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, UpOutlined } from "@ant-design/icons";
 
 interface CustomQuill extends ReactQuill {
   getEditor: () => Quill;
@@ -16,21 +16,61 @@ interface SMSModalProps {
 }
 
 const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
+  const quillRef = useRef<CustomQuill>(null);
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
-  const [recipients, setRecipients] = useState<string[]>([
-    "Jacob Toone",
-    "Simon Avery",
-    "Jacob Toone",
-    "Simon Avery",
-    "Jacob Toone",
-    "Simon Avery",
-    "Jacob Toone",
-    "Simon Avery",
-    "Jacob Toone",
-    "Simon Avery",
-  ]);
-  const quillRef = useRef<CustomQuill>(null);
+  const generateRandomName = () => {
+    const firstName = [
+      "John",
+      "Jane",
+      "Michael",
+      "Emily",
+      "William",
+      "Olivia",
+      "James",
+      "Sophia",
+      "Benjamin",
+      "Ava",
+    ];
+    const lastName = [
+      "Smith",
+      "Johnson",
+      "Williams",
+      "Jones",
+      "Brown",
+      "Davis",
+      "Miller",
+      "Wilson",
+      "Moore",
+      "Taylor",
+    ];
+    const randomFirstName =
+      firstName[Math.floor(Math.random() * firstName.length)];
+    const randomLastName =
+      lastName[Math.floor(Math.random() * lastName.length)];
+    return `${randomFirstName} ${randomLastName}`;
+  };
+  const [recipients, setRecipients] = useState<string[]>(
+    Array.from({ length: 100 }, () => generateRandomName())
+  );
+  const recipientCount = recipients.length;
+  const [showAllRecipients, setShowAllRecipients] = useState(false);
+
+  const [expandedView, setExpandedView] = useState(false);
+
+  const displayedRecipients = showAllRecipients
+    ? recipients
+    : recipients.slice(0, 6);
+  const remainingRecipientsCount =
+    recipients.length - displayedRecipients.length;
+
+  const handleViewAllRecipients = () => {
+    setExpandedView(true);
+  };
+
+  const handleCloseExpandedView = () => {
+    setExpandedView(false);
+  };
 
   useEffect(() => {
     setMessageCount(Math.ceil(charCount / 160));
@@ -210,7 +250,15 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
 
   return (
     <Modal
-      title="Send SMS"
+      title={
+        <>
+          <span>Send SMS</span>
+          <span className="mx-1 text-subtitle">·</span>
+          <span className="font-medium tabular-nums text-subtitle">
+            {recipientCount} contact{recipientCount !== 1 ? "s" : ""}
+          </span>
+        </>
+      }
       visible={visible}
       okText="Send"
       onOk={onOk}
@@ -220,11 +268,37 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       <div className="flex gap-2 mb-4">
         <div>To:</div>
         <div className="flex-grow">
-          {recipients.map((recipient, index) => (
-            <Tag bordered={false} key={index} className="!mr-1 !mb-1">
-              {recipient}
-            </Tag>
-          ))}
+          {expandedView ? (
+            <>
+              {recipients.map((recipient, index) => (
+                <Tag bordered={false} key={index} className="!mr-1 !mb-1">
+                  {recipient}
+                </Tag>
+              ))}
+              <Tag
+                className="!bg-white !mr-1 !mb-1 cursor-pointer"
+                onClick={handleCloseExpandedView}
+              >
+                <UpOutlined className="text-[9px] relative -top-px" /> Hide
+              </Tag>
+            </>
+          ) : (
+            <>
+              {displayedRecipients.map((recipient, index) => (
+                <Tag bordered={false} key={index} className="!mr-1 !mb-1">
+                  {recipient}
+                </Tag>
+              ))}
+              {remainingRecipientsCount > 0 && (
+                <Tag
+                  className="!bg-white !mr-1 !mb-1 cursor-pointer"
+                  onClick={handleViewAllRecipients}
+                >
+                  + {remainingRecipientsCount} more
+                </Tag>
+              )}
+            </>
+          )}
         </div>
       </div>
       <div className="relative mb-5">
@@ -243,6 +317,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
           ref={quillRef}
           modules={modules}
           onChange={handleTextChange}
+          placeholder="Type message here..."
         />
         <div className="flex items-center justify-between px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
           <div className="flex items-center gap-1">

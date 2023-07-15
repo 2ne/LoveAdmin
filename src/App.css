@@ -231,3 +231,15 @@ h5.ant-typography {
   max-height: calc(100dvh - 14rem) !important;
   overflow-y: auto !important;
 }
+
+.ql-toolbar {
+  @apply bg-neutral-50 rounded-t !border-neutral-200;
+}
+
+.ql-toolbar + .ql-container {
+  @apply !border-neutral-200 font-body text-sm;
+}
+
+.ql-editor {
+  @apply min-h-[100px];
+}

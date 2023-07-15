@@ -26,6 +26,7 @@ import {
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
 import { Link } from "react-router-dom";
+import SMSModal from "./contact/sms-modal";
 const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 
@@ -290,6 +291,21 @@ function Contacts(): ReactElement {
     onChange: onSelectChange,
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleSendSMSClick = () => {
+    setIsModalVisible(true);
+    hideContextMenu();
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <Layout className="min-h-screen">
       <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
@@ -382,14 +398,32 @@ function Contacts(): ReactElement {
                 }`}
               >
                 <div className="flex items-center gap-4 ml-4">
-                  <Button
-                    size="small"
-                    type="text"
-                    icon={<MailOutlined className="relative top-px" />}
-                    className="px-0 hover:bg-transparent hover:underline"
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item key="1" onClick={handleSendSMSClick}>
+                          Email
+                        </Menu.Item>
+                        <Menu.Item key="2" onClick={handleSendSMSClick}>
+                          SMS
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    Message
-                  </Button>
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <MailOutlined />
+                        Message...
+                      </Space>
+                    </a>
+                  </Dropdown>
                   <Dropdown
                     placement="bottomLeft"
                     getPopupContainer={() => document.body}
@@ -545,6 +579,11 @@ function Contacts(): ReactElement {
           ></div>
         </Dropdown>
       )}
+      <SMSModal
+        visible={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+      />
     </Layout>
   );
 }

@@ -96,10 +96,13 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
     <Dropdown
       overlay={
         <Menu>
-          <Menu.Item>
-            <MailOutlined className="relative mr-3 top-px" />
-            Message
-          </Menu.Item>
+          <Menu.SubMenu
+            title="Message..."
+            icon={<MailOutlined className="mr-3" />}
+          >
+            <Menu.Item>Email</Menu.Item>
+            <Menu.Item>SMS</Menu.Item>
+          </Menu.SubMenu>
           <Menu.SubMenu
             title="Add to..."
             icon={<PlusOutlined className="mr-3" />}

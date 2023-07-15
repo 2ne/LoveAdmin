@@ -263,77 +263,95 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       okText="Send"
       onOk={onOk}
       onCancel={onCancel}
-      className="max-w-lg"
+      className="max-w-xl"
     >
-      <div className="flex gap-2 mb-4">
-        <div>To:</div>
-        <div className="flex-grow">
-          {expandedView ? (
-            <>
-              {recipients.map((recipient, index) => (
-                <Tag bordered={false} key={index} className="!mr-1 !mb-1">
-                  {recipient}
-                </Tag>
-              ))}
-              <Tag
-                className="!bg-white !mr-1 !mb-1 cursor-pointer"
-                onClick={handleCloseExpandedView}
-              >
-                <UpOutlined className="text-[9px] relative -top-px" /> Hide
-              </Tag>
-            </>
-          ) : (
-            <>
-              {displayedRecipients.map((recipient, index) => (
-                <Tag bordered={false} key={index} className="!mr-1 !mb-1">
-                  {recipient}
-                </Tag>
-              ))}
-              {remainingRecipientsCount > 0 && (
+      <div className="space-y-6">
+        <div className="flex gap-2">
+          <div className="w-16 font-medium shrink-0 text-subtitle">To</div>
+          <div className="flex-grow">
+            {expandedView ? (
+              <>
+                {recipients.map((recipient, index) => (
+                  <Tag bordered={false} key={index} className="!mr-1 !mb-1">
+                    {recipient}
+                  </Tag>
+                ))}
                 <Tag
-                  className="!bg-white !mr-1 !mb-1 cursor-pointer"
-                  onClick={handleViewAllRecipients}
+                  bordered={false}
+                  className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
+                  onClick={handleCloseExpandedView}
                 >
-                  + {remainingRecipientsCount} more
+                  <UpOutlined className="text-[9px] relative -top-px" /> Hide
                 </Tag>
-              )}
-            </>
-          )}
-        </div>
-      </div>
-      <div className="relative mb-6">
-        <div className="absolute top-2 left-3">
-          <Dropdown overlay={menu} trigger={["click"]}>
-            <a
-              onClick={(e) => e.preventDefault()}
-              className="px-0 text-neutral-900"
-            >
-              <PlusOutlined className="mr-1.5 text-neutral-900" />
-              <span className="text-neutral-900">Add a placeholder</span>
-            </a>
-          </Dropdown>
-        </div>
-        <ReactQuill
-          ref={quillRef}
-          modules={modules}
-          onChange={handleTextChange}
-          placeholder="Type your message here..."
-        />
-        <div className="flex items-center justify-between px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
-          <div className="flex items-center gap-1">
-            <span className="text-neutral-500">Characters</span>
-            <span className="tabular-nums">
-              {charCount} / {getMessageLimit(charCount)}
-            </span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-neutral-500">Messages</span>
-            <span className="tabular-nums">{messageCount}</span>
+              </>
+            ) : (
+              <>
+                {displayedRecipients.map((recipient, index) => (
+                  <Tag bordered={false} key={index} className="!mr-1 !mb-1">
+                    {recipient}
+                  </Tag>
+                ))}
+                {remainingRecipientsCount > 0 && (
+                  <Tag
+                    bordered={false}
+                    className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
+                    onClick={handleViewAllRecipients}
+                  >
+                    + {remainingRecipientsCount} more
+                  </Tag>
+                )}
+              </>
+            )}
           </div>
         </div>
-      </div>
-      <div className="absolute bottom-6 left-6">
-        <Checkbox>Send to all beneficiaries</Checkbox>
+        <div className="relative">
+          <div className="flex gap-2">
+            <div className="w-16 font-medium shrink-0 text-subtitle">
+              Message
+            </div>
+            <div className="relative flex-grow">
+              <ReactQuill
+                ref={quillRef}
+                modules={modules}
+                onChange={handleTextChange}
+              />
+              <div className="flex items-center justify-end gap-2.5 px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
+                <div className="flex items-center gap-1">
+                  <span className="text-neutral-500">Characters</span>
+                  <span className="tabular-nums">
+                    {charCount} / {getMessageLimit(charCount)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-neutral-500">Messages</span>
+                  <span className="tabular-nums">{messageCount}</span>
+                </div>
+              </div>
+              <div className="absolute top-2 left-3">
+                <Dropdown overlay={menu} trigger={["click"]}>
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="px-0 text-neutral-900"
+                  >
+                    <PlusOutlined className="mr-1.5 text-neutral-900" />
+                    <span className="text-neutral-900">Add a placeholder</span>
+                  </a>
+                </Dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div className="w-16 font-medium shrink-0 text-subtitle">Send to</div>
+          <div className="space-y-0.5">
+            <div>
+              <Checkbox checked>Account owners</Checkbox>
+            </div>
+            <div>
+              <Checkbox>Beneficiaries</Checkbox>
+            </div>
+          </div>
+        </div>
       </div>
     </Modal>
   );

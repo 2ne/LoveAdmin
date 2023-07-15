@@ -76,6 +76,10 @@ h5.ant-typography {
   @apply font-medium;
 }
 
+.ant-modal .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
+  @apply !ml-3;
+}
+
 .ant-table-column-title {
   @apply font-medium;
 }

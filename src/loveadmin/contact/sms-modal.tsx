@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
 import { Modal, Dropdown, Menu, Tag, Checkbox } from "antd";
 import { PlusOutlined, UpOutlined } from "@ant-design/icons";
+import { CheckboxChangeEvent } from "antd/es/checkbox";
 
 interface CustomQuill extends ReactQuill {
   getEditor: () => Quill;
@@ -19,6 +20,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   const quillRef = useRef<CustomQuill>(null);
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
+  const [checked, setChecked] = useState(true);
   const generateRandomName = () => {
     const firstName = [
       "John",
@@ -107,6 +109,11 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       setCharCount(length);
       setMessageCount(Math.ceil(length / getMessageLimit(length)));
     }
+  };
+
+  const onChange = (e: CheckboxChangeEvent) => {
+    console.log("checked = ", e.target.checked);
+    setChecked(e.target.checked);
   };
 
   const getMessageLimit = (length: number) => {
@@ -267,7 +274,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
     >
       <div className="space-y-6">
         <div className="flex gap-2">
-          <div className="w-16 font-medium shrink-0 text-subtitle">To</div>
+          <div className="w-16 shrink-0 text-subtitle">To</div>
           <div className="flex-grow">
             {expandedView ? (
               <>
@@ -306,9 +313,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         </div>
         <div className="relative">
           <div className="flex gap-2">
-            <div className="w-16 font-medium shrink-0 text-subtitle">
-              Message
-            </div>
+            <div className="w-16 shrink-0 text-subtitle">Message</div>
             <div className="relative flex-grow">
               <ReactQuill
                 ref={quillRef}
@@ -342,10 +347,12 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
           </div>
         </div>
         <div className="flex gap-2">
-          <div className="w-16 font-medium shrink-0 text-subtitle">Send to</div>
-          <div className="space-y-0.5">
+          <div className="w-16 shrink-0 text-subtitle">Send to</div>
+          <div className="space-y-0.5 select-none">
             <div>
-              <Checkbox checked>Account owners</Checkbox>
+              <Checkbox checked={checked} onChange={onChange}>
+                Account owners
+              </Checkbox>
             </div>
             <div>
               <Checkbox>Beneficiaries</Checkbox>

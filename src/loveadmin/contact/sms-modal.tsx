@@ -141,6 +141,14 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
     toolbar: [],
   };
 
+  const onSend = () => {
+    if (quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      quill.setText(""); // Clear the editor
+    }
+    onCancel();
+  };
+
   const menu = (
     <Menu>
       <Menu.SubMenu title="Beneficiary">
@@ -401,7 +409,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         visible={confirmVisible}
         onOk={() => {
           setConfirmVisible(false);
-          onCancel();
+          onSend();
         }}
         onCancel={() => setConfirmVisible(false)}
       />

@@ -26,7 +26,7 @@ a.ant-typography,
 .ant-typography a,
 .link,
 .ant-btn-link {
-  @apply text-primary-600 hover:text-primary-500 hover:underline;
+  @apply text-primary-600 hover:text-primary-500 hover:underline cursor-pointer;
 }
 
 h1.ant-typography,

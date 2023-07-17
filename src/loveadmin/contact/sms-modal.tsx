@@ -2,9 +2,10 @@ import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
-import { Modal, Dropdown, Menu, Tag, Checkbox, Tooltip } from "antd";
+import { Modal, Dropdown, Menu, Tag, Checkbox, Tooltip, Button } from "antd";
 import { InfoOutlined, PlusOutlined, UpOutlined } from "@ant-design/icons";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
+import ConfirmSMS from "./sms-confirm";
 
 interface CustomQuill extends ReactQuill {
   getEditor: () => Quill;
@@ -17,6 +18,15 @@ interface SMSModalProps {
 }
 
 const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const handleOk = () => {
+    if (
+      (accountOwnerChecked && messageCount > 0) ||
+      (beneficiaryChecked && messageCount > 0)
+    ) {
+      setConfirmVisible(true);
+    }
+  };
   const quillRef = useRef<CustomQuill>(null);
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
@@ -257,112 +267,142 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   );
 
   return (
-    <Modal
-      title={
-        <>
-          <span>Send SMS</span>
-          <span className="mx-1 text-subtitle">·</span>
-          <span className="font-medium tabular-nums text-subtitle">
-            {recipientCount} contact{recipientCount !== 1 ? "s" : ""}
-          </span>
-        </>
-      }
-      visible={visible}
-      okText="Send"
-      onOk={onOk}
-      onCancel={onCancel}
-      className="max-w-xl"
-    >
-      <div className="space-y-6">
-        <div className="flex gap-2">
-          <div className="w-16 shrink-0 text-subtitle">To</div>
-          <div className="flex-grow">
-            {displayedRecipients.map((recipient, index) => (
-              <Tag bordered={false} key={index} className="!mr-1 !mb-1">
-                {recipient}
-              </Tag>
-            ))}
-            {remainingRecipientsCount > 0 && !allRecipientsShown && (
-              <Tag
-                bordered={false}
-                className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
-                onClick={handleViewMoreRecipients}
-              >
-                + {Math.min(remainingRecipientsCount, 50)} more
-              </Tag>
-            )}
-            {allRecipientsShown && (
-              <Tag
-                bordered={false}
-                className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
-                onClick={handleHideRecipients}
-              >
-                <UpOutlined className="text-[9px] relative -top-px" /> Hide
-              </Tag>
-            )}
+    <>
+      <Modal
+        title={
+          <>
+            <span>Send SMS</span>
+            <span className="mx-1 text-subtitle">·</span>
+            <span className="font-medium tabular-nums text-subtitle">
+              {recipientCount} contact{recipientCount !== 1 ? "s" : ""}
+            </span>
+          </>
+        }
+        visible={visible}
+        onOk={handleOk}
+        onCancel={onCancel}
+        className="max-w-xl"
+        footer={
+          <div className="flex justify-end">
+            <Button onClick={onCancel}>Cancel</Button>
+            <Tooltip
+              placement="topRight"
+              title={
+                messageCount === 0
+                  ? "Please enter a message to send."
+                  : !(accountOwnerChecked || beneficiaryChecked)
+                  ? "Please select either Account Owners, Beneficiaries, or both as recipients."
+                  : ""
+              }
+            >
+              <Button type="primary" onClick={handleOk}>
+                Send
+              </Button>
+            </Tooltip>
           </div>
-        </div>
-        <div className="relative">
+        }
+      >
+        <div className="space-y-6">
           <div className="flex gap-2">
-            <div className="w-16 shrink-0 text-subtitle">Message</div>
-            <div className="relative flex-grow">
-              <ReactQuill
-                ref={quillRef}
-                modules={modules}
-                onChange={handleTextChange}
-              />
-              <div className="cursor-default flex items-center justify-end gap-2.5 px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
-                <div className="flex items-center gap-1">
-                  <span className="text-neutral-500">Characters</span>
-                  <span className="tabular-nums">
-                    {charCount} / {getMessageLimit(charCount)}
-                  </span>
-                </div>
-                <Tooltip title="Placeholders may lengthen SMSs beyond displayed amount, potentially splitting them into extra messages.">
+            <div className="w-16 shrink-0 text-subtitle">To</div>
+            <div className="flex-grow">
+              {displayedRecipients.map((recipient, index) => (
+                <Tag bordered={false} key={index} className="!mr-1 !mb-1">
+                  {recipient}
+                </Tag>
+              ))}
+              {remainingRecipientsCount > 0 && !allRecipientsShown && (
+                <Tag
+                  bordered={false}
+                  className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
+                  onClick={handleViewMoreRecipients}
+                >
+                  + {Math.min(remainingRecipientsCount, 50)} more
+                </Tag>
+              )}
+              {allRecipientsShown && (
+                <Tag
+                  bordered={false}
+                  className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
+                  onClick={handleHideRecipients}
+                >
+                  <UpOutlined className="text-[9px] relative -top-px" /> Hide
+                </Tag>
+              )}
+            </div>
+          </div>
+          <div className="relative">
+            <div className="flex gap-2">
+              <div className="w-16 shrink-0 text-subtitle">Message</div>
+              <div className="relative flex-grow">
+                <ReactQuill
+                  ref={quillRef}
+                  modules={modules}
+                  onChange={handleTextChange}
+                />
+                <div className="cursor-default flex items-center justify-end gap-2.5 px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
                   <div className="flex items-center gap-1">
-                    <span className="text-neutral-500">Messages</span>
-                    <span className="tabular-nums">{messageCount}</span>
-                    <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
+                    <span className="text-neutral-500">Characters</span>
+                    <span className="tabular-nums">
+                      {charCount} / {getMessageLimit(charCount)}
+                    </span>
                   </div>
-                </Tooltip>
-              </div>
-              <div className="absolute top-2 left-3">
-                <Dropdown overlay={menu} trigger={["click"]}>
-                  <a
-                    onClick={(e) => e.preventDefault()}
-                    className="px-0 text-neutral-900"
+                  <Tooltip
+                    placement="topRight"
+                    title="Placeholders may lengthen SMSs beyond displayed amount, potentially splitting them into extra messages."
                   >
-                    <PlusOutlined className="mr-1.5 text-neutral-900" />
-                    <span className="text-neutral-900">Add a placeholder</span>
-                  </a>
-                </Dropdown>
+                    <div className="flex items-center gap-1">
+                      <span className="text-neutral-500">Messages</span>
+                      <span className="tabular-nums">{messageCount}</span>
+                      <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
+                    </div>
+                  </Tooltip>
+                </div>
+                <div className="absolute top-2 left-3">
+                  <Dropdown overlay={menu} trigger={["click"]}>
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <PlusOutlined className="mr-1.5 text-neutral-900" />
+                      <span className="text-neutral-900">
+                        Add a placeholder
+                      </span>
+                    </a>
+                  </Dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div className="w-16 shrink-0 text-subtitle">Send to</div>
+            <div className="space-y-0.5 select-none">
+              <div>
+                <Checkbox
+                  checked={accountOwnerChecked}
+                  onChange={onAccountOwnerChange}
+                >
+                  Account owners
+                </Checkbox>
+              </div>
+              <div>
+                <Checkbox
+                  checked={beneficiaryChecked}
+                  onChange={onBeneficiaryChange}
+                >
+                  Beneficiaries
+                </Checkbox>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex gap-2">
-          <div className="w-16 shrink-0 text-subtitle">Send to</div>
-          <div className="space-y-0.5 select-none">
-            <div>
-              <Checkbox
-                checked={accountOwnerChecked}
-                onChange={onAccountOwnerChange}
-              >
-                Account owners
-              </Checkbox>
-            </div>
-            <div>
-              <Checkbox
-                checked={beneficiaryChecked}
-                onChange={onBeneficiaryChange}
-              >
-                Beneficiaries
-              </Checkbox>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Modal>
+      </Modal>
+      <ConfirmSMS
+        visible={confirmVisible}
+        onOk={() => setConfirmVisible(false)}
+        onCancel={() => setConfirmVisible(false)}
+      />
+    </>
   );
 };
 

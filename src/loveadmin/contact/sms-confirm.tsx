@@ -21,13 +21,13 @@ const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
         <p>
           SMS will be sent to 80 out of 100 contacts. 20 contacts won't receive
           it due to missing mobile number or because they have opted out.{" "}
-          <span className="link">Export contacts.</span>
+          <span className="link">Export 20 contacts.</span>
         </p>
       </div>
       <div className="grid grid-cols-2 gap-3 mt-4 mb-6">
         <div className="relative">
           <Statistic
-            title="SMS credits"
+            title="Credit balance"
             value={1000}
             precision={0}
             className="px-4 py-3.5 rounded bg-neutral-100"
@@ -42,7 +42,7 @@ const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
         </div>
         <div className="relative">
           <Statistic
-            title="Message cost"
+            title="Message cost (credits)"
             value={80}
             precision={0}
             className="px-4 py-3.5 rounded bg-neutral-100"

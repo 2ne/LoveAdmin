@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Modal, Statistic } from "antd";
+import { Button, Modal, Statistic, message } from "antd";
 
 interface ConfirmSMSProps {
   visible: boolean;
@@ -8,11 +8,16 @@ interface ConfirmSMSProps {
 }
 
 const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
+  const handleOk = () => {
+    message.success("SMS sent successfully!");
+    onOk();
+  };
+
   return (
     <Modal
       title="Send SMS"
       visible={visible}
-      onOk={onOk}
+      onOk={handleOk}
       onCancel={onCancel}
       okText="Send now"
       className="max-w-xl"

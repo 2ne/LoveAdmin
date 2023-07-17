@@ -193,27 +193,15 @@ h5.ant-typography {
 }
 
 .ant-notification .ant-notification-notice {
-  @apply bg-neutral-900 text-neutral-300 py-4 px-5;
+  @apply py-4 px-5;
 }
 
 .ant-notification .ant-notification-notice .ant-notification-notice-message {
-  @apply text-neutral-50 font-body font-medium mb-1;
-}
-
-.ant-notification .ant-notification-notice .ant-notification-notice-description {
-  @apply text-neutral-300;
-}
-
-.ant-notification .ant-notification-notice .ant-notification-close-icon {
-  @apply text-neutral-300;
+  @apply font-body font-medium mb-1;
 }
 
 .ant-notification .ant-notification-notice .ant-notification-notice-close {
-  @apply end-4 top-4 mt-px hover:bg-neutral-800;
-}
-
-.ant-message .ant-message-notice .ant-message-notice-content {
-  @apply bg-neutral-900 text-neutral-50;
+  @apply end-4 top-4 mt-px;
 }
 
 .ant-radio-group-progress .ant-radio-button-wrapper {

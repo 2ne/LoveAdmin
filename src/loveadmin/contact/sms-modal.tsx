@@ -399,7 +399,10 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       </Modal>
       <ConfirmSMS
         visible={confirmVisible}
-        onOk={() => setConfirmVisible(false)}
+        onOk={() => {
+          setConfirmVisible(false);
+          onCancel();
+        }}
         onCancel={() => setConfirmVisible(false)}
       />
     </>

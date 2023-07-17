@@ -3,12 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
 import { Modal, Dropdown, Menu, Tag, Checkbox, Tooltip } from "antd";
-import {
-  InfoCircleFilled,
-  InfoOutlined,
-  PlusOutlined,
-  UpOutlined,
-} from "@ant-design/icons";
+import { InfoOutlined, PlusOutlined, UpOutlined } from "@ant-design/icons";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 
 interface CustomQuill extends ReactQuill {
@@ -68,23 +63,24 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
     Array.from({ length: 100 }, () => generateRandomName())
   );
   const recipientCount = recipients.length;
-  const [showAllRecipients, setShowAllRecipients] = useState(false);
+  const [recipientsShown, setRecipientsShown] = useState(8);
+  const [allRecipientsShown, setAllRecipientsShown] = useState(false);
 
-  const [expandedView, setExpandedView] = useState(false);
+  const handleViewMoreRecipients = () => {
+    if (remainingRecipientsCount <= 50) {
+      setAllRecipientsShown(true);
+    }
+    setRecipientsShown(recipientsShown + 50); // show 50 more recipients on each click
+  };
 
-  const displayedRecipients = showAllRecipients
-    ? recipients
-    : recipients.slice(0, 6);
+  const handleHideRecipients = () => {
+    setRecipientsShown(8); // reset to initial state
+    setAllRecipientsShown(false);
+  };
+
+  const displayedRecipients = recipients.slice(0, recipientsShown);
   const remainingRecipientsCount =
     recipients.length - displayedRecipients.length;
-
-  const handleViewAllRecipients = () => {
-    setExpandedView(true);
-  };
-
-  const handleCloseExpandedView = () => {
-    setExpandedView(false);
-  };
 
   useEffect(() => {
     setMessageCount(Math.ceil(charCount / 160));
@@ -139,7 +135,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
 
   const menu = (
     <Menu>
-      <Menu.SubMenu title="Personal">
+      <Menu.SubMenu title="Beneficiary">
         <Menu.Item
           onClick={() => {
             focusEditor();
@@ -172,8 +168,6 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         >
           Gender
         </Menu.Item>
-      </Menu.SubMenu>
-      <Menu.SubMenu title="Address">
         <Menu.Item
           onClick={() => {
             focusEditor();
@@ -283,38 +277,28 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <div className="flex gap-2">
           <div className="w-16 shrink-0 text-subtitle">To</div>
           <div className="flex-grow">
-            {expandedView ? (
-              <>
-                {recipients.map((recipient, index) => (
-                  <Tag bordered={false} key={index} className="!mr-1 !mb-1">
-                    {recipient}
-                  </Tag>
-                ))}
-                <Tag
-                  bordered={false}
-                  className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
-                  onClick={handleCloseExpandedView}
-                >
-                  <UpOutlined className="text-[9px] relative -top-px" /> Hide
-                </Tag>
-              </>
-            ) : (
-              <>
-                {displayedRecipients.map((recipient, index) => (
-                  <Tag bordered={false} key={index} className="!mr-1 !mb-1">
-                    {recipient}
-                  </Tag>
-                ))}
-                {remainingRecipientsCount > 0 && (
-                  <Tag
-                    bordered={false}
-                    className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
-                    onClick={handleViewAllRecipients}
-                  >
-                    + {remainingRecipientsCount} more
-                  </Tag>
-                )}
-              </>
+            {displayedRecipients.map((recipient, index) => (
+              <Tag bordered={false} key={index} className="!mr-1 !mb-1">
+                {recipient}
+              </Tag>
+            ))}
+            {remainingRecipientsCount > 0 && !allRecipientsShown && (
+              <Tag
+                bordered={false}
+                className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
+                onClick={handleViewMoreRecipients}
+              >
+                + {Math.min(remainingRecipientsCount, 50)} more
+              </Tag>
+            )}
+            {allRecipientsShown && (
+              <Tag
+                bordered={false}
+                className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
+                onClick={handleHideRecipients}
+              >
+                <UpOutlined className="text-[9px] relative -top-px" /> Hide
+              </Tag>
             )}
           </div>
         </div>

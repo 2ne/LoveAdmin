@@ -2,8 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
-import { Modal, Dropdown, Menu, Tag, Checkbox } from "antd";
-import { PlusOutlined, UpOutlined } from "@ant-design/icons";
+import { Modal, Dropdown, Menu, Tag, Checkbox, Tooltip } from "antd";
+import {
+  InfoCircleFilled,
+  InfoOutlined,
+  PlusOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 
 interface CustomQuill extends ReactQuill {
@@ -20,7 +25,14 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   const quillRef = useRef<CustomQuill>(null);
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
-  const [checked, setChecked] = useState(true);
+  const [accountOwnerChecked, setAccountOwnerChecked] = useState(true);
+  const onAccountOwnerChange = (e: CheckboxChangeEvent) => {
+    setAccountOwnerChecked(e.target.checked);
+  };
+  const [beneficiaryChecked, setBeneficiaryChecked] = useState(false);
+  const onBeneficiaryChange = (e: CheckboxChangeEvent) => {
+    setBeneficiaryChecked(e.target.checked);
+  };
   const generateRandomName = () => {
     const firstName = [
       "John",
@@ -109,11 +121,6 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       setCharCount(length);
       setMessageCount(Math.ceil(length / getMessageLimit(length)));
     }
-  };
-
-  const onChange = (e: CheckboxChangeEvent) => {
-    console.log("checked = ", e.target.checked);
-    setChecked(e.target.checked);
   };
 
   const getMessageLimit = (length: number) => {
@@ -320,17 +327,20 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                 modules={modules}
                 onChange={handleTextChange}
               />
-              <div className="flex items-center justify-end gap-2.5 px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
+              <div className="cursor-default flex items-center justify-end gap-2.5 px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
                 <div className="flex items-center gap-1">
                   <span className="text-neutral-500">Characters</span>
                   <span className="tabular-nums">
                     {charCount} / {getMessageLimit(charCount)}
                   </span>
                 </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-neutral-500">Messages</span>
-                  <span className="tabular-nums">{messageCount}</span>
-                </div>
+                <Tooltip title="Placeholders may lengthen SMSs beyond displayed amount, potentially splitting them into extra messages.">
+                  <div className="flex items-center gap-1">
+                    <span className="text-neutral-500">Messages</span>
+                    <span className="tabular-nums">{messageCount}</span>
+                    <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
+                  </div>
+                </Tooltip>
               </div>
               <div className="absolute top-2 left-3">
                 <Dropdown overlay={menu} trigger={["click"]}>
@@ -350,12 +360,20 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
           <div className="w-16 shrink-0 text-subtitle">Send to</div>
           <div className="space-y-0.5 select-none">
             <div>
-              <Checkbox checked={checked} onChange={onChange}>
+              <Checkbox
+                checked={accountOwnerChecked}
+                onChange={onAccountOwnerChange}
+              >
                 Account owners
               </Checkbox>
             </div>
             <div>
-              <Checkbox>Beneficiaries</Checkbox>
+              <Checkbox
+                checked={beneficiaryChecked}
+                onChange={onBeneficiaryChange}
+              >
+                Beneficiaries
+              </Checkbox>
             </div>
           </div>
         </div>

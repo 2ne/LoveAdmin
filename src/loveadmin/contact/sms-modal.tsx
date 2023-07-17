@@ -74,18 +74,16 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   );
   const recipientCount = recipients.length;
   const [recipientsShown, setRecipientsShown] = useState(8);
-  const [allRecipientsShown, setAllRecipientsShown] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   const handleViewMoreRecipients = () => {
-    if (remainingRecipientsCount <= 50) {
-      setAllRecipientsShown(true);
-    }
     setRecipientsShown(recipientsShown + 50); // show 50 more recipients on each click
+    setShowMore(true);
   };
 
   const handleHideRecipients = () => {
     setRecipientsShown(8); // reset to initial state
-    setAllRecipientsShown(false);
+    setShowMore(false);
   };
 
   const displayedRecipients = recipients.slice(0, recipientsShown);
@@ -311,7 +309,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                   {recipient}
                 </Tag>
               ))}
-              {remainingRecipientsCount > 0 && !allRecipientsShown && (
+              {remainingRecipientsCount > 0 && (
                 <Tag
                   bordered={false}
                   className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
@@ -320,7 +318,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                   + {Math.min(remainingRecipientsCount, 50)} more
                 </Tag>
               )}
-              {allRecipientsShown && (
+              {showMore && (
                 <Tag
                   bordered={false}
                   className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"

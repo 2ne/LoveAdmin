@@ -9,8 +9,8 @@ interface ConfirmSMSProps {
 
 const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
   const handleOk = () => {
-    message.success("SMS sent successfully!");
-    onOk();
+    message.success("SMS sent successfully!"); // show success message
+    onOk(); // perform any other operations required when OK button is clicked
   };
 
   return (

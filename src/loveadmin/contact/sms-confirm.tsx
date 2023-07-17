@@ -10,28 +10,21 @@ interface ConfirmSMSProps {
 const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
   return (
     <Modal
-      title="Confirm SMS"
+      title="Send SMS"
       visible={visible}
       onOk={onOk}
       onCancel={onCancel}
       okText="Send now"
       className="max-w-xl"
     >
-      {/*       <div className="px-5 pt-3 pb-1 rounded bg-neutral-100">
-        <div className="mb-1 font-medium">Message preview</div>
-        <p>
-          Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-          consectetur, adipisci velit...
-        </p>
-      </div> */}
-      <div className="mb-6">
+      <div className="mb-5">
         <p>
           SMS will be sent to 80 out of 100 contacts. 20 contacts won't receive
-          it due to missing number or because they have opted out.{" "}
+          it due to missing mobile number or because they have opted out.{" "}
           <span className="link">Export contacts.</span>
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-3 mt-4 mb-7">
+      <div className="grid grid-cols-2 gap-3 mt-4 mb-6">
         <div className="relative">
           <Statistic
             title="SMS credits"

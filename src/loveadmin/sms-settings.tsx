@@ -50,16 +50,16 @@ function SMSSettings(): ReactElement {
                 <Button
                   type="link"
                   size="small"
-                  className="absolute !px-0 top-2.5 right-4"
+                  className="absolute !px-0 top-2.5 right-4 hover:!text-primary-500"
                 >
                   Top-up
                 </Button>
               </div>
             </div>
             <div>
-              <label className="block mb-1.5 font-medium">
+              <label className="block mb-1.5">
                 <span>Sender Name</span>
-                <span className="mx-1.5">·</span>
+                <span className="mx-1">·</span>
                 <a
                   className="inline-block mt-1"
                   href="mailto:support@loveadmin.com"

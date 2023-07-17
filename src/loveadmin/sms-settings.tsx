@@ -1,32 +1,6 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import {
-  CreditCardOutlined,
-  DeleteOutlined,
-  DownOutlined,
-  DownloadOutlined,
-  LeftOutlined,
-  MailOutlined,
-  MenuOutlined,
-  PlusOutlined,
-  RightOutlined,
-  SearchOutlined,
-  UserAddOutlined,
-  UsergroupAddOutlined,
-} from "@ant-design/icons";
-import {
-  Layout,
-  Typography,
-  Button,
-  Breadcrumb,
-  Table,
-  Dropdown,
-  Space,
-  Menu,
-  Statistic,
-  Input,
-} from "antd";
-import FormItemLabel from "antd/es/form/FormItemLabel";
-const { Title } = Typography;
+import React, { ReactElement } from "react";
+import { MenuOutlined } from "@ant-design/icons";
+import { Layout, Button, Breadcrumb, Statistic, Input } from "antd";
 const { Header, Content } = Layout;
 
 function SMSSettings(): ReactElement {
@@ -64,7 +38,7 @@ function SMSSettings(): ReactElement {
       </Header>
       <Layout>
         <Content className="pb-16 bg-white">
-          <div className="p-4 sm:max-w-xs">
+          <div className="px-4 py-5 sm:max-w-xs">
             <div className="mb-6">
               <div className="relative">
                 <Statistic

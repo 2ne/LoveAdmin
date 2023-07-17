@@ -287,9 +287,9 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
               placement="topRight"
               title={
                 messageCount === 0
-                  ? "Please enter a message to send."
+                  ? "Please enter a message."
                   : !(accountOwnerChecked || beneficiaryChecked)
-                  ? "Please select either Account Owners, Beneficiaries, or both as recipients."
+                  ? "Select either Account Owners, Beneficiaries, or both as recipients."
                   : ""
               }
             >

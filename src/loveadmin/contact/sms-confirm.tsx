@@ -35,7 +35,7 @@ const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
             title="Credit balance"
             value={1000}
             precision={0}
-            className="px-4 py-3.5 rounded bg-neutral-100"
+            className="px-4 py-3.5 rounded border border-solid border-neutral-200"
           />
           <Button
             type="link"
@@ -50,7 +50,7 @@ const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
             title="Message cost (credits)"
             value={80}
             precision={0}
-            className="px-4 py-3.5 rounded bg-neutral-100"
+            className="px-4 py-3.5 rounded border border-solid border-neutral-200"
           />
         </div>
       </div>

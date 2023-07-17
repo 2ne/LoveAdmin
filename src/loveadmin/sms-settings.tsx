@@ -45,7 +45,7 @@ function SMSSettings(): ReactElement {
                   title="Credit balance"
                   value={1000}
                   precision={0}
-                  className="px-4 py-3.5 rounded bg-neutral-100"
+                  className="px-4 py-3.5 rounded border border-solid border-neutral-200"
                 />
                 <Button
                   type="link"

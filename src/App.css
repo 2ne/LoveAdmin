@@ -10,15 +10,15 @@
 @tailwind utilities;
 
 .min-h-screen {
-  min-height: 100svh;
+  min-height: 100svh !important;
 }
 
 .h-screen {
-  height: 100dvh;
+  height: 100dvh !important;
 }
 
 .max-h-screen {
-  height: 100dvh;
+  height: 100dvh !important;
 }
 
 a,

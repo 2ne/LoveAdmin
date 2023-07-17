@@ -40,6 +40,9 @@ function LinksPage(): ReactElement {
           <li>
             <Link to="/DevProgramme">Development Programme</Link>
           </li>
+          <li>
+            <Link to="/SMSSettings">SMS Settings</Link>
+          </li>
         </ul>
       </div>
     </Layout>

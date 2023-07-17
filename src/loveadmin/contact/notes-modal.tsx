@@ -1,53 +1,29 @@
-import React, { useEffect, useRef } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import Quill from "quill";
-import { Modal } from "antd";
+import React from "react";
+import { Modal, Input } from "antd";
 
-interface CustomQuill extends ReactQuill {
-  getEditor: () => Quill;
-}
-
-interface SMSModalProps {
+interface AddNoteModalProps {
   visible: boolean;
   onOk: () => void;
   onCancel: () => void;
 }
 
-const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
-  const quillRef = useRef<CustomQuill>(null);
-
-  useEffect(() => {
-    if (quillRef.current) {
-      const quill = quillRef.current.getEditor();
-      const toolbar = quill.getModule("toolbar");
-      toolbar.addHandler("firstName", function () {
-        const range = quill.getSelection();
-        if (range) {
-          const cursorPosition = range.index;
-          quill.insertText(cursorPosition, "{{firstName}}");
-          quill.setSelection({ index: cursorPosition + 13, length: 0 });
-        }
-      });
-    }
-  }, []);
-
-  const modules = {
-    toolbar: [[{ header: [1, 2, false] }], ["firstName"]],
-  };
-
+const AddNoteModal: React.FC<AddNoteModalProps> = ({
+  visible,
+  onOk,
+  onCancel,
+}) => {
   return (
     <Modal
-      title="Send SMS"
-      visible={visible}
+      title="Add Note"
+      open={visible}
       okText="Add"
       onOk={onOk}
       onCancel={onCancel}
       className="max-w-sm"
     >
-      <ReactQuill ref={quillRef} modules={modules} />
+      <Input.TextArea rows={4} placeholder="Enter your note" />
     </Modal>
   );
 };
 
-export default SMSModal;
+export default AddNoteModal;

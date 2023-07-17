@@ -332,7 +332,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
           <div className="relative">
             <div className="flex gap-2">
               <div className="w-16 shrink-0 text-subtitle">Message</div>
-              <div className="relative flex-grow">
+              <div className="relative flex-grow min-w-0">
                 <ReactQuill
                   ref={quillRef}
                   modules={modules}

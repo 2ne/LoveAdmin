@@ -77,7 +77,7 @@ h5.ant-typography {
 }
 
 .ant-modal .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
-  @apply !ml-3;
+  @apply !ml-2.5;
 }
 
 .ant-table-column-title {

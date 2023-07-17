@@ -10,11 +10,13 @@ import SetNewPasswordJoinin from "./joinin/set-new-password";
 import ProductSalesReport from "./loveadmin/product-sales-report";
 import Contacts from "./loveadmin/contacts";
 import DevProgrammeModal from "./loveadmin/dev-programme/dev-programme";
+import SMSSettings from "./loveadmin/sms-settings";
 
 function App(): ReactElement {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/SMSSettings" element={<SMSSettings />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Contacts" element={<Contacts />} />
         <Route path="/ProductSalesReport" element={<ProductSalesReport />} />

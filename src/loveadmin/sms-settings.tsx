@@ -14,6 +14,8 @@ import {
   Modal,
   Form,
   Typography,
+  Dropdown,
+  Menu,
 } from "antd";
 import { ColumnsType } from "antd/es/table";
 const { Header, Content } = Layout;
@@ -169,7 +171,7 @@ function SMSSettings(): ReactElement {
         <div className="py-1">
           <div className="flex items-end justify-between mb-4">
             <Title level={5} className="!mb-0">
-              <span>Templates</span>
+              <span>SMS Templates</span>
               <span className="mx-1.5 text-subtitle">·</span>
               <span className="text-subtitle">3</span>
             </Title>
@@ -187,6 +189,115 @@ function SMSSettings(): ReactElement {
       ),
     },
   ];
+
+  const placeholders = (
+    <Menu>
+      <Menu.SubMenu title="Account owner">
+        <Menu.Item
+          onClick={() => {
+            console.log("Account owner first name clicked");
+          }}
+        >
+          First name
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Account owner last name clicked");
+          }}
+        >
+          Last name
+        </Menu.Item>
+      </Menu.SubMenu>
+      <Menu.SubMenu title="Beneficiary">
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary first name clicked");
+          }}
+        >
+          First name
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary last name clicked");
+          }}
+        >
+          Last name
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary date of birth clicked");
+          }}
+        >
+          Date of birth
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary gender clicked");
+          }}
+        >
+          Gender
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary house name or number clicked");
+          }}
+        >
+          House name or number
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary street clicked");
+          }}
+        >
+          Street
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary town clicked");
+          }}
+        >
+          Town
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary county clicked");
+          }}
+        >
+          County
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary post code clicked");
+          }}
+        >
+          Post code
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary country clicked");
+          }}
+        >
+          Country
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            console.log("Beneficiary full address clicked");
+          }}
+        >
+          Full address
+        </Menu.Item>
+      </Menu.SubMenu>
+      <Menu.SubMenu title="Organisation">
+        <Menu.Item
+          onClick={() => {
+            console.log("Organisation name clicked");
+          }}
+        >
+          Name
+        </Menu.Item>
+      </Menu.SubMenu>
+    </Menu>
+  );
   return (
     <Layout className="min-h-screen">
       <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
@@ -252,7 +363,20 @@ function SMSSettings(): ReactElement {
             />
           </Form.Item>
           <Form.Item label="Content">
+            <div className="px-3 py-2 -mt-px border border-b-0 border-solid rounded-t border-neutral-200 bg-neutral-50">
+              <Dropdown overlay={placeholders} trigger={["click"]}>
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  className="px-0 text-neutral-900"
+                >
+                  <PlusOutlined className="mr-1.5 text-neutral-900" />
+                  <span className="text-neutral-900">Placeholder</span>
+                </a>
+              </Dropdown>
+            </div>
             <Input.TextArea
+              className="min-h-[105px] rounded-t-none"
+              autoSize={true}
               value={editingTemplate?.content}
               onChange={(e) =>
                 editingTemplate &&

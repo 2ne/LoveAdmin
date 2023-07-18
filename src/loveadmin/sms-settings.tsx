@@ -166,15 +166,13 @@ function SMSSettings(): ReactElement {
       key: "2",
       label: `Templates`,
       children: (
-        <div className="py-2">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <Title level={5}>
-                <span>Templates</span>
-                <span className="mx-1.5 text-subtitle">·</span>
-                <span className="text-subtitle">3</span>
-              </Title>
-            </div>
+        <div className="py-1">
+          <div className="flex items-end justify-between mb-4">
+            <Title level={5} className="!mb-0">
+              <span>Templates</span>
+              <span className="mx-1.5 text-subtitle">·</span>
+              <span className="text-subtitle">3</span>
+            </Title>
             <Button type="primary" icon={<PlusOutlined />}>
               New template
             </Button>

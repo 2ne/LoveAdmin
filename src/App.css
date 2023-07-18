@@ -29,6 +29,11 @@ a.ant-typography,
   @apply text-primary-600 hover:text-primary-500 hover:underline cursor-pointer;
 }
 
+.ant-btn-link,
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply text-primary-600 hover:!text-primary-500;
+}
+
 h1.ant-typography,
 h2.ant-typography,
 h3.ant-typography,
@@ -238,4 +243,9 @@ h5.ant-typography {
 
 .ql-editor {
   @apply min-h-[100px];
+}
+
+table tbody a,
+table tbody .ant-btn-link {
+  @apply underline hover:no-underline;
 }

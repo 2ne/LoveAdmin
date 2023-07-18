@@ -1,5 +1,6 @@
 import React from "react";
-import { Button, Modal, Statistic, message } from "antd";
+import { Alert, Button, Modal, Statistic, Tooltip, message } from "antd";
+import { InfoOutlined } from "@ant-design/icons";
 
 interface ConfirmSMSProps {
   visible: boolean;
@@ -26,10 +27,10 @@ const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
         <p>
           SMS will be sent to 80 out of 100 contacts. 20 contacts won't receive
           it due to missing mobile number or because they have opted out.{" "}
-          <span className="link">Export 20 contacts.</span>
+          <span className="link">View 20 contacts.</span>
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-3 mt-4 mb-6">
+      <div className="grid grid-cols-2 gap-3 my-4">
         <div className="relative">
           <Statistic
             title="Credit balance"
@@ -47,13 +48,19 @@ const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
         </div>
         <div className="relative">
           <Statistic
-            title="Message cost (credits)"
+            title="Total message cost"
             value={80}
             precision={0}
             className="px-4 py-3.5 rounded border border-solid border-neutral-200"
           />
         </div>
       </div>
+      <Alert
+        showIcon
+        className="mb-6"
+        message="This message will cost 80 credits, leaving you with
+        980 remaining"
+      />
     </Modal>
   );
 };

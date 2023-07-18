@@ -3,7 +3,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
 import { Modal, Dropdown, Menu, Tag, Checkbox, Tooltip, Button } from "antd";
-import { InfoOutlined, PlusOutlined, UpOutlined } from "@ant-design/icons";
+import {
+  FileAddOutlined,
+  InfoOutlined,
+  PlusOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import ConfirmSMS from "./sms-confirm";
 
@@ -90,6 +95,14 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   const remainingRecipientsCount =
     recipients.length - displayedRecipients.length;
 
+  const clearAndFocusEditor = () => {
+    if (quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      quill.setText("");
+      quill.focus();
+    }
+  };
+
   const focusEditor = () => {
     if (quillRef.current) {
       const quill = quillRef.current.getEditor();
@@ -103,7 +116,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
       const range = quill.getSelection();
       if (range) {
         const cursorPosition = range.index;
-        quill.insertText(cursorPosition, `{{${text}}}`);
+        quill.insertText(cursorPosition, `${text}`);
         quill.setSelection({
           index: cursorPosition + text.length + 4,
           length: 0,
@@ -149,13 +162,13 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
     onCancel();
   };
 
-  const menu = (
+  const placeholders = (
     <Menu>
-      <Menu.SubMenu title="Beneficiary">
+      <Menu.SubMenu title="Account owner">
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("beneficiary.FirstName");
+            insertText("{{accountOwner.FirstName}}");
           }}
         >
           First name
@@ -163,7 +176,25 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("beneficiary.LastName");
+            insertText("{{accountOwner.LastName}}");
+          }}
+        >
+          Last name
+        </Menu.Item>
+      </Menu.SubMenu>
+      <Menu.SubMenu title="Beneficiary">
+        <Menu.Item
+          onClick={() => {
+            focusEditor();
+            insertText("{{beneficiary.FirstName}}");
+          }}
+        >
+          First name
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            focusEditor();
+            insertText("{{beneficiary.LastName}}");
           }}
         >
           Last name
@@ -171,7 +202,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("beneficiary.DateOfBirth");
+            insertText("{{beneficiary.DateOfBirth}}");
           }}
         >
           Date of birth
@@ -179,7 +210,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("beneficiary.Gender");
+            insertText("{{beneficiary.Gender}}");
           }}
         >
           Gender
@@ -187,7 +218,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("address.HouseNameOrNumber");
+            insertText("{{address.HouseNameOrNumber}}");
           }}
         >
           House name or number
@@ -195,7 +226,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("address.Street");
+            insertText("{{address.Street}}");
           }}
         >
           Street
@@ -203,7 +234,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("address.Town");
+            insertText("{{address.Town}}");
           }}
         >
           Town
@@ -211,7 +242,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("address.County");
+            insertText("{{address.County}}");
           }}
         >
           County
@@ -219,7 +250,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("address.PostCode");
+            insertText("{{address.PostCode}}");
           }}
         >
           Post code
@@ -227,7 +258,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("address.Country");
+            insertText("{{address.Country}}");
           }}
         >
           Country
@@ -235,40 +266,57 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("address.FullAddress");
+            insertText("{{address.FullAddress}}");
           }}
         >
           Full address
-        </Menu.Item>
-      </Menu.SubMenu>
-      <Menu.SubMenu title="Account owner">
-        <Menu.Item
-          onClick={() => {
-            focusEditor();
-            insertText("accountOwner.FirstName");
-          }}
-        >
-          First name
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            focusEditor();
-            insertText("accountOwner.LastName");
-          }}
-        >
-          Last name
         </Menu.Item>
       </Menu.SubMenu>
       <Menu.SubMenu title="Organisation">
         <Menu.Item
           onClick={() => {
             focusEditor();
-            insertText("organisation.Name");
+            insertText("{{organisation.Name}}");
           }}
         >
           Name
         </Menu.Item>
       </Menu.SubMenu>
+    </Menu>
+  );
+
+  const templates = (
+    <Menu>
+      <Menu.Item
+        onClick={() => {
+          clearAndFocusEditor();
+          insertText(
+            "Dear {{accountOwner.FirstName}}, your payment of PRODUCT NAME is due. Thanks, {{organisation.Name}}."
+          );
+        }}
+      >
+        Payment due
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          clearAndFocusEditor();
+          insertText(
+            "Dear {{accountOwner.FirstName}}, we have a special offer on PRODUCT NAME for you. Don't miss out! Thanks, {{organisation.Name}}."
+          );
+        }}
+      >
+        Special offer
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          clearAndFocusEditor();
+          insertText(
+            "Dear {{accountOwner.FirstName}}, we have a new event coming up EVENT NAME. Hope to see you there! Thanks, {{organisation.Name}}."
+          );
+        }}
+      >
+        New event
+      </Menu.Item>
     </Menu>
   );
 
@@ -366,16 +414,23 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                     </div>
                   </Tooltip>
                 </div>
-                <div className="absolute top-2 left-3">
-                  <Dropdown overlay={menu} trigger={["click"]}>
+                <div className="absolute flex gap-4 top-2 left-3">
+                  <Dropdown overlay={placeholders} trigger={["click"]}>
                     <a
                       onClick={(e) => e.preventDefault()}
                       className="px-0 text-neutral-900"
                     >
                       <PlusOutlined className="mr-1.5 text-neutral-900" />
-                      <span className="text-neutral-900">
-                        Add a placeholder
-                      </span>
+                      <span className="text-neutral-900">Placeholder</span>
+                    </a>
+                  </Dropdown>
+                  <Dropdown overlay={templates} trigger={["click"]}>
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <FileAddOutlined className="mr-1.5 text-neutral-900" />
+                      <span className="text-neutral-900">Templates</span>
                     </a>
                   </Dropdown>
                 </div>

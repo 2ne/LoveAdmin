@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import { MenuOutlined } from "@ant-design/icons";
+import React, { ReactElement, useState } from "react";
+import { DeleteOutlined, MenuOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Layout,
   Button,
@@ -8,20 +8,127 @@ import {
   Input,
   TabsProps,
   Tabs,
+  Table,
+  Popconfirm,
+  message,
+  Modal,
+  Form,
+  Typography,
 } from "antd";
+import { ColumnsType } from "antd/es/table";
 const { Header, Content } = Layout;
+const { Title } = Typography;
+
+interface DataType {
+  key: string;
+  name: string;
+  content: string;
+  created: string;
+}
+
+const confirm = (e: React.MouseEvent<HTMLElement>) => {
+  console.log(e);
+  message.success("Template deleted");
+};
+
+const cancel = (e: React.MouseEvent<HTMLElement>) => {
+  console.log(e);
+};
+
+const data: DataType[] = [
+  {
+    key: "1",
+    name: "Payment due",
+    content:
+      "Dear {{accountOwner.FirstName}}, your payment of PRODUCT NAME is due. Thanks, {{organisation.Name}}.",
+    created: "James Toone · 7 Feb 09:59",
+  },
+  {
+    key: "2",
+    name: "Special offer",
+    content:
+      "Dear {{accountOwner.FirstName}}, we have a special offer on PRODUCT NAME for you. Don't miss out! Thanks, {{organisation.Name}}.",
+    created: "James Toone · 7 Feb 09:59",
+  },
+  {
+    key: "3",
+    name: "New event",
+    content:
+      "Dear {{accountOwner.FirstName}}, we have a new event coming up EVENT NAME. Hope to see you there! Thanks, {{organisation.Name}}.",
+    created: "James Toone · 7 Feb 09:59",
+  },
+];
 
 function SMSSettings(): ReactElement {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingTemplate, setEditingTemplate] = useState<DataType | null>(null);
+
   const onChange = (key: string) => {
     console.log(key);
   };
+
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (_, record) => (
+        <div>
+          <Button
+            className="!px-0"
+            type="link"
+            onClick={() => {
+              setEditingTemplate(record);
+              setIsModalVisible(true);
+            }}
+          >
+            {record.name}
+          </Button>
+          {/* ...rest of your code */}
+        </div>
+      ),
+    },
+    {
+      title: "Content",
+      dataIndex: "content",
+      key: "content",
+    },
+    {
+      title: "Created",
+      dataIndex: "created",
+      key: "created",
+      render: (text: string) => <div className="text-subtitle">{text}</div>,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: () => (
+        <Popconfirm
+          title="Delete template"
+          description="Are you sure to delete this template?"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Delete"
+          cancelText="Cancel"
+        >
+          <Button
+            type="link"
+            className="!w-auto !p-0"
+            size="small"
+            danger
+            icon={<DeleteOutlined />}
+          ></Button>
+        </Popconfirm>
+      ),
+    },
+  ];
 
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: `Settings`,
       children: (
-        <div className="py-4 sm:max-w-xs">
+        <div className="py-3 sm:max-w-xs">
           <div className="mb-6">
             <div className="relative">
               <Statistic
@@ -58,7 +165,28 @@ function SMSSettings(): ReactElement {
     {
       key: "2",
       label: `Templates`,
-      children: `Content of Tab Pane 2`,
+      children: (
+        <div className="py-2">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <Title level={5}>
+                <span>Templates</span>
+                <span className="mx-1.5 text-subtitle">·</span>
+                <span className="text-subtitle">3</span>
+              </Title>
+            </div>
+            <Button type="primary" icon={<PlusOutlined />}>
+              New template
+            </Button>
+          </div>
+          <Table
+            columns={columns}
+            dataSource={data}
+            pagination={false}
+            size="small"
+          />
+        </div>
+      ),
     },
   ];
   return (
@@ -103,6 +231,40 @@ function SMSSettings(): ReactElement {
           />
         </Content>
       </Layout>
+      <Modal
+        title="Edit Template"
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        onOk={() => {
+          setIsModalVisible(false);
+        }}
+        okText="Save"
+      >
+        <Form layout="vertical">
+          <Form.Item label="Name">
+            <Input
+              value={editingTemplate?.name}
+              onChange={(e) =>
+                setEditingTemplate({
+                  ...editingTemplate!,
+                  name: e.target.value,
+                })
+              }
+            />
+          </Form.Item>
+          <Form.Item label="Content">
+            <Input.TextArea
+              value={editingTemplate?.content}
+              onChange={(e) =>
+                setEditingTemplate({
+                  ...editingTemplate!,
+                  content: e.target.value,
+                })
+              }
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Layout>
   );
 }

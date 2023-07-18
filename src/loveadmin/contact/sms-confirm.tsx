@@ -1,6 +1,5 @@
 import React from "react";
-import { Alert, Button, Modal, Statistic, Tooltip, message } from "antd";
-import { InfoOutlined } from "@ant-design/icons";
+import { Alert, Button, Modal, Statistic, message } from "antd";
 
 interface ConfirmSMSProps {
   visible: boolean;

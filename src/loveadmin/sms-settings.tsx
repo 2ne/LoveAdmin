@@ -26,12 +26,12 @@ interface DataType {
   created: string;
 }
 
-const confirm = (e: React.MouseEvent<HTMLElement>) => {
+const confirm = (e?: React.MouseEvent<HTMLElement>) => {
   console.log(e);
   message.success("Template deleted");
 };
 
-const cancel = (e: React.MouseEvent<HTMLElement>) => {
+const cancel = (e?: React.MouseEvent<HTMLElement>) => {
   console.log(e);
 };
 
@@ -243,8 +243,9 @@ function SMSSettings(): ReactElement {
             <Input
               value={editingTemplate?.name}
               onChange={(e) =>
+                editingTemplate &&
                 setEditingTemplate({
-                  ...editingTemplate!,
+                  ...editingTemplate,
                   name: e.target.value,
                 })
               }
@@ -254,8 +255,9 @@ function SMSSettings(): ReactElement {
             <Input.TextArea
               value={editingTemplate?.content}
               onChange={(e) =>
+                editingTemplate &&
                 setEditingTemplate({
-                  ...editingTemplate!,
+                  ...editingTemplate,
                   content: e.target.value,
                 })
               }

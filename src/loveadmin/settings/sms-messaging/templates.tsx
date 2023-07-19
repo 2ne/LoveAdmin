@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined, WarningFilled } from "@ant-design/icons";
 import {
   Button,
   Table,
@@ -76,7 +76,6 @@ function Templates(): React.ReactElement {
           >
             {record.name}
           </Button>
-          {/* ...rest of your code */}
         </div>
       ),
     },
@@ -90,28 +89,6 @@ function Templates(): React.ReactElement {
       dataIndex: "created",
       key: "created",
       render: (text: string) => <div className="text-subtitle">{text}</div>,
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: () => (
-        <Popconfirm
-          title="Delete template"
-          description="Are you sure to delete this template?"
-          onConfirm={confirm}
-          onCancel={cancel}
-          okText="Delete"
-          cancelText="Cancel"
-        >
-          <Button
-            type="link"
-            className="!w-auto !p-0"
-            size="small"
-            danger
-            icon={<DeleteOutlined />}
-          ></Button>
-        </Popconfirm>
-      ),
     },
   ];
 
@@ -232,7 +209,14 @@ function Templates(): React.ReactElement {
           <span className="mx-1.5 text-subtitle">·</span>
           <span className="text-subtitle">3</span>
         </Title>
-        <Button type="primary" icon={<PlusOutlined />}>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => {
+            setEditingTemplate(null);
+            setIsModalVisible(true);
+          }}
+        >
           New template
         </Button>
       </div>
@@ -243,13 +227,51 @@ function Templates(): React.ReactElement {
         size="small"
       />
       <Modal
-        title="Edit Template"
+        title={editingTemplate ? "Edit template" : "New template"}
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
-        onOk={() => {
-          setIsModalVisible(false);
-        }}
-        okText="Save"
+        footer={
+          <div className="flex justify-between">
+            <div>
+              {editingTemplate && (
+                <Popconfirm
+                  icon={<WarningFilled className="text-danger-500" />}
+                  title="Delete template"
+                  description="Are you sure to delete this template?"
+                  onConfirm={() => {
+                    setIsModalVisible(false);
+                  }}
+                  onCancel={cancel}
+                  okText="Delete"
+                  cancelText="Cancel"
+                  okButtonProps={{ danger: true }}
+                >
+                  <Button
+                    className="hover:text-danger-500 hover:border-danger-500"
+                    icon={<DeleteOutlined />}
+                  ></Button>
+                </Popconfirm>
+              )}
+            </div>
+            <div>
+              <Button
+                onClick={() => {
+                  setIsModalVisible(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                onClick={() => {
+                  setIsModalVisible(false);
+                }}
+              >
+                {editingTemplate ? "Update" : "Save"}
+              </Button>
+            </div>
+          </div>
+        }
       >
         <Form layout="vertical">
           <Form.Item label="Name">

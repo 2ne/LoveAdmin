@@ -7,7 +7,7 @@ import { Tabs } from "antd";
 
 const { Header, Content } = Layout;
 
-const LayoutComponent = () => {
+const SMSMessagingLayout = () => {
   const items = [
     {
       key: "1",
@@ -71,4 +71,4 @@ const LayoutComponent = () => {
   );
 };
 
-export default LayoutComponent;
+export default SMSMessagingLayout;

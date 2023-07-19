@@ -3,6 +3,7 @@ import { Layout, Button, Breadcrumb } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import Settings from "./settings";
 import Templates from "./templates";
+import History from "./history";
 import { Tabs } from "antd";
 
 const { Header, Content } = Layout;
@@ -18,6 +19,11 @@ const SMSMessagingLayout = () => {
       key: "2",
       label: `Templates`,
       children: <Templates />,
+    },
+    {
+      key: "3",
+      label: `History`,
+      children: <History />,
     },
   ];
 

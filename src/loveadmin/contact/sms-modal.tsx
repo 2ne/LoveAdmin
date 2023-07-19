@@ -2,7 +2,18 @@ import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
-import { Modal, Dropdown, Menu, Tag, Checkbox, Tooltip, Button } from "antd";
+import {
+  Modal,
+  Dropdown,
+  Menu,
+  Tag,
+  Checkbox,
+  Tooltip,
+  Button,
+  Radio,
+  RadioChangeEvent,
+  Space,
+} from "antd";
 import {
   FileAddOutlined,
   InfoOutlined,
@@ -24,76 +35,15 @@ interface SMSModalProps {
 
 const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
-  const handleOk = () => {
-    if (
-      (accountOwnerChecked && messageCount > 0) ||
-      (beneficiaryChecked && messageCount > 0)
-    ) {
-      setConfirmVisible(true);
-    }
-  };
   const quillRef = useRef<CustomQuill>(null);
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
-  const [accountOwnerChecked, setAccountOwnerChecked] = useState(true);
-  const onAccountOwnerChange = (e: CheckboxChangeEvent) => {
-    setAccountOwnerChecked(e.target.checked);
-  };
-  const [beneficiaryChecked, setBeneficiaryChecked] = useState(false);
-  const onBeneficiaryChange = (e: CheckboxChangeEvent) => {
-    setBeneficiaryChecked(e.target.checked);
-  };
-  const generateRandomName = () => {
-    const firstName = [
-      "John",
-      "Jane",
-      "Michael",
-      "Emily",
-      "William",
-      "Olivia",
-      "James",
-      "Sophia",
-      "Benjamin",
-      "Ava",
-    ];
-    const lastName = [
-      "Smith",
-      "Johnson",
-      "Williams",
-      "Jones",
-      "Brown",
-      "Davis",
-      "Miller",
-      "Wilson",
-      "Moore",
-      "Taylor",
-    ];
-    const randomFirstName =
-      firstName[Math.floor(Math.random() * firstName.length)];
-    const randomLastName =
-      lastName[Math.floor(Math.random() * lastName.length)];
-    return `${randomFirstName} ${randomLastName}`;
-  };
-  const [recipients, setRecipients] = useState<string[]>(
-    Array.from({ length: 100 }, () => generateRandomName())
-  );
-  const recipientCount = recipients.length;
-  const [recipientsShown, setRecipientsShown] = useState(8);
-  const [showMore, setShowMore] = useState(false);
+  const [value, setValue] = useState(1);
 
-  const handleViewMoreRecipients = () => {
-    setRecipientsShown(recipientsShown + 50); // show 50 more recipients on each click
-    setShowMore(true);
+  const onChange = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
   };
-
-  const handleHideRecipients = () => {
-    setRecipientsShown(8); // reset to initial state
-    setShowMore(false);
-  };
-
-  const displayedRecipients = recipients.slice(0, recipientsShown);
-  const remainingRecipientsCount =
-    recipients.length - displayedRecipients.length;
 
   const clearAndFocusEditor = () => {
     if (quillRef.current) {
@@ -320,6 +270,14 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
     </Menu>
   );
 
+  const handleOk = () => {
+    if (messageCount > 0) {
+      setConfirmVisible(true);
+    }
+  };
+
+  const recipientCount = 4;
+
   return (
     <>
       <Modal
@@ -328,7 +286,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
             <span>Send SMS</span>
             <span className="mx-1 text-subtitle">·</span>
             <span className="font-medium tabular-nums text-subtitle">
-              {recipientCount} contact{recipientCount !== 1 ? "s" : ""}
+              {recipientCount} contact{recipientCount > 1 ? "s" : ""}
             </span>
           </>
         }
@@ -341,13 +299,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
             <Button onClick={onCancel}>Cancel</Button>
             <Tooltip
               placement="topRight"
-              title={
-                messageCount === 0
-                  ? "Please enter a message."
-                  : !(accountOwnerChecked || beneficiaryChecked)
-                  ? "Select either Account Owners, Beneficiaries, or both as recipients."
-                  : ""
-              }
+              title={messageCount === 0 ? "Please enter a message." : ""}
             >
               <Button type="primary" onClick={handleOk}>
                 Send
@@ -356,34 +308,16 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
           </div>
         }
       >
-        <div className="space-y-6">
+        <div className="mb-6 space-y-6">
           <div className="flex gap-2">
             <div className="w-16 shrink-0 text-subtitle">To</div>
-            <div className="flex-grow">
-              {displayedRecipients.map((recipient, index) => (
-                <Tag bordered={false} key={index} className="!mr-1 !mb-1">
-                  {recipient}
-                </Tag>
-              ))}
-              {remainingRecipientsCount > 0 && (
-                <Tag
-                  bordered={false}
-                  className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
-                  onClick={handleViewMoreRecipients}
-                >
-                  + {Math.min(remainingRecipientsCount, 50)} more
-                </Tag>
-              )}
-              {showMore && (
-                <Tag
-                  bordered={false}
-                  className="hover:!bg-neutral-200 !mr-1 !mb-1 cursor-pointer"
-                  onClick={handleHideRecipients}
-                >
-                  <UpOutlined className="text-[9px] relative -top-px" /> Hide
-                </Tag>
-              )}
-            </div>
+            <Radio.Group onChange={onChange} value={value}>
+              <div className="space-y-1 [&>*]:inline-flex">
+                <Radio value={1}>Selected contacts</Radio>
+                <Radio value={2}>Selected contacts + account owners</Radio>
+                <Radio value={3}>Only account owners</Radio>
+              </div>
+            </Radio.Group>
           </div>
           <div className="relative">
             <div className="flex gap-2">
@@ -434,27 +368,6 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                     </a>
                   </Dropdown>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <div className="w-16 shrink-0 text-subtitle">Send to</div>
-            <div className="space-y-0.5 select-none">
-              <div>
-                <Checkbox
-                  checked={accountOwnerChecked}
-                  onChange={onAccountOwnerChange}
-                >
-                  Account owners
-                </Checkbox>
-              </div>
-              <div>
-                <Checkbox
-                  checked={beneficiaryChecked}
-                  onChange={onBeneficiaryChange}
-                >
-                  Beneficiaries
-                </Checkbox>
               </div>
             </div>
           </div>

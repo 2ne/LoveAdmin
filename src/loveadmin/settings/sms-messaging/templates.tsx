@@ -18,7 +18,7 @@ const { Title } = Typography;
 interface DataType {
   key: string;
   name: string;
-  content: string;
+  template: string;
   created: string;
 }
 
@@ -26,21 +26,21 @@ const data: DataType[] = [
   {
     key: "1",
     name: "Payment due",
-    content:
+    template:
       "Dear {{accountOwner.FirstName}}, your payment of PRODUCT NAME is due. Thanks, {{organisation.Name}}.",
     created: "James Toone · 7 Feb 09:59",
   },
   {
     key: "2",
     name: "Special offer",
-    content:
+    template:
       "Dear {{accountOwner.FirstName}}, we have a special offer on PRODUCT NAME for you. Don't miss out! Thanks, {{organisation.Name}}.",
     created: "James Toone · 7 Feb 09:59",
   },
   {
     key: "3",
     name: "New event",
-    content:
+    template:
       "Dear {{accountOwner.FirstName}}, we have a new event coming up EVENT NAME. Hope to see you there! Thanks, {{organisation.Name}}.",
     created: "James Toone · 7 Feb 09:59",
   },
@@ -80,9 +80,9 @@ function Templates(): React.ReactElement {
       ),
     },
     {
-      title: "Content",
-      dataIndex: "content",
-      key: "content",
+      title: "Template",
+      dataIndex: "template",
+      key: "template",
     },
     {
       title: "Created",
@@ -286,7 +286,7 @@ function Templates(): React.ReactElement {
               }
             />
           </Form.Item>
-          <Form.Item label="Content">
+          <Form.Item label="Template">
             <div className="px-3 py-2 -mt-px border border-b-0 border-solid rounded-t border-neutral-200 bg-neutral-50">
               <Dropdown overlay={placeholders} trigger={["click"]}>
                 <a

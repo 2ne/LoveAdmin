@@ -24,12 +24,13 @@ const Settings = () => {
       <div>
         <label className="block mb-1.5">
           <span>Sender Name</span>
-          <span className="mx-1">·</span>
-          <a className="inline-block mt-1" href="mailto:support@loveadmin.com">
-            Request change
-          </a>
         </label>
         <Input disabled value="LoveAdmin"></Input>
+        <div className="mt-2 leading-[1.175rem] text-subtitle">
+          Please email{" "}
+          <a href="mailto:support@loveadmin.com">support@loveadmin.com</a> to
+          change your sender name.
+        </div>
       </div>
     </div>
   );

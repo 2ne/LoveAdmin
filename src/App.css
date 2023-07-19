@@ -34,7 +34,7 @@ a.ant-typography,
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  @apply text-primary-600 hover:!text-primary-500;
+  @apply !text-primary-600 hover:!text-primary-500;
 }
 
 h1.ant-typography,

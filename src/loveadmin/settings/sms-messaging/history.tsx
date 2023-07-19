@@ -44,7 +44,13 @@ function History(): React.ReactElement {
       key: "creditsAdded",
       width: 100,
       render: (creditsAdded: string) => {
-        return creditsAdded && <Tag color="cyan">{creditsAdded}</Tag>;
+        return (
+          creditsAdded && (
+            <Tag color="cyan" className="my-2">
+              {creditsAdded}
+            </Tag>
+          )
+        );
       },
     },
     {
@@ -53,7 +59,13 @@ function History(): React.ReactElement {
       key: "creditsSpent",
       width: 100,
       render: (creditsSpent: string) => {
-        return creditsSpent && <Tag color="red">{creditsSpent}</Tag>;
+        return (
+          creditsSpent && (
+            <Tag color="red" className="my-2">
+              {creditsSpent}
+            </Tag>
+          )
+        );
       },
     },
     {
@@ -62,7 +74,7 @@ function History(): React.ReactElement {
       key: "name",
       align: "right",
       render: (text: string, record: TransactionType) => (
-        <div className="subtitle">
+        <div className="text-subtitle">
           {record.date} · {record.name}
         </div>
       ),

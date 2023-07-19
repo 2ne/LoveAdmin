@@ -10,7 +10,7 @@ import SetNewPasswordJoinin from "./joinin/set-new-password";
 import ProductSalesReport from "./loveadmin/product-sales-report";
 import Contacts from "./loveadmin/contacts";
 import DevProgrammeModal from "./loveadmin/dev-programme/dev-programme";
-import SMSSettings from "./loveadmin/sms-settings";
+import SMSSettings from "./loveadmin/settings/sms-messaging/sms-settings";
 
 function App(): ReactElement {
   return (

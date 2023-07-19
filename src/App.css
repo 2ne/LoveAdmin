@@ -29,7 +29,10 @@ a.ant-typography,
   @apply text-primary-600 hover:text-primary-500 hover:underline cursor-pointer;
 }
 
-.ant-btn-link,
+.ant-btn-link:not(.ant-btn-dangerous) {
+  @apply text-primary-600 hover:!text-primary-500;
+}
+
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   @apply text-primary-600 hover:!text-primary-500;
 }

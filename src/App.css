@@ -252,3 +252,7 @@ table tbody a,
 table tbody .ant-btn-link {
   @apply underline hover:no-underline;
 }
+
+.ant-tree-checkbox.ant-tree-checkbox-disabled {
+  @apply hidden;
+}

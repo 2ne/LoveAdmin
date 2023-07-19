@@ -4,27 +4,55 @@ import type { DataNode, TreeProps } from "antd/es/tree";
 
 const originalTreeData: DataNode[] = [
   {
-    title: "All Classes",
+    title: "Advanced filters",
     key: "0-0",
+    disableCheckbox: true,
+    selectable: false,
+    children: [
+      {
+        title: "Show account owners",
+        key: "0-0-0",
+      },
+      {
+        title: "Show product users",
+        key: "0-0-1",
+      },
+      {
+        title: "Show purchasers",
+        key: "0-0-2",
+      },
+      {
+        title: "Show current attendees",
+        key: "0-0-3",
+      },
+      {
+        title: "Show invitees",
+        key: "0-0-4",
+      },
+    ],
+  },
+  {
+    title: "All Classes",
+    key: "0-1",
     children: [
       {
         title: "Monthly Classes",
-        key: "0-0-0",
+        key: "0-1-0",
         children: [
           {
             title: "Gym 5-7 years",
-            key: "0-0-0-0",
+            key: "0-1-0-0",
           },
           {
             title: "Gym 8 years +",
-            key: "0-0-0-1",
+            key: "0-1-0-1",
           },
         ],
       },
       {
         title: "Squads (monthly)",
-        key: "0-0-1",
-        children: [{ title: "Test", key: "0-0-1-0" }],
+        key: "0-1-1",
+        children: [{ title: "Test", key: "0-1-1-0" }],
       },
     ],
   },

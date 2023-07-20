@@ -39,6 +39,10 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
   const [value, setValue] = useState(1);
+  const [accountOwnerChecked, setAccountOwnerChecked] = useState(true);
+  const onAccountOwnerChange = (e: CheckboxChangeEvent) => {
+    setAccountOwnerChecked(e.target.checked);
+  };
 
   const onChange = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
@@ -309,16 +313,6 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         }
       >
         <div className="mb-6 space-y-6">
-          <div className="flex gap-2">
-            <div className="w-16 shrink-0 text-subtitle">To</div>
-            <Radio.Group onChange={onChange} value={value}>
-              <div className="space-y-1 [&>*]:flex">
-                <Radio value={1}>Selected contacts</Radio>
-                <Radio value={2}>Selected contacts and account owners</Radio>
-                <Radio value={3}>Only account owners</Radio>
-              </div>
-            </Radio.Group>
-          </div>
           <div className="relative">
             <div className="flex gap-2">
               <div className="w-16 shrink-0 text-subtitle">Message</div>
@@ -367,6 +361,22 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                       <span className="text-neutral-900">Templates</span>
                     </a>
                   </Dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div className="w-16 shrink-0 text-subtitle">Options</div>
+            <div className="space-y-0.5 select-none">
+              <div>
+                <Checkbox
+                  checked={accountOwnerChecked}
+                  onChange={onAccountOwnerChange}
+                >
+                  Only send to account owners
+                </Checkbox>
+                <div className="ml-6 text-subtitle">
+                  This helps reduce the amount of messages sent
                 </div>
               </div>
             </div>

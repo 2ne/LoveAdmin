@@ -309,65 +309,52 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
         }
       >
         <div className="mb-6 space-y-6">
-          <div className="flex gap-2">
-            <div className="w-16 shrink-0 text-subtitle">To</div>
-            <Radio.Group onChange={onChange} value={value}>
-              <div className="space-y-1 [&>*]:flex">
-                <Radio value={1}>Selected contacts</Radio>
-                <Radio value={2}>Selected contacts and account owners</Radio>
-                <Radio value={3}>Only account owners</Radio>
-              </div>
-            </Radio.Group>
-          </div>
           <div className="relative">
-            <div className="flex gap-2">
-              <div className="w-16 shrink-0 text-subtitle">Message</div>
-              <div className="relative flex-grow min-w-0">
-                <ReactQuill
-                  ref={quillRef}
-                  modules={modules}
-                  onChange={handleTextChange}
-                />
-                <div className="px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
-                  <Tooltip
-                    placement="topRight"
-                    title="Placeholders may lengthen SMSs beyond displayed amount, potentially splitting them into extra messages."
-                  >
-                    <div className="cursor-default flex items-center justify-end gap-2.5">
-                      <div className="flex items-center gap-1">
-                        <span className="text-neutral-500">Characters</span>
-                        <span className="tabular-nums">
-                          {charCount} / {getMessageLimit(charCount)}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-neutral-500">Messages</span>
-                        <span className="tabular-nums">{messageCount}</span>
-                        <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
-                      </div>
+            <div className="relative flex-grow min-w-0">
+              <ReactQuill
+                ref={quillRef}
+                modules={modules}
+                onChange={handleTextChange}
+              />
+              <div className="px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
+                <Tooltip
+                  placement="topRight"
+                  title="Placeholders may lengthen SMSs beyond displayed amount, potentially splitting them into extra messages."
+                >
+                  <div className="cursor-default flex items-center justify-end gap-2.5">
+                    <div className="flex items-center gap-1">
+                      <span className="text-neutral-500">Characters</span>
+                      <span className="tabular-nums">
+                        {charCount} / {getMessageLimit(charCount)}
+                      </span>
                     </div>
-                  </Tooltip>
-                </div>
-                <div className="absolute flex gap-4 top-2 left-3">
-                  <Dropdown overlay={placeholders} trigger={["click"]}>
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <PlusOutlined className="mr-1.5 text-neutral-900" />
-                      <span className="text-neutral-900">Placeholder</span>
-                    </a>
-                  </Dropdown>
-                  <Dropdown overlay={templates} trigger={["click"]}>
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <FileAddOutlined className="mr-1.5 text-neutral-900" />
-                      <span className="text-neutral-900">Templates</span>
-                    </a>
-                  </Dropdown>
-                </div>
+                    <div className="flex items-center gap-1">
+                      <span className="text-neutral-500">Messages</span>
+                      <span className="tabular-nums">{messageCount}</span>
+                      <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
+                    </div>
+                  </div>
+                </Tooltip>
+              </div>
+              <div className="absolute flex gap-4 top-2 left-3">
+                <Dropdown overlay={placeholders} trigger={["click"]}>
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="px-0 text-neutral-900"
+                  >
+                    <PlusOutlined className="mr-1.5 text-neutral-900" />
+                    <span className="text-neutral-900">Placeholder</span>
+                  </a>
+                </Dropdown>
+                <Dropdown overlay={templates} trigger={["click"]}>
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="px-0 text-neutral-900"
+                  >
+                    <FileAddOutlined className="mr-1.5 text-neutral-900" />
+                    <span className="text-neutral-900">Templates</span>
+                  </a>
+                </Dropdown>
               </div>
             </div>
           </div>

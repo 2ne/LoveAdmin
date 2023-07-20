@@ -15,6 +15,7 @@ ReactDOM.render(
           colorTextDescription: "#71717a", // tw zinc 500
           colorTextPlaceholder: "#a1a1aa", // tw zinc 400
           colorLink: "#0891b2", // tw cyan 600
+          colorLinkHover: "#06b6d4", // tw cyan 500
           colorInfo: "#06b6d4", // tw cyan 500
           colorPrimary: "#06b6d4", // tw cyan 500
           colorSuccess: "#10b981", // tw emerald 500

@@ -407,9 +407,17 @@ function Contacts(): ReactElement {
                         <Menu.Item key="1" onClick={handleSendSMSClick}>
                           Email
                         </Menu.Item>
-                        <Menu.Item key="2" onClick={handleSendSMSClick}>
-                          SMS
-                        </Menu.Item>
+                        <Menu.SubMenu title="SMS">
+                          <Menu.Item key="2" onClick={handleSendSMSClick}>
+                            Account owners
+                          </Menu.Item>
+                          <Menu.Item key="3" onClick={handleSendSMSClick}>
+                            Beneficiaries
+                          </Menu.Item>
+                          <Menu.Item key="4" onClick={handleSendSMSClick}>
+                            Both
+                          </Menu.Item>
+                        </Menu.SubMenu>
                       </Menu>
                     }
                     trigger={["click"]}

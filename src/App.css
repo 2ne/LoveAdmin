@@ -32,6 +32,14 @@ h5.ant-typography {
   @apply font-medium;
 }
 
+a,
+a.ant-typography,
+.ant-typography a,
+.link,
+.ant-btn-link {
+  @apply hover:underline cursor-pointer;
+}
+
 .ant-btn {
   @apply inline-flex items-center justify-center;
 }

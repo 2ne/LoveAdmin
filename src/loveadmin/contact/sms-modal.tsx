@@ -376,7 +376,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                   Only send to account owners
                 </Checkbox>
                 <div className="ml-6 text-subtitle">
-                  This helps reduce the amount of messages sent
+                  This may reduce the amount of messages sent
                 </div>
               </div>
             </div>

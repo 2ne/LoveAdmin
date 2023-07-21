@@ -11,6 +11,7 @@ interface CustomSMSQuill extends ReactQuill {
 }
 
 interface CustomSMSEditorProps {
+  value?: string;
   onCharCountChange: (count: number) => void;
   onMessageCountChange: (count: number) => void;
   onContentChange: (content: string) => void;
@@ -20,6 +21,7 @@ interface CustomSMSEditorProps {
 }
 
 const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
+  value,
   onCharCountChange,
   onMessageCountChange,
   onContentChange,
@@ -65,6 +67,13 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
   useEffect(() => {
     setMessageCount(Math.ceil(charCount / 160));
   }, [charCount]);
+
+  useEffect(() => {
+    if (quillRef.current && value) {
+      const quill = quillRef.current.getEditor();
+      quill.setText(value);
+    }
+  }, [value]);
 
   const getMessageLimit = (length: number) => {
     if (length <= 160) {

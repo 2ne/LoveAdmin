@@ -198,9 +198,16 @@ function Templates(): React.ReactElement {
           </Form.Item>
           <Form.Item label="Template">
             <CustomSMSEditor
+              value={editingTemplate?.template}
               onCharCountChange={handleCharCountChange}
               onMessageCountChange={handleMessageCountChange}
-              onContentChange={handleContentChange}
+              onContentChange={(newContent) => {
+                editingTemplate &&
+                  setEditingTemplate({
+                    ...editingTemplate,
+                    template: newContent,
+                  });
+              }}
               showTemplatesDropdown={false}
               showCounts={false}
             />

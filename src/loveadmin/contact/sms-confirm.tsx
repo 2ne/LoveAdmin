@@ -26,7 +26,7 @@ const ConfirmSMS: React.FC<ConfirmSMSProps> = ({ visible, onOk, onCancel }) => {
         <p>
           SMS will be sent to 80 out of 100 contacts. 20 contacts won't receive
           it due to missing mobile number or because they have opted out.{" "}
-          <span className="link">View 20 contacts.</span>
+          <a>View 20 contacts.</a>
         </p>
       </div>
       <div className="grid grid-cols-2 gap-3 my-4">

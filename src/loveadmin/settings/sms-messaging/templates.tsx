@@ -13,6 +13,7 @@ import {
   Menu,
 } from "antd";
 import { ColumnsType } from "antd/es/table";
+import CustomSMSEditor from "../../sms-editor";
 const { Title } = Typography;
 
 interface DataType {
@@ -58,6 +59,24 @@ const cancel = (e?: React.MouseEvent<HTMLElement>) => {
 function Templates(): React.ReactElement {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<DataType | null>(null);
+  const [charCount, setCharCount] = useState(0);
+  const [messageCount, setMessageCount] = useState(0);
+  const [content, setContent] = useState("");
+
+  const handleCharCountChange = (count: number) => {
+    setCharCount(count);
+    console.log("New Char Count: ", count);
+  };
+
+  const handleMessageCountChange = (count: number) => {
+    setMessageCount(count);
+    console.log("New Message Count: ", count);
+  };
+
+  const handleContentChange = (newContent: string) => {
+    setContent(newContent);
+    console.log("New Content: ", newContent);
+  };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -91,115 +110,6 @@ function Templates(): React.ReactElement {
       render: (text: string) => <div className="text-subtitle">{text}</div>,
     },
   ];
-
-  const placeholders = (
-    <Menu>
-      <Menu.SubMenu title="Account owner">
-        <Menu.Item
-          onClick={() => {
-            console.log("Account owner first name clicked");
-          }}
-        >
-          First name
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Account owner last name clicked");
-          }}
-        >
-          Last name
-        </Menu.Item>
-      </Menu.SubMenu>
-      <Menu.SubMenu title="Beneficiary">
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary first name clicked");
-          }}
-        >
-          First name
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary last name clicked");
-          }}
-        >
-          Last name
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary date of birth clicked");
-          }}
-        >
-          Date of birth
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary gender clicked");
-          }}
-        >
-          Gender
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary house name or number clicked");
-          }}
-        >
-          House name or number
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary street clicked");
-          }}
-        >
-          Street
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary town clicked");
-          }}
-        >
-          Town
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary county clicked");
-          }}
-        >
-          County
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary post code clicked");
-          }}
-        >
-          Post code
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary country clicked");
-          }}
-        >
-          Country
-        </Menu.Item>
-        <Menu.Item
-          onClick={() => {
-            console.log("Beneficiary full address clicked");
-          }}
-        >
-          Full address
-        </Menu.Item>
-      </Menu.SubMenu>
-      <Menu.SubMenu title="Organisation">
-        <Menu.Item
-          onClick={() => {
-            console.log("Organisation name clicked");
-          }}
-        >
-          Name
-        </Menu.Item>
-      </Menu.SubMenu>
-    </Menu>
-  );
 
   return (
     <div className="py-1">
@@ -287,28 +197,12 @@ function Templates(): React.ReactElement {
             />
           </Form.Item>
           <Form.Item label="Template">
-            <div className="px-3 py-2 -mt-px border border-b-0 border-solid rounded-t border-neutral-200 bg-neutral-50">
-              <Dropdown overlay={placeholders} trigger={["click"]}>
-                <a
-                  onClick={(e) => e.preventDefault()}
-                  className="px-0 text-neutral-900"
-                >
-                  <PlusOutlined className="mr-1.5 text-neutral-900" />
-                  <span className="text-neutral-900">Placeholder</span>
-                </a>
-              </Dropdown>
-            </div>
-            <Input.TextArea
-              className="min-h-[105px] rounded-t-none"
-              autoSize={true}
-              value={editingTemplate?.content}
-              onChange={(e) =>
-                editingTemplate &&
-                setEditingTemplate({
-                  ...editingTemplate,
-                  content: e.target.value,
-                })
-              }
+            <CustomSMSEditor
+              onCharCountChange={handleCharCountChange}
+              onMessageCountChange={handleMessageCountChange}
+              onContentChange={handleContentChange}
+              showTemplatesDropdown={false}
+              showCounts={false}
             />
           </Form.Item>
         </Form>

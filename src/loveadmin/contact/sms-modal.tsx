@@ -2,24 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Quill from "quill";
-import {
-  Modal,
-  Dropdown,
-  Menu,
-  Tag,
-  Checkbox,
-  Tooltip,
-  Button,
-  Radio,
-  RadioChangeEvent,
-  Space,
-} from "antd";
-import {
-  FileAddOutlined,
-  InfoOutlined,
-  PlusOutlined,
-  UpOutlined,
-} from "@ant-design/icons";
+import { Modal, Dropdown, Menu, Checkbox, Tooltip, Button } from "antd";
+import { FileAddOutlined, InfoOutlined, PlusOutlined } from "@ant-design/icons";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import ConfirmSMS from "./sms-confirm";
 
@@ -38,15 +22,9 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
   const quillRef = useRef<CustomQuill>(null);
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
-  const [value, setValue] = useState(1);
   const [accountOwnerChecked, setAccountOwnerChecked] = useState(true);
   const onAccountOwnerChange = (e: CheckboxChangeEvent) => {
     setAccountOwnerChecked(e.target.checked);
-  };
-
-  const onChange = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setValue(e.target.value);
   };
 
   const clearAndFocusEditor = () => {
@@ -376,7 +354,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onOk, onCancel }) => {
                   Only send to account owners
                 </Checkbox>
                 <div className="ml-6 text-subtitle">
-                  This may reduce the amount of messages sent
+                  This can help reduce the amount of messages sent
                 </div>
               </div>
             </div>

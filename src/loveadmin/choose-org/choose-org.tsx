@@ -10,12 +10,13 @@ import {
 } from "@ant-design/icons";
 import LoveAdminHeader from "../../components/header";
 import TableTitle from "../../components/table-title";
+import { Link } from "react-router-dom";
 const { Content } = Layout;
 const { Option } = Select;
 
 interface Organisation {
   logo: string;
-  title: string;
+  name: string;
   type: string;
   tags: string[];
   link: string;
@@ -24,28 +25,28 @@ interface Organisation {
 const organisations: Organisation[] = [
   {
     logo: "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/180px-Arsenal_FC.svg.png",
-    title: "Arsenal FC",
+    name: "Arsenal FC",
     type: "Football club",
     tags: ["Football", "Sports"],
     link: "/",
   },
   {
     logo: "https://upload.wikimedia.org/wikipedia/en/thumb/7/7f/SussexCCCLogo.svg/200px-SussexCCCLogo.svg.png",
-    title: "Sussex County Cricket Club",
+    name: "Sussex County Cricket Club",
     type: "Cricket Team",
     tags: ["Cricket", "Sports"],
     link: "/",
   },
   {
     logo: "https://upload.wikimedia.org/wikipedia/en/b/b5/London_Lions_logo_%282021%29.png",
-    title: "The London Lions Basketball",
+    name: "The London Lions Basketball",
     type: "Basketball College",
     tags: ["Basketball", "Sports"],
     link: "/",
   },
   {
     logo: "https://pro.loveadmin.com/services/anonymous/avatar/5f4c473d-aa5e-4beb-a8ba-5ef1869b9de8",
-    title: "CG Swim School",
+    name: "CG Swim School",
     type: "Classes & Courses",
     tags: ["Swimming", "Sports"],
     link: "/",
@@ -69,7 +70,7 @@ const ChooseOrg = () => {
 
     if (searchTerm) {
       filtered = filtered.filter((org) =>
-        org.title.toLowerCase().includes(searchTerm.toLowerCase())
+        org.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -83,9 +84,11 @@ const ChooseOrg = () => {
   const columns = [
     {
       title: "Name",
-      dataIndex: "title",
-      key: "title",
-      render: (text: string) => <a>{text}</a>,
+      dataIndex: "name",
+      key: "name",
+      render: (text: string, record: Organisation) => (
+        <Link to={record.link}>{text}</Link>
+      ),
     },
     {
       title: "Type",

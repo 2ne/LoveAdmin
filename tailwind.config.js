@@ -13,7 +13,7 @@ module.exports = {
       success: colors.emerald,
       warning: colors.amber,
       danger: colors.rose,
-      neutral: colors.zinc,
+      neutral: colors.neutral,
       //secondary colours
       red: colors.red,
       orange: colors.orange,
@@ -46,4 +46,10 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/container-queries")],
   important: true,
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  corePlugins: {
+    preflight: false,
+  },
 };

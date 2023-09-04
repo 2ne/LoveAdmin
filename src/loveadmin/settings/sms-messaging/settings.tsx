@@ -1,13 +1,13 @@
 import React from "react";
 import { Statistic, Button, Input } from "antd";
 
-const Settings = () => {
+function Settings(): React.ReactElement {
   return (
     <div className="py-3 sm:max-w-xs">
       <div className="mb-6">
         <div className="relative">
           <Statistic
-            title="Credit balance"
+            title="SMS Credits"
             value={1000}
             precision={0}
             className="px-4 py-3.5 rounded border border-solid border-neutral-200"
@@ -34,6 +34,6 @@ const Settings = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Settings;

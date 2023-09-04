@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tree, Input, Segmented } from "antd";
 import type { DataNode, TreeProps } from "antd/es/tree";
+import { SearchOutlined } from "@ant-design/icons";
 
 const originalTreeData: DataNode[] = [
   {
@@ -60,9 +61,23 @@ const originalTreeData: DataNode[] = [
 
 interface ProductTreeProps {
   showSegmented?: boolean;
+  hideFilters?: boolean;
 }
 
-const ProductTree: React.FC<ProductTreeProps> = ({ showSegmented = false }) => {
+const ProductTree: React.FC<ProductTreeProps> = ({
+  showSegmented = false,
+  hideFilters = false,
+}) => {
+  useEffect(() => {
+    let filteredTreeData = [...originalTreeData];
+    if (hideFilters) {
+      filteredTreeData = filteredTreeData.filter(
+        (node) => node.title !== "Advanced filters"
+      );
+    }
+    setTreeData(filteredTreeData);
+  }, [hideFilters]);
+
   const [searchValue, setSearchValue] = useState("");
   const [treeData, setTreeData] = useState(originalTreeData);
 
@@ -122,9 +137,9 @@ const ProductTree: React.FC<ProductTreeProps> = ({ showSegmented = false }) => {
           className="mb-4 bg-neutral-200/75"
         />
       )}
-      <Input.Search
+      <Input
         placeholder="Search products..."
-        onChange={onSearch}
+        prefix={<SearchOutlined className="mr-1" />}
         className="mb-4"
       />
       <Tree

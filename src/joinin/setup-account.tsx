@@ -1,5 +1,14 @@
 import React, { ReactElement, useState } from "react";
-import { Layout, Typography, Button, Form, Input, Space, Switch } from "antd";
+import {
+  Layout,
+  Typography,
+  Button,
+  Form,
+  Input,
+  Space,
+  Switch,
+  Tooltip,
+} from "antd";
 import PublicMarketingColumn from "../components/public-marketing-column";
 import PublicHeader from "../components/public-header";
 import AddressModal, { AddressValues } from "../components/address-modal";
@@ -66,6 +75,10 @@ function SetupAccount(): ReactElement {
   const [isValidAddress, setIsValidAddress] = useState(true);
   const [inheritAccountHolderEmail, setInheritAccountHolderEmail] =
     useState(true);
+  const [
+    inheritAccountHolderMobileNumber,
+    setInheritAccountHolderMobileNumber,
+  ] = useState(true);
 
   const onDetailsFinish = (values: any) => {
     setIsValidAddress(true);
@@ -84,6 +97,10 @@ function SetupAccount(): ReactElement {
 
   const onInheritEmailChange = (checked: boolean) => {
     setInheritAccountHolderEmail(checked);
+  };
+
+  const onInheritMobileNumberChange = (checked: boolean) => {
+    setInheritAccountHolderMobileNumber(checked);
   };
 
   const [steps, setSteps] = useState<Step[]>(getInitialSteps);
@@ -430,23 +447,76 @@ function SetupAccount(): ReactElement {
                     }}
                   />
                 </Form.Item>
-                <Form.Item valuePropName="checked">
+                <Form.Item
+                  valuePropName="checked"
+                  label="Notifications"
+                  className="!mb-1"
+                >
                   <div className="flex items-center gap-2">
                     <Switch
                       size="small"
                       defaultChecked
                       onChange={onInheritEmailChange}
                     />
-                    <Text className="-mt-px">
-                      Use my email address for notifications
-                    </Text>
+                    <Tooltip title="jamestoone@gmail.com" placement="topRight">
+                      <Text className="-mt-px truncate">
+                        Use my email address -{" "}
+                        <span
+                          className={
+                            inheritAccountHolderEmail
+                              ? "font-medium"
+                              : "text-neutral-500"
+                          }
+                        >
+                          jamestoone@gmail.com
+                        </span>
+                      </Text>
+                    </Tooltip>
                   </div>
                 </Form.Item>
                 {!inheritAccountHolderEmail && (
                   <Form.Item
-                    className="-mt-3.5"
-                    label="Email address"
+                    className="-mt-1"
+                    label=""
                     name="emailAddress"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter an email address",
+                      },
+                    ]}
+                  >
+                    <Input type="email" />
+                  </Form.Item>
+                )}
+                <Form.Item valuePropName="checked">
+                  <div className="flex items-center gap-2">
+                    <Switch
+                      size="small"
+                      defaultChecked
+                      onChange={onInheritMobileNumberChange}
+                    />
+                    <Tooltip title="07987664772" placement="topRight">
+                      <Text className="-mt-px truncate">
+                        Use my mobile number -{" "}
+                        <span
+                          className={
+                            inheritAccountHolderMobileNumber
+                              ? "font-medium"
+                              : "text-neutral-500"
+                          }
+                        >
+                          07987664772
+                        </span>
+                      </Text>
+                    </Tooltip>
+                  </div>
+                </Form.Item>
+                {!inheritAccountHolderMobileNumber && (
+                  <Form.Item
+                    className="-mt-6"
+                    label=""
+                    name="mobileNumber"
                     rules={[
                       {
                         required: true,

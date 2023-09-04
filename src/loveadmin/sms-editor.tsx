@@ -65,15 +65,16 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
   };
 
   useEffect(() => {
-    setMessageCount(Math.ceil(charCount / 160));
-  }, [charCount]);
-
-  useEffect(() => {
     if (quillRef.current && value) {
       const quill = quillRef.current.getEditor();
       quill.setText(value);
     }
   }, [value]);
+
+  useEffect(() => {
+    setMessageCount(Math.ceil(charCount / 160));
+    onMessageCountChange(Math.ceil(charCount / 160));
+  }, [charCount]);
 
   const getMessageLimit = (length: number) => {
     if (length <= 160) {
@@ -92,9 +93,6 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
       const length = text.length - 1;
       setCharCount(length);
       onCharCountChange(length);
-      const newMessageCount = Math.ceil(length / getMessageLimit(length));
-      setMessageCount(newMessageCount);
-      onMessageCountChange(newMessageCount);
       onContentChange(text);
     }
   };
@@ -270,25 +268,22 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
         className={!showCounts ? "[&_.ql-container]:rounded-b" : ""}
       />
       {showCounts && (
-        <div className="px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
-          <Tooltip
-            placement="topRight"
-            title="Placeholders may lengthen SMSs beyond displayed amount, potentially splitting them into extra messages."
-          >
-            <div className="cursor-default flex items-center justify-end gap-2.5">
-              <div className="flex items-center gap-1">
-                <span className="text-neutral-500">Characters</span>
-                <span className="tabular-nums">
-                  {charCount} / {getMessageLimit(charCount)}
-                </span>
-              </div>
-              <div className="flex items-center gap-1">
-                <span className="text-neutral-500">Messages</span>
-                <span className="tabular-nums">{messageCount}</span>
-                <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
-              </div>
+        <div className="flex justify-end px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
+          <div className="cursor-default flex items-center justify-end gap-2.5">
+            <div className="flex items-center gap-1">
+              <span className="text-neutral-500">Characters</span>
+              <span className="tabular-nums">
+                {charCount} / {getMessageLimit(charCount)}
+              </span>
             </div>
-          </Tooltip>
+            <div className="flex items-center gap-1">
+              <span className="text-neutral-500">Messages</span>
+              <span className="tabular-nums">{messageCount}</span>
+              <Tooltip title="Placeholder use may extend SMS length, potentially dividing them into multiple messages.">
+                <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
+              </Tooltip>
+            </div>
+          </div>
         </div>
       )}
       <div className="absolute flex gap-4 top-2 left-3">

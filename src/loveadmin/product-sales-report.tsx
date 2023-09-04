@@ -1,32 +1,21 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
-  DoubleLeftOutlined,
-  DoubleRightOutlined,
-  DownOutlined,
   DownloadOutlined,
+  FileExcelOutlined,
+  FilePdfOutlined,
   LeftOutlined,
-  MenuFoldOutlined,
-  MenuOutlined,
-  MenuUnfoldOutlined,
   RightOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
-import {
-  Layout,
-  Typography,
-  Button,
-  Breadcrumb,
-  Dropdown,
-  Space,
-  MenuProps,
-  Checkbox,
-  Table,
-  Modal,
-} from "antd";
+import { Layout, Button, Breadcrumb, Dropdown, Table, Input, Menu } from "antd";
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
 import ProductSalesReportModal from "./product-sales-report-modal";
-const { Title } = Typography;
-const { Header, Sider, Content } = Layout;
+import DateFilter from "../components/date-filter";
+import LoveAdminHeader from "../components/header";
+import TableTitle from "../components/table-title";
+import { TableFilterBar, TableFilterButton } from "../components/table-filters";
+const { Sider, Content } = Layout;
 
 interface DataType {
   key: React.Key;
@@ -35,7 +24,7 @@ interface DataType {
   received: number;
   pending: number;
   outstanding: number;
-  credits: number;
+  failed: number;
 }
 
 const data = [
@@ -46,7 +35,7 @@ const data = [
     received: 0,
     pending: 0,
     outstanding: 0,
-    credits: 0,
+    failed: 0,
   },
   {
     key: "2",
@@ -55,11 +44,12 @@ const data = [
     received: 0,
     pending: 0,
     outstanding: 0,
-    credits: 0,
+    failed: 0,
   },
 ];
 
 function ProductSalesReport(): ReactElement {
+  const [isActive, setIsActive] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const showModal = () => {
@@ -96,23 +86,11 @@ function ProductSalesReport(): ReactElement {
     };
   }, []);
 
-  const items: MenuProps["items"] = [
-    {
-      label: <a href="#">1st menu item</a>,
-      key: "0",
-    },
-    {
-      label: <a href="#">2nd menu item</a>,
-      key: "1",
-    },
-  ];
-
   const columns: ColumnsType<DataType> = [
     {
-      title: "Product description",
+      title: "Product",
       dataIndex: "name",
-      key: "name",
-      render: (text: string) => <a onClick={showModal}>{text}</a>,
+
       ellipsis: true,
       sorter: (a, b) => a.name.length - b.name.length,
     },
@@ -126,7 +104,9 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
+          <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
+            2
+          )}`}</a>
         ),
     },
     {
@@ -139,7 +119,9 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
+          <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
+            2
+          )}`}</a>
         ),
     },
     {
@@ -152,7 +134,9 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
+          <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
+            2
+          )}`}</a>
         ),
     },
     {
@@ -165,59 +149,41 @@ function ProductSalesReport(): ReactElement {
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
+          <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
+            2
+          )}`}</a>
         ),
     },
     {
-      title: "Credits applied",
-      dataIndex: "credits",
-      key: "credits",
+      title: "Failed",
+      dataIndex: "failed",
+      key: "failed",
       align: "right",
-      sorter: (a, b) => a.credits - b.credits,
+      sorter: (a, b) => a.failed - b.failed,
       render: (text: number) =>
         text === 0 ? (
           "-"
         ) : (
-          <a href="#" className="tabular-nums">{`£${text.toFixed(2)}`}</a>
+          <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
+            2
+          )}`}</a>
         ),
     },
   ];
 
   return (
     <Layout className="min-h-screen">
-      <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
-        <Button
-          type="text"
-          shape="circle"
-          icon={<MenuOutlined />}
-          className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
-        />
-        <div className="flex flex-col justify-center gap-2">
-          <div className="flex">
-            <img
-              src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
-              className="object-contain h-[14px] ml-px"
-            />
-          </div>
-          <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Home
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Reports
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Financials
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Sales Reports
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="text-neutral-50">
-              Product Sales Report
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </Header>
+      <LoveAdminHeader
+        breadcrumbChildren={
+          <>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item>Reports</Breadcrumb.Item>
+            <Breadcrumb.Item>Financials</Breadcrumb.Item>
+            <Breadcrumb.Item>Sales Reports</Breadcrumb.Item>
+            <Breadcrumb.Item>Product Sales Report</Breadcrumb.Item>
+          </>
+        }
+      ></LoveAdminHeader>
       <Layout>
         <Sider
           width={280}
@@ -232,7 +198,7 @@ function ProductSalesReport(): ReactElement {
               collapsed ? " opacity-0 pointer-events-none " : " contents "
             }`}
           >
-            <ProductTree />
+            <ProductTree hideFilters={true} />
           </div>
           <Button
             shape="circle"
@@ -250,34 +216,28 @@ function ProductSalesReport(): ReactElement {
         </Sider>
         <Content className="pb-16 bg-white">
           <div className="p-4">
-            <div className="flex items-center mb-4">
-              <Dropdown menu={{ items }} trigger={["click"]}>
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space className="h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
-                    This month
-                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
-                  </Space>
-                </a>
-              </Dropdown>
-              <Dropdown menu={{ items }} trigger={["click"]}>
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space className="h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
-                    All schedules
-                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
-                  </Space>
-                </a>
-              </Dropdown>
-              <Dropdown menu={{ items }} trigger={["click"]}>
-                <a onClick={(e) => e.preventDefault()}>
-                  <Space className="h-8 px-2.5 transition-all rounded text-neutral-800 hover:bg-neutral-100">
-                    All addresses
-                    <DownOutlined className="-ml-0.5 w-2.5 text-neutral-400" />
-                  </Space>
-                </a>
-              </Dropdown>
-              <Checkbox className="ml-3">Show cancelled</Checkbox>
+            <div className="flex items-center mb-2.5">
+              <div className="flex items-center">
+                <TableTitle
+                  title="Product Sales"
+                  totalRecords={2}
+                  selectable={false}
+                />
+              </div>
+              <div className="flex items-center gap-2 ml-auto">
+                <Input
+                  placeholder="Search product..."
+                  prefix={<SearchOutlined className="mr-1" />}
+                />
+                <DateFilter />
+                <TableFilterButton
+                  toggleActive={() => setIsActive(!isActive)}
+                  isActive={isActive}
+                />
+              </div>
             </div>
-            <div>
+            <TableFilterBar isActive={isActive} />
+            <div className="relative">
               <Table
                 pagination={false}
                 size="small"
@@ -289,15 +249,15 @@ function ProductSalesReport(): ReactElement {
                   let totalReceived = 0;
                   let totalPending = 0;
                   let totalOutstanding = 0;
-                  let totalCredits = 0;
+                  let totalFailed = 0;
 
                   pageData.forEach(
-                    ({ invoiced, received, pending, outstanding, credits }) => {
+                    ({ invoiced, received, pending, outstanding, failed }) => {
                       totalInvoiced += invoiced;
                       totalReceived += received;
                       totalPending += pending;
                       totalOutstanding += outstanding;
-                      totalCredits += credits;
+                      totalFailed += totalFailed;
                     }
                   );
 
@@ -306,6 +266,7 @@ function ProductSalesReport(): ReactElement {
                       <Table.Summary.Row className="border-b-0 bg-neutral-50">
                         <Table.Summary.Cell
                           index={0}
+                          align="right"
                           className="font-medium border-b-0 rounded-bl-md rounded-br-md"
                         >
                           Totals
@@ -319,8 +280,8 @@ function ProductSalesReport(): ReactElement {
                             "-"
                           ) : (
                             <a
-                              href="#"
-                              className="tabular-nums"
+                              onClick={showModal}
+                              className="font-semibold tabular-nums"
                             >{`£${totalInvoiced.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
@@ -333,7 +294,7 @@ function ProductSalesReport(): ReactElement {
                             "-"
                           ) : (
                             <a
-                              href="#"
+                              onClick={showModal}
                               className="tabular-nums"
                             >{`£${totalReceived.toFixed(2)}`}</a>
                           )}
@@ -347,7 +308,7 @@ function ProductSalesReport(): ReactElement {
                             "-"
                           ) : (
                             <a
-                              href="#"
+                              onClick={showModal}
                               className="tabular-nums"
                             >{`£${totalPending.toFixed(2)}`}</a>
                           )}
@@ -361,7 +322,7 @@ function ProductSalesReport(): ReactElement {
                             "-"
                           ) : (
                             <a
-                              href="#"
+                              onClick={showModal}
                               className="tabular-nums"
                             >{`£${totalOutstanding.toFixed(2)}`}</a>
                           )}
@@ -371,13 +332,13 @@ function ProductSalesReport(): ReactElement {
                           align="right"
                           className="font-medium border-b-0"
                         >
-                          {totalCredits === 0 ? (
+                          {totalFailed === 0 ? (
                             "-"
                           ) : (
                             <a
-                              href="#"
+                              onClick={showModal}
                               className="tabular-nums"
-                            >{`£${totalCredits.toFixed(2)}`}</a>
+                            >{`£${totalFailed.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
                       </Table.Summary.Row>
@@ -393,8 +354,35 @@ function ProductSalesReport(): ReactElement {
             }`}
           >
             <div className="flex items-center gap-2 ml-auto">
-              <Button>Edit columns</Button>
-              <Button icon={<DownloadOutlined />}>Export</Button>
+              <Button>Manage columns</Button>
+              <Dropdown
+                placement="topRight"
+                overlay={
+                  <Menu>
+                    <Menu.Item
+                      key="1"
+                      onClick={() => console.log("Export PDF clicked")}
+                    >
+                      <div className="flex items-center gap-3">
+                        <FilePdfOutlined />
+                        <span>PDF</span>
+                      </div>
+                    </Menu.Item>
+                    <Menu.Item
+                      key="2"
+                      onClick={() => console.log("Export Excel clicked")}
+                    >
+                      <div className="flex items-center gap-3">
+                        <FileExcelOutlined />
+                        <span>Excel</span>
+                      </div>
+                    </Menu.Item>
+                  </Menu>
+                }
+                trigger={["click"]}
+              >
+                <Button icon={<DownloadOutlined />}>Export</Button>
+              </Dropdown>
             </div>
           </footer>
         </Content>

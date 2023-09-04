@@ -32,13 +32,14 @@ import Messaging from "./messaging";
 import Attendance from "./attendance";
 import DevelopmentProgramme from "./development-programme";
 import useScrollBarWidth from "../../components/useScrollBarWidth";
+import LoveAdminHeader from "../../components/header";
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 interface ContactProps {
   renderInModal?: boolean;
 }
 
-function Contact({ renderInModal = true }: ContactProps): ReactElement {
+function Contact({ renderInModal = false }: ContactProps): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -144,33 +145,15 @@ function Contact({ renderInModal = true }: ContactProps): ReactElement {
   const content = (
     <Layout className="min-h-screen">
       {!renderInModal && (
-        <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
-          <Button
-            type="text"
-            shape="circle"
-            icon={<MenuOutlined />}
-            className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
-          />
-          <div className="flex flex-col justify-center gap-2">
-            <div className="flex">
-              <img
-                src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
-                className="object-contain h-[14px] ml-px"
-              />
-            </div>
-            <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Home
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="cursor-pointer hover:underline">
-                Contacts
-              </Breadcrumb.Item>
-              <Breadcrumb.Item className="text-neutral-50">
-                James Toone
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
-        </Header>
+        <LoveAdminHeader
+          breadcrumbChildren={
+            <>
+              <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+              <Breadcrumb.Item>Contacts</Breadcrumb.Item>
+              <Breadcrumb.Item>James Toone</Breadcrumb.Item>
+            </>
+          }
+        ></LoveAdminHeader>
       )}
       <Layout hasSider={true}>
         <aside className="bg-white pl-2 p-2.5 w-1/4 max-w-[340px] min-w-[280px] shadow-sm shadow-neutral-300 overflow-hidden">

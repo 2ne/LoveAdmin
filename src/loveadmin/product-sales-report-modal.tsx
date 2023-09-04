@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import {
+  ArrowLeftOutlined,
+  CreditCardOutlined,
   DownloadOutlined,
+  FileExcelOutlined,
+  FilePdfOutlined,
   MailOutlined,
   PlusOutlined,
-  UserAddOutlined,
+  SearchOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
-import { Layout, Typography, Button, Table, Dropdown, Menu, Modal } from "antd";
+import { Layout, Button, Table, Dropdown, Menu, Modal, Input } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
+import TableTitle from "../components/table-title";
+import TableActions from "../components/table-actions";
 const { Content } = Layout;
-const { Title } = Typography;
 
 interface ProductSalesReportModalProps {
   visible: boolean;
@@ -20,121 +25,36 @@ interface ProductSalesReportModalProps {
 interface DataType {
   key: React.Key;
   invoiceNumber: string;
-  status: string;
-  beneficiary: string;
+  name: string;
+  accountOwner: string;
+  product: string;
   date: string;
   quantity: number;
   invoiced: number;
+  paid: number;
+  pending: number;
+  outstanding: number;
+  failed: number;
+  daysOverdue: number;
+  lastReminder: string;
 }
 
 const data = [
   {
     key: "1",
     invoiceNumber: "#462378",
-    status: "Pending",
-    beneficiary: "James Toone",
+    name: "James Toone",
+    accountOwner: "Ian Toone",
+    product: "Adult Gymnastics",
     date: "15 May 2023",
     quantity: 1,
     invoiced: 54.0,
-  },
-  {
-    key: "2",
-    invoiceNumber: "#462379",
-    status: "Paid",
-    beneficiary: "John Doe",
-    date: "16 May 2023",
-    quantity: 3,
-    invoiced: 120.0,
-  },
-  {
-    key: "3",
-    invoiceNumber: "#462380",
-    status: "Outstanding",
-    beneficiary: "Sarah Smith",
-    date: "17 May 2023",
-    quantity: 2,
-    invoiced: 100.0,
-  },
-  {
-    key: "4",
-    invoiceNumber: "#462381",
-    status: "Paid",
-    beneficiary: "Emily Johnson",
-    date: "18 May 2023",
-    quantity: 1,
-    invoiced: 60.0,
-  },
-  {
-    key: "5",
-    invoiceNumber: "#462382",
-    status: "Pending",
-    beneficiary: "Robert Brown",
-    date: "19 May 2023",
-    quantity: 4,
-    invoiced: 200.0,
-  },
-  {
-    key: "6",
-    invoiceNumber: "#462383",
-    status: "Paid",
-    beneficiary: "Michael Davis",
-    date: "20 May 2023",
-    quantity: 2,
-    invoiced: 140.0,
-  },
-  {
-    key: "7",
-    invoiceNumber: "#462384",
-    status: "Outstanding",
-    beneficiary: "Jessica Miller",
-    date: "21 May 2023",
-    quantity: 1,
-    invoiced: 50.0,
-  },
-  {
-    key: "8",
-    invoiceNumber: "#462385",
-    status: "Paid",
-    beneficiary: "Thomas Wilson",
-    date: "22 May 2023",
-    quantity: 1,
-    invoiced: 180.0,
-  },
-  {
-    key: "9",
-    invoiceNumber: "#462386",
-    status: "Pending",
-    beneficiary: "Jennifer Taylor",
-    date: "23 May 2023",
-    quantity: 1,
-    invoiced: 120.0,
-  },
-  {
-    key: "10",
-    invoiceNumber: "#462387",
-    status: "Outstanding",
-    beneficiary: "David Moore",
-    date: "24 May 2023",
-    quantity: 2,
-    invoiced: 70.0,
-  },
-  {
-    key: "11",
-    invoiceNumber: "#462388",
-    status: "Paid",
-    beneficiary: "Mary Johnson",
-    date: "25 May 2023",
-    quantity: 1,
-    invoiced: 240.0,
-  },
-  {
-    key: "12",
-    invoiceNumber: "#462389",
-    status: "Pending",
-    beneficiary: "William Jackson",
-    date: "26 May 2023",
-    quantity: 2,
-    invoiced: 110.0,
+    paid: 54.0,
+    pending: 0,
+    outstanding: 0,
+    failed: 0,
+    daysOverdue: 0,
+    lastReminder: "",
   },
 ];
 
@@ -143,51 +63,44 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
   handleOk,
   handleCancel,
 }) => {
-  const [contextMenuVisible, setContextMenuVisible] = useState(false);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-
-  const handleContextMenu = (
-    event: React.MouseEvent<HTMLDivElement>,
-    record: DataType
-  ) => {
-    event.preventDefault();
-    setContextMenuPosition({ x: event.clientX, y: event.clientY });
-    setContextMenuVisible(true);
-  };
-
-  const hideContextMenu = () => {
-    setContextMenuVisible(false);
-  };
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "Invoice #",
+      title: "Invoice",
       dataIndex: "invoiceNumber",
       key: "invoiceNumber",
       render: (text: string) => <a>{text}</a>,
       ellipsis: true,
       sorter: (a, b) => a.invoiceNumber.length - b.invoiceNumber.length,
+      width: 100,
+      fixed: true,
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (text: string) => <a>{text}</a>,
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
       ellipsis: true,
-      sorter: (a, b) => a.status.length - b.status.length,
+      sorter: (a, b) => a.name.length - b.name.length,
+      render: (text: string) => <a>{text}</a>,
+      width: 200,
     },
     {
-      title: "Beneficiary",
-      dataIndex: "beneficiary",
-      key: "beneficiary",
+      title: "Account owner",
+      dataIndex: "accountOwner",
+      key: "accountOwner",
       ellipsis: true,
-      sorter: (a, b) => a.beneficiary.length - b.beneficiary.length,
+      sorter: (a, b) => a.accountOwner.length - b.accountOwner.length,
       render: (text: string) => <a>{text}</a>,
+      width: 200,
+    },
+    {
+      title: "Product",
+      dataIndex: "product",
+      key: "product",
+      ellipsis: true,
+      sorter: (a, b) => a.name.length - b.name.length,
+      width: 225,
     },
     {
       title: "Date",
@@ -195,6 +108,7 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
       key: "date",
       ellipsis: true,
       sorter: (a, b) => a.date.length - b.date.length,
+      width: 125,
     },
     {
       title: "Quantity",
@@ -203,6 +117,7 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
       align: "right",
       ellipsis: true,
       sorter: (a, b) => a.quantity - b.quantity,
+      width: 90,
     },
     {
       title: "Invoiced",
@@ -216,6 +131,82 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
         ) : (
           <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
         ),
+      width: 90,
+    },
+    {
+      title: "Paid",
+      dataIndex: "paid",
+      key: "paid",
+      align: "right",
+      sorter: (a, b) => a.paid - b.paid,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
+        ),
+      width: 90,
+    },
+    {
+      title: "Pending",
+      dataIndex: "pending",
+      key: "pending",
+      align: "right",
+      sorter: (a, b) => a.pending - b.pending,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
+        ),
+      width: 90,
+    },
+    {
+      title: "Outstanding",
+      dataIndex: "outstanding",
+      key: "outstanding",
+      align: "right",
+      sorter: (a, b) => a.outstanding - b.outstanding,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
+        ),
+      width: 125,
+    },
+    {
+      title: "Failed",
+      dataIndex: "failed",
+      key: "failed",
+      align: "right",
+      sorter: (a, b) => a.failed - b.failed,
+      render: (text: number) =>
+        text === 0 ? (
+          "-"
+        ) : (
+          <span className="tabular-nums">{`£${text.toFixed(2)}`}</span>
+        ),
+      width: 90,
+    },
+    {
+      title: "Days overdue",
+      dataIndex: "daysOverdue",
+      key: "daysOverdue",
+      align: "right",
+      ellipsis: true,
+      sorter: (a, b) => a.daysOverdue - b.daysOverdue,
+      render: (text: number) => (text === 0 ? "-" : <span>{text}</span>),
+      width: 130,
+    },
+    {
+      title: "Last reminder",
+      dataIndex: "lastReminder",
+      key: "lastReminder",
+      ellipsis: true,
+      sorter: (a, b) => a.lastReminder.length - b.lastReminder.length,
+      render: (text: string) => (text === " " ? " " : <span>{text}</span>),
+      width: 130,
     },
   ];
 
@@ -229,34 +220,40 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
     onChange: onSelectChange,
   };
 
-  const hasSelected = selectedRowKeys.length > 0;
+  const handleSelectAll = () => {
+    const allRowKeys = data.map((item) => item.key);
+    setSelectedRowKeys(allRowKeys);
+  };
 
-  const removeAllSelected = () => {
+  const handleUnselectAll = () => {
     setSelectedRowKeys([]);
   };
 
   return (
     <Modal
       title={
-        <Title level={5}>
-          <span>Sales Report</span>
-          <span className="mx-1.5">·</span>
-          <span>Adult Gymnastics for this month</span>
-          <span className="mx-1.5 text-subtitle">·</span>
-          {selectedRowKeys.length === 0 && (
-            <span className="text-subtitle">12 records</span>
-          )}
-          {selectedRowKeys.length > 0 && (
-            <>
-              <span className="font-medium tabular-nums text-subtitle">
-                {selectedRowKeys.length} of 12
-                <span className="ml-1">selected</span>
-              </span>
-              <span className="mx-1.5 text-subtitle">·</span>
-              <a className="">Select all</a>
-            </>
-          )}
-        </Title>
+        <div className="flex items-center gap-2">
+          <Button
+            type="text"
+            icon={<ArrowLeftOutlined />}
+            className="rounded-full"
+            onClick={handleCancel}
+          />
+          <TableTitle
+            title="Product Sales - Adult Gymnastics for this month"
+            selectedRowKeysLength={selectedRowKeys.length}
+            onSelectAll={handleSelectAll}
+            onUnselectAll={handleUnselectAll}
+            totalRecords={data.length}
+          />
+          <div className="ml-auto font-normal">
+            <Input
+              className="w-[19rem]"
+              placeholder="Search invoice, name, payment reference..."
+              prefix={<SearchOutlined className="mr-1" />}
+            />
+          </div>
+        </div>
       }
       open={visible}
       onOk={handleOk}
@@ -264,44 +261,105 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
       wrapClassName="[&_.ant-modal-content]:rounded-none [&_.ant-modal-content]:min-h-screen [&>*]:w-full [&>*]:max-w-full"
       centered
       footer={false}
+      closeIcon={null}
     >
       <div>
         <Content className="pb-16 bg-white">
           <div className="relative">
-            <div
-              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
-                hasSelected
-                  ? " opacity-100 "
-                  : " opacity-0 pointer-events-none "
-              }`}
-            >
-              <div className="flex items-center gap-4 ml-4">
+            <TableActions isVisible={selectedRowKeys.length > 0}>
+              <Dropdown
+                placement="bottomLeft"
+                getPopupContainer={() => document.body}
+                overlayStyle={{ position: "fixed" }}
+                overlay={
+                  <Menu>
+                    <Menu.Item key="1">Email</Menu.Item>
+                    <Menu.Item key="2">SMS</Menu.Item>
+                  </Menu>
+                }
+                trigger={["click"]}
+              >
                 <Button
+                  onClick={(e) => e.preventDefault()}
                   size="small"
                   type="text"
-                  icon={<MailOutlined className="relative top-px" />}
-                  className="px-0 hover:bg-transparent hover:underline"
+                  icon={<MailOutlined />}
+                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
                 >
-                  Message account owner
+                  Message...
                 </Button>
+              </Dropdown>
+              <Dropdown
+                placement="bottomLeft"
+                getPopupContainer={() => document.body}
+                overlayStyle={{ position: "fixed" }}
+                overlay={
+                  <Menu>
+                    <Menu.Item key="1">Product</Menu.Item>
+                    <Menu.Item key="2">Group</Menu.Item>
+                  </Menu>
+                }
+                trigger={["click"]}
+              >
                 <Button
+                  onClick={(e) => e.preventDefault()}
                   size="small"
                   type="text"
                   icon={<PlusOutlined />}
-                  className="px-0 hover:bg-transparent hover:underline"
+                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
                 >
-                  Add beneficiary to...
+                  Add to...
                 </Button>
+              </Dropdown>
+              <Dropdown
+                placement="bottomLeft"
+                getPopupContainer={() => document.body}
+                overlayStyle={{ position: "fixed" }}
+                overlay={
+                  <Menu>
+                    <Menu.Item key="1">Product</Menu.Item>
+                    <Menu.Item key="2">Group</Menu.Item>
+                  </Menu>
+                }
+                trigger={["click"]}
+              >
                 <Button
+                  onClick={(e) => e.preventDefault()}
                   size="small"
                   type="text"
                   icon={<UsergroupAddOutlined />}
-                  className="px-0 hover:bg-transparent hover:underline"
+                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
                 >
-                  Invite beneficiary to...
+                  Invite to...
                 </Button>
-              </div>
-            </div>
+              </Dropdown>
+              <Dropdown
+                placement="bottomLeft"
+                getPopupContainer={() => document.body}
+                overlayStyle={{ position: "fixed" }}
+                overlay={
+                  <Menu>
+                    <Menu.Item key="1">Request payment</Menu.Item>
+                    <Menu.Item key="2">Raise credit note</Menu.Item>
+                    <Menu.Item key="3">Record offline payment</Menu.Item>
+                    <Menu.Item key="4">Refund</Menu.Item>
+                    <Menu.Item key="5">Re-attempt payment collection</Menu.Item>
+                    <Menu.Item key="6">Cancel automatic reminder</Menu.Item>
+                  </Menu>
+                }
+                trigger={["click"]}
+              >
+                <Button
+                  onClick={(e) => e.preventDefault()}
+                  size="small"
+                  type="text"
+                  icon={<CreditCardOutlined />}
+                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                >
+                  Finance options...
+                </Button>
+              </Dropdown>
+            </TableActions>
             <Table
               rowSelection={rowSelection}
               size="small"
@@ -309,60 +367,44 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
               dataSource={data}
               pagination={false}
               className="ant-table-sticky"
-              onRow={(record) => ({
-                onContextMenu: (event) => handleContextMenu(event, record),
-              })}
+              scroll={{ x: 1700 }}
             />
           </div>
-          <footer className="fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
-            <div className="flex items-center gap-2 ml-auto">
-              <Button>Edit columns</Button>
-              <Button icon={<DownloadOutlined />}>Export</Button>
-            </div>
-          </footer>
         </Content>
       </div>
       <footer className="fixed gap-2 left-0 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
         <div className="flex items-center gap-2 ml-auto">
-          <Button>Edit columns</Button>
-          <Button icon={<DownloadOutlined />}>Export</Button>
+          <Button>Manage columns</Button>
+          <Dropdown
+            placement="topRight"
+            overlay={
+              <Menu>
+                <Menu.Item
+                  key="1"
+                  onClick={() => console.log("Export PDF clicked")}
+                >
+                  <div className="flex items-center gap-2">
+                    <FilePdfOutlined />
+                    <span>PDF</span>
+                  </div>
+                </Menu.Item>
+                <Menu.Item
+                  key="2"
+                  onClick={() => console.log("Export Excel clicked")}
+                >
+                  <div className="flex items-center gap-2">
+                    <FileExcelOutlined />
+                    <span>Excel</span>
+                  </div>
+                </Menu.Item>
+              </Menu>
+            }
+            trigger={["click"]}
+          >
+            <Button icon={<DownloadOutlined />}>Export</Button>
+          </Dropdown>
         </div>
       </footer>
-      {contextMenuVisible && (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="1" onClick={hideContextMenu}>
-                <MailOutlined className="mr-3" /> Message account owner
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="2" onClick={hideContextMenu}>
-                <PlusOutlined className="mr-3" /> Add beneficiary to...
-              </Menu.Item>
-              <Menu.Item key="3" onClick={hideContextMenu}>
-                <UserAddOutlined className="mr-3" /> Invite beneficiary to...
-              </Menu.Item>
-            </Menu>
-          }
-          open={contextMenuVisible}
-          trigger={["contextMenu"]}
-          autoAdjustOverflow
-          destroyPopupOnHide
-          getPopupContainer={() => document.body}
-          overlayStyle={{ position: "fixed" }}
-          onOpenChange={(visible) => !visible && hideContextMenu()}
-        >
-          <div
-            style={{
-              position: "fixed",
-              top: contextMenuPosition.y,
-              left: contextMenuPosition.x,
-              width: "1px",
-              height: "1px",
-            }}
-          ></div>
-        </Dropdown>
-      )}
     </Modal>
   );
 };

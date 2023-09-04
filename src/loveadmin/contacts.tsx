@@ -4,31 +4,31 @@ import {
   DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
+  FilterOutlined,
   LeftOutlined,
   MailOutlined,
-  MenuOutlined,
   PlusOutlined,
   RightOutlined,
   SearchOutlined,
-  UserAddOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
-  Typography,
   Button,
   Breadcrumb,
   Table,
   Dropdown,
-  Space,
   Menu,
+  Tooltip,
+  Input,
 } from "antd";
 import ProductTree from "./product-tree";
 import { ColumnsType } from "antd/es/table/interface";
-import { Link } from "react-router-dom";
 import SMSModal from "./contact/sms-modal";
-const { Title } = Typography;
-const { Header, Sider, Content } = Layout;
+import TableActions from "../components/table-actions";
+import LoveAdminHeader from "../components/header";
+import TableTitle from "../components/table-title";
+const { Sider, Content } = Layout;
 
 interface DataType {
   key: React.Key;
@@ -203,22 +203,6 @@ const data = [
 ];
 
 function Contacts(): ReactElement {
-  const [contextMenuVisible, setContextMenuVisible] = useState(false);
-  const [contextMenuPosition, setContextMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-
-  const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setContextMenuPosition({ x: event.clientX, y: event.clientY });
-    setContextMenuVisible(true);
-  };
-
-  const hideContextMenu = () => {
-    setContextMenuVisible(false);
-  };
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapsed = () => {
@@ -246,9 +230,7 @@ function Contacts(): ReactElement {
     {
       title: "Name",
       dataIndex: "name",
-      key: "name",
-      render: (text: string) => <Link to="/Contact">{text}</Link>,
-      ellipsis: true,
+      render: (text: string) => <a>{text}</a>,
       sorter: (a, b) => a.name.length - b.name.length,
     },
     {
@@ -295,7 +277,6 @@ function Contacts(): ReactElement {
 
   const handleSendSMSClick = () => {
     setIsModalVisible(true);
-    hideContextMenu();
   };
 
   const handleModalOk = () => {
@@ -306,32 +287,25 @@ function Contacts(): ReactElement {
     setIsModalVisible(false);
   };
 
+  const handleSelectAll = () => {
+    const allRowKeys = data.map((item) => item.key);
+    setSelectedRowKeys(allRowKeys);
+  };
+
+  const handleUnselectAll = () => {
+    setSelectedRowKeys([]);
+  };
+
   return (
     <Layout className="min-h-screen">
-      <Header className="flex items-center px-6 border-none shadow-none bg-neutral-800">
-        <Button
-          type="text"
-          shape="circle"
-          icon={<MenuOutlined />}
-          className="mr-3 -ml-3 hover:bg-neutral-700 text-neutral-50 hover:text-white"
-        />
-        <div className="flex flex-col justify-center gap-2">
-          <div className="flex">
-            <img
-              src="https://pro.loveadmin.com/images/loveadminlogo-reversed-v2.png"
-              className="object-contain h-[14px] ml-px"
-            />
-          </div>
-          <Breadcrumb className="[&_li]:text-neutral-400 leading-4">
-            <Breadcrumb.Item className="cursor-pointer hover:underline">
-              Home
-            </Breadcrumb.Item>
-            <Breadcrumb.Item className="text-neutral-50">
-              Contacts
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </Header>
+      <LoveAdminHeader
+        breadcrumbChildren={
+          <>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item>Contacts</Breadcrumb.Item>
+          </>
+        }
+      ></LoveAdminHeader>
       <Layout>
         <Sider
           width={280}
@@ -365,150 +339,129 @@ function Contacts(): ReactElement {
         <Content className="pb-16 bg-white">
           <div className="p-4">
             <div className="flex items-center gap-2 mt-0.5 mb-3">
-              <Title level={5}>
-                <span>Contacts</span>
-                <span className="mx-1.5 text-subtitle">·</span>
-                {selectedRowKeys.length === 0 && (
-                  <span className="text-subtitle">429 records</span>
-                )}
-                {selectedRowKeys.length > 0 && (
-                  <>
-                    <span className="font-medium tabular-nums text-subtitle">
-                      {selectedRowKeys.length} of 429
-                      <span className="ml-1">selected</span>
-                    </span>
-                  </>
-                )}
-                <span className="mx-1.5 text-subtitle">·</span>
-                <a className="">Select all</a>
-              </Title>
+              <TableTitle
+                title="Contacts"
+                selectedRowKeysLength={selectedRowKeys.length}
+                onSelectAll={handleSelectAll}
+                onUnselectAll={handleUnselectAll}
+                totalRecords={data.length}
+              />
               <div className="flex items-center gap-2 ml-auto">
-                <Button icon={<SearchOutlined />}>Search</Button>
-                <Button icon={<PlusOutlined />} type="primary">
-                  Add contact
+                <Input
+                  placeholder="Name, email, address..."
+                  prefix={<SearchOutlined className="mr-1" />}
+                />
+                <Button icon={<FilterOutlined className="mt-px -ml-px " />}>
+                  Filters
                 </Button>
+                <Tooltip
+                  title="Add contact"
+                  placement="topRight"
+                  className="shrink-0"
+                >
+                  <Button icon={<PlusOutlined />} type="primary"></Button>
+                </Tooltip>
               </div>
             </div>
             <div className="relative">
-              <div
-                className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-6 transition-all z-20 flex items-center -mb-[38px] " ${
-                  selectedRowKeys.length > 0
-                    ? " opacity-100 "
-                    : " opacity-0 pointer-events-none "
-                }`}
-              >
-                <div className="flex items-center gap-4 ml-4">
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item key="1" onClick={handleSendSMSClick}>
-                          Email
-                        </Menu.Item>
-                        <Menu.Item key="2" onClick={handleSendSMSClick}>
-                          SMS
-                        </Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
+              <TableActions isVisible={selectedRowKeys.length > 0}>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1" onClick={handleSendSMSClick}>
+                        Email
+                      </Menu.Item>
+                      <Menu.Item key="2" onClick={handleSendSMSClick}>
+                        SMS
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
+                >
+                  <Button
+                    onClick={(e) => e.preventDefault()}
+                    size="small"
+                    type="text"
+                    icon={<MailOutlined />}
+                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
                   >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <MailOutlined />
-                        Message...
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item key="1" onClick={hideContextMenu}>
-                          Product
-                        </Menu.Item>
-                        <Menu.Item key="2" onClick={hideContextMenu}>
-                          Group
-                        </Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
+                    Message...
+                  </Button>
+                </Dropdown>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1">Product</Menu.Item>
+                      <Menu.Item key="2">Group</Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
+                >
+                  <Button
+                    onClick={(e) => e.preventDefault()}
+                    size="small"
+                    type="text"
+                    icon={<PlusOutlined />}
+                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
                   >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <PlusOutlined />
-                        Add to...
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item key="1" onClick={hideContextMenu}>
-                          Product
-                        </Menu.Item>
-                        <Menu.Item key="2" onClick={hideContextMenu}>
-                          Group
-                        </Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
+                    Add to...
+                  </Button>
+                </Dropdown>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1">Product</Menu.Item>
+                      <Menu.Item key="2">Group</Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
+                >
+                  <Button
+                    onClick={(e) => e.preventDefault()}
+                    size="small"
+                    type="text"
+                    icon={<UsergroupAddOutlined />}
+                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
                   >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <UsergroupAddOutlined />
-                        Invite to...
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item key="1" onClick={hideContextMenu}>
-                          <CreditCardOutlined className="mr-3" /> Request
-                          payment
-                        </Menu.Item>
-                        <Menu.Item
-                          key="2"
-                          onClick={hideContextMenu}
-                          className="text-red-500"
-                        >
-                          <DeleteOutlined className="mr-3" /> Mark as inactive
-                        </Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
+                    Invite to...
+                  </Button>
+                </Dropdown>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1">
+                        <CreditCardOutlined className="mr-3" /> Request payment
+                      </Menu.Item>
+                      <Menu.Item key="2" className="text-red-500">
+                        <DeleteOutlined className="mr-3" /> Mark as inactive
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
+                >
+                  <Button
+                    onClick={(e) => e.preventDefault()}
+                    size="small"
+                    type="text"
+                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
                   >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        More
-                        <DownOutlined className="-ml-0.5 w-2.5" />
-                      </Space>
-                    </a>
-                  </Dropdown>
-                </div>
-              </div>
+                    More
+                    <DownOutlined className="ml-1 w-2.5 relative top-px" />
+                  </Button>
+                </Dropdown>
+              </TableActions>
               <Table
                 rowSelection={rowSelection}
                 size="small"
@@ -516,9 +469,6 @@ function Contacts(): ReactElement {
                 dataSource={data}
                 pagination={false}
                 className="ant-table-sticky"
-                onRow={() => ({
-                  onContextMenu: (event) => handleContextMenu(event),
-                })}
               />
             </div>
           </div>
@@ -528,62 +478,13 @@ function Contacts(): ReactElement {
             }`}
           >
             <div className="flex items-center gap-2 ml-auto">
-              <Button>Edit columns</Button>
+              <Button>Manage columns</Button>
               <Button icon={<DownloadOutlined />}>Export</Button>
             </div>
           </footer>
         </Content>
       </Layout>
-      {contextMenuVisible && (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="1" onClick={hideContextMenu}>
-                <MailOutlined className="mr-3" /> Send message
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="2" onClick={hideContextMenu}>
-                <PlusOutlined className="mr-3" /> Add to product
-              </Menu.Item>
-              <Menu.Item key="3" onClick={hideContextMenu}>
-                <UsergroupAddOutlined className="mr-3" /> Add to group
-              </Menu.Item>
-              <Menu.Item key="4" onClick={hideContextMenu}>
-                <UserAddOutlined className="mr-3" /> Invite to product
-              </Menu.Item>
-              <Menu.Item
-                key="5"
-                onClick={hideContextMenu}
-                className="text-red-500"
-              >
-                <DeleteOutlined className="mr-3" /> Mark as inactive
-              </Menu.Item>
-            </Menu>
-          }
-          open={contextMenuVisible}
-          trigger={["contextMenu"]}
-          autoAdjustOverflow
-          destroyPopupOnHide
-          getPopupContainer={() => document.body}
-          overlayStyle={{ position: "fixed" }}
-          onOpenChange={(visible) => !visible && hideContextMenu()}
-        >
-          <div
-            style={{
-              position: "fixed",
-              top: contextMenuPosition.y,
-              left: contextMenuPosition.x,
-              width: "1px",
-              height: "1px",
-            }}
-          ></div>
-        </Dropdown>
-      )}
-      <SMSModal
-        visible={isModalVisible}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
-      />
+      <SMSModal visible={isModalVisible} onCancel={handleModalCancel} />
     </Layout>
   );
 }

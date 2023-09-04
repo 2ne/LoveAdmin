@@ -1,4 +1,4 @@
-@import "antd/dist/reset.css";
+@import "reset.css";
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap");
 @font-face {
   font-family: "CircularStd";
@@ -6,19 +6,20 @@
   font-weight: 500;
   font-style: normal;
 }
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .min-h-screen {
-  min-height: 100svh !important;
+  @apply min-h-[100svh];
 }
 
 .h-screen {
-  height: 100dvh !important;
+  @apply h-[100dvh];
 }
 
 .max-h-screen {
-  height: 100dvh !important;
+  @apply max-h-[100dvh];
 }
 
 h1.ant-typography,
@@ -37,7 +38,12 @@ a.ant-typography,
 .ant-typography a,
 .link,
 .ant-btn-link {
-  @apply hover:underline cursor-pointer;
+  @apply no-underline hover:underline text-primary-600 cursor-pointer;
+}
+
+table tbody a,
+table tbody .ant-btn-link {
+  @apply font-medium;
 }
 
 .ant-btn {
@@ -48,8 +54,16 @@ a.ant-typography,
   @apply -mx-2.5 px-2.5 h-auto w-[calc(100%+1.25rem)];
 }
 
+.ant-btn .ant-btn-icon {
+  @apply -ml-px;
+}
+
 .ant-form-vertical .ant-form-item-label {
   @apply pb-1 font-medium;
+}
+
+.ant-form-vertical .ant-form-item-label > label::after {
+  @apply hidden;
 }
 
 .ant-form-vertical .ant-form-item-extra {
@@ -99,6 +113,30 @@ a.ant-typography,
 
 .ant-breadcrumb ol {
   @apply flex-nowrap;
+}
+
+.ant-breadcrumb .ant-breadcrumb-separator {
+  @apply mx-1.5;
+}
+
+.ant-select-dropdown {
+  @apply p-0;
+}
+
+.ant-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled, .ant-select-item-option-selected) {
+  @apply bg-transparent hover:bg-neutral-100;
+}
+
+.ant-select-dropdown .rc-virtual-list-holder {
+  @apply p-2 pt-0 !max-h-[calc(95vh-12rem)];
+}
+
+.ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  @apply font-medium;
+}
+
+.ant-select-dropdown .ant-select-item-option-state {
+  @apply ml-2;
 }
 
 .ant-tabs .ant-tabs-tab {
@@ -196,6 +234,26 @@ a.ant-typography,
   @apply bg-neutral-400;
 }
 
+.scrollbar-thin-y::-webkit-scrollbar,
+.rc-virtual-list-holder::-webkit-scrollbar {
+  @apply w-[5px] cursor-pointer;
+}
+
+.scrollbar-thin-y::-webkit-scrollbar-track,
+.rc-virtual-list-holder::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}
+
+.scrollbar-thin-y::-webkit-scrollbar-thumb,
+.rc-virtual-list-holder::-webkit-scrollbar-thumb {
+  @apply w-[5px] bg-neutral-300;
+}
+
+.scrollbar-thin-y::-webkit-scrollbar-thumb:hover,
+.rc-virtual-list-holder::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-400;
+}
+
 .ant-notification .ant-notification-notice {
   @apply py-4 px-5;
 }
@@ -237,14 +295,42 @@ a.ant-typography,
 }
 
 .ql-editor {
-  @apply min-h-[100px];
+  @apply min-h-[100px] transition-shadow;
 }
 
-table tbody a,
-table tbody .ant-btn-link {
-  @apply underline hover:no-underline;
+.ql-editor:focus {
+  box-shadow: 0 0 0 1px theme("colors.primary.500"), 0 0 0 3px rgba(5, 255, 255, 0.1);
 }
 
 .ant-tree-checkbox.ant-tree-checkbox-disabled {
   @apply hidden;
+}
+
+.ant-tree .ant-tree-switcher {
+  @apply flex justify-center items-center;
+}
+
+.ant-popconfirm .ant-popconfirm-message .ant-popconfirm-title {
+  @apply font-medium;
+}
+
+.tabular-nums {
+  @apply tracking-wide;
+}
+
+.ant-tooltip:not(.pointer-events-auto) {
+  @apply pointer-events-none;
+}
+
+.ant-alert .ant-alert-icon {
+  @apply mr-2.5;
+}
+
+.dim {
+  @apply brightness-90;
+  filter: brightness(0.9);
+}
+
+.ant-message .ant-message-notice .ant-message-success > .anticon {
+  @apply text-success-500;
 }

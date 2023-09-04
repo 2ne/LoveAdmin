@@ -11,11 +11,13 @@ import ProductSalesReport from "./loveadmin/product-sales-report";
 import Contacts from "./loveadmin/contacts";
 import DevProgrammeModal from "./loveadmin/dev-programme/dev-programme";
 import SMSMessagingLayout from "./loveadmin/settings/sms-messaging/layout";
+import ChooseOrg from "./loveadmin/choose-org/choose-org";
 
 function App(): ReactElement {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/ChooseOrg" element={<ChooseOrg />} />
         <Route path="/SMSSettings" element={<SMSMessagingLayout />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Contacts" element={<Contacts />} />

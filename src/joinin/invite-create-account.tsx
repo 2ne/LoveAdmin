@@ -62,12 +62,12 @@ function InviteCreateAccount(): ReactElement {
               <Checkbox>
                 I've read and agree with the{" "}
                 <Link href="https://ant.design" target="_blank">
-                  terms & conditions
+                  Terms & Conditions
                 </Link>
               </Checkbox>
             </Form.Item>
             <Form.Item name="acceptMarketing" valuePropName="checked">
-              <Checkbox>I'd like to receive updates from joinin</Checkbox>
+              <Checkbox>I'd like to receive updates</Checkbox>
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block>

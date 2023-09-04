@@ -9,18 +9,19 @@ import {
   Form,
   Typography,
   Input,
-  Dropdown,
-  Menu,
+  Tooltip,
 } from "antd";
 import { ColumnsType } from "antd/es/table";
 import CustomSMSEditor from "../../sms-editor";
+import { formatDate } from "../../../components/date-formatter";
 const { Title } = Typography;
 
 interface DataType {
   key: string;
   name: string;
   template: string;
-  created: string;
+  updatedBy: string;
+  updatedAt: Date;
 }
 
 const data: DataType[] = [
@@ -29,32 +30,26 @@ const data: DataType[] = [
     name: "Payment due",
     template:
       "Dear {{accountOwner.FirstName}}, your payment of PRODUCT NAME is due. Thanks, {{organisation.Name}}.",
-    created: "James Toone · 7 Feb 09:59",
+    updatedBy: "John Smith",
+    updatedAt: new Date(2023, 6, 19, 9, 59), // July 19, 2023, 9:59 AM
   },
   {
     key: "2",
     name: "Special offer",
     template:
       "Dear {{accountOwner.FirstName}}, we have a special offer on PRODUCT NAME for you. Don't miss out! Thanks, {{organisation.Name}}.",
-    created: "James Toone · 7 Feb 09:59",
+    updatedBy: "Jane Doe",
+    updatedAt: new Date(2023, 6, 20, 14, 45), // July 20, 2023, 2:45 PM
   },
   {
     key: "3",
     name: "New event",
     template:
       "Dear {{accountOwner.FirstName}}, we have a new event coming up EVENT NAME. Hope to see you there! Thanks, {{organisation.Name}}.",
-    created: "James Toone · 7 Feb 09:59",
+    updatedBy: "Alice Johnson",
+    updatedAt: new Date(2023, 6, 21, 16, 30), // July 21, 2023, 4:30 PM
   },
 ];
-
-const confirm = (e?: React.MouseEvent<HTMLElement>) => {
-  console.log(e);
-  message.success("Template deleted");
-};
-
-const cancel = (e?: React.MouseEvent<HTMLElement>) => {
-  console.log(e);
-};
 
 function Templates(): React.ReactElement {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -62,6 +57,27 @@ function Templates(): React.ReactElement {
   const [charCount, setCharCount] = useState(0);
   const [messageCount, setMessageCount] = useState(0);
   const [content, setContent] = useState("");
+  const [popConfirmVisible, setPopConfirmVisible] = useState(false);
+
+  const templateDeleteConfirm = (e?: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+    setIsModalVisible(false);
+    message.success("Template deleted");
+  };
+
+  const templateDeleteCancel = (e?: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
+  };
+
+  const updateTemplate = () => {
+    setIsModalVisible(false);
+    message.success("Template updated");
+  };
+
+  const createTemplate = () => {
+    setIsModalVisible(false);
+    message.success("New template created");
+  };
 
   const handleCharCountChange = (count: number) => {
     setCharCount(count);
@@ -104,10 +120,20 @@ function Templates(): React.ReactElement {
       key: "template",
     },
     {
-      title: "Created",
-      dataIndex: "created",
-      key: "created",
-      render: (text: string) => <div className="text-subtitle">{text}</div>,
+      title: "Updated",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      defaultSortOrder: "ascend",
+      align: "right",
+      sorter: (a: DataType, b: DataType) =>
+        b.updatedAt.getTime() - a.updatedAt.getTime(),
+      render: (_, record) => (
+        <div className="text-subtitle">
+          <Tooltip title={formatDate(record.updatedAt)} placement="topRight">
+            {`${record.updatedBy} · ${formatDate(record.updatedAt, "short")}`}
+          </Tooltip>
+        </div>
+      ),
     },
   ];
 
@@ -137,7 +163,9 @@ function Templates(): React.ReactElement {
         size="small"
       />
       <Modal
-        title={editingTemplate ? "Edit template" : "New template"}
+        className={`max-w-lg ${popConfirmVisible ? "dim" : ""}`}
+        destroyOnClose={true}
+        title={editingTemplate ? "Update template" : "Create template"}
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={
@@ -148,13 +176,13 @@ function Templates(): React.ReactElement {
                   icon={<WarningFilled className="text-danger-500" />}
                   title="Delete template"
                   description="Are you sure to delete this template?"
-                  onConfirm={() => {
-                    setIsModalVisible(false);
-                  }}
-                  onCancel={cancel}
+                  onConfirm={templateDeleteConfirm}
+                  onCancel={templateDeleteCancel}
                   okText="Delete"
                   cancelText="Cancel"
                   okButtonProps={{ danger: true }}
+                  visible={popConfirmVisible}
+                  onVisibleChange={setPopConfirmVisible}
                 >
                   <Button
                     className="hover:text-danger-500 hover:border-danger-500"
@@ -171,14 +199,25 @@ function Templates(): React.ReactElement {
               >
                 Cancel
               </Button>
-              <Button
-                type="primary"
-                onClick={() => {
-                  setIsModalVisible(false);
-                }}
-              >
-                {editingTemplate ? "Update" : "Save"}
-              </Button>
+              {editingTemplate ? (
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    updateTemplate();
+                  }}
+                >
+                  Update
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    createTemplate();
+                  }}
+                >
+                  Create
+                </Button>
+              )}
             </div>
           </div>
         }

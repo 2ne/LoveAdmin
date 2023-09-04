@@ -39,7 +39,7 @@ function ContactDashboard(): ReactElement {
                   <span>
                     Fridays at 14:00 - 14:45
                     <span className="mx-1.5">·</span>
-                    <span className="link">View dates</span>
+                    <span className="link text-primary-600">View dates</span>
                   </span>
                 </div>
                 <div className="flex gap-1.5 text-subtitle">
@@ -68,7 +68,7 @@ function ContactDashboard(): ReactElement {
                   <span>
                     Tuesdays at 10:00 - 11:00
                     <span className="mx-1.5">·</span>
-                    <span className="link">View dates</span>
+                    <span className="link text-primary-600">View dates</span>
                   </span>
                 </div>
                 <div className="flex gap-1.5 text-subtitle">
@@ -141,7 +141,7 @@ function ContactDashboard(): ReactElement {
                   <span>
                     Fridays at 14:00 - 14:45
                     <span className="mx-1.5">·</span>
-                    <span className="link">View dates</span>
+                    <span className="link text-primary-600">View dates</span>
                   </span>
                 </div>
                 <div className="flex gap-1.5 text-subtitle">
@@ -170,7 +170,7 @@ function ContactDashboard(): ReactElement {
                   <span>
                     Tuesdays at 10:00 - 11:00
                     <span className="mx-1.5">·</span>
-                    <span className="link">View dates</span>
+                    <span className="link text-primary-600">View dates</span>
                   </span>
                 </div>
                 <div className="flex gap-1.5 text-subtitle">

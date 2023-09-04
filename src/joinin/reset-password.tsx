@@ -54,7 +54,9 @@ function ResetPasswordJoinin(): ReactElement {
             </Form.Item>
           </Form>
           <div className="flex justify-center">
-            <Link to="/LoginJoinin">Back to sign in</Link>
+            <Link to="/LoginJoinin" className="">
+              Back to sign in
+            </Link>
           </div>
           <div>
             <Alert

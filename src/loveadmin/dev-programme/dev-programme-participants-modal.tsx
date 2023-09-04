@@ -434,7 +434,7 @@ const DevProgrammeParticipantsModal: React.FC<
                     trigger="click"
                     placement="topLeft"
                   >
-                    <Button size="small">Show key</Button>
+                    <Button size="small">Key</Button>
                   </Popover>
                   <div className="flex gap-1.5">
                     <Button size="small">Edit columns</Button>

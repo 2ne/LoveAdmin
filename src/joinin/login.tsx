@@ -66,10 +66,12 @@ function LoginJoinin(): ReactElement {
             </Form.Item>
           </Form>
           <div className="flex items-center justify-between">
-            <Button type="link" className="px-0" onClick={() => setOpen(true)}>
+            <Button type="link" className="px-0 " onClick={() => setOpen(true)}>
               Trouble signing in?
             </Button>
-            <Link to="/ResetPassword">Reset password</Link>
+            <Link to="/ResetPassword" className="">
+              Reset password
+            </Link>
           </div>
         </PublicFormTemplate>
       </Layout>

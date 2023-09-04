@@ -21,6 +21,7 @@ import {
   notification,
   Segmented,
   Popover,
+  message,
 } from "antd";
 import type { TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -305,18 +306,36 @@ const DevProgrammeModal: React.FC = () => {
   const notAchieved = () => {
     setSelectedRowKeys([]);
 
+    const closeNotificationAndToastMessage = () => {
+      // Close the notification
+      notification.destroy();
+
+      // Open a toast message
+      message.success("Action undone");
+    };
+
     notification.open({
-      message: "Skill Progress Updated",
+      message: (
+        <div className="flex items-center">
+          <CheckCircleFilled className="mt-px text-lg w-7 text-success-500" />
+          <div>Skill Progress Updated</div>
+        </div>
+      ),
       description: (
         <>
-          14 participants set to Not Achieved.
-          <Button
-            type="primary"
-            size="small"
-            className="absolute top-4 mt-px right-14 !bg-neutral-800 border-neutral-700/25 shadow-none hover:!bg-neutral-700"
-          >
-            Undo
-          </Button>
+          <div className="ml-7">
+            <span className="text-neutral-700">
+              14 participants set to Not Achieved.
+            </span>
+            <Button
+              type="link"
+              size="small"
+              className="absolute mt-px top-4 right-14 bg-neutral-100 text-neutral-900"
+              onClick={closeNotificationAndToastMessage} // Added the click handler here
+            >
+              Undo
+            </Button>
+          </div>
         </>
       ),
       placement: "top",
@@ -547,7 +566,7 @@ const DevProgrammeModal: React.FC = () => {
             trigger="click"
             placement="topLeft"
           >
-            <Button>Show key</Button>
+            <Button>Key</Button>
           </Popover>
         </div>
         <div className="mx-auto">

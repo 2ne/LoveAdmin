@@ -9,19 +9,29 @@ function LinksPage(): ReactElement {
         <div className="mb-2 font-medium">JoinIn</div>
         <ul className="space-y-1">
           <li>
-            <Link to="/LoginJoinin">Login</Link>
+            <Link to="/LoginJoinin" className="">
+              Login
+            </Link>
           </li>
           <li>
-            <Link to="/ResetPassword">Reset password</Link>
+            <Link to="/ResetPassword" className="">
+              Reset password
+            </Link>
           </li>
           <li>
-            <Link to="/SetNewPassword">Set new password</Link>
+            <Link to="/SetNewPassword" className="">
+              Set new password
+            </Link>
           </li>
           <li>
-            <Link to="/InviteCreateAccount">Invite create account</Link>
+            <Link to="/InviteCreateAccount" className="">
+              Invite create account
+            </Link>
           </li>
           <li>
-            <Link to="/SetupAccount">Setup account</Link>
+            <Link to="/SetupAccount" className="">
+              Setup account
+            </Link>
           </li>
         </ul>
       </div>
@@ -29,19 +39,34 @@ function LinksPage(): ReactElement {
         <div className="mb-2 font-medium">LoveAdmin</div>
         <ul className="space-y-1">
           <li>
-            <Link to="/Contact">Contact</Link>
+            <Link to="/ChooseOrg" className="">
+              Choose organisation
+            </Link>
           </li>
           <li>
-            <Link to="/Contacts">Contacts</Link>
+            <Link to="/Contact" className="">
+              Contact
+            </Link>
           </li>
           <li>
-            <Link to="/ProductSalesReport">Product Sales Report</Link>
+            <Link to="/Contacts" className="">
+              Contacts
+            </Link>
           </li>
           <li>
-            <Link to="/DevProgramme">Development Programme</Link>
+            <Link to="/ProductSalesReport" className="">
+              Product Sales Report
+            </Link>
           </li>
           <li>
-            <Link to="/SMSSettings">SMS Settings</Link>
+            <Link to="/DevProgramme" className="">
+              Development Programme
+            </Link>
+          </li>
+          <li>
+            <Link to="/SMSSettings" className="">
+              SMS Settings
+            </Link>
           </li>
         </ul>
       </div>

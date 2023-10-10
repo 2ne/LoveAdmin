@@ -851,11 +851,6 @@ const DevProgrammeModal: React.FC = () => {
               <span>9 Feb @ 16:00 - 17:00</span>
               <span className="mx-1.5">·</span>
               <span>14 participants</span>
-              <span className="mx-1.5 text-danger-500">·</span>
-              <WarningFilled className="mr-1 text-xs text-danger-500" />
-              <span className="text-danger-500 hover:cursor-pointer hover:underline">
-                6 unassigned
-              </span>
             </Text>
           </div>
           <div className="ml-auto">

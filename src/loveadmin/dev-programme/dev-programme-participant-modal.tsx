@@ -136,10 +136,6 @@ const DevProgrammeParticipantModal: React.FC<
     },
     {
       key: "5",
-      type: "divider",
-    },
-    {
-      key: "6",
       label: "Not started",
       icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
     },

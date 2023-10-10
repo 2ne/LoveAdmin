@@ -37,6 +37,7 @@ import type { TableRowSelection } from "antd/es/table/interface";
 import DevProgrammeSkillModal from "./dev-programme-skill-modal";
 import TableActions from "../../components/table-actions";
 import DevProgrammeParticipantModal from "./dev-programme-participant-modal";
+import ManageLevelsModal from "./manage-levels-modal";
 const { Content } = Layout;
 const { Title, Text } = Typography;
 
@@ -87,6 +88,8 @@ const DevProgrammeModal: React.FC = () => {
 
   const [skillModalVisible, setSkillModalVisible] = useState(false);
   const [participantModalVisible, setParticipantModalVisible] = useState(false);
+  const [manageLevelsModalVisible, setManageLevelsModalVisible] =
+    useState(false);
 
   const showSkillsModal = (rowData: DevProgrammeSkillsDataType) => {
     setSelectedSkillRowData(rowData);
@@ -272,10 +275,6 @@ const DevProgrammeModal: React.FC = () => {
     },
     {
       key: "5",
-      type: "divider",
-    },
-    {
-      key: "6",
       label: "Not started",
       icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
     },
@@ -510,6 +509,7 @@ const DevProgrammeModal: React.FC = () => {
       key: "2",
       label: "Manage levels",
       icon: <SettingOutlined className="text-neutral-500" />,
+      onClick: () => setManageLevelsModalVisible(true),
     },
     {
       key: "3",
@@ -902,6 +902,7 @@ const DevProgrammeModal: React.FC = () => {
                     size="small"
                     type="text"
                     className="px-0 hover:bg-transparent hover:underline"
+                    onClick={() => setManageLevelsModalVisible(true)}
                   >
                     <div className="flex items-center gap-1.5">
                       <SettingOutlined className="text-neutral-600" />
@@ -1162,6 +1163,11 @@ const DevProgrammeModal: React.FC = () => {
         handleCancel={handleParticipantModalCancel}
         rowData={selectedParticipantRowData}
       ></DevProgrammeParticipantModal>
+      <ManageLevelsModal
+        visible={manageLevelsModalVisible}
+        rowData={selectedParticipantRowData}
+        onClose={() => setManageLevelsModalVisible(false)}
+      />
     </div>
   );
 };

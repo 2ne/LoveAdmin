@@ -171,38 +171,34 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
     },
     {
       key: "5",
-      type: "divider",
-    },
-    {
-      key: "6",
       label: "Not started",
       icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
     },
     {
-      key: "7",
+      key: "6",
       type: "divider",
     },
     {
-      key: "8",
+      key: "7",
       label: "More...",
       children: [
         {
-          key: "8-1",
+          key: "7-1",
           label: "Message",
           icon: <MailOutlined />,
         },
         {
-          key: "8-2",
+          key: "7-2",
           label: "Request payment",
           icon: <CreditCardOutlined />,
         },
         {
-          key: "8-3",
+          key: "7-3",
           label: "Add to class",
           icon: <PlusOutlined />,
         },
         {
-          key: "8-4",
+          key: "7-4",
           label: "Move class",
           icon: <ArrowRightOutlined />,
         },

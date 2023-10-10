@@ -674,7 +674,7 @@ const DevProgrammeModal: React.FC = () => {
           <Dropdown
             menu={{ items: participantItems }}
             trigger={["click"]}
-            rootClassName="w-48"
+            rootClassName="w-40"
           >
             <Button
               className="absolute right-[3px] top-[3px]"

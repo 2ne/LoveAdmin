@@ -294,6 +294,11 @@ const DevProgrammeModal: React.FC = () => {
       ellipsis: true,
     },
     {
+      title: "Participants",
+      render: () => <div>14</div>,
+      width: 180,
+    },
+    {
       title: "Progress",
       render: (record) => (
         <div className="flex items-center gap-3 max-w-[260px]">
@@ -516,82 +521,84 @@ const DevProgrammeModal: React.FC = () => {
       type: "divider",
     },
     {
-      key: "4-0",
-      label: "Message",
+      key: "4",
+      label: "More...",
       children: [
         {
-          key: "4-0-1",
-          label: "Send email",
+          key: "4-0",
+          label: "Message",
+          children: [
+            {
+              key: "4-0-1",
+              label: "Send email",
+            },
+            {
+              key: "4-0-2",
+              label: "Send SMS",
+            },
+          ],
+          icon: <MailOutlined className="text-neutral-500" />,
         },
         {
-          key: "4-0-2",
-          label: "Send SMS",
+          key: "4-1",
+          label: "Product",
+          children: [
+            {
+              key: "4-1-1",
+              label: "Invite to product",
+            },
+            {
+              key: "4-1-2",
+              label: "Add to product",
+            },
+            {
+              key: "4-1-3",
+              label: "Remove from product",
+            },
+          ],
+          icon: <ShoppingCartOutlined className="text-neutral-500" />,
+        },
+        {
+          key: "4-2",
+          label: "Class",
+          children: [
+            {
+              key: "4-2-1",
+              label: "Add to class",
+            },
+            {
+              key: "4-2-2",
+              label: "Move to class",
+            },
+          ],
+          icon: <UsergroupAddOutlined className="text-neutral-500" />,
+        },
+        {
+          key: "4-3",
+          label: "Coach",
+          children: [
+            {
+              key: "4-3-1",
+              label: "Add coach",
+            },
+            {
+              key: "4-3-2",
+              label: "Remove coach",
+            },
+          ],
+          icon: <UserOutlined className="text-neutral-500" />,
+        },
+        {
+          key: "4-4",
+          label: "Request payment",
+          icon: <CreditCardOutlined className="text-neutral-500" />,
+        },
+        {
+          key: "4-5",
+          label: <span className="text-danger-500">Remove from session</span>,
+          icon: <DeleteOutlined className="mt-px text-danger-500" />,
         },
       ],
-      icon: <MailOutlined className="text-neutral-500" />,
-    },
-    {
-      key: "4-1",
-      label: "Product",
-      children: [
-        {
-          key: "4-1-1",
-          label: "Invite to product",
-        },
-        {
-          key: "4-1-2",
-          label: "Add to product",
-        },
-        {
-          key: "4-1-3",
-          label: "Remove from product",
-        },
-      ],
-      icon: <ShoppingCartOutlined className="text-neutral-500" />,
-    },
-    {
-      key: "4-2",
-      label: "Class",
-      children: [
-        {
-          key: "4-2-1",
-          label: "Add to class",
-        },
-        {
-          key: "4-2-2",
-          label: "Move to class",
-        },
-      ],
-      icon: <UsergroupAddOutlined className="text-neutral-500" />,
-    },
-    {
-      key: "4-3",
-      label: "Coach",
-      children: [
-        {
-          key: "4-3-1",
-          label: "Add coach",
-        },
-        {
-          key: "4-3-2",
-          label: "Remove coach",
-        },
-      ],
-      icon: <UserOutlined className="text-neutral-500" />,
-    },
-    {
-      key: "5",
-      type: "divider",
-    },
-    {
-      key: "4-4",
-      label: "Request payment",
-      icon: <CreditCardOutlined className="text-neutral-500" />,
-    },
-    {
-      key: "4-5",
-      label: <span className="text-danger-500">Remove from session</span>,
-      icon: <DeleteOutlined className="mt-px text-danger-500" />,
     },
   ];
 
@@ -1160,7 +1167,6 @@ const DevProgrammeModal: React.FC = () => {
       ></DevProgrammeParticipantModal>
       <ManageLevelsModal
         visible={manageLevelsModalVisible}
-        rowData={selectedParticipantRowData}
         onClose={() => setManageLevelsModalVisible(false)}
       />
     </div>

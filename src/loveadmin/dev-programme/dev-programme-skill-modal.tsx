@@ -4,13 +4,17 @@ import {
   CheckCircleFilled,
   CloseCircleFilled,
   CreditCardOutlined,
+  DeleteOutlined,
   DownOutlined,
   EllipsisOutlined,
   MailOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
   PlusOutlined,
+  ShoppingCartOutlined,
   StarFilled,
+  UserOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -150,59 +154,82 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
 
   const items: MenuProps["items"] = [
     {
-      key: "1",
-      label: "Not achieved",
-      icon: <CloseCircleFilled className="mt-px text-danger-500" />,
+      key: "7-0",
+      label: "Message",
+      children: [
+        {
+          key: "7-0-1",
+          label: "Send email",
+        },
+        {
+          key: "7-0-2",
+          label: "Send SMS",
+        },
+      ],
+      icon: <MailOutlined className="text-neutral-500" />,
     },
     {
-      key: "2",
-      label: "Working on",
-      icon: <PlayCircleFilled className="mt-px text-primary-500" />,
+      key: "8-1",
+      label: "Product",
+      children: [
+        {
+          key: "8-1-1",
+          label: "Invite to product",
+        },
+        {
+          key: "8-1-2",
+          label: "Add to product",
+        },
+        {
+          key: "8-1-3",
+          label: "Remove from product",
+        },
+      ],
+      icon: <ShoppingCartOutlined className="text-neutral-500" />,
     },
     {
-      key: "3",
-      label: "Completed",
-      icon: <CheckCircleFilled className="mt-px text-success-500" />,
+      key: "8-2",
+      label: "Class",
+      children: [
+        {
+          key: "8-2-1",
+          label: "Add to class",
+        },
+        {
+          key: "8-2-2",
+          label: "Move to class",
+        },
+      ],
+      icon: <UsergroupAddOutlined className="text-neutral-500" />,
     },
     {
-      key: "4",
-      label: "Achieved",
-      icon: <StarFilled className="mt-px text-yellow-400" />,
+      key: "8-3",
+      label: "Coach",
+      children: [
+        {
+          key: "8-3-1",
+          label: "Add coach",
+        },
+        {
+          key: "8-3-2",
+          label: "Remove coach",
+        },
+      ],
+      icon: <UserOutlined className="text-neutral-500" />,
     },
     {
-      key: "5",
-      label: "Not started",
-      icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
-    },
-    {
-      key: "6",
+      key: "9",
       type: "divider",
     },
     {
-      key: "7",
-      label: "More...",
-      children: [
-        {
-          key: "7-1",
-          label: "Message",
-          icon: <MailOutlined />,
-        },
-        {
-          key: "7-2",
-          label: "Request payment",
-          icon: <CreditCardOutlined />,
-        },
-        {
-          key: "7-3",
-          label: "Add to class",
-          icon: <PlusOutlined />,
-        },
-        {
-          key: "7-4",
-          label: "Move class",
-          icon: <ArrowRightOutlined />,
-        },
-      ],
+      key: "10",
+      label: "Request payment",
+      icon: <CreditCardOutlined className="text-neutral-500" />,
+    },
+    {
+      key: "11",
+      label: <span className="text-danger-500">Remove from session</span>,
+      icon: <DeleteOutlined className="mt-px text-danger-500" />,
     },
   ];
 
@@ -289,7 +316,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
         <Dropdown
           menu={{ items: items }}
           trigger={["click"]}
-          rootClassName="w-40"
+          rootClassName="w-48"
         >
           <Button
             className="absolute right-0 top-1.5"
@@ -537,20 +564,65 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                   overlayStyle={{ position: "fixed" }}
                   overlay={
                     <Menu>
-                      <Menu.Item>
-                        <MailOutlined className="relative mr-3 top-px" />
-                        Message
+                      <Menu.SubMenu
+                        key="7-1"
+                        title={
+                          <>
+                            <MailOutlined className="relative mr-3 top-px" />
+                            Message
+                          </>
+                        }
+                      >
+                        <Menu.Item key="7-1-1">Send email</Menu.Item>
+                        <Menu.Item key="7-1-2">Send SMS</Menu.Item>
+                      </Menu.SubMenu>
+                      <Menu.SubMenu
+                        key="7-2"
+                        title={
+                          <>
+                            <ShoppingCartOutlined className="relative mr-3 top-px" />
+                            Product
+                          </>
+                        }
+                      >
+                        <Menu.Item key="7-2-1">Invite to product</Menu.Item>
+                        <Menu.Item key="7-2-2">Add to product</Menu.Item>
+                        <Menu.Item key="7-2-3">Remove from product</Menu.Item>
+                      </Menu.SubMenu>
+                      <Menu.SubMenu
+                        key="7-3"
+                        title={
+                          <>
+                            <UsergroupAddOutlined className="relative mr-3 top-px" />
+                            Class
+                          </>
+                        }
+                      >
+                        <Menu.Item key="7-3-1">Add to class</Menu.Item>
+                        <Menu.Item key="7-3-2">Move to class</Menu.Item>
+                      </Menu.SubMenu>
+                      <Menu.SubMenu
+                        key="7-4"
+                        title={
+                          <>
+                            <UserOutlined className="relative mr-3 top-px" />
+                            Coach
+                          </>
+                        }
+                      >
+                        <Menu.Item key="7-4-1">Add coach</Menu.Item>
+                        <Menu.Item key="7-4-2">Remove coach</Menu.Item>
+                      </Menu.SubMenu>
+                      <Menu.Divider />
+                      <Menu.Item key="7-6">
+                        <CreditCardOutlined className="mt-px mr-3" />
+                        <span>Request payment</span>
                       </Menu.Item>
-                      <Menu.Item>
-                        <CreditCardOutlined className="mr-3" /> Request payment
-                      </Menu.Item>
-                      <Menu.Item>
-                        <PlusOutlined className="mr-3" />
-                        Add to class
-                      </Menu.Item>
-                      <Menu.Item>
-                        <ArrowRightOutlined className="mr-3" />
-                        Move class
+                      <Menu.Item key="7-7">
+                        <DeleteOutlined className="mr-3 text-danger-500 -mt-0.5" />
+                        <span className="text-danger-500">
+                          Remove from session
+                        </span>
                       </Menu.Item>
                     </Menu>
                   }

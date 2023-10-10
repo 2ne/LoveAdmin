@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   CheckCircleFilled,
   CloseCircleFilled,
+  EllipsisOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
   StarFilled,
@@ -16,6 +17,8 @@ import {
   Tooltip,
   notification,
   message,
+  Dropdown,
+  MenuProps,
 } from "antd";
 import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
 import { DevProgrammeParticipantsDataType as ImportedDevProgrammeDataType } from "./dev-programme";
@@ -110,6 +113,38 @@ const DevProgrammeParticipantModal: React.FC<
     }));
   };
 
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "Not achieved",
+      icon: <CloseCircleFilled className="mt-px text-danger-500" />,
+    },
+    {
+      key: "2",
+      label: "Working on",
+      icon: <PlayCircleFilled className="mt-px text-primary-500" />,
+    },
+    {
+      key: "3",
+      label: "Completed",
+      icon: <CheckCircleFilled className="mt-px text-success-500" />,
+    },
+    {
+      key: "4",
+      label: "Achieved",
+      icon: <StarFilled className="mt-px text-yellow-500" />,
+    },
+    {
+      key: "5",
+      type: "divider",
+    },
+    {
+      key: "6",
+      label: "Not started",
+      icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
+    },
+  ];
+
   const columns: ColumnsType<DevProgrammeDataType> = [
     {
       title: "Skill",
@@ -117,8 +152,8 @@ const DevProgrammeParticipantModal: React.FC<
       key: "skill",
       ellipsis: true,
       sorter: (a, b) => a.skill.localeCompare(b.skill),
-      render: (text: string) => <a>{text}</a>,
-      width: 320,
+      render: (text: string) => <a className="block pr-3 truncate">{text}</a>,
+      width: 360,
       filterSearch: true,
     },
     {
@@ -149,7 +184,7 @@ const DevProgrammeParticipantModal: React.FC<
                 value="NotAchieved"
                 className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CloseCircleFilled className="absolute inset-0 transition-colors opacity-50 text-danger-500 place-content-center" />
+                <CloseCircleFilled className="absolute inset-0 grid transition-colors opacity-50 text-danger-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Working on" rootClassName="pointer-events-none">
@@ -158,7 +193,7 @@ const DevProgrammeParticipantModal: React.FC<
                 value="WorkingOn"
                 className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <PlayCircleFilled className="absolute inset-0 transition-colors opacity-50 text-primary-500 place-content-center" />
+                <PlayCircleFilled className="absolute inset-0 grid transition-colors opacity-50 text-primary-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Completed" rootClassName="pointer-events-none">
@@ -167,7 +202,7 @@ const DevProgrammeParticipantModal: React.FC<
                 value="Completed"
                 className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CheckCircleFilled className="absolute inset-0 transition-colors opacity-50 text-success-500 place-content-center" />
+                <CheckCircleFilled className="absolute inset-0 grid transition-colors opacity-50 text-success-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Achieved" rootClassName="pointer-events-none">
@@ -176,11 +211,31 @@ const DevProgrammeParticipantModal: React.FC<
                 value="Achieved"
                 className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <StarFilled className="absolute inset-0 text-yellow-500 transition-colors opacity-50 place-content-center" />
+                <StarFilled className="absolute inset-0 grid text-yellow-500 transition-colors opacity-50 place-content-center" />
               </Radio.Button>
             </Tooltip>
           </Radio.Group>
         </div>
+      ),
+    },
+    {
+      title: "",
+      dataIndex: "",
+      key: "action",
+      width: 34,
+      render: () => (
+        <Dropdown
+          menu={{ items: items }}
+          trigger={["click"]}
+          rootClassName="w-40"
+        >
+          <Button
+            className="absolute right-0 top-1.5"
+            type="text"
+            icon={<EllipsisOutlined className="rotate-90 text-neutral-600" />}
+            onClick={(e) => e.preventDefault()}
+          ></Button>
+        </Dropdown>
       ),
     },
   ];
@@ -355,7 +410,7 @@ const DevProgrammeParticipantModal: React.FC<
       centered
       footer={false}
       destroyOnClose={true}
-      className="w-full max-w-[49rem]"
+      className="w-full max-w-[52rem]"
     >
       <div>
         <Content className="pb-2 bg-white">

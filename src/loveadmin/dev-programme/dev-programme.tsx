@@ -6,6 +6,7 @@ import {
   CreditCardOutlined,
   DownOutlined,
   DownloadOutlined,
+  EllipsisOutlined,
   MailOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
@@ -27,7 +28,7 @@ import {
   Menu,
   Space,
 } from "antd";
-import type { TableColumnsType } from "antd";
+import type { MenuProps, TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
 import DevProgrammeSkillModal from "./dev-programme-skill-modal";
 import TableActions from "../../components/table-actions";
@@ -109,6 +110,156 @@ const DevProgrammeModal: React.FC = () => {
     setParticipantModalVisible(false);
   };
 
+  type NotificationOptions = {
+    rowKeys: React.Key[];
+    itemName: string;
+    action: string;
+  };
+
+  const openNotification = (options: NotificationOptions) => {
+    const { rowKeys, itemName, action } = options;
+    const rowKeysCount = rowKeys.length;
+    let icon;
+
+    switch (action) {
+      case "marked as achieved":
+        icon = <StarFilled className="mt-px text-lg text-yellow-500 w-7" />;
+        break;
+      case "marked as not achieved":
+        icon = (
+          <CloseCircleFilled className="mt-px text-lg w-7 text-danger-500" />
+        );
+        break;
+      case "marked as working on":
+        icon = (
+          <PlayCircleFilled className="mt-px text-lg w-7 text-primary-500" />
+        );
+        break;
+      case "marked as completed":
+        icon = (
+          <CheckCircleFilled className="mt-px text-lg w-7 text-success-500" />
+        );
+        break;
+      case "marked as not started":
+        icon = (
+          <MinusCircleFilled className="mt-px text-lg w-7 text-neutral-400" />
+        );
+        break;
+      default:
+        icon = (
+          <MinusCircleFilled className="mt-px text-lg w-7 text-neutral-400" />
+        );
+    }
+
+    notification.open({
+      message: (
+        <div className="flex items-center">
+          {icon}
+          <div className="first-letter:uppercase">
+            {rowKeysCount === 1 ? itemName : `${itemName}s`} updated
+          </div>
+        </div>
+      ),
+      description: (
+        <div className="ml-7">
+          <span className="text-neutral-700">
+            {`${rowKeysCount} ${itemName}${
+              rowKeysCount === 1 ? "" : "s"
+            } ${action}`}
+          </span>
+          <Button
+            type="link"
+            size="small"
+            className="absolute mt-px top-4 right-14 bg-neutral-100 text-neutral-900"
+            onClick={closeNotificationAndToastMessage}
+          >
+            Undo
+          </Button>
+        </div>
+      ),
+      placement: "top",
+    });
+  };
+
+  const closeNotificationAndToastMessage = () => {
+    notification.destroy();
+    message.success("Action undone");
+  };
+
+  const handleAction = (
+    rowKeys: React.Key[],
+    action: string,
+    itemName: string
+  ) => {
+    openNotification({
+      rowKeys,
+      itemName,
+      action,
+    });
+    setSelectedSkillRowKeys([]);
+    setSelectedParticipantRowKeys([]);
+  };
+
+  const skillNotAchieved = () => {
+    handleAction(selectedSkillRowKeys, "marked as not achieved", "skill");
+  };
+
+  const skillWorkingOn = () => {
+    handleAction(selectedSkillRowKeys, "marked as working on", "skill");
+  };
+
+  const skillCompleted = () => {
+    handleAction(selectedSkillRowKeys, "marked as completed", "skill");
+  };
+
+  const skillAchieved = () => {
+    handleAction(selectedSkillRowKeys, "marked as achieved", "skill");
+  };
+
+  const skillNotStarted = () => {
+    handleAction(selectedSkillRowKeys, "marked as not started", "skill");
+  };
+
+  const participantNotAchieved = () => {
+    handleAction(
+      selectedParticipantRowKeys,
+      "marked as not achieved",
+      "participant"
+    );
+  };
+
+  const participantWorkingOn = () => {
+    handleAction(
+      selectedParticipantRowKeys,
+      "marked as working on",
+      "participant"
+    );
+  };
+
+  const participantCompleted = () => {
+    handleAction(
+      selectedParticipantRowKeys,
+      "marked as completed",
+      "participant"
+    );
+  };
+
+  const participantAchieved = () => {
+    handleAction(
+      selectedParticipantRowKeys,
+      "marked as achieved",
+      "participant"
+    );
+  };
+
+  const participantNotStarted = () => {
+    handleAction(
+      selectedParticipantRowKeys,
+      "marked as not started",
+      "participant"
+    );
+  };
+
   const PopoverContent = () => (
     <div className="flex gap-4 pr-2 text-sm text-neutral-700">
       <div className="flex items-center gap-1.5">
@@ -129,6 +280,38 @@ const DevProgrammeModal: React.FC = () => {
       </div>
     </div>
   );
+
+  const skillItems: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "Not achieved",
+      icon: <CloseCircleFilled className="mt-px text-danger-500" />,
+    },
+    {
+      key: "2",
+      label: "Working on",
+      icon: <PlayCircleFilled className="mt-px text-primary-500" />,
+    },
+    {
+      key: "3",
+      label: "Completed",
+      icon: <CheckCircleFilled className="mt-px text-success-500" />,
+    },
+    {
+      key: "4",
+      label: "Achieved",
+      icon: <StarFilled className="mt-px text-yellow-500" />,
+    },
+    {
+      key: "5",
+      type: "divider",
+    },
+    {
+      key: "6",
+      label: "Not started",
+      icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
+    },
+  ];
 
   const skillColumns: TableColumnsType<DevProgrammeSkillsDataType> = [
     {
@@ -190,6 +373,26 @@ const DevProgrammeModal: React.FC = () => {
             )}
           </div>
         </div>
+      ),
+    },
+    {
+      title: "",
+      dataIndex: "",
+      key: "action",
+      width: 34,
+      render: () => (
+        <Dropdown
+          menu={{ items: skillItems }}
+          trigger={["click"]}
+          rootClassName="w-40"
+        >
+          <Button
+            className="absolute right-[3px] top-[3px]"
+            type="text"
+            icon={<EllipsisOutlined className="rotate-90 text-neutral-600" />}
+            onClick={(e) => e.preventDefault()}
+          ></Button>
+        </Dropdown>
       ),
     },
   ];
@@ -329,6 +532,68 @@ const DevProgrammeModal: React.FC = () => {
     },
   };
 
+  const participantItems: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "Not achieved",
+      icon: <CloseCircleFilled className="mt-px text-danger-500" />,
+    },
+    {
+      key: "2",
+      label: "Working on",
+      icon: <PlayCircleFilled className="mt-px text-primary-500" />,
+    },
+    {
+      key: "3",
+      label: "Completed",
+      icon: <CheckCircleFilled className="mt-px text-success-500" />,
+    },
+    {
+      key: "4",
+      label: "Achieved",
+      icon: <StarFilled className="mt-px text-yellow-500" />,
+    },
+    {
+      key: "5",
+      type: "divider",
+    },
+    {
+      key: "6",
+      label: "Not started",
+      icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
+    },
+    {
+      key: "7",
+      type: "divider",
+    },
+    {
+      key: "8",
+      label: "More...",
+      children: [
+        {
+          key: "8-1",
+          label: "Message",
+          icon: <MailOutlined />,
+        },
+        {
+          key: "8-2",
+          label: "Request payment",
+          icon: <CreditCardOutlined />,
+        },
+        {
+          key: "8-3",
+          label: "Add to class",
+          icon: <PlusOutlined />,
+        },
+        {
+          key: "8-4",
+          label: "Move class",
+          icon: <ArrowRightOutlined />,
+        },
+      ],
+    },
+  ];
+
   const participantColumns: TableColumnsType<DevProgrammeParticipantsDataType> =
     [
       {
@@ -390,6 +655,26 @@ const DevProgrammeModal: React.FC = () => {
               )}
             </div>
           </div>
+        ),
+      },
+      {
+        title: "",
+        dataIndex: "",
+        key: "action",
+        width: 34,
+        render: () => (
+          <Dropdown
+            menu={{ items: participantItems }}
+            trigger={["click"]}
+            rootClassName="w-40"
+          >
+            <Button
+              className="absolute right-[3px] top-[3px]"
+              type="text"
+              icon={<EllipsisOutlined className="rotate-90 text-neutral-600" />}
+              onClick={(e) => e.preventDefault()}
+            ></Button>
+          </Dropdown>
         ),
       },
     ];
@@ -544,156 +829,6 @@ const DevProgrammeModal: React.FC = () => {
         setSelectedParticipantRowKeys(selectedRowKeys);
       },
     };
-
-  type NotificationOptions = {
-    rowKeys: React.Key[];
-    itemName: string;
-    action: string;
-  };
-
-  const openNotification = (options: NotificationOptions) => {
-    const { rowKeys, itemName, action } = options;
-    const rowKeysCount = rowKeys.length;
-    let icon;
-
-    switch (action) {
-      case "marked as achieved":
-        icon = <StarFilled className="mt-px text-lg text-yellow-500 w-7" />;
-        break;
-      case "marked as not achieved":
-        icon = (
-          <CloseCircleFilled className="mt-px text-lg w-7 text-danger-500" />
-        );
-        break;
-      case "marked as working on":
-        icon = (
-          <PlayCircleFilled className="mt-px text-lg w-7 text-primary-500" />
-        );
-        break;
-      case "marked as completed":
-        icon = (
-          <CheckCircleFilled className="mt-px text-lg w-7 text-success-500" />
-        );
-        break;
-      case "marked as not started":
-        icon = (
-          <MinusCircleFilled className="mt-px text-lg w-7 text-neutral-400" />
-        );
-        break;
-      default:
-        icon = (
-          <MinusCircleFilled className="mt-px text-lg w-7 text-neutral-400" />
-        );
-    }
-
-    notification.open({
-      message: (
-        <div className="flex items-center">
-          {icon}
-          <div className="first-letter:uppercase">
-            {rowKeysCount === 1 ? itemName : `${itemName}s`} updated
-          </div>
-        </div>
-      ),
-      description: (
-        <div className="ml-7">
-          <span className="text-neutral-700">
-            {`${rowKeysCount} ${itemName}${
-              rowKeysCount === 1 ? "" : "s"
-            } ${action}`}
-          </span>
-          <Button
-            type="link"
-            size="small"
-            className="absolute mt-px top-4 right-14 bg-neutral-100 text-neutral-900"
-            onClick={closeNotificationAndToastMessage}
-          >
-            Undo
-          </Button>
-        </div>
-      ),
-      placement: "top",
-    });
-  };
-
-  const closeNotificationAndToastMessage = () => {
-    notification.destroy();
-    message.success("Action undone");
-  };
-
-  const handleAction = (
-    rowKeys: React.Key[],
-    action: string,
-    itemName: string
-  ) => {
-    openNotification({
-      rowKeys,
-      itemName,
-      action,
-    });
-    setSelectedSkillRowKeys([]);
-    setSelectedParticipantRowKeys([]);
-  };
-
-  const skillNotAchieved = () => {
-    handleAction(selectedSkillRowKeys, "marked as not achieved", "skill");
-  };
-
-  const skillWorkingOn = () => {
-    handleAction(selectedSkillRowKeys, "marked as working on", "skill");
-  };
-
-  const skillCompleted = () => {
-    handleAction(selectedSkillRowKeys, "marked as completed", "skill");
-  };
-
-  const skillAchieved = () => {
-    handleAction(selectedSkillRowKeys, "marked as achieved", "skill");
-  };
-
-  const skillNotStarted = () => {
-    handleAction(selectedSkillRowKeys, "marked as not started", "skill");
-  };
-
-  const participantNotAchieved = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as not achieved",
-      "participant"
-    );
-  };
-
-  const participantWorkingOn = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as working on",
-      "participant"
-    );
-  };
-
-  const participantCompleted = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as completed",
-      "participant"
-    );
-  };
-
-  const participantAchieved = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as achieved",
-      "participant"
-    );
-  };
-
-  const participantNotStarted = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as not started",
-      "participant"
-    );
-  };
 
   const skillsFilteredData = skillData.filter((item) =>
     selectedLevel.length ? selectedLevel.includes(item.level.toString()) : true

@@ -5,6 +5,7 @@ import {
   CloseCircleFilled,
   CreditCardOutlined,
   DownOutlined,
+  EllipsisOutlined,
   MailOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
@@ -24,6 +25,7 @@ import {
   Menu,
   notification,
   message,
+  MenuProps,
 } from "antd";
 import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
 import { DevProgrammeSkillsDataType as ImportedDevProgrammeDataType } from "./dev-programme";
@@ -146,6 +148,68 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
     }));
   };
 
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "Not achieved",
+      icon: <CloseCircleFilled className="mt-px text-danger-500" />,
+    },
+    {
+      key: "2",
+      label: "Working on",
+      icon: <PlayCircleFilled className="mt-px text-primary-500" />,
+    },
+    {
+      key: "3",
+      label: "Completed",
+      icon: <CheckCircleFilled className="mt-px text-success-500" />,
+    },
+    {
+      key: "4",
+      label: "Achieved",
+      icon: <StarFilled className="mt-px text-yellow-500" />,
+    },
+    {
+      key: "5",
+      type: "divider",
+    },
+    {
+      key: "6",
+      label: "Not started",
+      icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
+    },
+    {
+      key: "7",
+      type: "divider",
+    },
+    {
+      key: "8",
+      label: "More...",
+      children: [
+        {
+          key: "8-1",
+          label: "Message",
+          icon: <MailOutlined />,
+        },
+        {
+          key: "8-2",
+          label: "Request payment",
+          icon: <CreditCardOutlined />,
+        },
+        {
+          key: "8-3",
+          label: "Add to class",
+          icon: <PlusOutlined />,
+        },
+        {
+          key: "8-4",
+          label: "Move class",
+          icon: <ArrowRightOutlined />,
+        },
+      ],
+    },
+  ];
+
   const columns: ColumnsType<DevProgrammeDataType> = [
     {
       title: "Participant",
@@ -153,8 +217,8 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
       key: "participant",
       ellipsis: true,
       sorter: (a, b) => a.participant.localeCompare(b.participant),
-      render: (text: string) => <a>{text}</a>,
-      width: 320,
+      render: (text: string) => <a className="block pr-3 truncate">{text}</a>,
+      width: 360,
       filterSearch: true,
     },
     {
@@ -186,7 +250,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 value="NotAchieved"
                 className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CloseCircleFilled className="absolute inset-0 transition-colors opacity-60 text-danger-500 place-content-center" />
+                <CloseCircleFilled className="absolute inset-0 grid transition-colors opacity-60 text-danger-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Working on" rootClassName="pointer-events-none">
@@ -195,7 +259,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 value="WorkingOn"
                 className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <PlayCircleFilled className="absolute inset-0 transition-colors opacity-60 text-primary-500 place-content-center" />
+                <PlayCircleFilled className="absolute inset-0 grid transition-colors opacity-60 text-primary-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Completed" rootClassName="pointer-events-none">
@@ -204,7 +268,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 value="Completed"
                 className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CheckCircleFilled className="absolute inset-0 transition-colors opacity-60 text-success-500 place-content-center" />
+                <CheckCircleFilled className="absolute inset-0 grid transition-colors opacity-60 text-success-500 place-content-center" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Achieved" rootClassName="pointer-events-none">
@@ -213,11 +277,31 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 value="Achieved"
                 className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <StarFilled className="absolute inset-0 text-yellow-500 transition-colors opacity-60 place-content-center" />
+                <StarFilled className="absolute inset-0 grid text-yellow-500 transition-colors opacity-60 place-content-center" />
               </Radio.Button>
             </Tooltip>
           </Radio.Group>
         </div>
+      ),
+    },
+    {
+      title: "",
+      dataIndex: "",
+      key: "action",
+      width: 34,
+      render: () => (
+        <Dropdown
+          menu={{ items: items }}
+          trigger={["click"]}
+          rootClassName="w-40"
+        >
+          <Button
+            className="absolute right-0 top-1.5"
+            type="text"
+            icon={<EllipsisOutlined className="rotate-90 text-neutral-600" />}
+            onClick={(e) => e.preventDefault()}
+          ></Button>
+        </Dropdown>
       ),
     },
   ];
@@ -385,7 +469,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
       centered
       footer={false}
       destroyOnClose={true}
-      className="w-full max-w-[49rem]"
+      className="w-full max-w-[52rem]"
     >
       <div>
         <Content className="pb-2 bg-white">

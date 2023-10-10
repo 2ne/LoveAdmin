@@ -167,7 +167,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
     {
       key: "4",
       label: "Achieved",
-      icon: <StarFilled className="mt-px text-yellow-500" />,
+      icon: <StarFilled className="mt-px text-yellow-400" />,
     },
     {
       key: "5",
@@ -275,9 +275,9 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
               <Radio.Button
                 onClick={() => onRadioChange("Achieved", record.key)}
                 value="Achieved"
-                className="[&.ant-radio-button-wrapper-checked]:bg-yellow-500 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+                className="[&.ant-radio-button-wrapper-checked]:bg-yellow-400 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <StarFilled className="absolute inset-0 grid text-yellow-500 transition-colors opacity-60 place-content-center" />
+                <StarFilled className="absolute inset-0 grid text-yellow-400 transition-colors opacity-60 place-content-center" />
               </Radio.Button>
             </Tooltip>
           </Radio.Group>
@@ -326,7 +326,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
 
     switch (action) {
       case "marked as achieved":
-        icon = <StarFilled className="mt-px text-lg text-yellow-500 w-7" />;
+        icon = <StarFilled className="mt-px text-lg text-yellow-400 w-7" />;
         break;
       case "marked as not achieved":
         icon = (
@@ -437,7 +437,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
         <span>Completed</span>
       </div>
       <div className="flex items-center gap-1.5">
-        <StarFilled className="text-yellow-500" />
+        <StarFilled className="text-yellow-400" />
         <span>Achieved</span>
       </div>
     </div>
@@ -520,7 +520,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                   onClick={achieved}
                 >
                   <div className="flex items-center gap-1.5">
-                    <StarFilled className="text-yellow-500" />
+                    <StarFilled className="text-yellow-400" />
                     <span>Achieved</span>
                   </div>
                 </Button>

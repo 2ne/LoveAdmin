@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import {
-  ArrowRightOutlined,
   CheckCircleFilled,
   CloseCircleFilled,
   CreditCardOutlined,
+  DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
   EllipsisOutlined,
   MailOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
-  PlusOutlined,
+  SettingOutlined,
+  ShoppingCartOutlined,
   StarFilled,
+  UserOutlined,
+  UsergroupAddOutlined,
+  WarningFilled,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -123,7 +127,7 @@ const DevProgrammeModal: React.FC = () => {
 
     switch (action) {
       case "marked as achieved":
-        icon = <StarFilled className="mt-px text-lg text-yellow-500 w-7" />;
+        icon = <StarFilled className="mt-px text-lg text-yellow-400 w-7" />;
         break;
       case "marked as not achieved":
         icon = (
@@ -220,44 +224,8 @@ const DevProgrammeModal: React.FC = () => {
     handleAction(selectedSkillRowKeys, "marked as not started", "skill");
   };
 
-  const participantNotAchieved = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as not achieved",
-      "participant"
-    );
-  };
-
-  const participantWorkingOn = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as working on",
-      "participant"
-    );
-  };
-
-  const participantCompleted = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as completed",
-      "participant"
-    );
-  };
-
-  const participantAchieved = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as achieved",
-      "participant"
-    );
-  };
-
-  const participantNotStarted = () => {
-    handleAction(
-      selectedParticipantRowKeys,
-      "marked as not started",
-      "participant"
-    );
+  const levelAchieved = () => {
+    handleAction(selectedParticipantRowKeys, "marked as achieved", "level");
   };
 
   const PopoverContent = () => (
@@ -275,7 +243,7 @@ const DevProgrammeModal: React.FC = () => {
         <span>Completed</span>
       </div>
       <div className="flex items-center gap-1.5">
-        <StarFilled className="text-yellow-500" />
+        <StarFilled className="text-yellow-400" />
         <span>Achieved</span>
       </div>
     </div>
@@ -300,7 +268,7 @@ const DevProgrammeModal: React.FC = () => {
     {
       key: "4",
       label: "Achieved",
-      icon: <StarFilled className="mt-px text-yellow-500" />,
+      icon: <StarFilled className="mt-px text-yellow-400" />,
     },
     {
       key: "5",
@@ -384,7 +352,7 @@ const DevProgrammeModal: React.FC = () => {
         <Dropdown
           menu={{ items: skillItems }}
           trigger={["click"]}
-          rootClassName="w-40"
+          rootClassName="w-48"
         >
           <Button
             className="absolute right-[3px] top-[3px]"
@@ -532,65 +500,98 @@ const DevProgrammeModal: React.FC = () => {
     },
   };
 
-  const participantItems: MenuProps["items"] = [
+  const participantItems = [
     {
       key: "1",
-      label: "Not achieved",
-      icon: <CloseCircleFilled className="mt-px text-danger-500" />,
+      label: "Level achieved",
+      icon: <StarFilled className="mt-px text-yellow-400" />,
     },
     {
       key: "2",
-      label: "Working on",
-      icon: <PlayCircleFilled className="mt-px text-primary-500" />,
+      label: "Manage levels",
+      icon: <SettingOutlined className="text-neutral-500" />,
     },
     {
       key: "3",
-      label: "Completed",
-      icon: <CheckCircleFilled className="mt-px text-success-500" />,
+      type: "divider",
     },
     {
-      key: "4",
-      label: "Achieved",
-      icon: <StarFilled className="mt-px text-yellow-500" />,
+      key: "4-0",
+      label: "Message",
+      children: [
+        {
+          key: "4-0-1",
+          label: "Send email",
+        },
+        {
+          key: "4-0-2",
+          label: "Send SMS",
+        },
+      ],
+      icon: <MailOutlined className="text-neutral-500" />,
+    },
+    {
+      key: "4-1",
+      label: "Product",
+      children: [
+        {
+          key: "4-1-1",
+          label: "Invite to product",
+        },
+        {
+          key: "4-1-2",
+          label: "Add to product",
+        },
+        {
+          key: "4-1-3",
+          label: "Remove from product",
+        },
+      ],
+      icon: <ShoppingCartOutlined className="text-neutral-500" />,
+    },
+    {
+      key: "4-2",
+      label: "Class",
+      children: [
+        {
+          key: "4-2-1",
+          label: "Add to class",
+        },
+        {
+          key: "4-2-2",
+          label: "Move to class",
+        },
+      ],
+      icon: <UsergroupAddOutlined className="text-neutral-500" />,
+    },
+    {
+      key: "4-3",
+      label: "Coach",
+      children: [
+        {
+          key: "4-3-1",
+          label: "Add coach",
+        },
+        {
+          key: "4-3-2",
+          label: "Remove coach",
+        },
+      ],
+      icon: <UserOutlined className="text-neutral-500" />,
     },
     {
       key: "5",
       type: "divider",
     },
     {
-      key: "6",
-      label: "Not started",
-      icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
+      key: "4-4",
+      label: "Request payment",
+      icon: <CreditCardOutlined className="text-neutral-500" />,
     },
     {
-      key: "7",
-      type: "divider",
-    },
-    {
-      key: "8",
-      label: "More...",
-      children: [
-        {
-          key: "8-1",
-          label: "Message",
-          icon: <MailOutlined />,
-        },
-        {
-          key: "8-2",
-          label: "Request payment",
-          icon: <CreditCardOutlined />,
-        },
-        {
-          key: "8-3",
-          label: "Add to class",
-          icon: <PlusOutlined />,
-        },
-        {
-          key: "8-4",
-          label: "Move class",
-          icon: <ArrowRightOutlined />,
-        },
-      ],
+      key: "4-5",
+      label: <span className="text-danger-500">Remove from session</span>,
+      icon: <DeleteOutlined className="mt-px text-danger-500" />,
     },
   ];
 
@@ -666,7 +667,7 @@ const DevProgrammeModal: React.FC = () => {
           <Dropdown
             menu={{ items: participantItems }}
             trigger={["click"]}
-            rootClassName="w-40"
+            rootClassName="w-48"
           >
             <Button
               className="absolute right-[3px] top-[3px]"
@@ -846,12 +847,15 @@ const DevProgrammeModal: React.FC = () => {
             <Title level={5} className="flex items-center mb-0">
               <span>Thursday Beginners Class</span>
             </Title>
-            <Text className="text-sm text-subtitle">
+            <Text className="flex items-center text-sm text-subtitle">
               <span>9 Feb @ 16:00 - 17:00</span>
               <span className="mx-1.5">·</span>
-              <span>Levels · 1 & 2</span>
-              <span className="mx-1.5">·</span>
               <span>14 participants</span>
+              <span className="mx-1.5 text-danger-500">·</span>
+              <WarningFilled className="mr-1 text-xs text-danger-500" />
+              <span className="text-danger-500 hover:cursor-pointer hover:underline">
+                6 unassigned
+              </span>
             </Text>
           </div>
           <div className="ml-auto">
@@ -881,63 +885,124 @@ const DevProgrammeModal: React.FC = () => {
                 <div className="font-medium whitespace-nowrap -ml-0.5">
                   {selectedParticipantRowKeys.length} selected
                 </div>
-                <div className="text-subtitle">|</div>
-                <div className="flex items-center gap-4 mr-2">
+                <div className="text-neutral-400">|</div>
+                <div className="flex items-center gap-4">
                   <Button
                     size="small"
                     type="text"
                     className="px-0 hover:bg-transparent hover:underline"
-                    onClick={participantNotAchieved}
+                    onClick={levelAchieved}
                   >
                     <div className="flex items-center gap-1.5">
-                      <CloseCircleFilled className="text-danger-500" />
-                      <span>Not achieved</span>
+                      <StarFilled className="text-yellow-400" />
+                      <span>Level achieved</span>
                     </div>
                   </Button>
                   <Button
                     size="small"
                     type="text"
                     className="px-0 hover:bg-transparent hover:underline"
-                    onClick={participantWorkingOn}
                   >
                     <div className="flex items-center gap-1.5">
-                      <PlayCircleFilled className="text-primary-500" />
-                      <span>Working on</span>
+                      <SettingOutlined className="text-neutral-600" />
+                      <span>Manage levels</span>
                     </div>
                   </Button>
-                  <Button
-                    size="small"
-                    type="text"
-                    className="px-0 hover:bg-transparent hover:underline"
-                    onClick={participantCompleted}
+                </div>
+                <div className="text-neutral-400">|</div>
+                <div className="flex items-center gap-4 ml-1">
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item>Send email</Menu.Item>
+                        <Menu.Item>Send SMS</Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircleFilled className="text-success-500" />
-                      <span>Completed</span>
-                    </div>
-                  </Button>
-                  <Button
-                    size="small"
-                    type="text"
-                    className="px-0 hover:bg-transparent hover:underline"
-                    onClick={participantAchieved}
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <MailOutlined className="text-neutral-600" />
+                        Message
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item>Invite to product</Menu.Item>
+                        <Menu.Item>Add to product</Menu.Item>
+                        <Menu.Item>Remove from product</Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    <div className="flex items-center gap-1.5">
-                      <StarFilled className="text-yellow-500" />
-                      <span>Achieved</span>
-                    </div>
-                  </Button>
-                  <Button
-                    size="small"
-                    type="text"
-                    className="px-0 hover:bg-transparent hover:underline"
-                    onClick={participantNotStarted}
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <ShoppingCartOutlined className="text-neutral-600" />
+                        Product
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item>Add to class</Menu.Item>
+                        <Menu.Item>Move to class </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    <div className="flex items-center gap-1.5">
-                      <MinusCircleFilled className="text-neutral-400" />
-                      <span>Not started</span>
-                    </div>
-                  </Button>
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <UsergroupAddOutlined className="text-neutral-600" />
+                        Class
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item>Add coach</Menu.Item>
+                        <Menu.Item>Remove coach</Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
+                  >
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="px-0 text-neutral-900"
+                    >
+                      <Space className="hover:bg-transparent hover:underline">
+                        <UserOutlined className="text-neutral-600" />
+                        Coach
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </div>
+                <div className="text-neutral-400">|</div>
+                <div className="flex items-center gap-4 ml-1 mr-2">
                   <Dropdown
                     placement="bottomLeft"
                     getPopupContainer={() => document.body}
@@ -945,20 +1010,13 @@ const DevProgrammeModal: React.FC = () => {
                     overlay={
                       <Menu>
                         <Menu.Item>
-                          <MailOutlined className="relative mr-3 top-px" />
-                          Message
-                        </Menu.Item>
-                        <Menu.Item>
                           <CreditCardOutlined className="mr-3" /> Request
                           payment
                         </Menu.Item>
-                        <Menu.Item>
-                          <PlusOutlined className="mr-3" />
-                          Add to class
-                        </Menu.Item>
-                        <Menu.Item>
-                          <ArrowRightOutlined className="mr-3" />
-                          Move class
+
+                        <Menu.Item className="text-danger-500">
+                          <DeleteOutlined className="mr-3 text-danger-500" />
+                          Remove from session
                         </Menu.Item>
                       </Menu>
                     }
@@ -1037,7 +1095,7 @@ const DevProgrammeModal: React.FC = () => {
                     onClick={skillAchieved}
                   >
                     <div className="flex items-center gap-1.5">
-                      <StarFilled className="text-yellow-500" />
+                      <StarFilled className="text-yellow-400" />
                       <span>Achieved</span>
                     </div>
                   </Button>

@@ -399,3 +399,8 @@ table tbody .ant-btn-link {
 .ant-message .ant-message-notice .ant-message-success > .anticon {
   @apply text-success-500;
 }
+
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-icon,
+.ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item-icon {
+  @apply mr-3;
+}

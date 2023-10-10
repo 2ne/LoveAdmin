@@ -590,11 +590,15 @@ const DevProgrammeModal: React.FC = () => {
         },
         {
           key: "4-4",
+          type: "divider",
+        },
+        {
+          key: "4-5",
           label: "Request payment",
           icon: <CreditCardOutlined className="text-neutral-500" />,
         },
         {
-          key: "4-5",
+          key: "4-6",
           label: <span className="text-danger-500">Remove from session</span>,
           icon: <DeleteOutlined className="mt-px text-danger-500" />,
         },

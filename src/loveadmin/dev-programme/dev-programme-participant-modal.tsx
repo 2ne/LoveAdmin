@@ -214,7 +214,7 @@ const DevProgrammeParticipantModal: React.FC<
         </div>
       ),
     },
-    {
+    /*   {
       title: "",
       dataIndex: "",
       key: "action",
@@ -233,7 +233,7 @@ const DevProgrammeParticipantModal: React.FC<
           ></Button>
         </Dropdown>
       ),
-    },
+    }, */
   ];
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {

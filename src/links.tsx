@@ -68,6 +68,16 @@ function LinksPage(): ReactElement {
               SMS Settings
             </Link>
           </li>
+          <li>
+            <Link to="/ShopSettings" className="">
+              Shop Settings
+            </Link>
+          </li>
+          <li>
+            <Link to="/ProductSettings" className="">
+              Product Settings
+            </Link>
+          </li>
         </ul>
       </div>
     </Layout>

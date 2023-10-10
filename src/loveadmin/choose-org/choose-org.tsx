@@ -11,6 +11,8 @@ import {
 import LoveAdminHeader from "../../components/header";
 import TableTitle from "../../components/table-title";
 import { Link } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { Motion } from "../../components/framer-motion-custom";
 const { Content } = Layout;
 const { Option } = Select;
 
@@ -143,23 +145,32 @@ const ChooseOrg = () => {
             </div>
           </div>
           <div className="mb-6">
-            {isGridView ? (
-              <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(16rem,1fr))]">
-                {filteredOrganisations.map((org, index) => (
-                  <ChooseOrgCard key={index} {...org} />
-                ))}
-              </div>
-            ) : (
-              <Table
-                size="small"
-                pagination={false}
-                dataSource={filteredOrganisations}
-                columns={columns}
-                rowKey="title"
-              />
-            )}
+            <AnimatePresence>
+              {isGridView && (
+                <Motion animation="heightInOut" overflowHidden={false}>
+                  <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(16rem,1fr))]">
+                    {filteredOrganisations.map((org, index) => (
+                      <ChooseOrgCard key={index} {...org} />
+                    ))}
+                  </div>
+                </Motion>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {!isGridView && (
+                <Motion animation="heightInOut" overflowHidden={false}>
+                  <Table
+                    size="small"
+                    pagination={false}
+                    dataSource={filteredOrganisations}
+                    columns={columns}
+                    rowKey="title"
+                  />
+                </Motion>
+              )}
+            </AnimatePresence>
           </div>
-          <footer className="fixed gap-2 bottom-0 justify-center flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 left-0">
+          <footer className="h-14 fixed gap-2 bottom-0 justify-center flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 left-0">
             <Segmented
               options={[
                 {

@@ -216,8 +216,8 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
             onClick={toggleCollapsed}
             style={{
               right: collapsed
-                ? `calc(8px + ${scrollbarWidth}px)`
-                : `calc(328px + ${scrollbarWidth}px)`,
+                ? `calc(var(--scrollbar-width) - 0.5rem)`
+                : `calc(340px - var(--scrollbar-width) + 0.25rem)`,
             }}
             className="fixed z-20 w-6 h-6 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md top-1/2"
           >

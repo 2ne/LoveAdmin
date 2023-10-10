@@ -2,6 +2,8 @@ import { ReactElement, useState, FC } from "react";
 import { Button, Input, Select, Switch } from "antd";
 import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import React from "react";
+import { AnimatePresence } from "framer-motion";
+import { Motion } from "./framer-motion-custom";
 
 interface TableFilterBarProps {
   isActive: boolean;
@@ -192,103 +194,111 @@ export const TableFilterBar: FC<TableFilterBarProps> = ({
       : "text-neutral-400 hover:bg-neutral-50";
 
   return (
-    <div
-      className={`overflow-x-auto items-center h-10 px-1 mb-4 rounded shadow-sm ring-1 ring-neutral-900 ring-opacity-10 bg-white ${
-        isActive ? "flex" : "hidden"
-      }`}
-    >
-      <Select
-        bordered={false}
-        className={selectCustomClasses + " min-w-[7.5rem] "}
-        placeholder="All schedules"
-        onChange={handleScheduleChange}
-        mode="multiple"
-        filterOption={false}
-        value={selectedScheduleItems}
-        maxTagCount={1}
-        removeIcon={null}
-        showSearch={false}
-        popupMatchSelectWidth={false}
-        rootClassName={
-          selectedScheduleItems.length > 1 ? "ant-select-active" : ""
-        }
-        maxTagPlaceholder={renderScheduleMaxTagPlaceholder}
-        options={filteredScheduleOptions}
-        dropdownRender={(menu) => (
-          <>
-            <div className="p-2">
-              <Input
-                bordered={false}
-                className="bg-neutral-100"
-                placeholder="Search schedules..."
-                prefix={<SearchOutlined className="mr-1" />}
-                value={filterScheduleText}
-                onChange={(e) => setFilterScheduleText(e.target.value)}
-              />
+    <AnimatePresence>
+      {isActive && (
+        <Motion animation="heightInOut">
+          <div className="flex items-center h-10 px-1 mb-4 overflow-x-auto bg-white rounded shadow-sm ring-inset ring-1 ring-neutral-900 ring-opacity-10">
+            <Select
+              bordered={false}
+              className={selectCustomClasses + " min-w-[7.5rem] "}
+              placeholder="All schedules"
+              onChange={handleScheduleChange}
+              mode="multiple"
+              filterOption={false}
+              value={selectedScheduleItems}
+              maxTagCount={1}
+              removeIcon={null}
+              showSearch={false}
+              popupMatchSelectWidth={false}
+              rootClassName={
+                (selectedScheduleItems.length > 1 ? "ant-select-active" : "") +
+                " ant-select-dropdown-custom "
+              }
+              maxTagPlaceholder={renderScheduleMaxTagPlaceholder}
+              options={filteredScheduleOptions}
+              dropdownRender={(menu) => (
+                <>
+                  <div className="p-2">
+                    <Input
+                      bordered={false}
+                      className="bg-neutral-100"
+                      placeholder="Search schedules..."
+                      prefix={<SearchOutlined className="mr-1" />}
+                      value={filterScheduleText}
+                      onChange={(e) => setFilterScheduleText(e.target.value)}
+                    />
+                  </div>
+                  <div className="[&_.rc-virtual-list-holder]:p-2 [&_.rc-virtual-list-holder]:pt-0">
+                    {menu}
+                  </div>
+                </>
+              )}
+            />
+            <Select
+              bordered={false}
+              className={selectCustomClasses + " min-w-[8rem] "}
+              placeholder="All addressess"
+              onChange={handleAddressChange}
+              mode="multiple"
+              filterOption={false}
+              value={selectedAddressItems}
+              maxTagCount={1}
+              removeIcon={null}
+              showSearch={false}
+              popupMatchSelectWidth={false}
+              rootClassName={
+                (selectedScheduleItems.length > 1 ? "ant-select-active" : "") +
+                " ant-select-dropdown-custom "
+              }
+              maxTagPlaceholder={renderAddressMaxTagPlaceholder}
+              options={filteredAddressOptions}
+              dropdownRender={(menu) => (
+                <>
+                  <div className="p-2">
+                    <Input
+                      bordered={false}
+                      className="bg-neutral-100"
+                      placeholder="Search addresses..."
+                      prefix={<SearchOutlined className="mr-1" />}
+                      value={filterAddressText}
+                      onChange={(e) => setFilterAddressText(e.target.value)}
+                    />
+                  </div>
+                  <div className="[&_.rc-virtual-list-holder]:p-2 [&_.rc-virtual-list-holder]:pt-0">
+                    {menu}
+                  </div>
+                </>
+              )}
+            />
+            <div className="ml-auto">
+              <div className="flex items-center text-sm">
+                <Switch
+                  size="small"
+                  checked={onCancelledChecked}
+                  onChange={onShowCancelledChange}
+                />
+                <span
+                  onClick={toggleOnCancelled}
+                  className="pl-2 cursor-pointer select-none whitespace-nowrap"
+                >
+                  Show cancelled
+                </span>
+              </div>
             </div>
-            {menu}
-          </>
-        )}
-      />
-      <Select
-        bordered={false}
-        className={selectCustomClasses + " min-w-[8rem] "}
-        placeholder="All addressess"
-        onChange={handleAddressChange}
-        mode="multiple"
-        filterOption={false}
-        value={selectedAddressItems}
-        maxTagCount={1}
-        removeIcon={null}
-        showSearch={false}
-        popupMatchSelectWidth={false}
-        rootClassName={
-          selectedAddressItems.length > 1 ? "ant-select-active" : ""
-        }
-        maxTagPlaceholder={renderAddressMaxTagPlaceholder}
-        options={filteredAddressOptions}
-        dropdownRender={(menu) => (
-          <>
-            <div className="p-2">
-              <Input
-                bordered={false}
-                className="bg-neutral-100"
-                placeholder="Search addresses..."
-                prefix={<SearchOutlined className="mr-1" />}
-                value={filterAddressText}
-                onChange={(e) => setFilterAddressText(e.target.value)}
-              />
-            </div>
-            {menu}
-          </>
-        )}
-      />
-      <div className="ml-auto">
-        <div className="flex items-center text-sm">
-          <Switch
-            size="small"
-            checked={onCancelledChecked}
-            onChange={onShowCancelledChange}
-          />
-          <span
-            onClick={toggleOnCancelled}
-            className="pl-2 cursor-pointer select-none whitespace-nowrap"
-          >
-            Show cancelled
-          </span>
-        </div>
-      </div>
-      <Button
-        type="text"
-        className={
-          clearFilterButtonClass +
-          " bg-white/95 min-w-[5.75rem] ml-2 sticky -right-2 !px-2 "
-        }
-        onClick={clearFilters}
-      >
-        Clear filters
-      </Button>
-    </div>
+            <Button
+              type="text"
+              className={
+                clearFilterButtonClass +
+                " bg-white/95 min-w-[5.75rem] ml-2 sticky -right-2 !px-2 "
+              }
+              onClick={clearFilters}
+            >
+              Clear filters
+            </Button>
+          </div>
+        </Motion>
+      )}
+    </AnimatePresence>
   );
 };
 

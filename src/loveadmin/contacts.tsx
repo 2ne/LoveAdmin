@@ -28,6 +28,7 @@ import SMSModal from "./contact/sms-modal";
 import TableActions from "../components/table-actions";
 import LoveAdminHeader from "../components/header";
 import TableTitle from "../components/table-title";
+import Sidebar from "../components/sidebar";
 const { Sider, Content } = Layout;
 
 interface DataType {
@@ -205,26 +206,6 @@ const data = [
 function Contacts(): ReactElement {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1400) {
-        setCollapsed(true);
-      } else {
-        setCollapsed(false);
-      }
-    };
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -307,35 +288,9 @@ function Contacts(): ReactElement {
         }
       ></LoveAdminHeader>
       <Layout>
-        <Sider
-          width={280}
-          trigger={null}
-          collapsible
-          collapsedWidth={20}
-          collapsed={collapsed}
-          className="transition-all border-l-0 border-r border-solid border-y-0 border-neutral-200 bg-neutral-50"
-        >
-          <div
-            className={`transition-opacity ${
-              collapsed ? " opacity-0 pointer-events-none " : " contents "
-            }`}
-          >
-            <ProductTree showSegmented={true} />
-          </div>
-          <Button
-            shape="circle"
-            onClick={toggleCollapsed}
-            className={`fixed -translate-y-1/2 top-1/2 transition-all w-6 h-6 min-w-0 shadow-md ${
-              collapsed ? "left-[7px]" : "left-[268px]"
-            }`}
-          >
-            {collapsed ? (
-              <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-            ) : (
-              <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-            )}
-          </Button>
-        </Sider>
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed}>
+          <ProductTree showSegmented={true} />
+        </Sidebar>
         <Content className="pb-16 bg-white">
           <div className="p-4">
             <div className="flex items-center gap-2 mt-0.5 mb-3">

@@ -11,13 +11,14 @@
   "dependencies": {
     "@ant-design/icons": "5.0.1",
     "@tailwindcss/container-queries": "^0.1.1",
-    "antd": "5.8.4",
+    "antd": "5.9.1",
     "classnames": "^2.3.2",
+    "framer-motion": "^10.16.4",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
-    "react-feather": "2.0.10",
-    "react-router-dom": "6.8.0",
-    "react-quill": "2.0.0"
+    "react-quill": "2.0.0",
+    "react-router-dom": "6.8.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.3",

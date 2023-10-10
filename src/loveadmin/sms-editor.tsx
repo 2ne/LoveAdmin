@@ -1,6 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Dropdown, Menu, Tooltip } from "antd";
-import { FileAddOutlined, PlusOutlined, InfoOutlined } from "@ant-design/icons";
+import {
+  FileAddOutlined,
+  PlusOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -279,8 +283,11 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
             <div className="flex items-center gap-1">
               <span className="text-neutral-500">Messages</span>
               <span className="tabular-nums">{messageCount}</span>
-              <Tooltip title="Placeholder use may extend SMS length, potentially dividing them into multiple messages.">
-                <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
+              <Tooltip
+                className="ml-1 text-neutral-500 hover:text-neutral-600"
+                title="Placeholder use may extend SMS length, potentially dividing them into multiple messages."
+              >
+                <InfoCircleOutlined />
               </Tooltip>
             </div>
           </div>
@@ -293,8 +300,8 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
               onClick={(e) => e.preventDefault()}
               className="px-0 text-neutral-900"
             >
-              <PlusOutlined className="mr-1.5 text-neutral-900" />
-              <span className="text-neutral-900">Placeholder</span>
+              <PlusOutlined className="mr-2 text-neutral-900" />
+              <span className="font-medium text-neutral-900">Placeholder</span>
             </a>
           </Dropdown>
         )}
@@ -305,7 +312,7 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
               className="px-0 text-neutral-900"
             >
               <FileAddOutlined className="mr-1.5 text-neutral-900" />
-              <span className="text-neutral-900">Templates</span>
+              <span className="font-medium text-neutral-900">Templates</span>
             </a>
           </Dropdown>
         )}

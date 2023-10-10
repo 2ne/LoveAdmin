@@ -15,7 +15,8 @@ import DateFilter from "../components/date-filter";
 import LoveAdminHeader from "../components/header";
 import TableTitle from "../components/table-title";
 import { TableFilterBar, TableFilterButton } from "../components/table-filters";
-const { Sider, Content } = Layout;
+import Sidebar from "../components/sidebar";
+const { Content } = Layout;
 
 interface DataType {
   key: React.Key;
@@ -51,6 +52,7 @@ const data = [
 function ProductSalesReport(): ReactElement {
   const [isActive, setIsActive] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   const showModal = () => {
     setVisible(true);
@@ -63,28 +65,6 @@ function ProductSalesReport(): ReactElement {
   const handleCancel = () => {
     setVisible(false);
   };
-
-  const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1400) {
-        setCollapsed(true);
-      } else {
-        setCollapsed(false);
-      }
-    };
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -185,35 +165,9 @@ function ProductSalesReport(): ReactElement {
         }
       ></LoveAdminHeader>
       <Layout>
-        <Sider
-          width={280}
-          trigger={null}
-          collapsible
-          collapsedWidth={20}
-          collapsed={collapsed}
-          className="transition-all border-l-0 border-r border-solid border-y-0 border-neutral-200 bg-neutral-50"
-        >
-          <div
-            className={`transition-opacity ${
-              collapsed ? " opacity-0 pointer-events-none " : " contents "
-            }`}
-          >
-            <ProductTree hideFilters={true} />
-          </div>
-          <Button
-            shape="circle"
-            onClick={toggleCollapsed}
-            className={`fixed -translate-y-1/2 top-1/2 transition-all w-6 h-6 min-w-0 shadow-md ${
-              collapsed ? "left-[7px]" : "left-[268px]"
-            }`}
-          >
-            {collapsed ? (
-              <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-            ) : (
-              <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-            )}
-          </Button>
-        </Sider>
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed}>
+          <ProductTree hideFilters={true} />
+        </Sidebar>
         <Content className="pb-16 bg-white">
           <div className="p-4">
             <div className="flex items-center mb-2.5">

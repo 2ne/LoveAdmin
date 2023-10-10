@@ -16,7 +16,7 @@ const LoveAdminHeader: React.FC<LoveAdminHeaderProps> = ({
 }) => {
   return (
     <Header
-      className={`flex items-center px-6 border-none shadow-none bg-neutral-800 ${className}`}
+      className={`h-16 leading-[4rem] flex items-center px-6 border-none shadow-none bg-neutral-800 ${className}`}
     >
       {!hideMenuButton && (
         <Button

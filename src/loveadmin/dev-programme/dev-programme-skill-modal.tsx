@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import {
   ArrowRightOutlined,
   CheckCircleFilled,
-  CheckCircleOutlined,
   CloseCircleFilled,
-  CloseCircleOutlined,
   CreditCardOutlined,
   DownOutlined,
-  DownloadOutlined,
   MailOutlined,
-  MinusCircleOutlined,
+  MinusCircleFilled,
   PlayCircleFilled,
-  PlayCircleOutlined,
   PlusOutlined,
   StarFilled,
-  StarOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -27,18 +22,20 @@ import {
   Space,
   Dropdown,
   Menu,
-  Popover,
+  notification,
+  message,
 } from "antd";
 import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
-import { DevProgrammeDataType as ImportedDevProgrammeDataType } from "./dev-programme";
+import { DevProgrammeSkillsDataType as ImportedDevProgrammeDataType } from "./dev-programme";
+import TableActions from "../../components/table-actions";
 const { Content } = Layout;
 const { Title } = Typography;
 
-interface DevProgrammeParticipantsModalProps {
+interface DevProgrammeSkillModalProps {
   visible: boolean;
   handleOk: () => void;
   handleCancel: () => void;
-  rowData: ImportedDevProgrammeDataType;
+  rowData: ImportedDevProgrammeDataType | null;
 }
 
 interface DevProgrammeDataType {
@@ -131,9 +128,12 @@ const dataToProgressStatus = (
   return progressStatus;
 };
 
-const DevProgrammeParticipantsModal: React.FC<
-  DevProgrammeParticipantsModalProps
-> = ({ visible, handleOk, handleCancel, rowData }) => {
+const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
+  visible,
+  handleOk,
+  handleCancel,
+  rowData,
+}) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [progressStatus, setProgressStatus] = useState<
     Record<string, string | null>
@@ -161,15 +161,6 @@ const DevProgrammeParticipantsModal: React.FC<
       title: "Progress",
       dataIndex: "progress",
       key: "progress",
-      filters: [
-        { text: "Not achieved", value: "notAchieved" },
-        { text: "Working on", value: "workingOn" },
-        { text: "Completed", value: "completed" },
-        { text: "Achieved", value: "achieved" },
-        { text: "Not started", value: "notStarted" },
-      ],
-      onFilter: (value, record) =>
-        record.progress.indexOf(value as string) === 0,
       sorter: (a, b) => {
         const sortOrder: { [key: string]: number } = {
           notAchieved: 0,
@@ -181,6 +172,7 @@ const DevProgrammeParticipantsModal: React.FC<
 
         return sortOrder[a.progress] - sortOrder[b.progress];
       },
+      defaultSortOrder: "ascend",
       render: (_, record) => (
         <div>
           <Radio.Group
@@ -230,11 +222,6 @@ const DevProgrammeParticipantsModal: React.FC<
     },
   ];
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-
   const rowSelection: TableRowSelection<DevProgrammeDataType> = {
     selectedRowKeys,
     onChange: (selectedRowKeys) => {
@@ -242,24 +229,113 @@ const DevProgrammeParticipantsModal: React.FC<
     },
   };
 
-  const removeAllSelected = () => {
+  type NotificationOptions = {
+    rowKeys: React.Key[];
+    itemName: string;
+    action: string;
+  };
+
+  const openNotification = (options: NotificationOptions) => {
+    const { rowKeys, itemName, action } = options;
+    const rowKeysCount = rowKeys.length;
+    let icon;
+
+    switch (action) {
+      case "marked as achieved":
+        icon = <StarFilled className="mt-px text-lg text-yellow-500 w-7" />;
+        break;
+      case "marked as not achieved":
+        icon = (
+          <CloseCircleFilled className="mt-px text-lg w-7 text-danger-500" />
+        );
+        break;
+      case "marked as working on":
+        icon = (
+          <PlayCircleFilled className="mt-px text-lg w-7 text-primary-500" />
+        );
+        break;
+      case "marked as completed":
+        icon = (
+          <CheckCircleFilled className="mt-px text-lg w-7 text-success-500" />
+        );
+        break;
+      case "marked as not started":
+        icon = (
+          <MinusCircleFilled className="mt-px text-lg w-7 text-neutral-400" />
+        );
+        break;
+      default:
+        icon = (
+          <MinusCircleFilled className="mt-px text-lg w-7 text-neutral-400" />
+        );
+    }
+
+    notification.open({
+      message: (
+        <div className="flex items-center">
+          {icon}
+          <div className="first-letter:uppercase">
+            {rowKeysCount === 1 ? itemName : `${itemName}s`} updated
+          </div>
+        </div>
+      ),
+      description: (
+        <div className="ml-7">
+          <span className="text-neutral-700">
+            {`${rowKeysCount} ${itemName}${
+              rowKeysCount === 1 ? "" : "s"
+            } ${action}`}
+          </span>
+          <Button
+            type="link"
+            size="small"
+            className="absolute mt-px top-4 right-14 bg-neutral-100 text-neutral-900"
+            onClick={closeNotificationAndToastMessage}
+          >
+            Undo
+          </Button>
+        </div>
+      ),
+      placement: "top",
+    });
+  };
+
+  const closeNotificationAndToastMessage = () => {
+    notification.destroy();
+    message.success("Action undone");
+  };
+
+  const handleAction = (
+    rowKeys: React.Key[],
+    action: string,
+    itemName: string
+  ) => {
+    openNotification({
+      rowKeys,
+      itemName,
+      action,
+    });
     setSelectedRowKeys([]);
   };
 
   const notAchieved = () => {
-    setSelectedRowKeys([]);
+    handleAction(selectedRowKeys, "marked as not achieved", "participant");
   };
+
   const workingOn = () => {
-    setSelectedRowKeys([]);
+    handleAction(selectedRowKeys, "marked as working on", "participant");
   };
+
   const completed = () => {
-    setSelectedRowKeys([]);
+    handleAction(selectedRowKeys, "marked as completed", "participant");
   };
+
   const achieved = () => {
-    setSelectedRowKeys([]);
+    handleAction(selectedRowKeys, "marked as achieved", "participant");
   };
+
   const notStarted = () => {
-    setSelectedRowKeys([]);
+    handleAction(selectedRowKeys, "marked as not started", "participant");
   };
 
   const PopoverContent = () => (
@@ -288,20 +364,18 @@ const DevProgrammeParticipantsModal: React.FC<
       title={
         <Title level={5}>
           <div className="flex items-center gap-2 mb-0.5">
-            <Tooltip title={`Level ${rowData.level} · ${rowData.skill}`}>
-              <div className="inline-flex min-w-0 max-w-[calc(100%-9rem)]">
-                <div className="whitespace-nowrap">Level {rowData.level}</div>
-                <div className="mx-1.5">·</div>
-                <div className="truncate">{rowData.skill}</div>
-              </div>
-            </Tooltip>
-            <div className="whitespace-nowrap relative top-px inline-flex items-center gap-1.5 px-2 py-0.5 text-xs rounded-full bg-primary-100/50">
-              <div className="p-px w-1.5 h-1.5 rounded-full bg-primary-500"></div>
-              <div className="py-px text-primary-600">Progress 80%</div>
-            </div>
+            {rowData !== null && (
+              <Tooltip title={`Level ${rowData.level} · ${rowData.skill}`}>
+                <div className="inline-flex min-w-0 max-w-[calc(100%-9rem)]">
+                  <div className="whitespace-nowrap">Level {rowData.level}</div>
+                  <div className="mx-1.5">·</div>
+                  <div className="truncate">{rowData.skill}</div>
+                </div>
+              </Tooltip>
+            )}
           </div>
           <div className="text-sm font-normal text-subtitle">
-            Select participants and set their progress for this skill...
+            Select participants and mark their progress for this skill...
           </div>
         </Title>
       }
@@ -310,23 +384,18 @@ const DevProgrammeParticipantsModal: React.FC<
       onCancel={handleCancel}
       centered
       footer={false}
+      destroyOnClose={true}
       className="w-full max-w-[49rem]"
     >
       <div>
         <Content className="pb-2 bg-white">
           <div className="relative">
-            <div
-              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-6 transition-all pr-4 pl-4 z-20 flex items-center -mb-[38px] " ${
-                selectedRowKeys.length > 0
-                  ? " opacity-100 "
-                  : " opacity-0 pointer-events-none "
-              }`}
-            >
-              <div className="font-medium whitespace-nowrap">
+            <TableActions isVisible={selectedRowKeys.length > 0}>
+              <div className="font-medium whitespace-nowrap -ml-0.5">
                 {selectedRowKeys.length} selected
               </div>
-              <div className="mx-3 text-subtitle">|</div>
-              <div className="flex items-center gap-3.5">
+              <div className="text-subtitle">|</div>
+              <div className="flex items-center gap-4 mr-2">
                 <Button
                   size="small"
                   type="text"
@@ -334,7 +403,7 @@ const DevProgrammeParticipantsModal: React.FC<
                   onClick={notAchieved}
                 >
                   <div className="flex items-center gap-1.5">
-                    <CloseCircleOutlined />
+                    <CloseCircleFilled className="text-danger-500" />
                     <span>Not achieved</span>
                   </div>
                 </Button>
@@ -345,7 +414,7 @@ const DevProgrammeParticipantsModal: React.FC<
                   onClick={workingOn}
                 >
                   <div className="flex items-center gap-1.5">
-                    <PlayCircleOutlined />
+                    <PlayCircleFilled className="text-primary-500" />
                     <span>Working on</span>
                   </div>
                 </Button>
@@ -356,7 +425,7 @@ const DevProgrammeParticipantsModal: React.FC<
                   onClick={completed}
                 >
                   <div className="flex items-center gap-1.5">
-                    <CheckCircleOutlined />
+                    <CheckCircleFilled className="text-success-500" />
                     <span>Completed</span>
                   </div>
                 </Button>
@@ -367,7 +436,7 @@ const DevProgrammeParticipantsModal: React.FC<
                   onClick={achieved}
                 >
                   <div className="flex items-center gap-1.5">
-                    <StarOutlined />
+                    <StarFilled className="text-yellow-500" />
                     <span>Achieved</span>
                   </div>
                 </Button>
@@ -378,7 +447,7 @@ const DevProgrammeParticipantsModal: React.FC<
                   onClick={notStarted}
                 >
                   <div className="flex items-center gap-1.5">
-                    <MinusCircleOutlined />
+                    <MinusCircleFilled className="text-neutral-400" />
                     <span>Not started</span>
                   </div>
                 </Button>
@@ -418,35 +487,15 @@ const DevProgrammeParticipantsModal: React.FC<
                   </a>
                 </Dropdown>
               </div>
-            </div>
+            </TableActions>
             <Table
               rowSelection={rowSelection}
               size="small"
               columns={columns}
               dataSource={data}
               pagination={false}
-              className="ant-table-sticky ant-table-modal-scroll-y"
+              className="ant-table-sticky ant-table-modal-scroll-y ant-table-bg-reset"
               scroll={{ y: 0 }}
-              footer={() => (
-                <div className="flex items-center justify-between">
-                  <Popover
-                    content={<PopoverContent />}
-                    trigger="click"
-                    placement="topLeft"
-                  >
-                    <Button size="small">Key</Button>
-                  </Popover>
-                  <div className="flex gap-1.5">
-                    <Button size="small">Edit columns</Button>
-                    <Button
-                      size="small"
-                      icon={<DownloadOutlined className="-mr-0.5" />}
-                    >
-                      Export
-                    </Button>
-                  </div>
-                </div>
-              )}
             />
           </div>
         </Content>
@@ -455,4 +504,4 @@ const DevProgrammeParticipantsModal: React.FC<
   );
 };
 
-export default DevProgrammeParticipantsModal;
+export default DevProgrammeSkillModal;

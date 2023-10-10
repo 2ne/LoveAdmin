@@ -33,6 +33,10 @@ h5.ant-typography {
   @apply font-medium;
 }
 
+p {
+  @apply text-sm text-neutral-700;
+}
+
 a,
 a.ant-typography,
 .ant-typography a,
@@ -58,8 +62,24 @@ table tbody .ant-btn-link {
   @apply -ml-px;
 }
 
+.ant-input-data-count {
+  @apply text-xs !-bottom-5;
+}
+
+.ant-form .ant-form-item-label {
+  @apply font-medium;
+}
+
+.ant-form-horizontal .ant-form-item-control {
+  @apply flex items-end;
+}
+
+.ant-form-horizontal .ant-form-item .ant-form-item-label > label:after {
+  @apply hidden;
+}
+
 .ant-form-vertical .ant-form-item-label {
-  @apply pb-1 font-medium;
+  @apply pb-1;
 }
 
 .ant-form-vertical .ant-form-item-label > label::after {
@@ -80,6 +100,18 @@ table tbody .ant-btn-link {
 
 .ant-form-vertical .ant-form-item {
   @apply mb-6;
+}
+
+.ant-form-vertical .ant-form-item-switch .ant-row {
+  @apply flex-row-reverse items-center gap-2;
+}
+
+.ant-form-vertical .ant-form-item-switch .ant-col:nth-child(1) {
+  @apply flex-grow p-0 mt-px;
+}
+
+.ant-form-vertical .ant-form-item-switch .ant-col:nth-child(2) {
+  @apply w-auto flex-grow-0;
 }
 
 .ant-modal .ant-modal-header {
@@ -119,24 +151,28 @@ table tbody .ant-btn-link {
   @apply mx-1.5;
 }
 
-.ant-select-dropdown {
-  @apply p-0;
-}
-
-.ant-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled, .ant-select-item-option-selected) {
-  @apply bg-transparent hover:bg-neutral-100;
-}
-
 .ant-select-dropdown .rc-virtual-list-holder {
-  @apply p-2 pt-0 !max-h-[calc(95vh-12rem)];
+  @apply !max-h-[calc(95vh-12rem)];
 }
 
 .ant-select-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
   @apply font-medium;
 }
 
-.ant-select-dropdown .ant-select-item-option-state {
+.ant-select-dropdown-custom {
+  @apply p-0;
+}
+
+.ant-select-dropdown-custom .ant-select-item-option-active:not(.ant-select-item-option-disabled, .ant-select-item-option-selected) {
+  @apply bg-transparent hover:bg-neutral-100;
+}
+
+.ant-select-dropdown-custom .ant-select-item-option-state {
   @apply ml-2;
+}
+
+.ant-select-tree-switcher-icon {
+  @apply relative -top-[3px];
 }
 
 .ant-tabs .ant-tabs-tab {
@@ -173,6 +209,10 @@ table tbody .ant-btn-link {
 
 .ant-modal-fullscreen .ant-modal .ant-modal-content {
   @apply !rounded-none !shadow-none !p-0;
+}
+
+.ant-segmented .ant-segmented-item-selected {
+  @apply shadow;
 }
 
 .ant-select-float * {
@@ -214,6 +254,10 @@ table tbody .ant-btn-link {
   @apply bg-white !important;
 }
 
+.ant-table-bg-reset tr.ant-table-row-selected td {
+  @apply bg-primary-50 !important;
+}
+
 .ant-table-bg-reset tr.ant-table-expanded-row > td {
   @apply bg-neutral-50 pb-8 !important;
 }
@@ -235,22 +279,26 @@ table tbody .ant-btn-link {
 }
 
 .scrollbar-thin-y::-webkit-scrollbar,
-.rc-virtual-list-holder::-webkit-scrollbar {
+.rc-virtual-list-holder::-webkit-scrollbar,
+.ant-select-tree-list-holder::-webkit-scrollbar {
   @apply w-[5px] cursor-pointer;
 }
 
 .scrollbar-thin-y::-webkit-scrollbar-track,
-.rc-virtual-list-holder::-webkit-scrollbar-track {
+.rc-virtual-list-holder::-webkit-scrollbar-track,
+.ant-select-tree-list-holder::-webkit-scrollbar-track {
   -webkit-box-shadow: none;
 }
 
 .scrollbar-thin-y::-webkit-scrollbar-thumb,
-.rc-virtual-list-holder::-webkit-scrollbar-thumb {
+.rc-virtual-list-holder::-webkit-scrollbar-thumb,
+.ant-select-tree-list-holder::-webkit-scrollbar-thumb {
   @apply w-[5px] bg-neutral-300;
 }
 
 .scrollbar-thin-y::-webkit-scrollbar-thumb:hover,
-.rc-virtual-list-holder::-webkit-scrollbar-thumb:hover {
+.rc-virtual-list-holder::-webkit-scrollbar-thumb:hover,
+.ant-select-tree-list-holder::-webkit-scrollbar-thumb:hover {
   @apply bg-neutral-400;
 }
 
@@ -302,6 +350,14 @@ table tbody .ant-btn-link {
   box-shadow: 0 0 0 1px theme("colors.primary.500"), 0 0 0 3px rgba(5, 255, 255, 0.1);
 }
 
+.ant-tree-select-dropdown {
+  @apply p-0;
+}
+
+.ant-select-tree-list-holder {
+  @apply p-2;
+}
+
 .ant-tree-checkbox.ant-tree-checkbox-disabled {
   @apply hidden;
 }
@@ -322,13 +378,22 @@ table tbody .ant-btn-link {
   @apply pointer-events-none;
 }
 
+.ant-tooltip .ant-tooltip-inner {
+  @apply text-sm pb-2 px-3;
+}
+
 .ant-alert .ant-alert-icon {
   @apply mr-2.5;
 }
 
 .dim {
-  @apply brightness-90;
-  filter: brightness(0.9);
+  @apply brightness-[0.85];
+  filter: brightness(0.85);
+}
+
+.dim-body > div > *:not(.ant-popover) {
+  @apply brightness-[0.85];
+  filter: brightness(0.85);
 }
 
 .ant-message .ant-message-notice .ant-message-success > .anticon {

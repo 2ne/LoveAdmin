@@ -12,6 +12,7 @@ import CustomSMSEditor from "../sms-editor";
 import {
   CheckCircleFilled,
   InfoCircleFilled,
+  InfoCircleOutlined,
   InfoOutlined,
   WarningFilled,
 } from "@ant-design/icons";
@@ -29,6 +30,11 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
   const [step2, setStep2] = useState(false);
   const [insufficientCredits, setInsufficientCredits] = useState(false);
   const [popConfirmVisible, setPopConfirmVisible] = useState(false);
+  const [isMarketing, setIsMarketing] = useState(false);
+
+  const toggleMarketing = () => {
+    setIsMarketing(!isMarketing);
+  };
 
   const handleCharCountChange = (count: number) => {
     setCharCount(count);
@@ -79,7 +85,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
             <div>
               <span>Send SMS</span>
             </div>
-            <div className="mt-0.5 font-normal text-subtitle">
+            <div className="mt-0.5 text-subtitle">
               {step1 && !step2 && (
                 <>
                   <span>Step 1 of 2</span>
@@ -189,13 +195,19 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
               </div>
             </div>
             <div className="flex items-center">
-              <Switch size="small"></Switch>
+              <Switch size="small" checked={isMarketing}></Switch>
               <div className="flex items-center cursor-default">
-                <div className="ml-2 mr-1">
+                <div
+                  className="ml-2 mr-1.5 font-medium cursor-pointer"
+                  onClick={toggleMarketing}
+                >
                   Marketing or promotional message
                 </div>
-                <Tooltip title="To follow privacy rules, turn this option on when sending special offers or promotional messages. This way, you'll only message people who've opted in.">
-                  <InfoOutlined className="text-neutral-600 ml-0.5 w-3.5 h-3.5 text-center rounded-full bg-neutral-200 text-[8px] flex justify-center relative top-px" />
+                <Tooltip
+                  className="mt-px text-neutral-400 hover:text-neutral-500"
+                  title="To follow privacy rules, turn this option on when sending special offers or promotional messages. This way, you'll only message people who've opted in."
+                >
+                  <InfoCircleOutlined />
                 </Tooltip>
               </div>
             </div>

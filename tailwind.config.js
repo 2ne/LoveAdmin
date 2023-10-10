@@ -6,7 +6,7 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      black: "#18181b",
+      black: "#000",
       white: "#fff",
       //primary colours
       primary: colors.cyan,
@@ -29,10 +29,19 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
     },
+    transitionDuration: {
+      DEFAULT: "200ms", // to match ant design defaults
+    },
+    transitionTimingFunction: {
+      DEFAULT: "cubic-bezier(0.645, 0.045, 0.355, 1)", // to match ant design defaults
+    },
     extend: {
       fontFamily: {
         display: ["'CircularStd'", "sans-serif"],
         body: ["'Barlow'", "sans-serif"],
+        shop: [
+          "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+        ],
       },
       colors: {
         title: colors.zinc["900"],

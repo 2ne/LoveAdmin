@@ -67,7 +67,7 @@ function InviteCreateAccount(): ReactElement {
               </Checkbox>
             </Form.Item>
             <Form.Item name="acceptMarketing" valuePropName="checked">
-              <Checkbox>I'd like to receive updates</Checkbox>
+              <Checkbox>I'd like to receive updates from JoinIn</Checkbox>
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block>

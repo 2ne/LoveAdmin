@@ -12,6 +12,8 @@ import Contacts from "./loveadmin/contacts";
 import DevProgrammeModal from "./loveadmin/dev-programme/dev-programme";
 import SMSMessagingLayout from "./loveadmin/settings/sms-messaging/layout";
 import ChooseOrg from "./loveadmin/choose-org/choose-org";
+import ShopSettings from "./loveadmin/shop-settings/shop-settings";
+import ProductSettings from "./loveadmin/product-settings/product-settings";
 
 function App(): ReactElement {
   return (
@@ -19,6 +21,8 @@ function App(): ReactElement {
       <Routes>
         <Route path="/ChooseOrg" element={<ChooseOrg />} />
         <Route path="/SMSSettings" element={<SMSMessagingLayout />} />
+        <Route path="/ShopSettings" element={<ShopSettings />} />
+        <Route path="/ProductSettings" element={<ProductSettings />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Contacts" element={<Contacts />} />
         <Route path="/ProductSalesReport" element={<ProductSalesReport />} />

@@ -24,7 +24,6 @@ import {
   Space,
 } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
-import { StopCircle } from "react-feather";
 const { Content } = Layout;
 const { Title } = Typography;
 const { RangePicker } = DatePicker;

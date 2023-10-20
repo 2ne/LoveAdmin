@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import {
   CheckCircleFilled,
+  CheckSquareOutlined,
+  ClockCircleOutlined,
   CloseCircleFilled,
   CreditCardOutlined,
   DeleteOutlined,
@@ -13,9 +15,9 @@ import {
   SettingOutlined,
   ShoppingCartOutlined,
   StarFilled,
+  TeamOutlined,
   UserOutlined,
   UsergroupAddOutlined,
-  WarningFilled,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -27,7 +29,7 @@ import {
   Segmented,
   Popover,
   message,
-  Progress,
+  Select,
   Dropdown,
   Menu,
   Space,
@@ -38,8 +40,11 @@ import DevProgrammeSkillModal from "./dev-programme-skill-modal";
 import TableActions from "../../components/table-actions";
 import DevProgrammeParticipantModal from "./dev-programme-participant-modal";
 import ManageLevelsModal from "./manage-levels-modal";
+import { Achieved, Completed, NotAchieved, WorkingOn } from "./icons";
+import Tag from "../../components/tag";
 const { Content } = Layout;
 const { Title, Text } = Typography;
+const { Option } = Select;
 
 export interface DevProgrammeSkillsDataType {
   key: React.Key;
@@ -61,9 +66,12 @@ export interface DevProgrammeParticipantsDataType {
   completed: number;
   achieved: number;
   notStarted: number;
+  levelCompleted?: boolean;
 }
 
 const DevProgrammeModal: React.FC = () => {
+  const [selectedSkillState, setSelectedSkillState] = useState("achieved");
+
   const [segmentValue, setSegmentValue] = useState<string | number>(
     "Participants"
   );
@@ -80,7 +88,47 @@ const DevProgrammeModal: React.FC = () => {
   >([]);
   const [selectedLevel, setSelectedLevel] = useState("Level 1");
 
-  const options = ["Level 1", "Level 2"];
+  const options = [
+    {
+      label: (
+        <div className="flex items-center justify-center gap-1.5">
+          <div>Level 1</div>
+          <div className="text-subtitle">·</div>
+          <div className="flex items-center gap-1">
+            <TeamOutlined className="text-xs text-neutral-600" />
+            <div className="text-neutral-600">10</div>
+          </div>
+        </div>
+      ),
+      value: "Level 1",
+    },
+    {
+      label: (
+        <div className="flex items-center justify-center gap-1.5">
+          <div>Level 2</div>
+          <div className="text-subtitle">·</div>
+          <div className="flex items-center gap-1">
+            <TeamOutlined className="text-xs text-neutral-600" />
+            <div className="text-neutral-600">4</div>
+          </div>
+        </div>
+      ),
+      value: "Level 2",
+    },
+    {
+      label: (
+        <div className="flex items-center justify-center gap-1.5">
+          <div className="text-danger-500">Unassigned</div>
+          <div className="text-danger-400">·</div>
+          <div className="flex items-center gap-1">
+            <TeamOutlined className="text-xs text-danger-500" />
+            <div className="text-danger-500">6</div>
+          </div>
+        </div>
+      ),
+      value: "Unassigned",
+    },
+  ];
 
   const handleChange = (selected: any) => {
     setSelectedLevel(selected);
@@ -294,58 +342,44 @@ const DevProgrammeModal: React.FC = () => {
       ellipsis: true,
     },
     {
-      title: "Participants",
-      render: () => <div>14</div>,
-      width: 180,
-    },
-    {
       title: "Progress",
-      render: (record) => (
-        <div className="flex items-center gap-3 max-w-[260px]">
-          <div className="flex flex-grow h-2 min-w-0 gap-px overflow-hidden rounded-full bg-neutral-100">
-            {record.notAchieved > 0 && (
-              <Tooltip title={<>Not achieved · {record.notAchieved}%</>}>
+      render: (record) => {
+        const totalParticpants = 10;
+        const achievedSkills = record.achieved;
+        const achievedPercentage = (achievedSkills / totalParticpants) * 100;
+
+        return (
+          <Tooltip
+            className="inline-flex items-center gap-3"
+            title={
+              achievedSkills === totalParticpants
+                ? "All participants have achieved this skill"
+                : `Achieved by ${achievedSkills} out of ${totalParticpants} participants`
+            }
+          >
+            <a
+              onClick={() => showSkillsModal(record)}
+              className="w-[260px] flex shrink-0 min-w-0 gap-px overflow-hidden rounded-full bg-neutral-200/75"
+            >
+              {achievedSkills > 0 ? (
                 <div
-                  className="h-full bg-danger-500"
-                  style={{ width: `${record.notAchieved}%` }}
-                ></div>
-              </Tooltip>
+                  className="flex items-center justify-center h-3.5 bg-yellow-400 rounded-full"
+                  style={{ width: `${achievedPercentage}%` }}
+                >
+                  <Achieved className="[&_path]:fill-white h-2.5 w-2.5" />
+                </div>
+              ) : (
+                <div className="h-3.5 rounded-full "></div>
+              )}
+            </a>
+            {achievedSkills > 0 && (
+              <div className="-ml-0.5">
+                {achievedSkills}/{totalParticpants}
+              </div>
             )}
-            {record.workingOn > 0 && (
-              <Tooltip title={<>Working on · {record.workingOn}%</>}>
-                <div
-                  className="h-full bg-primary-500"
-                  style={{ width: `${record.workingOn}%` }}
-                ></div>
-              </Tooltip>
-            )}
-            {record.completed > 0 && (
-              <Tooltip title={<>Completed · {record.completed}%</>}>
-                <div
-                  className="h-full bg-success-500"
-                  style={{ width: `${record.completed}%` }}
-                ></div>
-              </Tooltip>
-            )}
-            {record.achieved > 0 && (
-              <Tooltip title={<>Achieved · {record.achieved}%</>}>
-                <div
-                  className="h-full bg-yellow-400"
-                  style={{ width: `${record.achieved}%` }}
-                ></div>
-              </Tooltip>
-            )}
-            {record.notStarted > 0 && (
-              <Tooltip title={<>Not started · {record.notStarted}%</>}>
-                <div
-                  className="h-full bg-neutral-200"
-                  style={{ width: `${record.notStarted}%` }}
-                ></div>
-              </Tooltip>
-            )}
-          </div>
-        </div>
-      ),
+          </Tooltip>
+        );
+      },
     },
     {
       title: "",
@@ -374,126 +408,126 @@ const DevProgrammeModal: React.FC = () => {
       key: "1",
       skill: "Enter the water safely",
       level: 1,
-      notStarted: 10,
-      notAchieved: 5,
-      workingOn: 15,
-      completed: 30,
-      achieved: 40,
+      notStarted: 0,
+      notAchieved: 0,
+      workingOn: 0,
+      completed: 0,
+      achieved: 8,
     },
     {
       key: "2",
       skill:
         "Move forward for a distance of 5 metres, feet may be on or off the floor",
       level: 1,
-      notStarted: 30,
+      notStarted: 0,
       notAchieved: 0,
-      workingOn: 10,
-      completed: 30,
-      achieved: 30,
+      workingOn: 0,
+      completed: 0,
+      achieved: 8,
     },
     {
       key: "3",
       skill:
         "Move backwards for a distance of 5 metres, feet may be on or off the floor",
       level: 1,
-      notStarted: 40,
-      notAchieved: 20,
-      workingOn: 10,
-      completed: 15,
-      achieved: 15,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 0,
+      completed: 1,
+      achieved: 6,
     },
     {
       key: "4",
       skill:
         "Move sideways for a distance of 5 metres, feet may be on or off the floor",
       level: 1,
-      notStarted: 10,
+      notStarted: 1,
       notAchieved: 0,
-      workingOn: 10,
-      completed: 40,
-      achieved: 40,
+      workingOn: 2,
+      completed: 2,
+      achieved: 5,
     },
     {
       key: "5",
       skill: "Scoop the water and wash the face",
       level: 1,
-      notStarted: 60,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 10,
-      achieved: 10,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 1,
+      achieved: 4,
     },
     {
       key: "6",
       skill: "Be comfortable with water showered from overhead",
       level: 1,
-      notStarted: 70,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 5,
-      achieved: 5,
+      notStarted: 0,
+      notAchieved: 2,
+      workingOn: 2,
+      completed: 1,
+      achieved: 3,
     },
     {
       key: "7",
       skill:
         "Move from a flat floating position on the back and return to standing",
       level: 1,
-      notStarted: 30,
-      notAchieved: 20,
-      workingOn: 10,
-      completed: 20,
-      achieved: 20,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 4,
+      completed: 1,
+      achieved: 2,
     },
     {
       key: "8",
       skill:
         "Move from a flat floating position on the front and return to standing",
       level: 1,
-      notStarted: 30,
-      notAchieved: 20,
-      workingOn: 10,
-      completed: 20,
-      achieved: 20,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 4,
+      completed: 1,
+      achieved: 0,
     },
     {
       key: "9",
       skill: "Push and glide in a flat position on the front from a wall",
       level: 2,
-      notStarted: 70,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 5,
-      achieved: 5,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 6,
+      completed: 1,
+      achieved: 0,
     },
     {
       key: "10",
       skill: "Push and glide in a flat position on the back from a wall",
       level: 2,
-      notStarted: 30,
-      notAchieved: 20,
-      workingOn: 10,
-      completed: 20,
-      achieved: 20,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 6,
+      completed: 1,
+      achieved: 0,
     },
     {
       key: "11",
       skill: "Give examples of two pool rules",
       level: 2,
-      notStarted: 30,
-      notAchieved: 20,
-      workingOn: 10,
-      completed: 20,
-      achieved: 20,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 6,
+      completed: 1,
+      achieved: 0,
     },
     {
       key: "12",
       skill: "Exit the water safely",
       level: 2,
-      notStarted: 30,
-      notAchieved: 20,
-      workingOn: 10,
-      completed: 20,
-      achieved: 20,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 6,
+      completed: 1,
+      achieved: 0,
     },
   ];
 
@@ -606,6 +640,120 @@ const DevProgrammeModal: React.FC = () => {
     },
   ];
 
+  const getColumn = () => {
+    return {
+      title: (
+        <Select
+          value={selectedSkillState}
+          onChange={(value) => setSelectedSkillState(value)}
+          bordered={false}
+          popupMatchSelectWidth={false}
+          className="[&_.ant-select-selection-item]:!self-auto -my-4 -ml-2 relative top-1"
+        >
+          <Option value="notStarted">
+            <div className="flex items-center gap-1.5">
+              <div>*</div>
+              <div className="label">Not started</div>
+            </div>
+          </Option>
+          <Option value="notAchieved">
+            <div className="flex items-center gap-1.5">
+              <NotAchieved className="w-4 h-4 mt-px mr-1 rounded-full text-danger-500" />
+              <div className="label">Not achieved</div>
+            </div>
+          </Option>
+          <Option value="workingOn">
+            <div className="flex items-center gap-1.5">
+              <WorkingOn className="w-4 h-4 mt-px mr-1 rounded-full text-primary-500" />
+              <div className="label">Working on</div>
+            </div>
+          </Option>
+          <Option value="completed">
+            <div className="flex items-center gap-1.5">
+              <Completed className="w-4 h-4 mt-px mr-1 rounded-full" />
+              <div className="label">Completed</div>
+            </div>
+          </Option>
+          <Option value="achieved">
+            <div className="flex items-center gap-1.5">
+              <Achieved className="w-4 h-4 mr-1" />
+              <div className="label">Achieved</div>
+            </div>
+          </Option>
+        </Select>
+      ),
+      render: (record: any) => {
+        const totalSkills = 8;
+        const currentSkills = record[selectedSkillState];
+        const currentPercentage = (currentSkills / totalSkills) * 100;
+
+        let colour;
+        switch (selectedSkillState) {
+          case "achieved":
+            colour = "bg-yellow-400";
+            break;
+          case "workingOn":
+            colour = "bg-primary-500";
+            break;
+          case "completed":
+            colour = "bg-success-500";
+            break;
+          case "notStarted":
+            colour = "bg-neutral-300";
+            break;
+          case "notAchieved":
+            colour = "bg-danger-500";
+            break;
+          default:
+            colour = "bg-neutral-300";
+            break;
+        }
+
+        return (
+          <>
+            {!record.levelCompleted ? (
+              <Tooltip
+                className="flex w-full max-w-[15rem] items-center gap-3"
+                title={
+                  currentSkills === totalSkills
+                    ? "All skills achieved"
+                    : `Current: ${currentSkills} out of ${totalSkills} skills`
+                }
+              >
+                <a
+                  onClick={() => showParticipantsModal(record)}
+                  className="flex flex-grow min-w-0 gap-px overflow-hidden rounded-full bg-neutral-200/75"
+                >
+                  {currentSkills > 0 ? (
+                    <div
+                      className={`flex items-center justify-center h-3 ${colour} rounded-full`}
+                      style={{ width: `${currentPercentage}%` }}
+                    ></div>
+                  ) : (
+                    <div className="h-3.5 rounded-full "></div>
+                  )}
+                </a>
+
+                <div className="-ml-0.5">
+                  {currentSkills}/{totalSkills}
+                </div>
+              </Tooltip>
+            ) : (
+              <div className="flex items-center gap-1.5">
+                <Tooltip title="Level achieved · 6 out of 8 skills">
+                  <div className="flex items-center gap-1.5 leading-tight">
+                    <Achieved />
+                    <span className="font-medium">Level achieved · 6/8</span>
+                  </div>
+                </Tooltip>
+              </div>
+            )}
+          </>
+        );
+      },
+    };
+  };
+
   const participantColumns: TableColumnsType<DevProgrammeParticipantsDataType> =
     [
       {
@@ -620,55 +768,7 @@ const DevProgrammeModal: React.FC = () => {
         ),
         ellipsis: true,
       },
-      {
-        title: "Progress",
-        render: (record) => (
-          <div className="flex items-center gap-3 max-w-[260px]">
-            <div className="flex flex-grow h-2 min-w-0 gap-px overflow-hidden rounded-full bg-neutral-100">
-              {record.notAchieved > 0 && (
-                <Tooltip title={<>Not achieved · {record.notAchieved}%</>}>
-                  <div
-                    className="h-full bg-danger-500"
-                    style={{ width: `${record.notAchieved}%` }}
-                  ></div>
-                </Tooltip>
-              )}
-              {record.workingOn > 0 && (
-                <Tooltip title={<>Working on · {record.workingOn}%</>}>
-                  <div
-                    className="h-full bg-primary-500"
-                    style={{ width: `${record.workingOn}%` }}
-                  ></div>
-                </Tooltip>
-              )}
-              {record.completed > 0 && (
-                <Tooltip title={<>Completed · {record.completed}%</>}>
-                  <div
-                    className="h-full bg-success-500"
-                    style={{ width: `${record.completed}%` }}
-                  ></div>
-                </Tooltip>
-              )}
-              {record.achieved > 0 && (
-                <Tooltip title={<>Achieved · {record.achieved}%</>}>
-                  <div
-                    className="h-full bg-yellow-400"
-                    style={{ width: `${record.achieved}%` }}
-                  ></div>
-                </Tooltip>
-              )}
-              {record.notStarted > 0 && (
-                <Tooltip title={<>Not started · {record.notStarted}%</>}>
-                  <div
-                    className="h-full bg-neutral-200"
-                    style={{ width: `${record.notStarted}%` }}
-                  ></div>
-                </Tooltip>
-              )}
-            </div>
-          </div>
-        ),
-      },
+      getColumn(),
       {
         title: "",
         dataIndex: "",
@@ -696,141 +796,142 @@ const DevProgrammeModal: React.FC = () => {
       key: "1",
       participant: "James Toone",
       level: 1,
-      notStarted: 10,
-      notAchieved: 10,
-      workingOn: 20,
-      completed: 25,
-      achieved: 35,
+      notStarted: 0,
+      notAchieved: 0,
+      workingOn: 0,
+      completed: 0,
+      achieved: 8,
+      levelCompleted: true,
     },
     {
       key: "2",
       participant: "Sarah Johnson",
       level: 1,
-      notStarted: 20,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 20,
-      achieved: 40,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 0,
+      completed: 5,
+      achieved: 2,
     },
     {
       key: "3",
       participant: "Robert Smith",
       level: 1,
-      notStarted: 20,
-      notAchieved: 20,
-      workingOn: 10,
-      completed: 25,
-      achieved: 25,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 4,
+      achieved: 1,
     },
     {
       key: "4",
       participant: "Jessica Davis",
       level: 1,
-      notStarted: 10,
-      notAchieved: 5,
-      workingOn: 20,
-      completed: 30,
-      achieved: 35,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 2,
+      achieved: 3,
     },
     {
       key: "5",
       participant: "Michael Miller",
       level: 1,
-      notStarted: 40,
-      notAchieved: 10,
-      workingOn: 15,
-      completed: 20,
-      achieved: 15,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 1,
+      achieved: 4,
     },
     {
       key: "6",
       participant: "Emily Clark",
       level: 1,
-      notStarted: 30,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 25,
-      achieved: 25,
+      notStarted: 0,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 0,
+      achieved: 6,
     },
     {
       key: "7",
       participant: "John White",
       level: 1,
-      notStarted: 15,
-      notAchieved: 15,
-      workingOn: 10,
-      completed: 25,
-      achieved: 35,
+      notStarted: 0,
+      notAchieved: 0,
+      workingOn: 0,
+      completed: 0,
+      achieved: 8,
     },
     {
       key: "8",
       participant: "Emma Lewis",
       level: 1,
-      notStarted: 25,
-      notAchieved: 15,
-      workingOn: 15,
-      completed: 20,
-      achieved: 25,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 1,
+      achieved: 4,
     },
     {
       key: "9",
       participant: "William Green",
       level: 2,
-      notStarted: 50,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 15,
-      achieved: 15,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 4,
+      completed: 1,
+      achieved: 2,
     },
     {
       key: "10",
       participant: "Sophia Brown",
       level: 2,
-      notStarted: 25,
-      notAchieved: 15,
-      workingOn: 10,
-      completed: 25,
-      achieved: 25,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 1,
+      achieved: 4,
     },
     {
       key: "11",
       participant: "Jacob Black",
       level: 2,
-      notStarted: 20,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 30,
-      achieved: 30,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 1,
+      achieved: 4,
     },
     {
       key: "12",
       participant: "Olivia Taylor",
       level: 2,
-      notStarted: 25,
-      notAchieved: 15,
-      workingOn: 10,
-      completed: 25,
-      achieved: 25,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 5,
+      completed: 1,
+      achieved: 1,
     },
     {
       key: "13",
       participant: "Lucas Turner",
       level: 1,
-      notStarted: 40,
-      notAchieved: 10,
-      workingOn: 10,
-      completed: 20,
-      achieved: 20,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 1,
+      achieved: 4,
     },
     {
       key: "14",
       participant: "Mia Anderson",
       level: 1,
-      notStarted: 35,
-      notAchieved: 15,
-      workingOn: 10,
-      completed: 20,
-      achieved: 20,
+      notStarted: 1,
+      notAchieved: 0,
+      workingOn: 2,
+      completed: 1,
+      achieved: 4,
     },
   ];
 
@@ -855,26 +956,29 @@ const DevProgrammeModal: React.FC = () => {
       <header className="mb-6">
         <div className="flex items-center">
           <div>
-            <Title level={5} className="flex items-center mb-0">
+            <Title level={5} className="flex items-center mb-1">
               <span>Thursday Beginners Class</span>
             </Title>
-            <Text className="flex items-center text-sm text-subtitle">
-              <span>9 Feb @ 16:00 - 17:00</span>
-              <span className="mx-1.5">·</span>
-              <span>14 participants</span>
+            <Text className="flex items-center text-sm">
+              <ClockCircleOutlined className="mr-1 text-xs text-subtitle" />
+              <span>9 Feb · 16:00 - 17:00</span>
+              <span className="mx-1.5 text-subtitle">·</span>
+              <TeamOutlined className="mr-1 text-xs text-subtitle" />
+              <span>20 participants</span>
+              <span className="mx-1.5 text-danger-500">·</span>
+              <a
+                onClick={() => setSelectedLevel("Unassigned")}
+                className="text-danger-500"
+              >
+                <TeamOutlined className="mr-1 text-xs text-danger-500" />
+                <span className="text-danger-500 hover:cursor-pointer hover:underline">
+                  6 unassigned
+                </span>
+              </a>
             </Text>
           </div>
-          <div className="ml-auto">
-            <Progress
-              type="circle"
-              percent={40}
-              size={44}
-              className="font-medium"
-              strokeWidth={10}
-            />
-          </div>
         </div>
-        <div className="mt-3">
+        <div className="mt-3.5">
           <Segmented
             options={options}
             value={selectedLevel}
@@ -901,7 +1005,7 @@ const DevProgrammeModal: React.FC = () => {
                   >
                     <div className="flex items-center gap-1.5">
                       <StarFilled className="text-yellow-400" />
-                      <span>Level achieved</span>
+                      <span className="font-medium">Level achieved</span>
                     </div>
                   </Button>
                   <Button
@@ -912,7 +1016,7 @@ const DevProgrammeModal: React.FC = () => {
                   >
                     <div className="flex items-center gap-1.5">
                       <SettingOutlined className="text-neutral-600" />
-                      <span>Manage levels</span>
+                      <span className="font-medium">Manage levels</span>
                     </div>
                   </Button>
                 </div>
@@ -936,7 +1040,7 @@ const DevProgrammeModal: React.FC = () => {
                     >
                       <Space className="hover:bg-transparent hover:underline">
                         <MailOutlined className="text-neutral-600" />
-                        Message
+                        <span className="font-medium">Message</span>
                       </Space>
                     </a>
                   </Dropdown>
@@ -959,7 +1063,7 @@ const DevProgrammeModal: React.FC = () => {
                     >
                       <Space className="hover:bg-transparent hover:underline">
                         <ShoppingCartOutlined className="text-neutral-600" />
-                        Product
+                        <span className="font-medium">Product</span>
                       </Space>
                     </a>
                   </Dropdown>
@@ -981,7 +1085,7 @@ const DevProgrammeModal: React.FC = () => {
                     >
                       <Space className="hover:bg-transparent hover:underline">
                         <UsergroupAddOutlined className="text-neutral-600" />
-                        Class
+                        <span className="font-medium">Class</span>
                       </Space>
                     </a>
                   </Dropdown>
@@ -1003,7 +1107,7 @@ const DevProgrammeModal: React.FC = () => {
                     >
                       <Space className="hover:bg-transparent hover:underline">
                         <UserOutlined className="text-neutral-600" />
-                        Coach
+                        <span className="font-medium">Coach</span>
                       </Space>
                     </a>
                   </Dropdown>
@@ -1034,7 +1138,7 @@ const DevProgrammeModal: React.FC = () => {
                       className="px-0 text-neutral-900"
                     >
                       <Space className="hover:bg-transparent hover:underline">
-                        More...
+                        <span className="font-medium">More...</span>
                         <DownOutlined className="-ml-0.5 w-2.5" />
                       </Space>
                     </a>
@@ -1050,7 +1154,7 @@ const DevProgrammeModal: React.FC = () => {
                   ...participantRowSelection,
                   selectedRowKeys: selectedParticipantRowKeys,
                 }}
-                className="ant-table-sticky [&_tr>*:last-child]:pl-6"
+                className="ant-table-sticky [&_tr>*:last-child]:pl-6 [&_th_.label]:font-medium"
               />
             </div>
           )}
@@ -1060,7 +1164,7 @@ const DevProgrammeModal: React.FC = () => {
                 <div className="font-medium whitespace-nowrap -ml-0.5">
                   {selectedSkillRowKeys.length} selected
                 </div>
-                <div className="text-subtitle">|</div>
+                <div className="">|</div>
                 <div className="flex items-center gap-4 mr-2">
                   <Button
                     size="small"
@@ -1147,8 +1251,27 @@ const DevProgrammeModal: React.FC = () => {
         <div className="mx-auto">
           <Segmented
             block
-            options={["Participants", "Skills"]}
-            className="bg-neutral-200/75 w-60"
+            options={[
+              {
+                label: (
+                  <>
+                    <TeamOutlined className="relative mr-1.5 text-subtitle text-xs -top-px" />
+                    Participants
+                  </>
+                ),
+                value: "Participants",
+              },
+              {
+                label: (
+                  <>
+                    <CheckSquareOutlined className="relative mr-1.5 text-subtitle text-xs -top-px" />
+                    Skills
+                  </>
+                ),
+                value: "Skills",
+              },
+            ]}
+            className="bg-neutral-200/75 w-[15.5rem]"
             value={segmentValue}
             onChange={setSegmentValue}
           />

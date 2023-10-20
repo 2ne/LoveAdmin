@@ -3,8 +3,12 @@ import { Button, Popover, DatePicker, Modal } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 
-const DateFilter: React.FC = () => {
-  const [filter, setFilter] = useState<string>("This month");
+interface DateFilterProps {
+  defaultFilter: string;
+}
+
+const DateFilter: React.FC<DateFilterProps> = ({ defaultFilter }) => {
+  const [filter, setFilter] = useState<string>(defaultFilter);
   const [selectedDate, setSelectedDate] = useState<any | null>();
   const [selectedDates, setSelectedDates] = useState<any[] | null>();
   const [mainPopoverVisible, setMainPopoverVisible] = useState<boolean>(false);

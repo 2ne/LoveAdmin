@@ -315,18 +315,23 @@ table tbody .ant-btn-link {
 }
 
 .ant-radio-group-progress .ant-radio-button-wrapper {
-  width: 28px;
-  height: 28px;
-  line-height: 26px;
-  padding-left: 6px;
-  padding-right: 6px;
+  width: 32px;
+  height: 32px;
+  line-height: 30px;
   border-radius: 100px;
   margin-right: 10px;
   border-width: 1px;
+  margin: 1px 13px;
+  margin-left: 0;
+  padding: 0;
 }
 
 .ant-radio-group-progress .ant-radio-button-wrapper:before {
   display: none;
+}
+
+.ant-radio-group-progress .ant-radio-button-wrapper .anticon {
+  @apply text-base;
 }
 
 .ant-table-modal-scroll-y .ant-table-body {
@@ -402,5 +407,23 @@ table tbody .ant-btn-link {
 
 .ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-icon,
 .ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item-icon {
-  @apply mr-3;
+  @apply mr-3 text-sm text-neutral-600;
+}
+
+@keyframes custom {
+  0%,
+  100% {
+    transform: translateY(-25%) scale(1);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0%) scale(0.8);
+    opacity: 0.65;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-custom {
+  animation: custom 0.85s infinite !important;
 }

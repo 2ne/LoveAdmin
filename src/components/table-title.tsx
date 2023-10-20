@@ -1,9 +1,10 @@
-import React from "react";
-import { Typography } from "antd";
+import React, { ReactNode, useState } from "react";
+import { Select, Typography } from "antd";
 const { Title } = Typography;
+const { Option } = Select;
 
 interface TableTitleProps {
-  title: string;
+  title: ReactNode | ReactNode[];
   selectable?: boolean;
   selectedRowKeysLength?: number;
   totalRecords?: number;
@@ -27,13 +28,38 @@ const TableTitle: React.FC<TableTitleProps> = ({
   onSelectAll,
   onUnselectAll,
 }) => {
+  const [selectedTitle, setSelectedTitle] = useState<ReactNode | null>(
+    Array.isArray(title) ? title[0] : title
+  );
+
+  const handleChange = (value: ReactNode) => {
+    setSelectedTitle(value);
+  };
+
   const noRowsSelected = selectedRowKeysLength === 0;
   const allRowsSelected = selectedRowKeysLength === totalRecords;
   const term = totalRecords === 1 ? recordsTerm.singular : recordsTerm.plural;
 
   return (
     <Title level={5} className="m-0">
-      <span>{title}</span>
+      {Array.isArray(title) ? (
+        <Select
+          defaultValue={title[0]}
+          onChange={handleChange}
+          bordered={false}
+          className="h-7 [&_.ant-select-selection-item]:text-base [&_.ant-select-selection-item]:font-semibold [&_.ant-select-selection-item]:text-primary-600 [&:hover_.ant-select-selection-item]:text-primary-500 [&:hover_.ant-select-selection-item]:underline [&_.ant-select-selector]:!pl-0 [&_.ant-select-selector]:!pr-2.5 -mr-2.5  [&_.ant-select-arrow]:text-primary-700 [&:hover_.ant-select-arrow]:text-primary-600 [&_.ant-select-selection-item]:underline-offset-2"
+        >
+          {title.map((t, index) => {
+            return (
+              <Option key={index} value={t}>
+                {t}
+              </Option>
+            );
+          })}
+        </Select>
+      ) : (
+        <span>{title}</span>
+      )}
       {!hideCount && (
         <>
           <Separator />

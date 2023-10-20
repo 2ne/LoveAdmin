@@ -1,21 +1,33 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import {
   DownloadOutlined,
   FileExcelOutlined,
   FilePdfOutlined,
-  LeftOutlined,
-  RightOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Layout, Button, Breadcrumb, Dropdown, Table, Input, Menu } from "antd";
-import ProductTree from "./product-tree";
+import {
+  Layout,
+  Button,
+  Breadcrumb,
+  Dropdown,
+  Table,
+  Input,
+  Menu,
+  Tour,
+  TourProps,
+} from "antd";
+import ProductTree from "../../product-tree";
 import { ColumnsType } from "antd/es/table/interface";
 import ProductSalesReportModal from "./product-sales-report-modal";
-import DateFilter from "../components/date-filter";
-import LoveAdminHeader from "../components/header";
-import TableTitle from "../components/table-title";
-import { TableFilterBar, TableFilterButton } from "../components/table-filters";
-import Sidebar from "../components/sidebar";
+import DateFilter from "../../../components/date-filter";
+import LoveAdminHeader from "../../../components/header";
+import TableTitle from "../../../components/table-title";
+import {
+  TableFilterBar,
+  TableFilterButton,
+} from "../../../components/table-filters";
+import Sidebar from "../../../components/sidebar";
+import ProductSalesReportFilters from "./product-sales-report-filters";
 const { Content } = Layout;
 
 interface DataType {
@@ -150,6 +162,37 @@ function ProductSalesReport(): ReactElement {
         ),
     },
   ];
+  const ref1 = useRef(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [tourEnabled, setTourEnabled] = useState(true);
+
+  const handleClose = () => {
+    setOpen(false);
+    setTourEnabled(false); // Disable the tour
+  };
+
+  const steps: TourProps["steps"] = [
+    {
+      title: <div className="text-base font-medium">New Sales Reports!</div>,
+      description: (
+        <div className="text-sm leading-6">
+          <ul className="mt-3 max-w-[50ch]">
+            <li className="mb-2">
+              <span className="font-medium">Invoiced -</span> Lists sales you've
+              billed but haven't been paid for yet. Useful for tracking pending
+              payments.
+            </li>
+            <li className="mb-2">
+              <span className="font-medium">Settled -</span> Shows sales that
+              are completed and paid. Good for reviewing income and identifying
+              best sellers.
+            </li>
+          </ul>
+        </div>
+      ),
+      target: () => ref1.current,
+    },
+  ];
 
   return (
     <Layout className="min-h-screen">
@@ -160,7 +203,7 @@ function ProductSalesReport(): ReactElement {
             <Breadcrumb.Item>Reports</Breadcrumb.Item>
             <Breadcrumb.Item>Financials</Breadcrumb.Item>
             <Breadcrumb.Item>Sales Reports</Breadcrumb.Item>
-            <Breadcrumb.Item>Product Sales Report</Breadcrumb.Item>
+            <Breadcrumb.Item>Product Sales Reports</Breadcrumb.Item>
           </>
         }
       ></LoveAdminHeader>
@@ -170,10 +213,17 @@ function ProductSalesReport(): ReactElement {
         </Sidebar>
         <Content className="pb-16 bg-white">
           <div className="p-4">
-            <div className="flex items-center mb-2.5">
-              <div className="flex items-center">
+            <div className="flex items-center mb-3">
+              <div
+                className="relative flex items-center"
+                ref={ref1}
+                onClick={() => setOpen(true)}
+              >
+                {tourEnabled && (
+                  <div className="absolute w-2 h-2 rounded-full bg-primary-500 animate-custom -top-0 -left-1.5"></div>
+                )}
                 <TableTitle
-                  title="Product Sales"
+                  title={["Invoiced Product Sales", "Settled Product Sales"]}
                   totalRecords={2}
                   selectable={false}
                 />
@@ -183,14 +233,16 @@ function ProductSalesReport(): ReactElement {
                   placeholder="Search product..."
                   prefix={<SearchOutlined className="mr-1" />}
                 />
-                <DateFilter />
+                <DateFilter defaultFilter="This month" />
                 <TableFilterButton
                   toggleActive={() => setIsActive(!isActive)}
                   isActive={isActive}
                 />
               </div>
             </div>
-            <TableFilterBar isActive={isActive} />
+            <TableFilterBar isActive={isActive}>
+              <ProductSalesReportFilters />
+            </TableFilterBar>
             <div className="relative">
               <Table
                 pagination={false}
@@ -346,6 +398,7 @@ function ProductSalesReport(): ReactElement {
         handleOk={handleOk}
         handleCancel={handleCancel}
       />
+      {tourEnabled && <Tour open={open} onClose={handleClose} steps={steps} />}
     </Layout>
   );
 }

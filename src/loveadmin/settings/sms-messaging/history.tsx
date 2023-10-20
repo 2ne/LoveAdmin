@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Typography, Table, Tag, Tooltip, Modal } from "antd";
+import { Typography, Table, Tooltip, Modal } from "antd";
 import { formatDate } from "../../../components/date-formatter";
 import { ColumnsType } from "antd/es/table";
 import { SortOrder } from "antd/es/table/interface";
+import Tag from "../../../components/tag";
 const { Title } = Typography;
 
 interface TransactionType {
@@ -90,13 +91,7 @@ function History(): React.ReactElement {
       key: "creditsAdded",
       width: 100,
       render: (creditsAdded: string) => {
-        return (
-          creditsAdded && (
-            <Tag color="cyan" className="my-2">
-              {creditsAdded}
-            </Tag>
-          )
-        );
+        return creditsAdded && <Tag colour="primary">{creditsAdded}</Tag>;
       },
     },
     {
@@ -105,13 +100,7 @@ function History(): React.ReactElement {
       key: "creditsSpent",
       width: 100,
       render: (creditsSpent: string) => {
-        return (
-          creditsSpent && (
-            <Tag color="red" className="my-2">
-              {creditsSpent}
-            </Tag>
-          )
-        );
+        return creditsSpent && <Tag colour="danger">{creditsSpent}</Tag>;
       },
     },
     {

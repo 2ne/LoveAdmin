@@ -4,6 +4,7 @@ import LoveAdminHeader from "../../components/header";
 import ProductTree from "../product-tree";
 import Sidebar from "../../components/sidebar";
 import { CheckCircleFilled, PlusOutlined } from "@ant-design/icons";
+import ProductSettingsAmend from "./product-settings-amend";
 const { Content } = Layout;
 
 const ProductSettings = () => {
@@ -40,6 +41,7 @@ const ProductSettings = () => {
           </div>
         </Content>
       </Layout>
+      <ProductSettingsAmend />
     </Layout>
   );
 };

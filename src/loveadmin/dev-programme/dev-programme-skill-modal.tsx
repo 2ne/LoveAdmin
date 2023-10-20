@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  ArrowRightOutlined,
   CheckCircleFilled,
   CloseCircleFilled,
   CreditCardOutlined,
@@ -10,7 +9,6 @@ import {
   MailOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
-  PlusOutlined,
   ShoppingCartOutlined,
   StarFilled,
   UserOutlined,
@@ -34,6 +32,7 @@ import {
 import { ColumnsType, TableRowSelection } from "antd/es/table/interface";
 import { DevProgrammeSkillsDataType as ImportedDevProgrammeDataType } from "./dev-programme";
 import TableActions from "../../components/table-actions";
+import { Achieved, Completed, NotAchieved, WorkingOn } from "./icons";
 const { Content } = Layout;
 const { Title } = Typography;
 
@@ -271,36 +270,36 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
               <Radio.Button
                 onClick={() => onRadioChange("NotAchieved", record.key)}
                 value="NotAchieved"
-                className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+                className="[&.ant-radio-button-wrapper-checked]:bg-danger-500 [&.ant-radio-button-wrapper-checked:before]:bg-danger-600 [&.ant-radio-button-wrapper-checked]:border-danger-600 [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper-checked_.anticon]:text-white [&.ant-radio-button-wrapper-checked_.anticon_path]:stroke-danger-500 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CloseCircleFilled className="absolute inset-0 grid transition-colors opacity-60 text-danger-500 place-content-center" />
+                <NotAchieved className="absolute inset-0 w-4 h-4 m-auto transition-colors rounded-full opacity-50 text-danger-500 anticon" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Working on" rootClassName="pointer-events-none">
               <Radio.Button
                 onClick={() => onRadioChange("WorkingOn", record.key)}
                 value="WorkingOn"
-                className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+                className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper-checked_.anticon]:text-white [&.ant-radio-button-wrapper-checked_.anticon_path:last-child]:fill-primary-500 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <PlayCircleFilled className="absolute inset-0 grid transition-colors opacity-60 text-primary-500 place-content-center" />
+                <WorkingOn className="absolute inset-0 w-4 h-4 m-auto transition-colors rounded-full opacity-50 text-primary-500 anticon" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Completed" rootClassName="pointer-events-none">
               <Radio.Button
                 onClick={() => onRadioChange("Completed", record.key)}
                 value="Completed"
-                className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+                className="[&.ant-radio-button-wrapper-checked]:bg-success-500 [&.ant-radio-button-wrapper-checked:before]:bg-success-600 [&.ant-radio-button-wrapper-checked]:border-success-600 [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper-checked_.anticon]:text-white  [&.ant-radio-button-wrapper-checked_.anticon_path:first-child]:fill-white [&.ant-radio-button-wrapper-checked_.anticon_path:last-child]:stroke-success-500 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <CheckCircleFilled className="absolute inset-0 grid transition-colors opacity-60 text-success-500 place-content-center" />
+                <Completed className="absolute inset-0 w-4 h-4 m-auto transition-colors rounded-full opacity-50 anticon text-success-500" />
               </Radio.Button>
             </Tooltip>
             <Tooltip title="Achieved" rootClassName="pointer-events-none">
               <Radio.Button
                 onClick={() => onRadioChange("Achieved", record.key)}
                 value="Achieved"
-                className="[&.ant-radio-button-wrapper-checked]:bg-yellow-400 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg]:text-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+                className="[&.ant-radio-button-wrapper-checked]:bg-yellow-400 [&.ant-radio-button-wrapper-checked:before]:bg-yellow-600 [&.ant-radio-button-wrapper-checked]:border-yellow-600 [&.ant-radio-button-wrapper-checked_svg_path]:fill-white [&.ant-radio-button-wrapper-checked_svg_path]:stroke-white [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
-                <StarFilled className="absolute inset-0 grid text-yellow-400 transition-colors opacity-60 place-content-center" />
+                <Achieved className="absolute inset-0 w-4 h-4 m-auto text-yellow-400 transition-colors opacity-50 -top-px anticon" />
               </Radio.Button>
             </Tooltip>
           </Radio.Group>
@@ -319,7 +318,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
           rootClassName="w-48"
         >
           <Button
-            className="absolute right-0 top-1.5"
+            className="absolute right-0 top-2.5"
             type="text"
             icon={<EllipsisOutlined className="rotate-90 text-neutral-600" />}
             onClick={(e) => e.preventDefault()}
@@ -449,19 +448,19 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
     <div className="flex gap-4 pr-2 text-sm text-neutral-700">
       <div className="flex items-center gap-1.5">
         <CloseCircleFilled className="text-danger-500" />
-        <span>Not achieved</span>
+        <span className="font-medium">Not achieved</span>
       </div>
       <div className="flex items-center gap-1.5">
         <PlayCircleFilled className="text-primary-500" />
-        <span>Working on</span>
+        <span className="font-medium">Working on</span>
       </div>
       <div className="flex items-center gap-1.5">
         <CheckCircleFilled className="text-success-500" />
-        <span>Completed</span>
+        <span className="font-medium">Completed</span>
       </div>
       <div className="flex items-center gap-1.5">
         <StarFilled className="text-yellow-400" />
-        <span>Achieved</span>
+        <span className="font-medium">Achieved</span>
       </div>
     </div>
   );
@@ -489,10 +488,10 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
       open={visible}
       onOk={handleOk}
       onCancel={handleCancel}
-      centered
       footer={false}
       destroyOnClose={true}
       className="w-full max-w-[52rem]"
+      style={{ top: 20 }}
     >
       <div>
         <Content className="pb-2 bg-white">
@@ -511,7 +510,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 >
                   <div className="flex items-center gap-1.5">
                     <CloseCircleFilled className="text-danger-500" />
-                    <span>Not achieved</span>
+                    <span className="font-medium">Not achieved</span>
                   </div>
                 </Button>
                 <Button
@@ -522,7 +521,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 >
                   <div className="flex items-center gap-1.5">
                     <PlayCircleFilled className="text-primary-500" />
-                    <span>Working on</span>
+                    <span className="font-medium">Working on</span>
                   </div>
                 </Button>
                 <Button
@@ -533,7 +532,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 >
                   <div className="flex items-center gap-1.5">
                     <CheckCircleFilled className="text-success-500" />
-                    <span>Completed</span>
+                    <span className="font-medium">Completed</span>
                   </div>
                 </Button>
                 <Button
@@ -544,7 +543,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 >
                   <div className="flex items-center gap-1.5">
                     <StarFilled className="text-yellow-400" />
-                    <span>Achieved</span>
+                    <span className="font-medium">Achieved</span>
                   </div>
                 </Button>
                 <Button
@@ -555,7 +554,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 >
                   <div className="flex items-center gap-1.5">
                     <MinusCircleFilled className="text-neutral-400" />
-                    <span>Not started</span>
+                    <span className="font-medium">Not started</span>
                   </div>
                 </Button>
                 <Dropdown
@@ -633,7 +632,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                     className="px-0 text-neutral-900"
                   >
                     <Space className="hover:bg-transparent hover:underline">
-                      More...
+                      <span className="font-medium">More...</span>
                       <DownOutlined className="-ml-0.5 w-2.5" />
                     </Space>
                   </a>
@@ -646,7 +645,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
               columns={columns}
               dataSource={data}
               pagination={false}
-              className="ant-table-sticky ant-table-modal-scroll-y ant-table-bg-reset"
+              className="ant-table-sticky ant-table-modal-scroll-y ant-table-bg-reset [&_th:nth-child(3)]:pl-4 [&_td:nth-child(3)]:!pl-3.5"
               scroll={{ y: 0 }}
             />
           </div>

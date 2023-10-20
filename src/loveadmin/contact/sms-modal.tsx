@@ -13,7 +13,6 @@ import {
   CheckCircleFilled,
   InfoCircleFilled,
   InfoCircleOutlined,
-  InfoOutlined,
   WarningFilled,
 } from "@ant-design/icons";
 
@@ -85,7 +84,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
             <div>
               <span>Send SMS</span>
             </div>
-            <div className="mt-0.5 text-subtitle">
+            <div className="mt-1 text-sm font-normal text-subtitle">
               {step1 && !step2 && (
                 <>
                   <span>Step 1 of 2</span>
@@ -198,7 +197,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
               <Switch size="small" checked={isMarketing}></Switch>
               <div className="flex items-center cursor-default">
                 <div
-                  className="ml-2 mr-1.5 font-medium cursor-pointer"
+                  className="ml-2 mr-1.5 cursor-pointer"
                   onClick={toggleMarketing}
                 >
                   Marketing or promotional message
@@ -258,7 +257,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
             </div>
             <Alert
               showIcon
-              className="mb-6"
+              className="hidden mb-6"
               message={
                 <>
                   20 contacts won't receive SMS due to missing mobile number,

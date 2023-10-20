@@ -59,6 +59,11 @@ function LinksPage(): ReactElement {
             </Link>
           </li>
           <li>
+            <Link to="/SMSReport" className="">
+              SMS Report
+            </Link>
+          </li>
+          <li>
             <Link to="/DevProgramme" className="">
               Development Programme
             </Link>

@@ -7,6 +7,7 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
   const [filterScheduleText, setFilterScheduleText] = useState<string>("");
   const [filterAddressText, setFilterAddressText] = useState<string>("");
   const [onCancelledChecked, setOnCancelledChecked] = useState(false);
+  const [zeroValueChecked, setZeroValueChecked] = useState(false);
   const [selectedScheduleItems, setSelectedScheduleItems] = useState<string[]>(
     []
   );
@@ -138,6 +139,14 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
     setOnCancelledChecked(!onCancelledChecked);
   };
 
+  const onToggleZeroValueChange = (checked: boolean) => {
+    setZeroValueChecked(checked);
+  };
+
+  const toggleZeroValue = () => {
+    setZeroValueChecked(!zeroValueChecked);
+  };
+
   const handleScheduleChange = (value: string[]) => {
     setSelectedScheduleItems(value);
   };
@@ -147,15 +156,17 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
   };
 
   const clearFilters = () => {
+    setZeroValueChecked(false);
     setOnCancelledChecked(false);
     setSelectedScheduleItems([]);
     setSelectedAddressItems([]);
   };
 
   const selectCustomClasses =
-    "max-w-[15rem] [&:hover_.ant-select-selector]:bg-neutral-100 [&.ant-select-open_.ant-select-selector]:bg-neutral-100 [&_.ant-select-selector]:flex-nowrap [&_.ant-select-selection-overflow]:pl-1.5 [&_.ant-select-selection-overflow]:pr-0.5 [&_.ant-select-selection-overflow]:pt-px [&_.ant-select-selection-overflow]:flex-nowrap [&_.ant-select-selection-item]:font-medium [&_.ant-select-selection-item]:cursor-pointer [&_.ant-select-selection-item]:bg-transparent [&_.ant-select-selection-item]:m-0 [&_.ant-select-selection-item]:p-0 [&_.ant-select-selection-placeholder]:text-title [&_.ant-select-selection-placeholder]:right-0 [&.ant-select-active_.ant-select-selection-overflow-item:first-child]:max-w-[calc(100%-1.5rem)] [&_.ant-select-selection-overflow-item-rest_.ant-select-selection-item-content]:max-w-[1.15rem] [&_.ant-select-selection-overflow-item-rest_.ant-select-selection-item-content]:text-clip";
+    "shadow-none max-w-[15rem] [&:hover_.ant-select-selector]:bg-neutral-100 [&.ant-select-open_.ant-select-selector]:bg-neutral-100 [&_.ant-select-selector]:flex-nowrap [&_.ant-select-selection-overflow]:pl-1.5 [&_.ant-select-selection-overflow]:pr-0.5 [&_.ant-select-selection-overflow]:pt-px [&_.ant-select-selection-overflow]:flex-nowrap [&_.ant-select-selection-item]:font-medium [&_.ant-select-selection-item]:cursor-pointer [&_.ant-select-selection-item]:bg-transparent [&_.ant-select-selection-item]:m-0 [&_.ant-select-selection-item]:p-0 [&_.ant-select-selection-placeholder]:text-title [&_.ant-select-selection-placeholder]:right-0 [&.ant-select-active_.ant-select-selection-overflow-item:first-child]:max-w-[calc(100%-1.5rem)] [&_.ant-select-selection-overflow-item-rest_.ant-select-selection-item-content]:max-w-[1.15rem] [&_.ant-select-selection-overflow-item-rest_.ant-select-selection-item-content]:text-clip";
 
   const clearFilterButtonClass =
+    zeroValueChecked ||
     onCancelledChecked ||
     selectedScheduleItems.length !== 0 ||
     selectedAddressItems.length !== 0
@@ -165,8 +176,10 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
     <>
       <Select
         bordered={false}
-        className={selectCustomClasses + " min-w-[7.5rem] "}
-        placeholder="All schedules"
+        className={selectCustomClasses + " min-w-[6.5rem] "}
+        placeholder="Schedules"
+        placement="bottomLeft"
+        allowClear
         onChange={handleScheduleChange}
         mode="multiple"
         filterOption={false}
@@ -190,6 +203,11 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
                 prefix={<SearchOutlined className="mr-1" />}
                 value={filterScheduleText}
                 onChange={(e) => setFilterScheduleText(e.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Backspace") {
+                    return event.stopPropagation();
+                  }
+                }}
               />
             </div>
             <div className="[&_.rc-virtual-list-holder]:p-2 [&_.rc-virtual-list-holder]:pt-0">
@@ -200,11 +218,13 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
       />
       <Select
         bordered={false}
-        className={selectCustomClasses + " min-w-[8rem] "}
-        placeholder="All addressess"
+        className={selectCustomClasses + " min-w-[6.5rem] "}
+        placeholder="Addresses"
+        placement="bottomLeft"
         onChange={handleAddressChange}
         mode="multiple"
         filterOption={false}
+        allowClear
         value={selectedAddressItems}
         maxTagCount={1}
         removeIcon={null}
@@ -225,6 +245,11 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
                 prefix={<SearchOutlined className="mr-1" />}
                 value={filterAddressText}
                 onChange={(e) => setFilterAddressText(e.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Backspace") {
+                    return event.stopPropagation();
+                  }
+                }}
               />
             </div>
             <div className="[&_.rc-virtual-list-holder]:p-2 [&_.rc-virtual-list-holder]:pt-0">
@@ -233,27 +258,41 @@ const ProductSalesReportFilters: FC = (): ReactElement => {
           </>
         )}
       />
-      <div className="ml-auto">
-        <div className="flex items-center text-sm">
-          <Switch
-            size="small"
-            checked={onCancelledChecked}
-            onChange={onShowCancelledChange}
-          />
-          <span
-            onClick={toggleOnCancelled}
-            className="pl-2 cursor-pointer select-none whitespace-nowrap"
-          >
-            Show cancelled
-          </span>
+      <div className="ml-auto pl-2.5">
+        <div className="flex items-center gap-3.5">
+          <div className="flex items-center">
+            <Switch
+              size="small"
+              checked={zeroValueChecked}
+              onChange={onToggleZeroValueChange}
+              className="relative top-px"
+            />
+            <span
+              onClick={toggleZeroValue}
+              className="pl-2 cursor-pointer select-none whitespace-nowrap"
+            >
+              Hide zero value sales
+            </span>
+          </div>
+          <div className="flex items-center">
+            <Switch
+              size="small"
+              checked={onCancelledChecked}
+              onChange={onShowCancelledChange}
+              className="relative top-px"
+            />
+            <span
+              onClick={toggleOnCancelled}
+              className="pl-2 cursor-pointer select-none whitespace-nowrap"
+            >
+              Show cancelled
+            </span>
+          </div>
         </div>
       </div>
       <Button
         type="text"
-        className={
-          clearFilterButtonClass +
-          " bg-white/95 min-w-[5.75rem] ml-2 sticky -right-2 !px-2 "
-        }
+        className={clearFilterButtonClass + " bg-white/95 ml-2 !px-2"}
         onClick={clearFilters}
       >
         Clear filters

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Table, Tooltip, Layout, Breadcrumb, Input, Button } from "antd";
+import { Table, Tooltip, Layout, Breadcrumb, Input } from "antd";
 import { formatDate } from "../../../components/date-formatter";
 import { SortOrder } from "antd/es/table/interface";
 import LoveAdminHeader from "../../../components/header";
 import TableTitle from "../../../components/table-title";
 import DateFilter from "../../../components/date-filter";
-import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import SMSReportInfoModal from "./sms-report-info-modal";
 import SMSReportMessageModal from "./sms-report-message-modal";
 import Tag from "../../../components/tag";
@@ -14,6 +14,8 @@ import {
   TableFilterButton,
 } from "../../../components/table-filters";
 import SMSReportFilters from "./sms-report-filters";
+import { Link } from "react-router-dom";
+import TableFooter from "../../../components/table-footer";
 
 const { Content } = Layout;
 
@@ -84,9 +86,11 @@ const SMSReport: React.FC = () => {
     null
   );
   const [countColumnWidth, setCountColumnWidth] = useState(150);
+  const [dateColumnWidth, setDateColumnWidth] = useState(150);
   useEffect(() => {
     const updateWidth = () => {
       setCountColumnWidth(window.innerWidth <= 1280 ? 120 : 150);
+      setDateColumnWidth(window.innerWidth <= 1280 ? 140 : 200);
     };
 
     updateWidth();
@@ -316,7 +320,7 @@ const SMSReport: React.FC = () => {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      width: 200,
+      width: dateColumnWidth,
       defaultSortOrder: "ascend" as SortOrder,
       sorter: (a: SMSReportType, b: SMSReportType) =>
         (b.date?.getTime() || 0) - (a.date?.getTime() || 0),
@@ -338,21 +342,25 @@ const SMSReport: React.FC = () => {
   ];
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen bg-neutral-900">
       <LoveAdminHeader
-        breadcrumbChildren={
-          <>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Reports</Breadcrumb.Item>
-            <Breadcrumb.Item>Communication</Breadcrumb.Item>
-            <Breadcrumb.Item>SMS History</Breadcrumb.Item>
-          </>
-        }
+        breadcrumbChildren={[
+          <Breadcrumb.Item key="home">
+            <Link to="/Home">Home</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="reports">
+            <Link to="/Reports">Reports</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="communication">
+            <Link to="/Reports/Communication">Communication</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="product-sales">SMS History</Breadcrumb.Item>,
+        ]}
       ></LoveAdminHeader>
-      <Layout>
-        <Content className="p-6 pb-16 bg-white">
-          <div className="flex items-center mb-3">
-            <div className="flex items-center">
+      <Layout className="bg-white rounded-t-lg">
+        <Content className="p-4 pb-16">
+          <div className="gap-2 md:flex md:items-center max-md:space-y-3">
+            <div className="flex items-center min-w-0 md:contents">
               <TableTitle
                 title="SMS History"
                 totalRecords={data.length}
@@ -360,9 +368,9 @@ const SMSReport: React.FC = () => {
                 recordsTerm={{ singular: "Message", plural: "Messages" }}
               />
             </div>
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2.5 ml-auto">
               <Input
-                className="min-w-[15.5rem]"
+                className="w-full md:w-[15.5rem]"
                 placeholder="Search message, sender name..."
                 prefix={<SearchOutlined className="mr-1" />}
               />
@@ -376,13 +384,16 @@ const SMSReport: React.FC = () => {
           <TableFilterBar isActive={isActive}>
             <SMSReportFilters />
           </TableFilterBar>
-          <Table
-            columns={columns}
-            dataSource={data}
-            size="small"
-            pagination={false}
-            className="ant-table-bg-reset [&_th:last-child]:text-right [&_table]:table-fixed"
-          />
+          <div className="relative mt-5 md:mt-4">
+            <Table
+              columns={columns}
+              dataSource={data}
+              size="small"
+              pagination={false}
+              scroll={{ x: 1000 }}
+              className="ant-table-bg-reset [&_th:last-child]:text-right [&_table]:table-fixed"
+            />
+          </div>
           <SMSReportInfoModal
             visible={visible}
             closeModal={() => setVisible(false)}
@@ -395,11 +406,7 @@ const SMSReport: React.FC = () => {
             closeModal={() => setMessageModalVisible(false)}
             modalData={modalData}
           />
-          <footer className="fixed gap-2 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 left-0">
-            <div className="flex items-center gap-2 ml-auto">
-              <Button icon={<DownloadOutlined />}>Export</Button>
-            </div>
-          </footer>
+          <TableFooter hideEditColumns={true} />
         </Content>
       </Layout>
     </Layout>

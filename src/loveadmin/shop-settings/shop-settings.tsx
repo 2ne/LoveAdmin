@@ -11,15 +11,14 @@ import {
 import LoveAdminHeader from "../../components/header";
 import ShopList, { ShopListItem } from "./shop-list";
 import {
-  DesktopOutlined,
   EditOutlined,
   GlobalOutlined,
-  MobileOutlined,
   PlusOutlined,
   WarningFilled,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 const { Content } = Layout;
 const { Panel } = Collapse;
 
@@ -102,17 +101,19 @@ const ShopSettings = () => {
   ];
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen bg-neutral-900">
       <LoveAdminHeader
-        breadcrumbChildren={
-          <>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Settings</Breadcrumb.Item>
-            <Breadcrumb.Item>Shop</Breadcrumb.Item>
-          </>
-        }
+        breadcrumbChildren={[
+          <Breadcrumb.Item key="home">
+            <Link to="/Home">Home</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="settings">
+            <Link to="/Settings">Settings</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="shop">Shop</Breadcrumb.Item>,
+        ]}
       ></LoveAdminHeader>
-      <Content className="relative grid grid-cols-[21.25rem_1fr] bg-white">
+      <Content className="relative grid grid-cols-[21.25rem_1fr] bg-white rounded-t-lg">
         <aside className="h-[calc(100vh-4rem)] overflow-y-auto border-r overflow-x-clip border-neutral-200 select-none">
           <div className="px-5 pt-[1.1rem] pb-[1.342rem]">
             <div className="mb-2 font-medium">Design shop</div>
@@ -244,7 +245,7 @@ const ShopSettings = () => {
             </Panel>
           </Collapse>
         </aside>
-        <div className="absolute inset-0 col-start-2 col-end-2 row-span-1 overflow-hidden bg-neutral-50">
+        <div className="absolute inset-0 col-start-2 col-end-2 row-span-1 overflow-hidden rounded-t-lg bg-neutral-50">
           <iframe
             className={`absolute inset-0 h-full w-full`}
             title="Shop"

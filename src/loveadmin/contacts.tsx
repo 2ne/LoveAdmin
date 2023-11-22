@@ -1,14 +1,9 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
-  CreditCardOutlined,
-  DeleteOutlined,
   DownOutlined,
-  DownloadOutlined,
   FilterOutlined,
-  LeftOutlined,
   MailOutlined,
   PlusOutlined,
-  RightOutlined,
   SearchOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
@@ -22,14 +17,17 @@ import {
   Tooltip,
   Input,
 } from "antd";
-import ProductTree from "./product-tree";
+import ProductTree from "./filter-product";
 import { ColumnsType } from "antd/es/table/interface";
 import SMSModal from "./contact/sms-modal";
 import TableActions from "../components/table-actions";
 import LoveAdminHeader from "../components/header";
 import TableTitle from "../components/table-title";
 import Sidebar from "../components/sidebar";
-const { Sider, Content } = Layout;
+import EmailModal from "./email-editor";
+import { Link } from "react-router-dom";
+import TableFooter from "../components/table-footer";
+const { Content } = Layout;
 
 interface DataType {
   key: React.Key;
@@ -206,13 +204,30 @@ const data = [
 function Contacts(): ReactElement {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [collapsed, setCollapsed] = useState(false);
+  const [nameColumnWidth, seNameColumnWidth] = useState(150);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      seNameColumnWidth(window.innerWidth <= 640 ? 120 : 175);
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   const columns: ColumnsType<DataType> = [
     {
       title: "Name",
       dataIndex: "name",
-      render: (text: string) => <a>{text}</a>,
+      render: (text: string) => <Link to="/Contact">{text}</Link>,
       sorter: (a, b) => a.name.length - b.name.length,
+      fixed: true,
+      width: nameColumnWidth,
+      ellipsis: true,
     },
     {
       title: "Email",
@@ -243,6 +258,9 @@ function Contacts(): ReactElement {
       ellipsis: true,
       sorter: (a, b) => a.accountOwner.length - b.accountOwner.length,
     },
+    {
+      title: "Group",
+    },
   ];
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
@@ -254,18 +272,20 @@ function Contacts(): ReactElement {
     onChange: onSelectChange,
   };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSMSModalVisible, setIsSMSModalVisible] = useState(false);
+  const [isEmailModalVisible, setIsEmailModalVisible] = useState(false);
 
   const handleSendSMSClick = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleModalOk = () => {
-    setIsModalVisible(false);
+    setIsSMSModalVisible(true);
   };
 
   const handleModalCancel = () => {
-    setIsModalVisible(false);
+    setIsSMSModalVisible(false);
+    setIsEmailModalVisible(false);
+  };
+
+  const handleSendEmailClick = () => {
+    setIsEmailModalVisible(true);
   };
 
   const handleSelectAll = () => {
@@ -278,33 +298,36 @@ function Contacts(): ReactElement {
   };
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen bg-neutral-900">
       <LoveAdminHeader
-        breadcrumbChildren={
-          <>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Contacts</Breadcrumb.Item>
-          </>
-        }
+        breadcrumbChildren={[
+          <Breadcrumb.Item key="home">
+            <Link to="/Home">Home</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="contacts">Contacts</Breadcrumb.Item>,
+        ]}
       ></LoveAdminHeader>
-      <Layout>
+      <Layout className="bg-white rounded-t-lg">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed}>
-          <ProductTree showSegmented={true} />
+          <ProductTree />
         </Sidebar>
-        <Content className="pb-16 bg-white">
+        <Content className="pb-40">
           <div className="p-4">
-            <div className="flex items-center gap-2 mt-0.5 mb-3">
-              <TableTitle
-                title="Contacts"
-                selectedRowKeysLength={selectedRowKeys.length}
-                onSelectAll={handleSelectAll}
-                onUnselectAll={handleUnselectAll}
-                totalRecords={data.length}
-              />
-              <div className="flex items-center gap-2 ml-auto">
+            <div className="md:items-center md:flex md:gap-2.5 max-md:space-y-2.5">
+              <div className="relative flex items-center">
+                <TableTitle
+                  title="Contacts"
+                  selectedRowKeysLength={selectedRowKeys.length}
+                  onSelectAll={handleSelectAll}
+                  onUnselectAll={handleUnselectAll}
+                  totalRecords={data.length}
+                />
+              </div>
+              <div className="flex items-center gap-2.5 ml-auto">
                 <Input
-                  placeholder="Name, email, address..."
+                  placeholder="Search name, email, address..."
                   prefix={<SearchOutlined className="mr-1" />}
+                  className="w-full lg:w-[16rem]"
                 />
                 <Button icon={<FilterOutlined className="mt-px -ml-px " />}>
                   Filters
@@ -318,104 +341,106 @@ function Contacts(): ReactElement {
                 </Tooltip>
               </div>
             </div>
-            <div className="relative">
-              <TableActions isVisible={selectedRowKeys.length > 0}>
-                <Dropdown
-                  placement="bottomLeft"
-                  getPopupContainer={() => document.body}
-                  overlayStyle={{ position: "fixed" }}
-                  overlay={
-                    <Menu>
-                      <Menu.Item key="1" onClick={handleSendSMSClick}>
-                        Email
-                      </Menu.Item>
-                      <Menu.Item key="2" onClick={handleSendSMSClick}>
-                        SMS
-                      </Menu.Item>
-                    </Menu>
-                  }
-                  trigger={["click"]}
-                >
-                  <Button
-                    onClick={(e) => e.preventDefault()}
-                    size="small"
-                    type="text"
-                    icon={<MailOutlined />}
-                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+            <div className="relative mt-5 md:mt-4">
+              <TableActions
+                isVisible={selectedRowKeys.length > 0}
+                collapsed={collapsed}
+                hasSidebar={true}
+              >
+                <div className="flex items-center gap-4">
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item key="1" onClick={handleSendEmailClick}>
+                          Email
+                        </Menu.Item>
+                        <Menu.Item key="2" onClick={handleSendSMSClick}>
+                          SMS
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    Message...
-                  </Button>
-                </Dropdown>
-                <Dropdown
-                  placement="bottomLeft"
-                  getPopupContainer={() => document.body}
-                  overlayStyle={{ position: "fixed" }}
-                  overlay={
-                    <Menu>
-                      <Menu.Item key="1">Product</Menu.Item>
-                      <Menu.Item key="2">Group</Menu.Item>
-                    </Menu>
-                  }
-                  trigger={["click"]}
-                >
-                  <Button
-                    onClick={(e) => e.preventDefault()}
-                    size="small"
-                    type="text"
-                    icon={<PlusOutlined />}
-                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="flex gap-2 font-medium text-neutral-900"
+                    >
+                      <MailOutlined />
+                      <span>Message</span>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item>Class</Menu.Item>
+                        <Menu.Item>Product</Menu.Item>
+                        <Menu.Item>Group</Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    Add to...
-                  </Button>
-                </Dropdown>
-                <Dropdown
-                  placement="bottomLeft"
-                  getPopupContainer={() => document.body}
-                  overlayStyle={{ position: "fixed" }}
-                  overlay={
-                    <Menu>
-                      <Menu.Item key="1">Product</Menu.Item>
-                      <Menu.Item key="2">Group</Menu.Item>
-                    </Menu>
-                  }
-                  trigger={["click"]}
-                >
-                  <Button
-                    onClick={(e) => e.preventDefault()}
-                    size="small"
-                    type="text"
-                    icon={<UsergroupAddOutlined />}
-                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
+                    >
+                      <PlusOutlined />
+                      <span>Add to</span>
+                    </a>
+                  </Dropdown>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item>Product</Menu.Item>
+                        <Menu.Item>Organisation</Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    Invite to...
-                  </Button>
-                </Dropdown>
-                <Dropdown
-                  placement="bottomLeft"
-                  getPopupContainer={() => document.body}
-                  overlayStyle={{ position: "fixed" }}
-                  overlay={
-                    <Menu>
-                      <Menu.Item key="1">
-                        <CreditCardOutlined className="mr-3" /> Request payment
-                      </Menu.Item>
-                      <Menu.Item key="2" className="text-red-500">
-                        <DeleteOutlined className="mr-3" /> Mark as inactive
-                      </Menu.Item>
-                    </Menu>
-                  }
-                  trigger={["click"]}
-                >
-                  <Button
-                    onClick={(e) => e.preventDefault()}
-                    size="small"
-                    type="text"
-                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
+                    >
+                      <UsergroupAddOutlined />
+                      <span>Invite to</span>
+                    </a>
+                  </Dropdown>
+                  <div className="text-neutral-400">|</div>
+                  <Dropdown
+                    placement="bottomLeft"
+                    getPopupContainer={() => document.body}
+                    overlayStyle={{ position: "fixed" }}
+                    overlay={
+                      <Menu>
+                        <Menu.Item>Request payment</Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item className="text-danger-500 hover:bg-danger-50 hover:text-danger-600">
+                          Remove from product
+                        </Menu.Item>
+                        <Menu.Item className="text-danger-500 hover:bg-danger-50 hover:text-danger-600">
+                          Mark as inactive
+                        </Menu.Item>
+                      </Menu>
+                    }
+                    trigger={["click"]}
                   >
-                    More
-                    <DownOutlined className="ml-1 w-2.5 relative top-px" />
-                  </Button>
-                </Dropdown>
+                    <a
+                      onClick={(e) => e.preventDefault()}
+                      className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
+                    >
+                      <span>More...</span>
+                      <DownOutlined className="-ml-0.5 w-2.5" />
+                    </a>
+                  </Dropdown>
+                </div>
               </TableActions>
               <Table
                 rowSelection={rowSelection}
@@ -423,23 +448,17 @@ function Contacts(): ReactElement {
                 columns={columns}
                 dataSource={data}
                 pagination={false}
+                scroll={{ x: 1000 }}
                 className="ant-table-sticky"
+                sticky={true}
               />
             </div>
           </div>
-          <footer
-            className={`fixed gap-2 bottom-0 flex items-center transition-all right-0 z-30 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 ${
-              collapsed ? " left-[20px] " : " left-[280px] "
-            }`}
-          >
-            <div className="flex items-center gap-2 ml-auto">
-              <Button>Manage columns</Button>
-              <Button icon={<DownloadOutlined />}>Export</Button>
-            </div>
-          </footer>
+          <TableFooter collapsed={collapsed} sidebar={true} />
         </Content>
       </Layout>
-      <SMSModal visible={isModalVisible} onCancel={handleModalCancel} />
+      <SMSModal visible={isSMSModalVisible} onCancel={handleModalCancel} />
+      <EmailModal visible={isEmailModalVisible} onClose={handleModalCancel} />
     </Layout>
   );
 }

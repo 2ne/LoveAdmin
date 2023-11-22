@@ -41,13 +41,13 @@ const TableTitle: React.FC<TableTitleProps> = ({
   const term = totalRecords === 1 ? recordsTerm.singular : recordsTerm.plural;
 
   return (
-    <Title level={5} className="m-0">
+    <Title level={5} className="relative flex min-w-0 m-0 top-px">
       {Array.isArray(title) ? (
         <Select
           defaultValue={title[0]}
           onChange={handleChange}
           bordered={false}
-          className="h-7 [&_.ant-select-selection-item]:text-base [&_.ant-select-selection-item]:font-semibold [&_.ant-select-selection-item]:text-primary-600 [&:hover_.ant-select-selection-item]:text-primary-500 [&:hover_.ant-select-selection-item]:underline [&_.ant-select-selector]:!pl-0 [&_.ant-select-selector]:!pr-2.5 -mr-2.5  [&_.ant-select-arrow]:text-primary-700 [&:hover_.ant-select-arrow]:text-primary-600 [&_.ant-select-selection-item]:underline-offset-2"
+          className="shadow-none h-7 [&_.ant-select-selection-item]:text-base [&_.ant-select-selection-item]:font-medium [&_.ant-select-selection-item]:text-primary-600 [&:hover_.ant-select-selection-item]:text-primary-600 [&:hover_.ant-select-selection-item]:underline [&_.ant-select-selector]:!pl-0 [&_.ant-select-selector]:!pr-2.5 -mr-2.5  [&_.ant-select-arrow]:text-primary-700/90 [&:hover_.ant-select-arrow]:text-primary-600 [&_.ant-select-selection-item]:underline-offset-2 [&_.ant-select-selection-item]:-top-0.5 [&_.ant-select-selection-item]:pr-[17px]"
         >
           {title.map((t, index) => {
             return (
@@ -58,26 +58,28 @@ const TableTitle: React.FC<TableTitleProps> = ({
           })}
         </Select>
       ) : (
-        <span>{title}</span>
+        <div className="flex-grow min-w-0">
+          <div className="relative w-full truncate max-w-prose">{title}</div>
+        </div>
       )}
       {!hideCount && (
-        <>
+        <div className="hidden sm:contents">
           <Separator />
           {noRowsSelected ? (
-            <span className="text-subtitle">{`${totalRecords} ${term}`}</span>
+            <div className="text-subtitle whitespace-nowrap">{`${totalRecords} ${term}`}</div>
           ) : (
             <>
-              <span className="font-medium tabular-nums text-subtitle">
+              <div className="font-medium whitespace-nowrap tabular-nums text-subtitle">
                 {`${selectedRowKeysLength} of ${totalRecords} selected`}
-              </span>
+              </div>
               {!allRowsSelected && <Separator />}
               {!allRowsSelected && (
-                <a className="" onClick={onSelectAll}>
+                <a className="whitespace-nowrap" onClick={onSelectAll}>
                   Select all
                 </a>
               )}
               <Separator />
-              <a className="" onClick={onUnselectAll}>
+              <a className="truncate whitespace-nowrap" onClick={onUnselectAll}>
                 Clear selection
               </a>
             </>
@@ -85,12 +87,12 @@ const TableTitle: React.FC<TableTitleProps> = ({
           {selectable && noRowsSelected && !allRowsSelected && (
             <>
               <Separator />
-              <a className="" onClick={onSelectAll}>
+              <a className="whitespace-nowrap" onClick={onSelectAll}>
                 Select all
               </a>
             </>
           )}
-        </>
+        </div>
       )}
     </Title>
   );

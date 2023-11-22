@@ -4,12 +4,14 @@ const { Title } = Typography;
 
 interface ManageLevelsModalProps {
   visible: boolean;
-  onClose: () => void;
+  handleOk: () => void;
+  handleCancel: () => void;
 }
 
 const ManageLevelsModal: React.FC<ManageLevelsModalProps> = ({
   visible,
-  onClose,
+  handleOk,
+  handleCancel,
 }) => {
   const [selectedLevels, setSelectedLevels] = useState<number[]>([1]);
   const levels = Array.from({ length: 4 }, (_, i) => i + 1);
@@ -37,9 +39,9 @@ const ManageLevelsModal: React.FC<ManageLevelsModalProps> = ({
         visible={visible}
         onOk={() => {
           console.log("Selected Levels:", selectedLevels);
-          onClose();
+          handleOk();
         }}
-        onCancel={onClose}
+        onCancel={handleCancel}
         okText="Save"
         width={320}
       >

@@ -1,22 +1,7 @@
 import React, { ReactElement, useRef, useState } from "react";
-import {
-  DownloadOutlined,
-  FileExcelOutlined,
-  FilePdfOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import {
-  Layout,
-  Button,
-  Breadcrumb,
-  Dropdown,
-  Table,
-  Input,
-  Menu,
-  Tour,
-  TourProps,
-} from "antd";
-import ProductTree from "../../product-tree";
+import { SearchOutlined } from "@ant-design/icons";
+import { Layout, Breadcrumb, Table, Input, Tour, TourProps } from "antd";
+import ProductTree from "../../filter-product";
 import { ColumnsType } from "antd/es/table/interface";
 import ProductSalesReportModal from "./product-sales-report-modal";
 import DateFilter from "../../../components/date-filter";
@@ -28,13 +13,15 @@ import {
 } from "../../../components/table-filters";
 import Sidebar from "../../../components/sidebar";
 import ProductSalesReportFilters from "./product-sales-report-filters";
+import { Link } from "react-router-dom";
+import TableFooter from "../../../components/table-footer";
 const { Content } = Layout;
 
 interface DataType {
   key: React.Key;
   name: string;
   invoiced: number;
-  received: number;
+  paid: number;
   pending: number;
   outstanding: number;
   failed: number;
@@ -45,7 +32,7 @@ const data = [
     key: "1",
     name: "Adult Gymnastics",
     invoiced: 54.0,
-    received: 0,
+    paid: 0,
     pending: 0,
     outstanding: 0,
     failed: 0,
@@ -54,7 +41,7 @@ const data = [
     key: "2",
     name: "Gymnastics 5-7 years",
     invoiced: 42.0,
-    received: 0,
+    paid: 0,
     pending: 0,
     outstanding: 0,
     failed: 0,
@@ -82,7 +69,7 @@ function ProductSalesReport(): ReactElement {
     {
       title: "Product",
       dataIndex: "name",
-
+      width: 200,
       ellipsis: true,
       sorter: (a, b) => a.name.length - b.name.length,
     },
@@ -92,24 +79,25 @@ function ProductSalesReport(): ReactElement {
       key: "invoiced",
       align: "right",
       sorter: (a, b) => a.invoiced - b.invoiced,
-      render: (text: number) =>
-        text === 0 ? (
-          "-"
+      render: (text: number) => {
+        return text === 0 ? (
+          <>£{text.toFixed(2)}</>
         ) : (
-          <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
-            2
-          )}`}</a>
-        ),
+          <a onClick={showModal} className="tabular-nums">
+            £{text.toFixed(2)}
+          </a>
+        );
+      },
     },
     {
-      title: "Received",
-      dataIndex: "received",
-      key: "received",
+      title: "Paid",
+      dataIndex: "paid",
+      key: "paid",
       align: "right",
-      sorter: (a, b) => a.received - b.received,
+      sorter: (a, b) => a.paid - b.paid,
       render: (text: number) =>
         text === 0 ? (
-          "-"
+          <>£{text.toFixed(2)}</>
         ) : (
           <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
             2
@@ -124,7 +112,7 @@ function ProductSalesReport(): ReactElement {
       sorter: (a, b) => a.pending - b.pending,
       render: (text: number) =>
         text === 0 ? (
-          "-"
+          <>£{text.toFixed(2)}</>
         ) : (
           <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
             2
@@ -139,7 +127,7 @@ function ProductSalesReport(): ReactElement {
       sorter: (a, b) => a.outstanding - b.outstanding,
       render: (text: number) =>
         text === 0 ? (
-          "-"
+          <>£{text.toFixed(2)}</>
         ) : (
           <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
             2
@@ -154,7 +142,7 @@ function ProductSalesReport(): ReactElement {
       sorter: (a, b) => a.failed - b.failed,
       render: (text: number) =>
         text === 0 ? (
-          "-"
+          <>£{text.toFixed(2)}</>
         ) : (
           <a onClick={showModal} className="tabular-nums">{`£${text.toFixed(
             2
@@ -164,11 +152,11 @@ function ProductSalesReport(): ReactElement {
   ];
   const ref1 = useRef(null);
   const [open, setOpen] = useState<boolean>(false);
-  const [tourEnabled, setTourEnabled] = useState(true);
+  const [tourEnabled, setTourEnabled] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
-    setTourEnabled(false); // Disable the tour
+    setTourEnabled(false);
   };
 
   const steps: TourProps["steps"] = [
@@ -195,25 +183,33 @@ function ProductSalesReport(): ReactElement {
   ];
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen bg-neutral-900">
       <LoveAdminHeader
-        breadcrumbChildren={
-          <>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-            <Breadcrumb.Item>Reports</Breadcrumb.Item>
-            <Breadcrumb.Item>Financials</Breadcrumb.Item>
-            <Breadcrumb.Item>Sales Reports</Breadcrumb.Item>
-            <Breadcrumb.Item>Product Sales Reports</Breadcrumb.Item>
-          </>
-        }
+        breadcrumbChildren={[
+          <Breadcrumb.Item key="home">
+            <Link to="/Home">Home</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="reports">
+            <Link to="/Reports">Reports</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="financials">
+            <Link to="/Reports/Financials">Financials</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="sales">
+            <Link to="/Reports/Financials/Sales">Sales Reports</Link>
+          </Breadcrumb.Item>,
+          <Breadcrumb.Item key="product-sales">
+            Product Sales Reports
+          </Breadcrumb.Item>,
+        ]}
       ></LoveAdminHeader>
-      <Layout>
+      <Layout className="bg-white rounded-t-lg">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed}>
           <ProductTree hideFilters={true} />
         </Sidebar>
-        <Content className="pb-16 bg-white">
+        <Content className="pb-16">
           <div className="p-4">
-            <div className="flex items-center mb-3">
+            <div className="md:items-center md:flex md:gap-2.5 max-md:space-y-2">
               <div
                 className="relative flex items-center"
                 ref={ref1}
@@ -228,10 +224,11 @@ function ProductSalesReport(): ReactElement {
                   selectable={false}
                 />
               </div>
-              <div className="flex items-center gap-2 ml-auto">
+              <div className="flex items-center gap-2.5 ml-auto">
                 <Input
                   placeholder="Search product..."
                   prefix={<SearchOutlined className="mr-1" />}
+                  allowClear
                 />
                 <DateFilter defaultFilter="This month" />
                 <TableFilterButton
@@ -243,24 +240,25 @@ function ProductSalesReport(): ReactElement {
             <TableFilterBar isActive={isActive}>
               <ProductSalesReportFilters />
             </TableFilterBar>
-            <div className="relative">
+            <div className="relative mt-5 md:mt-4">
               <Table
                 pagination={false}
                 size="small"
                 columns={columns}
                 dataSource={data}
+                scroll={{ x: 800 }}
                 className="ant-table-sticky"
                 summary={(pageData) => {
                   let totalInvoiced = 0;
-                  let totalReceived = 0;
+                  let totalpaid = 0;
                   let totalPending = 0;
                   let totalOutstanding = 0;
                   let totalFailed = 0;
 
                   pageData.forEach(
-                    ({ invoiced, received, pending, outstanding, failed }) => {
+                    ({ invoiced, paid, pending, outstanding, failed }) => {
                       totalInvoiced += invoiced;
-                      totalReceived += received;
+                      totalpaid += paid;
                       totalPending += pending;
                       totalOutstanding += outstanding;
                       totalFailed += totalFailed;
@@ -269,7 +267,7 @@ function ProductSalesReport(): ReactElement {
 
                   return (
                     <Table.Summary fixed>
-                      <Table.Summary.Row className="border-b-0 bg-neutral-50">
+                      <Table.Summary.Row className="border-b-0 bg-neutral-50 text-neutral-900">
                         <Table.Summary.Cell
                           index={0}
                           align="right"
@@ -283,7 +281,7 @@ function ProductSalesReport(): ReactElement {
                           className="font-medium border-b-0"
                         >
                           {totalInvoiced === 0 ? (
-                            "-"
+                            <>£{totalInvoiced.toFixed(2)}</>
                           ) : (
                             <a
                               onClick={showModal}
@@ -296,13 +294,13 @@ function ProductSalesReport(): ReactElement {
                           align="right"
                           className="font-medium border-b-0"
                         >
-                          {totalReceived === 0 ? (
-                            "-"
+                          {totalpaid === 0 ? (
+                            <>£{totalpaid.toFixed(2)}</>
                           ) : (
                             <a
                               onClick={showModal}
                               className="tabular-nums"
-                            >{`£${totalReceived.toFixed(2)}`}</a>
+                            >{`£${totalpaid.toFixed(2)}`}</a>
                           )}
                         </Table.Summary.Cell>
                         <Table.Summary.Cell
@@ -311,7 +309,7 @@ function ProductSalesReport(): ReactElement {
                           className="font-medium border-b-0"
                         >
                           {totalPending === 0 ? (
-                            "-"
+                            <>£{totalPending.toFixed(2)}</>
                           ) : (
                             <a
                               onClick={showModal}
@@ -325,7 +323,7 @@ function ProductSalesReport(): ReactElement {
                           className="font-medium border-b-0"
                         >
                           {totalOutstanding === 0 ? (
-                            "-"
+                            <>£{totalOutstanding.toFixed(2)}</>
                           ) : (
                             <a
                               onClick={showModal}
@@ -339,7 +337,7 @@ function ProductSalesReport(): ReactElement {
                           className="font-medium border-b-0"
                         >
                           {totalFailed === 0 ? (
-                            "-"
+                            <>£{totalFailed.toFixed(2)}</>
                           ) : (
                             <a
                               onClick={showModal}
@@ -354,43 +352,7 @@ function ProductSalesReport(): ReactElement {
               />
             </div>
           </div>
-          <footer
-            className={`fixed gap-2 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 ${
-              collapsed ? " left-[20px] " : " left-[280px] "
-            }`}
-          >
-            <div className="flex items-center gap-2 ml-auto">
-              <Button>Manage columns</Button>
-              <Dropdown
-                placement="topRight"
-                overlay={
-                  <Menu>
-                    <Menu.Item
-                      key="1"
-                      onClick={() => console.log("Export PDF clicked")}
-                    >
-                      <div className="flex items-center gap-3">
-                        <FilePdfOutlined />
-                        <span>PDF</span>
-                      </div>
-                    </Menu.Item>
-                    <Menu.Item
-                      key="2"
-                      onClick={() => console.log("Export Excel clicked")}
-                    >
-                      <div className="flex items-center gap-3">
-                        <FileExcelOutlined />
-                        <span>Excel</span>
-                      </div>
-                    </Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <Button icon={<DownloadOutlined />}>Export</Button>
-              </Dropdown>
-            </div>
-          </footer>
+          <TableFooter collapsed={collapsed} sidebar={true} />
         </Content>
       </Layout>
       <ProductSalesReportModal

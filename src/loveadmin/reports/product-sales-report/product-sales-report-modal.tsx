@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import {
   ArrowLeftOutlined,
   CreditCardOutlined,
-  DownloadOutlined,
-  FileExcelOutlined,
-  FilePdfOutlined,
   MailOutlined,
   PlusOutlined,
   SearchOutlined,
@@ -14,6 +11,13 @@ import { Layout, Button, Table, Dropdown, Menu, Modal, Input } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
 import TableTitle from "../../../components/table-title";
 import TableActions from "../../../components/table-actions";
+import {
+  TableFilterBar,
+  TableFilterButton,
+} from "../../../components/table-filters";
+import ProductSalesReportModalFilters from "./product-sales-report-modal-filters";
+import DateFilter from "../../../components/date-filter";
+import TableFooter from "../../../components/table-footer";
 const { Content } = Layout;
 
 interface ProductSalesReportModalProps {
@@ -42,7 +46,7 @@ interface DataType {
 const data = [
   {
     key: "1",
-    invoiceNumber: "#462378",
+    invoiceNumber: "462378",
     name: "James Toone",
     accountOwner: "Ian Toone",
     product: "Adult Gymnastics",
@@ -58,7 +62,7 @@ const data = [
   },
   {
     key: "2",
-    invoiceNumber: "#462379",
+    invoiceNumber: "462379",
     name: "Sarah Smith",
     accountOwner: "John Smith",
     product: "Yoga Classes",
@@ -74,7 +78,7 @@ const data = [
   },
   {
     key: "3",
-    invoiceNumber: "#462380",
+    invoiceNumber: "462380",
     name: "Emily Johnson",
     accountOwner: "Michael Johnson",
     product: "Swimming Lessons",
@@ -90,7 +94,7 @@ const data = [
   },
   {
     key: "4",
-    invoiceNumber: "#462381",
+    invoiceNumber: "462381",
     name: "Daniel Brown",
     accountOwner: "Samantha Brown",
     product: "Boxing Classes",
@@ -106,7 +110,7 @@ const data = [
   },
   {
     key: "5",
-    invoiceNumber: "#462382",
+    invoiceNumber: "462382",
     name: "Rebecca Williams",
     accountOwner: "Daniel Williams",
     product: "Dance Classes",
@@ -122,7 +126,7 @@ const data = [
   },
   {
     key: "6",
-    invoiceNumber: "#462383",
+    invoiceNumber: "462383",
     name: "Oliver Wilson",
     accountOwner: "Claire Wilson",
     product: "Personal Training",
@@ -138,7 +142,7 @@ const data = [
   },
   {
     key: "7",
-    invoiceNumber: "#462384",
+    invoiceNumber: "462384",
     name: "Lucy Patel",
     accountOwner: "Raj Patel",
     product: "Zumba Classes",
@@ -154,7 +158,7 @@ const data = [
   },
   {
     key: "8",
-    invoiceNumber: "#462385",
+    invoiceNumber: "462385",
     name: "William Thompson",
     accountOwner: "Lisa Thompson",
     product: "Spin Classes",
@@ -170,7 +174,7 @@ const data = [
   },
   {
     key: "9",
-    invoiceNumber: "#462386",
+    invoiceNumber: "462386",
     name: "Sophia Lee",
     accountOwner: "David Lee",
     product: "CrossFit",
@@ -186,7 +190,7 @@ const data = [
   },
   {
     key: "10",
-    invoiceNumber: "#462387",
+    invoiceNumber: "462387",
     name: "Isabella Roberts",
     accountOwner: "Sarah Roberts",
     product: "Pilates",
@@ -207,6 +211,7 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
   handleOk,
   handleCancel,
 }) => {
+  const [isActive, setIsActive] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const columns: ColumnsType<DataType> = [
@@ -375,29 +380,43 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
 
   return (
     <Modal
+      className="[&_.ant-modal-header]:mb-0"
       title={
-        <div className="flex items-center gap-2">
-          <Button
-            type="text"
-            icon={<ArrowLeftOutlined />}
-            className="rounded-full"
-            onClick={handleCancel}
-          />
-          <TableTitle
-            title="Product Sales - Adult Gymnastics for this month"
-            selectedRowKeysLength={selectedRowKeys.length}
-            onSelectAll={handleSelectAll}
-            onUnselectAll={handleUnselectAll}
-            totalRecords={data.length}
-          />
-          <div className="ml-auto font-normal">
-            <Input
-              className="w-[19rem]"
-              placeholder="Search invoice, name, payment reference..."
-              prefix={<SearchOutlined className="mr-1" />}
-            />
+        <>
+          <div className="md:gap-2.5 max-md:-mt-2 md:flex md:items-center max-md:space-y-2">
+            <div className="flex items-center min-w-0 md:contents">
+              <Button
+                type="text"
+                icon={<ArrowLeftOutlined />}
+                className="rounded-full shrink-0 mt-1 max-md:mr-1 max-md:-ml-1.5"
+                onClick={handleCancel}
+              />
+              <TableTitle
+                title="Invoiced Sales - Adult Gymnastics"
+                selectedRowKeysLength={selectedRowKeys.length}
+                onSelectAll={handleSelectAll}
+                onUnselectAll={handleUnselectAll}
+                totalRecords={data.length}
+              />
+            </div>
+            <div className="flex items-center gap-2.5 ml-auto font-normal">
+              <Input
+                className="w-full md:w-[10.25rem] lg:w-[17rem]"
+                placeholder="Search invoice, name, payment reference..."
+                prefix={<SearchOutlined className="mr-1" />}
+                allowClear
+              />
+              <DateFilter defaultFilter="This month" />
+              <TableFilterButton
+                toggleActive={() => setIsActive(!isActive)}
+                isActive={isActive}
+              />
+            </div>
           </div>
-        </div>
+          <TableFilterBar isActive={isActive}>
+            <ProductSalesReportModalFilters />
+          </TableFilterBar>
+        </>
       }
       open={visible}
       onOk={handleOk}
@@ -409,100 +428,97 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
     >
       <div>
         <Content className="pb-16 bg-white">
-          <div className="relative">
+          <div className="relative mt-5 md:mt-4">
             <TableActions isVisible={selectedRowKeys.length > 0}>
-              <Dropdown
-                placement="bottomLeft"
-                getPopupContainer={() => document.body}
-                overlayStyle={{ position: "fixed" }}
-                overlay={
-                  <Menu>
-                    <Menu.Item key="1">Email</Menu.Item>
-                    <Menu.Item key="2">SMS</Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <Button
-                  onClick={(e) => e.preventDefault()}
-                  size="small"
-                  type="text"
-                  icon={<MailOutlined />}
-                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+              <div className="flex items-center gap-4">
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1">Email</Menu.Item>
+                      <Menu.Item key="2">SMS</Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
                 >
-                  Message...
-                </Button>
-              </Dropdown>
-              <Dropdown
-                placement="bottomLeft"
-                getPopupContainer={() => document.body}
-                overlayStyle={{ position: "fixed" }}
-                overlay={
-                  <Menu>
-                    <Menu.Item key="1">Product</Menu.Item>
-                    <Menu.Item key="2">Group</Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <Button
-                  onClick={(e) => e.preventDefault()}
-                  size="small"
-                  type="text"
-                  icon={<PlusOutlined />}
-                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="flex gap-2 font-medium text-neutral-900"
+                  >
+                    <MailOutlined />
+                    <span>Message</span>
+                  </a>
+                </Dropdown>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item>Class</Menu.Item>
+                      <Menu.Item>Product</Menu.Item>
+                      <Menu.Item>Group</Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
                 >
-                  Add to...
-                </Button>
-              </Dropdown>
-              <Dropdown
-                placement="bottomLeft"
-                getPopupContainer={() => document.body}
-                overlayStyle={{ position: "fixed" }}
-                overlay={
-                  <Menu>
-                    <Menu.Item key="1">Product</Menu.Item>
-                    <Menu.Item key="2">Group</Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <Button
-                  onClick={(e) => e.preventDefault()}
-                  size="small"
-                  type="text"
-                  icon={<UsergroupAddOutlined />}
-                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
+                  >
+                    <PlusOutlined />
+                    <span>Add to</span>
+                  </a>
+                </Dropdown>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item>Product</Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
                 >
-                  Invite to...
-                </Button>
-              </Dropdown>
-              <Dropdown
-                placement="bottomLeft"
-                getPopupContainer={() => document.body}
-                overlayStyle={{ position: "fixed" }}
-                overlay={
-                  <Menu>
-                    <Menu.Item key="1">Request payment</Menu.Item>
-                    <Menu.Item key="2">Raise credit note</Menu.Item>
-                    <Menu.Item key="3">Record offline payment</Menu.Item>
-                    <Menu.Item key="4">Refund</Menu.Item>
-                    <Menu.Item key="5">Re-attempt payment collection</Menu.Item>
-                    <Menu.Item key="6">Cancel automatic reminder</Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <Button
-                  onClick={(e) => e.preventDefault()}
-                  size="small"
-                  type="text"
-                  icon={<CreditCardOutlined />}
-                  className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
+                  >
+                    <UsergroupAddOutlined />
+                    <span>Invite to</span>
+                  </a>
+                </Dropdown>
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1">Request payment</Menu.Item>
+                      <Menu.Item key="2">Raise credit note</Menu.Item>
+                      <Menu.Item key="3">Record offline payment</Menu.Item>
+                      <Menu.Item key="4">
+                        Re-attempt payment collection
+                      </Menu.Item>
+                      <Menu.Item key="5">Cancel automatic reminder</Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
                 >
-                  Finance options...
-                </Button>
-              </Dropdown>
+                  <Button
+                    onClick={(e) => e.preventDefault()}
+                    size="small"
+                    type="text"
+                    icon={<CreditCardOutlined />}
+                    className="px-0 font-medium hover:bg-transparent hover:underline text-neutral-800"
+                  >
+                    Finance options
+                  </Button>
+                </Dropdown>
+              </div>
             </TableActions>
             <Table
               rowSelection={rowSelection}
@@ -511,44 +527,13 @@ const ProductSalesReportModal: React.FC<ProductSalesReportModalProps> = ({
               dataSource={data}
               pagination={false}
               className="ant-table-sticky"
+              sticky={true}
               scroll={{ x: 1700 }}
             />
           </div>
         </Content>
       </div>
-      <footer className="fixed gap-2 left-0 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
-        <div className="flex items-center gap-2 ml-auto">
-          <Button>Manage columns</Button>
-          <Dropdown
-            placement="topRight"
-            overlay={
-              <Menu>
-                <Menu.Item
-                  key="1"
-                  onClick={() => console.log("Export PDF clicked")}
-                >
-                  <div className="flex items-center gap-2">
-                    <FilePdfOutlined />
-                    <span>PDF</span>
-                  </div>
-                </Menu.Item>
-                <Menu.Item
-                  key="2"
-                  onClick={() => console.log("Export Excel clicked")}
-                >
-                  <div className="flex items-center gap-2">
-                    <FileExcelOutlined />
-                    <span>Excel</span>
-                  </div>
-                </Menu.Item>
-              </Menu>
-            }
-            trigger={["click"]}
-          >
-            <Button icon={<DownloadOutlined />}>Export</Button>
-          </Dropdown>
-        </div>
-      </footer>
+      <TableFooter sidebar={false} />
     </Modal>
   );
 };

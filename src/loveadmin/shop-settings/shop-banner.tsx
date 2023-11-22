@@ -242,7 +242,7 @@ export const BannerSettings: FC<BannerSettingsProps> = ({ selectedItem }) => {
             </Tooltip>
           )}
           <Segmented
-            className="p-1.5 rounded-b-none"
+            className="p-1.5 rounded rounded-b-none [&_*]:!rounded"
             block
             options={[
               {
@@ -280,7 +280,7 @@ export const BannerSettings: FC<BannerSettingsProps> = ({ selectedItem }) => {
           {selectedSegment === "calendar" && (
             <div className="p-1.5 pt-0.5 rounded-b bg-neutral-100">
               <TreeSelect
-                className="[&_.ant-select-selection-item-remove]:hidden [&_.ant-select-selection-item]:bg-transparent [&_.ant-select-selection-item]:p-0 [&_.ant-select-selection-item]:pl-1 [&_.ant-select-selection-item]:mr-0 [&_.ant-select-selection-item-content]:m-0 [&_.ant-select-selection-item-content]:font-medium [&_.ant-select-selection-item-content]:cursor-pointer"
+                className="rounded-full [&_.ant-select-selection-item-remove]:hidden [&_.ant-select-selection-item]:bg-transparent [&_.ant-select-selection-item]:p-0 [&_.ant-select-selection-item]:pl-1 [&_.ant-select-selection-item]:mr-0 [&_.ant-select-selection-item-content]:m-0 [&_.ant-select-selection-item-content]:font-medium [&_.ant-select-selection-item-content]:cursor-pointer"
                 multiple={true}
                 treeCheckable={true}
                 value={selectedProduct || []}

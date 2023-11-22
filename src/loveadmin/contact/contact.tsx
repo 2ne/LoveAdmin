@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
-  MenuOutlined,
   ArrowLeftOutlined,
   DownOutlined,
   RightOutlined,
@@ -31,9 +30,8 @@ import Finance from "./finance";
 import Messaging from "./messaging";
 import Attendance from "./attendance";
 import DevelopmentProgramme from "./development-programme";
-import useScrollBarWidth from "../../components/useScrollBarWidth";
 import LoveAdminHeader from "../../components/header";
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 const { Title } = Typography;
 interface ContactProps {
   renderInModal?: boolean;
@@ -44,8 +42,6 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
-
-  const scrollbarWidth = useScrollBarWidth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -98,21 +94,18 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
       overlay={
         <Menu>
           <Menu.SubMenu
-            title="Message..."
+            title="Message"
             icon={<MailOutlined className="mr-3" />}
           >
             <Menu.Item>Email</Menu.Item>
             <Menu.Item>SMS</Menu.Item>
           </Menu.SubMenu>
-          <Menu.SubMenu
-            title="Add to..."
-            icon={<PlusOutlined className="mr-3" />}
-          >
+          <Menu.SubMenu title="Add to" icon={<PlusOutlined className="mr-3" />}>
             <Menu.Item>Product</Menu.Item>
             <Menu.Item>Group</Menu.Item>
           </Menu.SubMenu>
           <Menu.SubMenu
-            title="Invite to..."
+            title="Invite to"
             icon={<UsergroupAddOutlined className="mr-3" />}
           >
             <Menu.Item>Product</Menu.Item>
@@ -143,16 +136,18 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
   );
 
   const content = (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen overflow-x-clip">
       {!renderInModal && (
         <LoveAdminHeader
-          breadcrumbChildren={
-            <>
-              <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-              <Breadcrumb.Item>Contacts</Breadcrumb.Item>
-              <Breadcrumb.Item>James Toone</Breadcrumb.Item>
-            </>
-          }
+          breadcrumbChildren={[
+            <Breadcrumb.Item key="home">
+              <Link to="/Home">Home</Link>
+            </Breadcrumb.Item>,
+            <Breadcrumb.Item key="contacts">
+              <Link to="/Contacts">Contacts</Link>
+            </Breadcrumb.Item>,
+            <Breadcrumb.Item key="jamesToone">James Toone</Breadcrumb.Item>,
+          ]}
         ></LoveAdminHeader>
       )}
       <Layout hasSider={true}>
@@ -214,18 +209,28 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
           <Button
             shape="circle"
             onClick={toggleCollapsed}
-            style={{
-              right: collapsed
-                ? `calc(var(--scrollbar-width) - 0.5rem)`
-                : `calc(340px - var(--scrollbar-width) + 0.25rem)`,
-            }}
-            className="fixed z-20 w-6 h-6 min-w-0 -mt-12 transition-all -translate-y-1/2 shadow-md top-1/2"
+            className={`fixed z-20 w-6 h-6 min-w-0 -mr-px transition-all transform -translate-y-1/2 shadow-md top-1/2 ${
+              collapsed
+                ? "right-[calc(20px-var(--scrollbar-width)/2)]"
+                : "right-[calc(340px-var(--scrollbar-width)/2)]"
+            }`}
           >
-            {!collapsed ? (
-              <RightOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-            ) : (
-              <LeftOutlined className="[&>svg]:w-3 [&>svg]:h-3" />
-            )}
+            <svg
+              width="200"
+              height="200"
+              viewBox="100 0 50 50"
+              xmlns="http://www.w3.org/2000/svg"
+              className={`w-3.5 h-3.5 transition-transform ${
+                !collapsed
+                  ? "rotate-90 translate-x-0.5"
+                  : "-rotate-90 -translate-x-px"
+              }`}
+            >
+              <path
+                d="M135.040087,42.9038952 L126.916758,21.8263182 C126.72188,21.2929683 125.973139,21.2929683 125.768004,21.8160615 L117.460054,42.9141519 C117.213893,43.5295556 116.629259,43.929568 115.972829,43.929568 L111.531665,43.929568 C110.393169,43.929568 109.613657,42.760301 110.054696,41.703858 L121.911475,13.5491383 C122.311487,12.5952626 123.244849,11.9696021 124.291036,11.9696021 L128.250133,11.9696021 C129.296319,11.9696021 130.239938,12.6055193 130.63995,13.5799085 L142.076203,41.7243714 C142.506985,42.7808144 141.727474,43.929568 140.599234,43.929568 L136.527313,43.929568 C135.870882,43.929568 135.275992,43.5192989 135.040087,42.9038952 Z"
+                fill="#29B8CC"
+              ></path>
+            </svg>
           </Button>
           {!collapsed && <ContactSidebar />}
         </Sider>

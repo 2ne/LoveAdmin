@@ -2,22 +2,20 @@ import React, { useState } from "react";
 import {
   CheckCircleFilled,
   CheckSquareOutlined,
-  ClockCircleOutlined,
   CloseCircleFilled,
-  CreditCardOutlined,
   DeleteOutlined,
   DownOutlined,
   DownloadOutlined,
   EllipsisOutlined,
+  InfoCircleOutlined,
   MailOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
+  PlusOutlined,
   SettingOutlined,
-  ShoppingCartOutlined,
   StarFilled,
   TeamOutlined,
-  UserOutlined,
-  UsergroupAddOutlined,
+  UserSwitchOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -32,7 +30,6 @@ import {
   Select,
   Dropdown,
   Menu,
-  Space,
 } from "antd";
 import type { MenuProps, TableColumnsType } from "antd";
 import type { TableRowSelection } from "antd/es/table/interface";
@@ -40,8 +37,16 @@ import DevProgrammeSkillModal from "./dev-programme-skill-modal";
 import TableActions from "../../components/table-actions";
 import DevProgrammeParticipantModal from "./dev-programme-participant-modal";
 import ManageLevelsModal from "./manage-levels-modal";
-import { Achieved, Completed, NotAchieved, WorkingOn } from "./icons";
-import Tag from "../../components/tag";
+import {
+  Achieved,
+  Completed,
+  NotAchieved,
+  NotStarted,
+  WorkingOn,
+} from "./icons";
+import LevelAchievedModal from "./level-achieved-modal";
+import { participantData } from "./participant-data";
+import { skillData } from "./skill-data";
 const { Content } = Layout;
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -71,6 +76,7 @@ export interface DevProgrammeParticipantsDataType {
 
 const DevProgrammeModal: React.FC = () => {
   const [selectedSkillState, setSelectedSkillState] = useState("achieved");
+  const [levelModal, setLevelModal] = useState(false);
 
   const [segmentValue, setSegmentValue] = useState<string | number>(
     "Participants"
@@ -88,48 +94,6 @@ const DevProgrammeModal: React.FC = () => {
   >([]);
   const [selectedLevel, setSelectedLevel] = useState("Level 1");
 
-  const options = [
-    {
-      label: (
-        <div className="flex items-center justify-center gap-1.5">
-          <div>Level 1</div>
-          <div className="text-subtitle">·</div>
-          <div className="flex items-center gap-1">
-            <TeamOutlined className="text-xs text-neutral-600" />
-            <div className="text-neutral-600">10</div>
-          </div>
-        </div>
-      ),
-      value: "Level 1",
-    },
-    {
-      label: (
-        <div className="flex items-center justify-center gap-1.5">
-          <div>Level 2</div>
-          <div className="text-subtitle">·</div>
-          <div className="flex items-center gap-1">
-            <TeamOutlined className="text-xs text-neutral-600" />
-            <div className="text-neutral-600">4</div>
-          </div>
-        </div>
-      ),
-      value: "Level 2",
-    },
-    {
-      label: (
-        <div className="flex items-center justify-center gap-1.5">
-          <div className="text-danger-500">Unassigned</div>
-          <div className="text-danger-400">·</div>
-          <div className="flex items-center gap-1">
-            <TeamOutlined className="text-xs text-danger-500" />
-            <div className="text-danger-500">6</div>
-          </div>
-        </div>
-      ),
-      value: "Unassigned",
-    },
-  ];
-
   const handleChange = (selected: any) => {
     setSelectedLevel(selected);
   };
@@ -138,6 +102,10 @@ const DevProgrammeModal: React.FC = () => {
   const [participantModalVisible, setParticipantModalVisible] = useState(false);
   const [manageLevelsModalVisible, setManageLevelsModalVisible] =
     useState(false);
+
+  const levelAchieved = () => {
+    setLevelModal(true);
+  };
 
   const showSkillsModal = (rowData: DevProgrammeSkillsDataType) => {
     setSelectedSkillRowData(rowData);
@@ -275,58 +243,26 @@ const DevProgrammeModal: React.FC = () => {
     handleAction(selectedSkillRowKeys, "marked as not started", "skill");
   };
 
-  const levelAchieved = () => {
-    handleAction(selectedParticipantRowKeys, "marked as achieved", "level");
-  };
-
-  const PopoverContent = () => (
+  const KeyContent = () => (
     <div className="flex gap-4 pr-2 text-sm text-neutral-700">
-      <div className="flex items-center gap-1.5">
+      <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
         <CloseCircleFilled className="text-danger-500" />
         <span>Not achieved</span>
       </div>
-      <div className="flex items-center gap-1.5">
+      <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
         <PlayCircleFilled className="text-primary-500" />
         <span>Working on</span>
       </div>
-      <div className="flex items-center gap-1.5">
+      <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
         <CheckCircleFilled className="text-success-500" />
         <span>Completed</span>
       </div>
-      <div className="flex items-center gap-1.5">
+      <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
         <StarFilled className="text-yellow-400" />
         <span>Achieved</span>
       </div>
     </div>
   );
-
-  const skillItems: MenuProps["items"] = [
-    {
-      key: "1",
-      label: "Not achieved",
-      icon: <CloseCircleFilled className="mt-px text-danger-500" />,
-    },
-    {
-      key: "2",
-      label: "Working on",
-      icon: <PlayCircleFilled className="mt-px text-primary-500" />,
-    },
-    {
-      key: "3",
-      label: "Completed",
-      icon: <CheckCircleFilled className="mt-px text-success-500" />,
-    },
-    {
-      key: "4",
-      label: "Achieved",
-      icon: <StarFilled className="mt-px text-yellow-400" />,
-    },
-    {
-      key: "5",
-      label: "Not started",
-      icon: <MinusCircleFilled className="mt-px text-neutral-400" />,
-    },
-  ];
 
   const skillColumns: TableColumnsType<DevProgrammeSkillsDataType> = [
     {
@@ -350,7 +286,7 @@ const DevProgrammeModal: React.FC = () => {
 
         return (
           <Tooltip
-            className="inline-flex items-center gap-3"
+            className="flex w-full max-w-[15rem] items-center gap-3"
             title={
               achievedSkills === totalParticpants
                 ? "All participants have achieved this skill"
@@ -359,282 +295,97 @@ const DevProgrammeModal: React.FC = () => {
           >
             <a
               onClick={() => showSkillsModal(record)}
-              className="w-[260px] flex shrink-0 min-w-0 gap-px overflow-hidden rounded-full bg-neutral-200/75"
+              className="flex flex-grow min-w-0 gap-px overflow-hidden rounded-full bg-neutral-200/75"
             >
-              {achievedSkills > 0 ? (
-                <div
-                  className="flex items-center justify-center h-3.5 bg-yellow-400 rounded-full"
-                  style={{ width: `${achievedPercentage}%` }}
-                >
-                  <Achieved className="[&_path]:fill-white h-2.5 w-2.5" />
-                </div>
-              ) : (
-                <div className="h-3.5 rounded-full "></div>
-              )}
+              <div
+                className="flex items-center justify-center h-3.5 bg-yellow-400 rounded-full"
+                style={{ width: `${achievedPercentage}%` }}
+              ></div>
             </a>
-            {achievedSkills > 0 && (
-              <div className="-ml-0.5">
-                {achievedSkills}/{totalParticpants}
-              </div>
-            )}
+
+            <div className="-ml-0.5">
+              {achievedSkills}/{totalParticpants}
+            </div>
           </Tooltip>
         );
       },
     },
-    {
-      title: "",
-      dataIndex: "",
-      key: "action",
-      width: 34,
-      render: () => (
-        <Dropdown
-          menu={{ items: skillItems }}
-          trigger={["click"]}
-          rootClassName="w-48"
-        >
-          <Button
-            className="absolute right-[3px] top-[3px]"
-            type="text"
-            icon={<EllipsisOutlined className="rotate-90 text-neutral-600" />}
-            onClick={(e) => e.preventDefault()}
-          ></Button>
-        </Dropdown>
-      ),
-    },
   ];
 
-  const skillData = [
+  const participantItems: MenuProps["items"] = [
     {
-      key: "1",
-      skill: "Enter the water safely",
-      level: 1,
-      notStarted: 0,
-      notAchieved: 0,
-      workingOn: 0,
-      completed: 0,
-      achieved: 8,
-    },
-    {
-      key: "2",
-      skill:
-        "Move forward for a distance of 5 metres, feet may be on or off the floor",
-      level: 1,
-      notStarted: 0,
-      notAchieved: 0,
-      workingOn: 0,
-      completed: 0,
-      achieved: 8,
-    },
-    {
-      key: "3",
-      skill:
-        "Move backwards for a distance of 5 metres, feet may be on or off the floor",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 0,
-      completed: 1,
-      achieved: 6,
-    },
-    {
-      key: "4",
-      skill:
-        "Move sideways for a distance of 5 metres, feet may be on or off the floor",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 2,
-      achieved: 5,
-    },
-    {
-      key: "5",
-      skill: "Scoop the water and wash the face",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 1,
-      achieved: 4,
-    },
-    {
-      key: "6",
-      skill: "Be comfortable with water showered from overhead",
-      level: 1,
-      notStarted: 0,
-      notAchieved: 2,
-      workingOn: 2,
-      completed: 1,
-      achieved: 3,
-    },
-    {
-      key: "7",
-      skill:
-        "Move from a flat floating position on the back and return to standing",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 4,
-      completed: 1,
-      achieved: 2,
-    },
-    {
-      key: "8",
-      skill:
-        "Move from a flat floating position on the front and return to standing",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 4,
-      completed: 1,
-      achieved: 0,
-    },
-    {
-      key: "9",
-      skill: "Push and glide in a flat position on the front from a wall",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 6,
-      completed: 1,
-      achieved: 0,
-    },
-    {
-      key: "10",
-      skill: "Push and glide in a flat position on the back from a wall",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 6,
-      completed: 1,
-      achieved: 0,
-    },
-    {
-      key: "11",
-      skill: "Give examples of two pool rules",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 6,
-      completed: 1,
-      achieved: 0,
-    },
-    {
-      key: "12",
-      skill: "Exit the water safely",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 6,
-      completed: 1,
-      achieved: 0,
-    },
-  ];
-
-  const skillRowSelection: TableRowSelection<DevProgrammeSkillsDataType> = {
-    selectedRowKeys: selectedSkillRowKeys,
-    onChange: (selectedRowKeys) => {
-      setSelectedSkillRowKeys(selectedRowKeys);
-    },
-  };
-
-  const participantItems = [
-    {
-      key: "1",
-      label: "Level achieved",
-      icon: <StarFilled className="mt-px text-yellow-400" />,
-    },
-    {
-      key: "2",
-      label: "Manage levels",
-      icon: <SettingOutlined className="text-neutral-500" />,
-      onClick: () => setManageLevelsModalVisible(true),
-    },
-    {
-      key: "3",
-      type: "divider",
-    },
-    {
-      key: "4",
-      label: "More...",
+      key: "7-0",
+      label: "Message",
       children: [
         {
-          key: "4-0",
-          label: "Message",
-          children: [
-            {
-              key: "4-0-1",
-              label: "Send email",
-            },
-            {
-              key: "4-0-2",
-              label: "Send SMS",
-            },
-          ],
-          icon: <MailOutlined className="text-neutral-500" />,
+          key: "7-0-1",
+          label: "Email",
         },
         {
-          key: "4-1",
-          label: "Product",
-          children: [
-            {
-              key: "4-1-1",
-              label: "Invite to product",
-            },
-            {
-              key: "4-1-2",
-              label: "Add to product",
-            },
-            {
-              key: "4-1-3",
-              label: "Remove from product",
-            },
-          ],
-          icon: <ShoppingCartOutlined className="text-neutral-500" />,
+          key: "7-0-2",
+          label: "SMS",
         },
+      ],
+      icon: <MailOutlined />,
+    },
+    {
+      key: "8-1",
+      label: "Add to",
+      children: [
         {
-          key: "4-2",
+          key: "8-1-1",
           label: "Class",
-          children: [
-            {
-              key: "4-2-1",
-              label: "Add to class",
-            },
-            {
-              key: "4-2-2",
-              label: "Move to class",
-            },
-          ],
-          icon: <UsergroupAddOutlined className="text-neutral-500" />,
         },
         {
-          key: "4-3",
-          label: "Coach",
-          children: [
-            {
-              key: "4-3-1",
-              label: "Add coach",
-            },
-            {
-              key: "4-3-2",
-              label: "Remove coach",
-            },
-          ],
-          icon: <UserOutlined className="text-neutral-500" />,
+          key: "8-1-2",
+          label: "Product",
         },
         {
-          key: "4-4",
+          key: "8-1-3",
+          label: "Group",
+        },
+      ],
+      icon: <PlusOutlined />,
+    },
+    {
+      key: "8-2",
+      label: "Manage",
+      icon: <UserSwitchOutlined />,
+      children: [
+        {
+          key: "8-2-1",
+          label: "Move to class",
+        },
+        {
+          key: "8-2-2",
+          label: "Invite to product",
+        },
+        {
+          key: "8-2-3",
           type: "divider",
         },
         {
-          key: "4-5",
-          label: "Request payment",
-          icon: <CreditCardOutlined className="text-neutral-500" />,
+          key: "8-2-4",
+          label: "Manage coaches",
+        },
+      ],
+    },
+    {
+      key: "8-3",
+      label: "Remove",
+      icon: <DeleteOutlined />,
+      className:
+        "[&_*]:text-danger-500 [&_*]:bg-transparent hover:bg-danger-50",
+      children: [
+        {
+          key: "8-3-1",
+          className: "hover:bg-danger-50",
+          label: <span className="text-danger-500">Remove from product</span>,
         },
         {
-          key: "4-6",
+          key: "8-3-2",
+          className: "hover:bg-danger-50",
           label: <span className="text-danger-500">Remove from session</span>,
-          icon: <DeleteOutlined className="mt-px text-danger-500" />,
         },
       ],
     },
@@ -648,11 +399,11 @@ const DevProgrammeModal: React.FC = () => {
           onChange={(value) => setSelectedSkillState(value)}
           bordered={false}
           popupMatchSelectWidth={false}
-          className="[&_.ant-select-selection-item]:!self-auto -my-4 -ml-2 relative top-1"
+          className="!shadow-none [&_.ant-select-selector]:border-0 [&_.ant-select-selection-item]:!self-auto [&_.ant-select-selection-item]:!text-neutral-900 -my-4 -ml-2 relative top-1 [&_.ant-select-arrow]:text-neutral-400"
         >
           <Option value="notStarted">
             <div className="flex items-center gap-1.5">
-              <div>*</div>
+              <NotStarted className="w-4 h-4 mr-1 rounded-full" />
               <div className="label">Not started</div>
             </div>
           </Option>
@@ -676,7 +427,7 @@ const DevProgrammeModal: React.FC = () => {
           </Option>
           <Option value="achieved">
             <div className="flex items-center gap-1.5">
-              <Achieved className="w-4 h-4 mr-1" />
+              <Achieved className="w-4 h-4 mr-1 -mt-px" />
               <div className="label">Achieved</div>
             </div>
           </Option>
@@ -717,7 +468,7 @@ const DevProgrammeModal: React.FC = () => {
                 title={
                   currentSkills === totalSkills
                     ? "All skills achieved"
-                    : `Current: ${currentSkills} out of ${totalSkills} skills`
+                    : `View progress`
                 }
               >
                 <a
@@ -739,11 +490,15 @@ const DevProgrammeModal: React.FC = () => {
                 </div>
               </Tooltip>
             ) : (
-              <div className="flex items-center gap-1.5">
+              <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
                 <Tooltip title="Level achieved · 6 out of 8 skills">
-                  <div className="flex items-center gap-1.5 leading-tight">
-                    <Achieved />
-                    <span className="font-medium">Level achieved · 6/8</span>
+                  <div className="flex items-center gap-2 leading-tight">
+                    <Achieved className="-mt-px" />
+                    <div className="flex gap-1 font-medium">
+                      <span>Level achieved</span>
+                      <span>·</span>
+                      <span>6/8</span>
+                    </div>
                   </div>
                 </Tooltip>
               </div>
@@ -791,149 +546,14 @@ const DevProgrammeModal: React.FC = () => {
       },
     ];
 
-  const participantData = [
-    {
-      key: "1",
-      participant: "James Toone",
-      level: 1,
-      notStarted: 0,
-      notAchieved: 0,
-      workingOn: 0,
-      completed: 0,
-      achieved: 8,
-      levelCompleted: true,
-    },
-    {
-      key: "2",
-      participant: "Sarah Johnson",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 0,
-      completed: 5,
-      achieved: 2,
-    },
-    {
-      key: "3",
-      participant: "Robert Smith",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 4,
-      achieved: 1,
-    },
-    {
-      key: "4",
-      participant: "Jessica Davis",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 2,
-      achieved: 3,
-    },
-    {
-      key: "5",
-      participant: "Michael Miller",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 1,
-      achieved: 4,
-    },
-    {
-      key: "6",
-      participant: "Emily Clark",
-      level: 1,
-      notStarted: 0,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 0,
-      achieved: 6,
-    },
-    {
-      key: "7",
-      participant: "John White",
-      level: 1,
-      notStarted: 0,
-      notAchieved: 0,
-      workingOn: 0,
-      completed: 0,
-      achieved: 8,
-    },
-    {
-      key: "8",
-      participant: "Emma Lewis",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 1,
-      achieved: 4,
-    },
-    {
-      key: "9",
-      participant: "William Green",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 4,
-      completed: 1,
-      achieved: 2,
-    },
-    {
-      key: "10",
-      participant: "Sophia Brown",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 1,
-      achieved: 4,
-    },
-    {
-      key: "11",
-      participant: "Jacob Black",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 1,
-      achieved: 4,
-    },
-    {
-      key: "12",
-      participant: "Olivia Taylor",
-      level: 2,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 5,
-      completed: 1,
-      achieved: 1,
-    },
-    {
-      key: "13",
-      participant: "Lucas Turner",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 1,
-      achieved: 4,
-    },
-    {
-      key: "14",
-      participant: "Mia Anderson",
-      level: 1,
-      notStarted: 1,
-      notAchieved: 0,
-      workingOn: 2,
-      completed: 1,
-      achieved: 4,
-    },
-  ];
+  const uniqueLevels = Array.from(
+    new Set(participantData.map((item) => `Level ${item.level}`))
+  );
+
+  const levelOptions = uniqueLevels.map((level) => ({
+    label: level,
+    value: level,
+  }));
 
   const participantRowSelection: TableRowSelection<DevProgrammeParticipantsDataType> =
     {
@@ -953,24 +573,45 @@ const DevProgrammeModal: React.FC = () => {
 
   return (
     <div className="px-6 py-4">
-      <header className="mb-6">
-        <div className="flex items-center">
+      <header className="mb-7">
+        <div className="flex items-center mb-5">
           <div>
-            <Title level={5} className="flex items-center mb-1">
+            <Title level={5} className="flex items-center mb-0.5">
               <span>Thursday Beginners Class</span>
             </Title>
-            <Text className="flex items-center text-sm">
-              <ClockCircleOutlined className="mr-1 text-xs text-subtitle" />
+            <Text className="flex items-center text-subtitle">
               <span>9 Feb · 16:00 - 17:00</span>
               <span className="mx-1.5 text-subtitle">·</span>
-              <TeamOutlined className="mr-1 text-xs text-subtitle" />
               <span>20 participants</span>
-              <span className="mx-1.5 text-danger-500">·</span>
-              <a
-                onClick={() => setSelectedLevel("Unassigned")}
-                className="text-danger-500"
+              <Tooltip
+                className="cursor-pointer hover:underline"
+                title={
+                  <div className="space-y-0.5">
+                    <div className="flex">
+                      <div className="text-neutral-300">Level 1</div>
+                      <div className="min-w-[3ch] flex-grow text-right tabular-nums">
+                        10
+                      </div>
+                    </div>
+                    <div className="flex">
+                      <div className="text-neutral-300">Level 2</div>
+                      <div className="min-w-[3ch] flex-grow text-right tabular-nums">
+                        4
+                      </div>
+                    </div>
+                    <div className="flex">
+                      <div className="text-neutral-300">Unassigned</div>
+                      <div className="min-w-[3ch] flex-grow text-right tabular-nums">
+                        6
+                      </div>
+                    </div>
+                  </div>
+                }
               >
-                <TeamOutlined className="mr-1 text-xs text-danger-500" />
+                <InfoCircleOutlined className="relative ml-1 text-xs top-px text-neutral-500/75 hover:text-neutral-500" />
+              </Tooltip>
+              <span className="mx-1.5 text-danger-500">·</span>
+              <a className="text-danger-500">
                 <span className="text-danger-500 hover:cursor-pointer hover:underline">
                   6 unassigned
                 </span>
@@ -978,9 +619,9 @@ const DevProgrammeModal: React.FC = () => {
             </Text>
           </div>
         </div>
-        <div className="mt-3.5">
+        <div>
           <Segmented
-            options={options}
+            options={levelOptions}
             value={selectedLevel}
             onChange={handleChange}
             block
@@ -992,7 +633,7 @@ const DevProgrammeModal: React.FC = () => {
           {segmentValue === "Participants" && (
             <div className="relative">
               <TableActions isVisible={selectedParticipantRowKeys.length > 0}>
-                <div className="font-medium whitespace-nowrap -ml-0.5">
+                <div className="font-medium whitespace-nowrap ml-[-3px]">
                   {selectedParticipantRowKeys.length} selected
                 </div>
                 <div className="text-neutral-400">|</div>
@@ -1003,9 +644,9 @@ const DevProgrammeModal: React.FC = () => {
                     className="px-0 hover:bg-transparent hover:underline"
                     onClick={levelAchieved}
                   >
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
                       <StarFilled className="text-yellow-400" />
-                      <span className="font-medium">Level achieved</span>
+                      <span>Level achieved</span>
                     </div>
                   </Button>
                   <Button
@@ -1014,103 +655,11 @@ const DevProgrammeModal: React.FC = () => {
                     className="px-0 hover:bg-transparent hover:underline"
                     onClick={() => setManageLevelsModalVisible(true)}
                   >
-                    <div className="flex items-center gap-1.5">
-                      <SettingOutlined className="text-neutral-600" />
-                      <span className="font-medium">Manage levels</span>
+                    <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
+                      <SettingOutlined />
+                      <span>Manage levels</span>
                     </div>
                   </Button>
-                </div>
-                <div className="text-neutral-400">|</div>
-                <div className="flex items-center gap-4 ml-1">
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item>Send email</Menu.Item>
-                        <Menu.Item>Send SMS</Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
-                  >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <MailOutlined className="text-neutral-600" />
-                        <span className="font-medium">Message</span>
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item>Invite to product</Menu.Item>
-                        <Menu.Item>Add to product</Menu.Item>
-                        <Menu.Item>Remove from product</Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
-                  >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <ShoppingCartOutlined className="text-neutral-600" />
-                        <span className="font-medium">Product</span>
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item>Add to class</Menu.Item>
-                        <Menu.Item>Move to class </Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
-                  >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <UsergroupAddOutlined className="text-neutral-600" />
-                        <span className="font-medium">Class</span>
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Dropdown
-                    placement="bottomLeft"
-                    getPopupContainer={() => document.body}
-                    overlayStyle={{ position: "fixed" }}
-                    overlay={
-                      <Menu>
-                        <Menu.Item>Add coach</Menu.Item>
-                        <Menu.Item>Remove coach</Menu.Item>
-                      </Menu>
-                    }
-                    trigger={["click"]}
-                  >
-                    <a
-                      onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
-                    >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <UserOutlined className="text-neutral-600" />
-                        <span className="font-medium">Coach</span>
-                      </Space>
-                    </a>
-                  </Dropdown>
                 </div>
                 <div className="text-neutral-400">|</div>
                 <div className="flex items-center gap-4 ml-1 mr-2">
@@ -1118,29 +667,81 @@ const DevProgrammeModal: React.FC = () => {
                     placement="bottomLeft"
                     getPopupContainer={() => document.body}
                     overlayStyle={{ position: "fixed" }}
+                    rootClassName="w-40"
                     overlay={
                       <Menu>
-                        <Menu.Item>
-                          <CreditCardOutlined className="mr-3" /> Request
-                          payment
-                        </Menu.Item>
-
-                        <Menu.Item className="text-danger-500">
-                          <DeleteOutlined className="mr-3 text-danger-500" />
-                          Remove from session
-                        </Menu.Item>
+                        <Menu.SubMenu
+                          key="7-1"
+                          title={
+                            <>
+                              <MailOutlined className="relative mr-3 top-px" />
+                              Message
+                            </>
+                          }
+                        >
+                          <Menu.Item key="7-1-1">Email</Menu.Item>
+                          <Menu.Item key="7-1-2">SMS</Menu.Item>
+                        </Menu.SubMenu>
+                        <Menu.SubMenu
+                          key="7-2"
+                          title={
+                            <>
+                              <PlusOutlined className="relative mr-3 top-px" />
+                              Add to
+                            </>
+                          }
+                        >
+                          <Menu.Item key="7-2-1">Class</Menu.Item>
+                          <Menu.Item key="7-2-2">Product</Menu.Item>
+                          <Menu.Item key="7-2-3">Group</Menu.Item>
+                        </Menu.SubMenu>
+                        <Menu.SubMenu
+                          key="7-3"
+                          title={
+                            <>
+                              <UserSwitchOutlined className="relative mr-3 top-px" />
+                              Manage
+                            </>
+                          }
+                        >
+                          <Menu.Item key="7-3-1">Move to class</Menu.Item>
+                          <Menu.Item key="7-3-2">Invite to product</Menu.Item>
+                          <Menu.Divider />
+                          <Menu.Item key="7-3-3">Manage coaches</Menu.Item>
+                        </Menu.SubMenu>
+                        <Menu.SubMenu
+                          key="7-4"
+                          className="[&_*]:bg-transparent [&_*]:text-danger-500 hover:bg-danger-50"
+                          title={
+                            <>
+                              <DeleteOutlined className="relative mr-3 top-px" />
+                              Remove
+                            </>
+                          }
+                        >
+                          <Menu.Item
+                            key="7-4-1"
+                            className="text-danger-500 hover:bg-danger-50"
+                          >
+                            Remove from product
+                          </Menu.Item>
+                          <Menu.Item
+                            key="7-4-2"
+                            className="text-danger-500 hover:bg-danger-50"
+                          >
+                            Remove from session
+                          </Menu.Item>
+                        </Menu.SubMenu>
                       </Menu>
                     }
                     trigger={["click"]}
                   >
                     <a
                       onClick={(e) => e.preventDefault()}
-                      className="px-0 text-neutral-900"
+                      className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
                     >
-                      <Space className="hover:bg-transparent hover:underline">
-                        <span className="font-medium">More...</span>
-                        <DownOutlined className="-ml-0.5 w-2.5" />
-                      </Space>
+                      <span>More...</span>
+                      <DownOutlined className="-ml-0.5 w-2.5" />
                     </a>
                   </Dropdown>
                 </div>
@@ -1165,14 +766,14 @@ const DevProgrammeModal: React.FC = () => {
                   {selectedSkillRowKeys.length} selected
                 </div>
                 <div className="">|</div>
-                <div className="flex items-center gap-4 mr-2">
+                <div className="flex items-center gap-3 mr-2">
                   <Button
                     size="small"
                     type="text"
                     className="px-0 hover:bg-transparent hover:underline"
                     onClick={skillNotAchieved}
                   >
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
                       <CloseCircleFilled className="text-danger-500" />
                       <span>Not achieved</span>
                     </div>
@@ -1183,7 +784,7 @@ const DevProgrammeModal: React.FC = () => {
                     className="px-0 hover:bg-transparent hover:underline"
                     onClick={skillWorkingOn}
                   >
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
                       <PlayCircleFilled className="text-primary-500" />
                       <span>Working on</span>
                     </div>
@@ -1194,7 +795,7 @@ const DevProgrammeModal: React.FC = () => {
                     className="px-0 hover:bg-transparent hover:underline"
                     onClick={skillCompleted}
                   >
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
                       <CheckCircleFilled className="text-success-500" />
                       <span>Completed</span>
                     </div>
@@ -1205,7 +806,7 @@ const DevProgrammeModal: React.FC = () => {
                     className="px-0 hover:bg-transparent hover:underline"
                     onClick={skillAchieved}
                   >
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
                       <StarFilled className="text-yellow-400" />
                       <span>Achieved</span>
                     </div>
@@ -1216,7 +817,7 @@ const DevProgrammeModal: React.FC = () => {
                     className="px-0 hover:bg-transparent hover:underline"
                     onClick={skillNotStarted}
                   >
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap">
                       <MinusCircleFilled className="text-neutral-400" />
                       <span>Not started</span>
                     </div>
@@ -1228,23 +829,15 @@ const DevProgrammeModal: React.FC = () => {
                 dataSource={skillsFilteredData}
                 size="small"
                 pagination={false}
-                rowSelection={{
-                  ...skillRowSelection,
-                  selectedRowKeys: selectedSkillRowKeys,
-                }}
-                className="ant-table-sticky [&_tr>*:last-child]:pl-6"
+                className="ant-table-sticky"
               />
             </div>
           )}
         </Content>
       </div>
       <footer className="font-body fixed gap-2 left-0 flex items-center justify-between bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200">
-        <div className="w-full flex-grow flex items-center justify-start pr-0.5">
-          <Popover
-            content={<PopoverContent />}
-            trigger="click"
-            placement="topLeft"
-          >
+        <div className="hidden w-full flex-grow sm:flex items-center justify-start pr-0.5">
+          <Popover content={<KeyContent />} trigger="click" placement="topLeft">
             <Button>Key</Button>
           </Popover>
         </div>
@@ -1255,7 +848,7 @@ const DevProgrammeModal: React.FC = () => {
               {
                 label: (
                   <>
-                    <TeamOutlined className="relative mr-1.5 text-subtitle text-xs -top-px" />
+                    <TeamOutlined className="relative mr-2 text-xs text-subtitle -top-px" />
                     Participants
                   </>
                 ),
@@ -1264,19 +857,19 @@ const DevProgrammeModal: React.FC = () => {
               {
                 label: (
                   <>
-                    <CheckSquareOutlined className="relative mr-1.5 text-subtitle text-xs -top-px" />
+                    <CheckSquareOutlined className="relative mr-2 text-xs text-subtitle -top-px" />
                     Skills
                   </>
                 ),
                 value: "Skills",
               },
             ]}
-            className="bg-neutral-200/75 w-[15.5rem]"
+            className="w-[16.5rem]"
             value={segmentValue}
             onChange={setSegmentValue}
           />
         </div>
-        <div className="flex items-center justify-end flex-grow w-full gap-2">
+        <div className="items-center justify-end flex-grow hidden w-full gap-2 sm:flex">
           <Button icon={<DownloadOutlined />}>Export</Button>
         </div>
       </footer>
@@ -1294,7 +887,14 @@ const DevProgrammeModal: React.FC = () => {
       ></DevProgrammeParticipantModal>
       <ManageLevelsModal
         visible={manageLevelsModalVisible}
-        onClose={() => setManageLevelsModalVisible(false)}
+        handleOk={() => setManageLevelsModalVisible(false)}
+        handleCancel={() => setManageLevelsModalVisible(false)}
+      />
+      <LevelAchievedModal
+        visible={levelModal}
+        handleOk={() => setLevelModal(false)}
+        handleCancel={() => setLevelModal(false)}
+        participant="James Toone"
       />
     </div>
   );

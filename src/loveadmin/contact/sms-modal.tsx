@@ -11,10 +11,14 @@ import {
 import CustomSMSEditor from "../sms-editor";
 import {
   CheckCircleFilled,
-  InfoCircleFilled,
   InfoCircleOutlined,
+  MobileOutlined,
+  TeamOutlined,
   WarningFilled,
 } from "@ant-design/icons";
+import { Motion } from "../../components/framer-motion-custom";
+import { AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 interface SMSModalProps {
   visible: boolean;
@@ -60,10 +64,28 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
     setStep2(false);
   };
 
+  const navigate = useNavigate();
+
+  const goToReport = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    navigate("/Reports/Communication/SMS");
+  };
+
   const sendConfirm = (e?: React.MouseEvent<HTMLElement>) => {
     console.log(e);
     onCancel();
-    message.success("SMS sent successfully!");
+    message.success(
+      <>
+        SMS sent successfully!{" "}
+        <a
+          href="#"
+          onClick={goToReport}
+          className="font-medium hover:underline hover:text-primary-500"
+        >
+          View report
+        </a>
+      </>
+    );
     setStep2(false);
     setStep1(true);
   };
@@ -81,14 +103,15 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
         destroyOnClose={true}
         title={
           <div>
+            {step1 && !step2 && (
+              <div className="mb-0.5 text-sm text-subtitle">Step 1 of 2</div>
+            )}
+            {step2 && (
+              <div className="mb-0.5 text-sm text-subtitle">Step 2 of 2</div>
+            )}
             <div>
-              <span>Send SMS</span>
-            </div>
-            <div className="mt-1 text-sm font-normal text-subtitle">
               {step1 && !step2 && (
                 <>
-                  <span>Step 1 of 2</span>
-                  <span className="mx-1">·</span>
                   <span>Create SMS</span>
                   <span className="mx-1">·</span>
                   <span>
@@ -99,19 +122,16 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
               )}
               {step2 && (
                 <>
-                  <span>Step 2 of 2</span>
-                  <span className="mx-1">·</span>
-                  <span>Confirmation</span>
+                  <span>Confirm SMS</span>
                 </>
               )}
             </div>
           </div>
         }
         visible={visible}
-        closable={!step2}
         onOk={goToStep2}
         onCancel={onCancel}
-        className={`max-w-lg ${popConfirmVisible ? "dim" : ""}`}
+        className={`max-w-[34rem] !w-full ${popConfirmVisible ? "dim" : ""}`}
         footer={
           <div className="flex justify-between">
             {step1 && !step2 && (
@@ -124,7 +144,7 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
                   <Button
                     type="primary"
                     onClick={goToStep2}
-                    className={messageCount === 0 ? "opacity-60" : ""}
+                    disabled={messageCount === 0}
                   >
                     <span className="w-8">Next</span>
                   </Button>
@@ -182,92 +202,109 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
           </div>
         }
       >
-        <div className={step1 && !step2 ? "block" : "hidden"}>
-          <div className="space-y-6">
-            <div className="relative">
-              <div className="relative flex-grow min-w-0">
-                <CustomSMSEditor
-                  onCharCountChange={handleCharCountChange}
-                  onMessageCountChange={handleMessageCountChange}
-                  onContentChange={handleContentChange}
-                />
-              </div>
-            </div>
-            <div className="flex items-center">
-              <Switch size="small" checked={isMarketing}></Switch>
-              <div className="flex items-center cursor-default">
-                <div
-                  className="ml-2 mr-1.5 cursor-pointer"
-                  onClick={toggleMarketing}
-                >
-                  Marketing or promotional message
-                </div>
-                <Tooltip
-                  className="mt-px text-neutral-400 hover:text-neutral-500"
-                  title="To follow privacy rules, turn this option on when sending special offers or promotional messages. This way, you'll only message people who've opted in."
-                >
-                  <InfoCircleOutlined />
-                </Tooltip>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {step2 && (
-          <>
-            <div className="absolute z-50 ml-auto bg-white top-6 right-6">
-              <span className="font-medium">
-                <span className="text-subtitle">SMS Credits</span>
-                <span className="mx-1 text-subtitle">·</span>
-                <span className="text-subtitle">1000</span>
-              </span>
-            </div>
-            <div className="mb-5 overflow-hidden border border-solid rounded border-neutral-200">
-              <div className="grid grid-cols-2 gap-3 my-3">
-                <div className="relative border-r border-solid border-y-transparent border-l-transparent border-r-neutral-200">
-                  <div className="px-4 space-y-2">
-                    <div className="text-subtitle">Total recipients</div>
-                    <div className="flex items-center gap-2">
-                      <div className="text-xl">80 out of 100</div>
-                      <div className="relative top-px">
-                        <InfoCircleFilled className="text-primary-500" />
+        <AnimatePresence>
+          {step1 && !step2 && (
+            <Motion animation="heightInOut">
+              <div>
+                <div className="space-y-6">
+                  <div className="relative">
+                    <div className="relative flex-grow min-w-0">
+                      <CustomSMSEditor
+                        onCharCountChange={handleCharCountChange}
+                        onMessageCountChange={handleMessageCountChange}
+                        onContentChange={handleContentChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-[4.5rem,1fr] items-center">
+                    <div className="relative text-subtitle -top-px">
+                      Options
+                    </div>
+                    <div className="flex items-center flex-grow">
+                      <Switch
+                        size="small"
+                        checked={isMarketing}
+                        onChange={toggleMarketing}
+                      ></Switch>
+                      <div className="flex items-center cursor-default">
+                        <div
+                          className="ml-2 mr-1.5 cursor-pointer"
+                          onClick={toggleMarketing}
+                        >
+                          Marketing message
+                        </div>
+                        <Tooltip
+                          className="mt-px text-neutral-400 hover:text-neutral-500"
+                          title="To follow privacy rules, turn this option on when sending special offers or promotional messages. This way, you'll only message people who've opted in."
+                        >
+                          <InfoCircleOutlined />
+                        </Tooltip>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="relative">
-                  <div className="px-4 space-y-2">
-                    <div className="text-subtitle">Total message cost</div>
-                    <div className="text-xl">80 credits</div>
-                  </div>
-                </div>
               </div>
-              {!insufficientCredits ? (
-                <div className="px-4 py-2.5 mx-px mb-px rounded-b-sm bg-neutral-100/75">
-                  This message will cost 80 credits, leaving you with 920
-                  remaining.
+            </Motion>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {step1 && step2 && (
+            <Motion animation="heightInOut">
+              <div>
+                <div className="mb-5 overflow-hidden border border-solid rounded border-neutral-200">
+                  <div className="grid grid-cols-2 gap-3 my-5">
+                    <div className="relative border-r border-solid border-y-transparent border-l-transparent border-r-neutral-200">
+                      <div className="px-4 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <TeamOutlined className="text-subtitle-light" />
+                          <div className="text-subtitle">Total recipients</div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="text-xl">80 out of 100</div>
+                          <Tooltip title="20 contacts cannot receive the SMS. Check the SMS Report after sending for reasons and contact options.">
+                            <InfoCircleOutlined className="mt-0.5 text-neutral-400 hover:text-neutral-500" />
+                          </Tooltip>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="relative">
+                      <div className="px-2 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <MobileOutlined className="text-subtitle-light" />
+                          <div className="text-subtitle">Total cost</div>
+                        </div>
+                        <div className="text-xl">80 credits</div>
+                      </div>
+                    </div>
+                  </div>
+                  {!insufficientCredits ? (
+                    <div className="px-4 py-2.5 mx-px mb-px rounded-b-sm bg-neutral-100/75">
+                      Sending this message will cost 80 credits. You will have
+                      920 credits left.
+                    </div>
+                  ) : (
+                    <div className="px-4 py-2.5 mx-px mb-px rounded-b-sm bg-danger-50">
+                      <WarningFilled className="mr-1.5 text-danger-600" /> You
+                      don't have enough credits to send this message, please{" "}
+                      <a className="font-medium">Top-up.</a>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="px-4 py-2.5 mx-px mb-px rounded-b-sm bg-danger-50">
-                  <WarningFilled className="mr-1.5 text-danger-600" /> You don't
-                  have enough credits to send this message, please{" "}
-                  <a className="font-medium">Top-up.</a>
-                </div>
-              )}
-            </div>
-            <Alert
-              showIcon
-              className="hidden mb-6"
-              message={
-                <>
-                  20 contacts won't receive SMS due to missing mobile number,
-                  age or because they have opted out.{" "}
-                  <a className="font-medium">Email 20 contacts.</a>
-                </>
-              }
-            />
-          </>
-        )}
+                <Alert
+                  showIcon
+                  className="hidden mb-6"
+                  message={
+                    <>
+                      20 contacts won't receive SMS due to missing mobile
+                      number, age or because they have opted out.{" "}
+                      <a className="font-medium">Email 20 contacts.</a>
+                    </>
+                  }
+                />
+              </div>
+            </Motion>
+          )}
+        </AnimatePresence>
       </Modal>
     </>
   );

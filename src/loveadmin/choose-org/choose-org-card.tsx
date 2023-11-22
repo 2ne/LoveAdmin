@@ -20,7 +20,7 @@ const ChooseOrgCard: React.FC<ChooseOrgCardProps> = ({
   return (
     <Link
       to={link}
-      className="flex flex-col p-4 transition bg-white rounded shadow group hover:no-underline ring-1 ring-neutral-900 ring-opacity-5 hover:shadow-md"
+      className="flex flex-col p-4 transition bg-white rounded-md shadow group hover:no-underline ring-1 ring-neutral-900 ring-opacity-5 hover:shadow-md"
     >
       <img src={logo} alt={name} className="w-20 m-auto mb-4" />
       <div className="mt-auto">

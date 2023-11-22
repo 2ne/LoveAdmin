@@ -1,0 +1,17 @@
+.ant-layout-content {
+  @apply max-md:min-w-[calc(100vw-20px)];
+}
+
+.ant-layout.ant-layout-has-sider {
+  @apply overflow-clip;
+}
+
+.ant-layout.ant-layout-has-sider > .ant-layout,
+.ant-layout.ant-layout-has-sider > .ant-layout-content {
+  @apply flex-grow;
+}
+
+.sidebar--active + .ant-layout,
+.sidebar--active + .ant-layout-content {
+  @apply max-md:!w-full max-md:opacity-40 max-md:pointer-events-none;
+}

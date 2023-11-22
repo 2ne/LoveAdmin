@@ -267,7 +267,7 @@ export const TileSettings: FC<TileSettingsProps> = ({ selectedItem }) => {
             </Tooltip>
           )}
           <Segmented
-            className="p-1.5 rounded-b-none"
+            className="p-1.5 rounded rounded-b-none [&_*]:!rounded"
             block
             options={[
               {

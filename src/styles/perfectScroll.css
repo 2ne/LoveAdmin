@@ -1,0 +1,79 @@
+.ps {
+  @apply overflow-hidden touch-auto;
+  overflow-anchor: none;
+  -ms-overflow-style: none;
+  -ms-touch-action: auto;
+}
+
+.ps__rail-x,
+.ps__rail-y {
+  @apply absolute hidden opacity-0 transition-opacity z-40;
+}
+
+.show--scrollbar > .ps__rail-x,
+.show--scrollbar > .ps__rail-y {
+  @apply opacity-50;
+}
+
+.ps__rail-x {
+  @apply bottom-0 h-4;
+}
+
+.ps__rail-y {
+  @apply w-4 right-0;
+}
+
+.ps--active-x > .ps__rail-x,
+.ps--active-y > .ps__rail-y {
+  @apply block bg-transparent;
+}
+
+.ps:hover > .ps__rail-x,
+.ps:hover > .ps__rail-y,
+.ps--focus > .ps__rail-x,
+.ps--focus > .ps__rail-y,
+.ps--scrolling-x > .ps__rail-x,
+.ps--scrolling-y > .ps__rail-y {
+  @apply opacity-60;
+}
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  @apply opacity-90;
+}
+
+.ps__thumb-x,
+.ps__thumb-y {
+  @apply absolute bg-neutral-400 rounded-full transition-colors;
+}
+
+.ps__thumb-x {
+  @apply h-1.5;
+}
+
+.ps__thumb-y {
+  @apply w-1.5 left-1.5;
+}
+
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x.ps--clicking .ps__thumb-x,
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+  @apply bg-neutral-500;
+}
+
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x.ps--clicking .ps__thumb-x {
+  @apply h-2.5;
+}
+
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+  @apply w-2.5 left-1;
+}

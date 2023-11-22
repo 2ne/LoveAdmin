@@ -22,7 +22,7 @@ export const TableFilterBar: FC<TableFilterBarProps> = ({
     <AnimatePresence>
       {isActive && (
         <Motion animation="heightInOut">
-          <div className="flex items-center h-10 px-1 mb-4 overflow-x-auto bg-white rounded shadow-sm ring-inset ring-1 ring-neutral-900 ring-opacity-10">
+          <div className="flex items-center h-10 px-1 mt-3 overflow-x-auto overflow-y-hidden text-sm font-normal border rounded border-neutral-950/10 scrollbar-thin-x">
             {children}
           </div>
         </Motion>
@@ -37,13 +37,17 @@ export const TableFilterButton: FC<TableFilterButtonProps> = ({
 }): ReactElement => {
   return (
     <Button
-      className={
-        isActive ? "text-primary-600 border-primary-500  bg-primary-50/75" : ""
-      }
+      className={`max-sm:w-9 max-sm:[&_.ant-btn-icon]:m-0
+        ${
+          isActive
+            ? "text-primary-600 border-primary-500  bg-primary-50/75"
+            : ""
+        }
+      `}
       icon={<FilterOutlined className="mt-px -ml-px" />}
       onClick={toggleActive}
     >
-      Filters
+      <div className="hidden sm:contents">Filters</div>
     </Button>
   );
 };

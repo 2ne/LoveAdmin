@@ -1,35 +1,20 @@
-import { useEffect, useState } from "react";
-
-const setCSSVariable = (name: string, value: string) => {
-  document.documentElement.style.setProperty(name, value);
-};
-
-const getScrollBarWidth = (): number => {
+const getScrollBarWidth = (): void => {
   const outer = document.createElement("div");
+  const inner = document.createElement("div");
+
   outer.style.visibility = "hidden";
   outer.style.overflow = "scroll";
 
-  const inner = document.createElement("div");
+  document.body.appendChild(outer).appendChild(inner);
 
-  outer.appendChild(inner);
-  document.body.appendChild(outer);
-
-  const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+  const width = outer.offsetWidth - inner.offsetWidth;
   document.body.removeChild(outer);
 
-  return scrollbarWidth;
+  document.documentElement.style.setProperty("--scrollbar-width", `${width}px`);
+
+  if (width === 0) {
+    document.documentElement.classList.add("scroll-overlay");
+  }
 };
 
-const useScrollBarWidth = (): number => {
-  const [scrollbarWidth, setScrollbarWidth] = useState<number>(0);
-
-  useEffect(() => {
-    const width = getScrollBarWidth();
-    setScrollbarWidth(width);
-    setCSSVariable("--scrollbar-width", `${width}px`);
-  }, []);
-
-  return scrollbarWidth;
-};
-
-export default useScrollBarWidth;
+export default getScrollBarWidth;

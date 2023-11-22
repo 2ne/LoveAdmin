@@ -273,12 +273,10 @@ const ScheduledOrders: React.FC = () => {
                 >
                   <a
                     onClick={(e) => e.preventDefault()}
-                    className="px-0 text-neutral-900"
+                    className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
                   >
-                    <Space className="hover:bg-transparent hover:underline">
-                      More
-                      <DownOutlined className="-ml-0.5 w-2.5" />
-                    </Space>
+                    <span>More...</span>
+                    <DownOutlined className="-ml-0.5 w-2.5" />
                   </a>
                 </Dropdown>
               </div>
@@ -298,7 +296,7 @@ const ScheduledOrders: React.FC = () => {
           </div>
           <footer className="flex items-center transition-all py-2.5 px-2 bg-neutral-50 rounded-b">
             <div className="flex items-center gap-2 ml-auto">
-              <Button size="small">Edit columns</Button>
+              <Button size="small">Manage columns</Button>
               <Button size="small" icon={<DownloadOutlined />}>
                 Export
               </Button>

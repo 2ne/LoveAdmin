@@ -39,6 +39,11 @@ function LinksPage(): ReactElement {
         <div className="mb-2 font-medium">LoveAdmin</div>
         <ul className="space-y-1">
           <li>
+            <Link to="/Home" className="">
+              Home
+            </Link>
+          </li>
+          <li>
             <Link to="/ChooseOrg" className="">
               Choose organisation
             </Link>
@@ -54,12 +59,12 @@ function LinksPage(): ReactElement {
             </Link>
           </li>
           <li>
-            <Link to="/ProductSalesReport" className="">
+            <Link to="/Reports/Financials/Sales/Products" className="">
               Product Sales Report
             </Link>
           </li>
           <li>
-            <Link to="/SMSReport" className="">
+            <Link to="/Reports/Communication/SMS" className="">
               SMS Report
             </Link>
           </li>
@@ -69,7 +74,12 @@ function LinksPage(): ReactElement {
             </Link>
           </li>
           <li>
-            <Link to="/SMSSettings" className="">
+            <Link to="/VoiceRecorder" className="">
+              Voice Recorder
+            </Link>
+          </li>
+          <li>
+            <Link to="/Settings/Communication/SMS" className="">
               SMS Settings
             </Link>
           </li>

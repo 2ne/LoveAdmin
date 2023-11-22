@@ -79,25 +79,30 @@ const DateFilter: React.FC<DateFilterProps> = ({ defaultFilter }) => {
         open={mainPopoverVisible}
         onOpenChange={(visible) => setMainPopoverVisible(visible)}
       >
-        <Button icon={<CalendarOutlined />}>
-          <span>{filter}</span>
-          {selectedDate && (
-            <span className="ml-1">
-              {new Date(selectedDate).toLocaleDateString()}
-            </span>
-          )}
-          {selectedDates &&
-            (selectedDates.length === 1 ? (
+        <Button
+          icon={<CalendarOutlined />}
+          className="max-sm:w-9 max-sm:[&_.ant-btn-icon]:m-0"
+        >
+          <div className="hidden sm:contents">
+            <span>{filter}</span>
+            {selectedDate && (
               <span className="ml-1">
-                {new Date(selectedDates[0]).toLocaleDateString()}
+                {new Date(selectedDate).toLocaleDateString()}
               </span>
-            ) : (
-              <span className="ml-1">
-                {selectedDates
-                  .map((date) => new Date(date).toLocaleDateString())
-                  .join(" — ")}
-              </span>
-            ))}
+            )}
+            {selectedDates &&
+              (selectedDates.length === 1 ? (
+                <span className="ml-1">
+                  {new Date(selectedDates[0]).toLocaleDateString()}
+                </span>
+              ) : (
+                <span className="ml-1">
+                  {selectedDates
+                    .map((date) => new Date(date).toLocaleDateString())
+                    .join(" — ")}
+                </span>
+              ))}
+          </div>
         </Button>
       </Popover>
       <Modal

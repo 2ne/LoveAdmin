@@ -305,7 +305,7 @@ function ContactDashboard(): ReactElement {
       </section>
       <div className="space-y-8">
         <section>
-          <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
+          <div className="text-base grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
             <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
@@ -418,7 +418,9 @@ function ContactDashboard(): ReactElement {
         </section> */}
         <section>
           <div>
-            <Title level={5}>Active products</Title>
+            <Title level={5} className="mb-4">
+              Active products
+            </Title>
           </div>
           <div className="grid gap-4 transition-all bg-white rounded shadow-sm">
             <Tabs

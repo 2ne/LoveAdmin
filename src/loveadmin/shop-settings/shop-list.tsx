@@ -28,7 +28,6 @@ import {
 import { AboutSettings } from "./shop-about";
 import { BannerSettings } from "./shop-banner";
 import { TileSettings } from "./shop-tile";
-import { Motion } from "../../components/framer-motion-custom";
 
 export interface ShopListItem {
   id: string;

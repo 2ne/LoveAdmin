@@ -20,6 +20,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import TableTitle from "../../../components/table-title";
+import TableFooter from "../../../components/table-footer";
 
 interface SMSReportInfoModalProps {
   visible: boolean;
@@ -265,24 +266,22 @@ const SMSReportInfoModal: React.FC<SMSReportInfoModalProps> = ({
             <Button
               type="text"
               icon={<ArrowLeftOutlined />}
-              className="rounded-full"
+              className="rounded-full shrink-0"
               onClick={handleCancel}
             />
-            <TableTitle
-              title={
-                activePresetType === null
-                  ? "Total contacts"
-                  : statusTitles[activePresetType]
-              }
-              totalRecords={totalRecords}
-              onSelectAll={handleSelectAll}
-              onUnselectAll={handleUnselectAll}
-              selectedRowKeysLength={selectedRowKeys.length}
-              recordsTerm={{
-                singular: "",
-                plural: "",
-              }}
-            />
+            <div className="-mt-1.5">
+              <TableTitle
+                title={
+                  activePresetType === null
+                    ? "Total contacts"
+                    : statusTitles[activePresetType]
+                }
+                totalRecords={totalRecords}
+                onSelectAll={handleSelectAll}
+                onUnselectAll={handleUnselectAll}
+                selectedRowKeysLength={selectedRowKeys.length}
+              />
+            </div>
             <div className="ml-auto font-normal">
               <Input
                 className="w-[15rem]"
@@ -291,13 +290,11 @@ const SMSReportInfoModal: React.FC<SMSReportInfoModalProps> = ({
               />
             </div>
           </div>
-          <div className="ml-10 text-sm font-normal text-subtitle">
-            {activePresetType !== null ? (
-              <div>{statusDescriptions[activePresetType]}</div>
-            ) : (
-              <div>All contacts selected to receive SMS</div>
-            )}
-          </div>
+          <Tooltip title={modalData?.message}>
+            <div className="ml-10 text-sm font-normal truncate text-subtitle max-w-[42vw]">
+              {modalData?.message}
+            </div>
+          </Tooltip>
         </>
       }
       visible={visible}
@@ -367,11 +364,7 @@ const SMSReportInfoModal: React.FC<SMSReportInfoModalProps> = ({
           />
         </div>
       )}
-      <footer className="fixed gap-2 flex items-center bottom-0 transition-all right-0 z-10 py-2.5 px-4 bg-white border-t border-b-0 border-solid border-x-0 border-neutral-200 left-0">
-        <div className="flex items-center gap-2 ml-auto">
-          <Button icon={<DownloadOutlined />}>Export</Button>
-        </div>
-      </footer>
+      <TableFooter hideEditColumns={true} />
     </Modal>
   );
 };

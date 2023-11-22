@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Dropdown, Menu, Tooltip } from "antd";
+import { Dropdown, Menu, Tooltip, Select } from "antd";
 import {
-  FileAddOutlined,
   PlusOutlined,
   InfoCircleOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
+const { Option } = Select;
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -22,6 +23,7 @@ interface CustomSMSEditorProps {
   showTemplatesDropdown?: boolean;
   showPlaceholderDropdown?: boolean;
   showCounts?: boolean;
+  hideLabel?: boolean;
 }
 
 const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
@@ -32,6 +34,7 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
   showTemplatesDropdown = true,
   showPlaceholderDropdown = true,
   showCounts = true,
+  hideLabel,
 }) => {
   const quillRef = useRef<CustomSMSQuill>(null);
   const [charCount, setCharCount] = useState(0);
@@ -228,94 +231,172 @@ const CustomSMSEditor: React.FC<CustomSMSEditorProps> = ({
     </Menu>
   );
 
-  const templates = (
-    <Menu>
-      <Menu.Item
-        onClick={() => {
-          clearAndFocusEditor();
-          insertText(
-            "Dear {{accountOwner.FirstName}}, your payment of PRODUCT NAME is due. Thanks, {{organisation.Name}}."
-          );
-        }}
-      >
-        Payment due
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          clearAndFocusEditor();
-          insertText(
-            "Dear {{accountOwner.FirstName}}, we have a special offer on PRODUCT NAME for you. Don't miss out! Thanks, {{organisation.Name}}."
-          );
-        }}
-      >
-        Special offer
-      </Menu.Item>
-      <Menu.Item
-        onClick={() => {
-          clearAndFocusEditor();
-          insertText(
-            "Dear {{accountOwner.FirstName}}, we have a new event coming up EVENT NAME. Hope to see you there! Thanks, {{organisation.Name}}."
-          );
-        }}
-      >
-        New event
-      </Menu.Item>
+  const handleTemplateSelect = (template: string) => {
+    switch (template) {
+      case "Payment due":
+        clearAndFocusEditor();
+        insertText(
+          "🚨 PAYMENT DUE - Dear {{accountOwner.FirstName}}, your payment of PRODUCT NAME is due. Thanks, {{organisation.Name}}."
+        );
+        break;
+      case "Special offer":
+        clearAndFocusEditor();
+        insertText(
+          "💰 SPECIAL OFFER - Dear {{accountOwner.FirstName}}, we have a special offer on PRODUCT NAME for you. Don't miss out! Thanks, {{organisation.Name}}."
+        );
+        break;
+      case "New event":
+        clearAndFocusEditor();
+        insertText(
+          "📅 EVENT NAME - Dear {{accountOwner.FirstName}}, we have a new event coming up EVENT NAME. Hope to see you there! Thanks, {{organisation.Name}}."
+        );
+        break;
+      default:
+        break;
+    }
+  };
+
+  const emojis = [
+    { emoji: "🙂", label: "Smile" },
+    { emoji: "😂", label: "Laugh" },
+    { emoji: "😊", label: "Happy" },
+    { emoji: "🥳", label: "Partying face" },
+    { emoji: "👍", label: "Thumbs up" },
+    { emoji: "👏", label: "Clapping" },
+    { emoji: "👋", label: "Waving hand" },
+    { emoji: "🤝", label: "Handshake" },
+    { emoji: "🙏", label: "Pray" },
+    { emoji: "🚨", label: "Siren" },
+    { emoji: "💰", label: "Money bag" },
+    { emoji: "💡", label: "Idea" },
+    { emoji: "💥", label: "Collision" },
+    { emoji: "📣", label: "Announcement" },
+    { emoji: "🔔", label: "Notification" },
+    { emoji: "🚀", label: "Rocket" },
+    { emoji: "🔥", label: "Fire" },
+    { emoji: "❤️", label: "Red heart" },
+    { emoji: "🎉", label: "Party popper" },
+    { emoji: "❗", label: "Exclamation" },
+    { emoji: "❓", label: "Question" },
+    { emoji: "⏰", label: "Alarm clock" },
+    { emoji: "📆", label: "Calendar" },
+    { emoji: "🏅", label: "Sports medal" },
+    { emoji: "🎃", label: "Jack-o-lantern" },
+    { emoji: "🎄", label: "Christmas tree" },
+    { emoji: "🏊", label: "Swimming" },
+    { emoji: "🤸", label: "Gymnastics" },
+    { emoji: "⚽", label: "Football" },
+    { emoji: "🏉", label: "Rugby" },
+    { emoji: "🏏", label: "Cricket" },
+    { emoji: "☀️", label: "Sun" },
+    { emoji: "🌧️", label: "Rain" },
+    { emoji: "🌈", label: "Rainbow" },
+  ];
+
+  const emojiMenu = (
+    <Menu className="grid grid-cols-6">
+      {emojis.map((item, index) => (
+        <Tooltip title={item.label}>
+          <Menu.Item
+            className="!bg-white hover:!bg-neutral-100"
+            key={index}
+            onClick={() => {
+              focusEditor();
+              insertText(item.emoji);
+            }}
+          >
+            <span role="img" aria-label={item.label} className="text-lg">
+              {item.emoji}
+            </span>
+          </Menu.Item>
+        </Tooltip>
+      ))}
     </Menu>
   );
 
   return (
     <>
-      <ReactQuill
-        ref={quillRef}
-        modules={modules}
-        onChange={handleTextChange}
-        className={!showCounts ? "[&_.ql-container]:rounded-b" : ""}
-      />
-      {showCounts && (
-        <div className="flex justify-end px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
-          <div className="cursor-default flex items-center justify-end gap-2.5">
-            <div className="flex items-center gap-1">
-              <span className="text-neutral-500">Characters</span>
-              <span className="tabular-nums">
-                {charCount} / {getMessageLimit(charCount)}
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-neutral-500">Messages</span>
-              <span className="tabular-nums">{messageCount}</span>
-              <Tooltip
-                className="ml-1 text-neutral-500 hover:text-neutral-600"
-                title="Placeholder use may extend SMS length, potentially dividing them into multiple messages."
-              >
-                <InfoCircleOutlined />
-              </Tooltip>
-            </div>
-          </div>
+      {showTemplatesDropdown && (
+        <div className="grid grid-cols-[4.5rem,1fr] mb-5">
+          <div className="mt-1 text-subtitle">Template</div>
+          <Select
+            placeholder="Select a template"
+            onChange={handleTemplateSelect}
+            allowClear={true}
+            onClear={clearAndFocusEditor}
+          >
+            <Option value="Payment due">
+              <span className="mr-1.5">🚨</span> Payment due
+            </Option>
+            <Option value="Special offer">
+              <span className="mr-1.5">💰</span> Special offer
+            </Option>
+            <Option value="New event">
+              <span className="mr-1.5">📅</span> New event
+            </Option>
+          </Select>
         </div>
       )}
-      <div className="absolute flex gap-4 top-2 left-3">
-        {showPlaceholderDropdown && (
-          <Dropdown overlay={placeholders} trigger={["click"]}>
-            <a
-              onClick={(e) => e.preventDefault()}
-              className="px-0 text-neutral-900"
-            >
-              <PlusOutlined className="mr-2 text-neutral-900" />
-              <span className="font-medium text-neutral-900">Placeholder</span>
-            </a>
-          </Dropdown>
-        )}
-        {showTemplatesDropdown && (
-          <Dropdown overlay={templates} trigger={["click"]}>
-            <a
-              onClick={(e) => e.preventDefault()}
-              className="px-0 text-neutral-900"
-            >
-              <FileAddOutlined className="mr-1.5 text-neutral-900" />
-              <span className="font-medium text-neutral-900">Templates</span>
-            </a>
-          </Dropdown>
-        )}
+      <div
+        className={`relative ${
+          !hideLabel ? "grid grid-cols-[4.5rem,1fr]" : ""
+        }`}
+      >
+        {!hideLabel && <div className="mt-1.5 text-subtitle">Message</div>}
+        <div className="relative flex-grow">
+          <ReactQuill
+            ref={quillRef}
+            modules={modules}
+            onChange={handleTextChange}
+            className={!showCounts ? "[&_.ql-container]:rounded-b" : ""}
+          />
+          {showCounts && (
+            <div className="flex justify-end px-3 py-2 -mt-px border border-solid rounded-b border-neutral-200 bg-neutral-50">
+              <div className="cursor-default flex items-center justify-end gap-2.5">
+                <div className="flex items-center gap-1">
+                  <span className="text-neutral-500">Characters</span>
+                  <span className="tabular-nums">
+                    {charCount} / {getMessageLimit(charCount)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <span className="text-neutral-500">Messages</span>
+                  <span className="tabular-nums">{messageCount}</span>
+                  <Tooltip
+                    className="ml-1 text-neutral-400 hover:text-neutral-500"
+                    title="Placeholder use may extend SMS length, potentially dividing them into multiple messages."
+                  >
+                    <InfoCircleOutlined />
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+          )}
+          <div className="absolute flex gap-4 top-2 left-3">
+            {showPlaceholderDropdown && (
+              <Dropdown overlay={placeholders} trigger={["click"]}>
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  className="px-0 text-neutral-900"
+                >
+                  <PlusOutlined className="mr-2 text-neutral-900" />
+                  <span className="font-medium text-neutral-900">
+                    Personalise
+                  </span>
+                </a>
+              </Dropdown>
+            )}
+            <Dropdown overlay={emojiMenu} trigger={["click"]}>
+              <a
+                onClick={(e) => e.preventDefault()}
+                className="px-0 text-neutral-900"
+              >
+                <SmileOutlined className="mr-2 text-neutral-900" />
+                <span className="font-medium text-neutral-900">Emoji</span>
+              </a>
+            </Dropdown>
+          </div>
+        </div>
       </div>
     </>
   );

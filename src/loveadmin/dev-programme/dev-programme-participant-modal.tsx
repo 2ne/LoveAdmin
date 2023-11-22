@@ -148,7 +148,6 @@ const DevProgrammeParticipantModal: React.FC<
       ellipsis: true,
       sorter: (a, b) => a.skill.localeCompare(b.skill),
       render: (text: string) => <a className="block pr-4 truncate">{text}</a>,
-      width: 360,
       filterSearch: true,
     },
     {
@@ -186,7 +185,7 @@ const DevProgrammeParticipantModal: React.FC<
               <Radio.Button
                 onClick={() => onRadioChange("WorkingOn", record.key)}
                 value="WorkingOn"
-                className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper-checked_.anticon]:text-white [&.ant-radio-button-wrapper-checked_.anticon_path:last-child]:fill-primary-500 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+                className="shrink-0 [&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper-checked_.anticon]:text-white [&.ant-radio-button-wrapper-checked_.anticon_path:last-child]:fill-primary-500 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
                 <WorkingOn className="absolute inset-0 w-4 h-4 m-auto transition-colors rounded-full opacity-50 text-primary-500 anticon" />
               </Radio.Button>
@@ -357,7 +356,7 @@ const DevProgrammeParticipantModal: React.FC<
   };
 
   const PopoverContent = () => (
-    <div className="flex gap-4 pr-2 text-sm text-neutral-700">
+    <div className="flex gap-3 pr-2 text-sm text-neutral-700">
       <div className="flex items-center gap-1.5">
         <CloseCircleFilled className="text-danger-500" />
         <span className="font-medium">Not achieved</span>
@@ -395,7 +394,7 @@ const DevProgrammeParticipantModal: React.FC<
             )}
           </div>
           <div className="text-sm font-normal text-subtitle">
-            Select skills and mark progress for this level...
+            Select skills and mark progress for this level
           </div>
         </Title>
       }
@@ -415,7 +414,18 @@ const DevProgrammeParticipantModal: React.FC<
                 {selectedRowKeys.length} selected
               </div>
               <div className="text-subtitle">|</div>
-              <div className="flex items-center gap-4 mr-2">
+              <div className="flex items-center gap-3 mr-2">
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                  onClick={notStarted}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <MinusCircleFilled className="text-neutral-400" />
+                    <span className="font-medium">Not started</span>
+                  </div>
+                </Button>
                 <Button
                   size="small"
                   type="text"
@@ -458,17 +468,6 @@ const DevProgrammeParticipantModal: React.FC<
                   <div className="flex items-center gap-1.5">
                     <StarFilled className="text-yellow-400" />
                     <span className="font-medium">Achieved</span>
-                  </div>
-                </Button>
-                <Button
-                  size="small"
-                  type="text"
-                  className="px-0 hover:bg-transparent hover:underline"
-                  onClick={notStarted}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <MinusCircleFilled className="text-neutral-400" />
-                    <span className="font-medium">Not started</span>
                   </div>
                 </Button>
               </div>

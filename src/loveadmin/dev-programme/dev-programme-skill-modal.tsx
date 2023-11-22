@@ -9,9 +9,12 @@ import {
   MailOutlined,
   MinusCircleFilled,
   PlayCircleFilled,
+  PlusOutlined,
+  SettingOutlined,
   ShoppingCartOutlined,
   StarFilled,
   UserOutlined,
+  UserSwitchOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import {
@@ -158,77 +161,75 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
       children: [
         {
           key: "7-0-1",
-          label: "Send email",
+          label: "Email",
         },
         {
           key: "7-0-2",
-          label: "Send SMS",
+          label: "SMS",
         },
       ],
-      icon: <MailOutlined className="text-neutral-500" />,
+      icon: <MailOutlined />,
     },
     {
       key: "8-1",
-      label: "Product",
+      label: "Add to",
       children: [
         {
           key: "8-1-1",
-          label: "Invite to product",
+          label: "Class",
         },
         {
           key: "8-1-2",
-          label: "Add to product",
+          label: "Product",
         },
         {
           key: "8-1-3",
-          label: "Remove from product",
+          label: "Group",
         },
       ],
-      icon: <ShoppingCartOutlined className="text-neutral-500" />,
+      icon: <PlusOutlined />,
     },
     {
       key: "8-2",
-      label: "Class",
+      label: "Manage",
+      icon: <UserSwitchOutlined />,
       children: [
         {
           key: "8-2-1",
-          label: "Add to class",
+          label: "Move to class",
         },
         {
           key: "8-2-2",
-          label: "Move to class",
+          label: "Invite to product",
+        },
+        {
+          key: "8-2-3",
+          type: "divider",
+        },
+        {
+          key: "8-2-4",
+          label: "Manage coaches",
         },
       ],
-      icon: <UsergroupAddOutlined className="text-neutral-500" />,
     },
     {
       key: "8-3",
-      label: "Coach",
+      label: "Remove",
+      icon: <DeleteOutlined />,
+      className:
+        "[&_*]:text-danger-500 [&_*]:bg-transparent hover:bg-danger-50",
       children: [
         {
           key: "8-3-1",
-          label: "Add coach",
+          className: "hover:bg-danger-50",
+          label: <span className="text-danger-500">Remove from product</span>,
         },
         {
           key: "8-3-2",
-          label: "Remove coach",
+          className: "hover:bg-danger-50",
+          label: <span className="text-danger-500">Remove from session</span>,
         },
       ],
-      icon: <UserOutlined className="text-neutral-500" />,
-    },
-    {
-      key: "9",
-      type: "divider",
-    },
-    {
-      key: "10",
-      label: "Request payment",
-      icon: <CreditCardOutlined className="text-neutral-500" />,
-    },
-    {
-      key: "11",
-      label: <span className="text-danger-500">Remove from session</span>,
-      icon: <DeleteOutlined className="mt-px text-danger-500" />,
     },
   ];
 
@@ -240,7 +241,6 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
       ellipsis: true,
       sorter: (a, b) => a.participant.localeCompare(b.participant),
       render: (text: string) => <a className="block pr-3 truncate">{text}</a>,
-      width: 360,
       filterSearch: true,
     },
     {
@@ -279,7 +279,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
               <Radio.Button
                 onClick={() => onRadioChange("WorkingOn", record.key)}
                 value="WorkingOn"
-                className="[&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper-checked_.anticon]:text-white [&.ant-radio-button-wrapper-checked_.anticon_path:last-child]:fill-primary-500 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
+                className="shrink-0 [&.ant-radio-button-wrapper-checked]:bg-primary-500 [&.ant-radio-button-wrapper-checked:before]:bg-primary-600 [&.ant-radio-button-wrapper-checked]:border-primary-600 [&.ant-radio-button-wrapper-checked_.anticon]:opacity-100 [&.ant-radio-button-wrapper-checked_.anticon]:text-white [&.ant-radio-button-wrapper-checked_.anticon_path:last-child]:fill-primary-500 [&.ant-radio-button-wrapper:hover_.anticon]:!opacity-100 border-neutral-200 hover:border-neutral-300"
               >
                 <WorkingOn className="absolute inset-0 w-4 h-4 m-auto transition-colors rounded-full opacity-50 text-primary-500 anticon" />
               </Radio.Button>
@@ -315,7 +315,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
         <Dropdown
           menu={{ items: items }}
           trigger={["click"]}
-          rootClassName="w-48"
+          rootClassName="w-40"
         >
           <Button
             className="absolute right-0 top-2.5"
@@ -444,27 +444,6 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
     handleAction(selectedRowKeys, "marked as not started", "participant");
   };
 
-  const PopoverContent = () => (
-    <div className="flex gap-4 pr-2 text-sm text-neutral-700">
-      <div className="flex items-center gap-1.5">
-        <CloseCircleFilled className="text-danger-500" />
-        <span className="font-medium">Not achieved</span>
-      </div>
-      <div className="flex items-center gap-1.5">
-        <PlayCircleFilled className="text-primary-500" />
-        <span className="font-medium">Working on</span>
-      </div>
-      <div className="flex items-center gap-1.5">
-        <CheckCircleFilled className="text-success-500" />
-        <span className="font-medium">Completed</span>
-      </div>
-      <div className="flex items-center gap-1.5">
-        <StarFilled className="text-yellow-400" />
-        <span className="font-medium">Achieved</span>
-      </div>
-    </div>
-  );
-
   return (
     <Modal
       title={
@@ -481,7 +460,7 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
             )}
           </div>
           <div className="text-sm font-normal text-subtitle">
-            Select participants and mark their progress for this skill...
+            Select participants and mark their progress for this skill
           </div>
         </Title>
       }
@@ -501,7 +480,18 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                 {selectedRowKeys.length} selected
               </div>
               <div className="text-subtitle">|</div>
-              <div className="flex items-center gap-4 mr-2">
+              <div className="flex items-center gap-3 mr-2">
+                <Button
+                  size="small"
+                  type="text"
+                  className="px-0 hover:bg-transparent hover:underline"
+                  onClick={notStarted}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <MinusCircleFilled className="text-neutral-400" />
+                    <span className="font-medium">Not started</span>
+                  </div>
+                </Button>
                 <Button
                   size="small"
                   type="text"
@@ -546,21 +536,12 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                     <span className="font-medium">Achieved</span>
                   </div>
                 </Button>
-                <Button
-                  size="small"
-                  type="text"
-                  className="px-0 hover:bg-transparent hover:underline"
-                  onClick={notStarted}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <MinusCircleFilled className="text-neutral-400" />
-                    <span className="font-medium">Not started</span>
-                  </div>
-                </Button>
+                <div className="text-neutral-400">|</div>
                 <Dropdown
                   placement="bottomLeft"
                   getPopupContainer={() => document.body}
                   overlayStyle={{ position: "fixed" }}
+                  className="w-40"
                   overlay={
                     <Menu>
                       <Menu.SubMenu
@@ -572,69 +553,69 @@ const DevProgrammeSkillModal: React.FC<DevProgrammeSkillModalProps> = ({
                           </>
                         }
                       >
-                        <Menu.Item key="7-1-1">Send email</Menu.Item>
-                        <Menu.Item key="7-1-2">Send SMS</Menu.Item>
+                        <Menu.Item key="7-1-1">Email</Menu.Item>
+                        <Menu.Item key="7-1-2">SMS</Menu.Item>
                       </Menu.SubMenu>
                       <Menu.SubMenu
                         key="7-2"
                         title={
                           <>
-                            <ShoppingCartOutlined className="relative mr-3 top-px" />
-                            Product
+                            <PlusOutlined className="relative mr-3 top-px" />
+                            Add to
                           </>
                         }
                       >
-                        <Menu.Item key="7-2-1">Invite to product</Menu.Item>
-                        <Menu.Item key="7-2-2">Add to product</Menu.Item>
-                        <Menu.Item key="7-2-3">Remove from product</Menu.Item>
+                        <Menu.Item key="7-2-1">Class</Menu.Item>
+                        <Menu.Item key="7-2-2">Product</Menu.Item>
+                        <Menu.Item key="7-2-3">Group</Menu.Item>
                       </Menu.SubMenu>
                       <Menu.SubMenu
                         key="7-3"
                         title={
                           <>
-                            <UsergroupAddOutlined className="relative mr-3 top-px" />
-                            Class
+                            <UserSwitchOutlined className="relative mr-3 top-px" />
+                            Manage
                           </>
                         }
                       >
-                        <Menu.Item key="7-3-1">Add to class</Menu.Item>
-                        <Menu.Item key="7-3-2">Move to class</Menu.Item>
+                        <Menu.Item key="7-3-1">Move to class</Menu.Item>
+                        <Menu.Item key="7-3-2">Invite to product</Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item key="7-3-3">Manage coaches</Menu.Item>
                       </Menu.SubMenu>
                       <Menu.SubMenu
                         key="7-4"
+                        className="[&_*]:bg-transparent [&_*]:text-danger-500 hover:bg-danger-50"
                         title={
                           <>
-                            <UserOutlined className="relative mr-3 top-px" />
-                            Coach
+                            <DeleteOutlined className="relative mr-3 top-px" />
+                            Remove
                           </>
                         }
                       >
-                        <Menu.Item key="7-4-1">Add coach</Menu.Item>
-                        <Menu.Item key="7-4-2">Remove coach</Menu.Item>
-                      </Menu.SubMenu>
-                      <Menu.Divider />
-                      <Menu.Item key="7-6">
-                        <CreditCardOutlined className="mt-px mr-3" />
-                        <span>Request payment</span>
-                      </Menu.Item>
-                      <Menu.Item key="7-7">
-                        <DeleteOutlined className="mr-3 text-danger-500 -mt-0.5" />
-                        <span className="text-danger-500">
+                        <Menu.Item
+                          key="7-4-1"
+                          className="text-danger-500 hover:bg-danger-50"
+                        >
+                          Remove from product
+                        </Menu.Item>
+                        <Menu.Item
+                          key="7-4-2"
+                          className="text-danger-500 hover:bg-danger-50"
+                        >
                           Remove from session
-                        </span>
-                      </Menu.Item>
+                        </Menu.Item>
+                      </Menu.SubMenu>
                     </Menu>
                   }
                   trigger={["click"]}
                 >
                   <a
                     onClick={(e) => e.preventDefault()}
-                    className="px-0 text-neutral-900"
+                    className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
                   >
-                    <Space className="hover:bg-transparent hover:underline">
-                      <span className="font-medium">More...</span>
-                      <DownOutlined className="-ml-0.5 w-2.5" />
-                    </Space>
+                    <span>More...</span>
+                    <DownOutlined className="-ml-0.5 w-2.5" />
                   </a>
                 </Dropdown>
               </div>

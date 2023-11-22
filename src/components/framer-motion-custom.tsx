@@ -3,7 +3,7 @@ import { Variants, motion } from "framer-motion";
 import { FC } from "react";
 
 export const defaultTransition = {
-  duration: 0.2,
+  duration: 0.25,
   ease: [0.645, 0.045, 0.355, 1],
 };
 
@@ -43,9 +43,25 @@ export const widthInOut = (): Variants => ({
   },
 });
 
+export const opacityInOut = (): Variants => ({
+  initial: {
+    opacity: 0,
+    transition: defaultTransition,
+  },
+  animate: {
+    opacity: 1,
+    transition: defaultTransition,
+  },
+  exit: {
+    opacity: 0,
+    transition: defaultTransition,
+  },
+});
+
 const animations = {
   heightInOut: heightInOut(),
   widthInOut: widthInOut(),
+  opacityInOut: opacityInOut(),
 };
 
 interface MotionProps {

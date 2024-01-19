@@ -65,9 +65,9 @@ type InputType = "TextInput" | "Dropdown" | "Textarea" | "Radio";
 interface CustomField {
   id: number;
   dataGroup: Group;
-  name: string;
+  fieldName: string;
   label: string;
-  type: InputType;
+  inputType: InputType;
   options?: string[];
   originalId?: number;
   isDragged?: boolean;
@@ -83,16 +83,16 @@ const fieldData: Record<Group, CustomField[]> = {
     {
       id: 1,
       label: "Gender",
-      name: "Beneficiary Gender",
-      type: "Dropdown",
+      fieldName: "Beneficiary Gender",
+      inputType: "Dropdown",
       options: ["Male", "Female", "Other"],
       dataGroup: "Beneficiary",
     },
     {
       id: 2,
       label: "Preferred pronouns",
-      name: "Beneficiary preferred pronouns",
-      type: "Radio",
+      fieldName: "Beneficiary preferred pronouns",
+      inputType: "Radio",
       options: ["He/Him", "She/Her", "They/Them", "Other"],
       dataGroup: "Beneficiary",
     },
@@ -101,8 +101,8 @@ const fieldData: Record<Group, CustomField[]> = {
     {
       id: 3,
       label: "Gender",
-      name: "Account Owner Gender",
-      type: "Radio",
+      fieldName: "Account Owner Gender",
+      inputType: "Radio",
       options: ["Male", "Female", "Other"],
       dataGroup: "Account Owner",
     },
@@ -111,8 +111,8 @@ const fieldData: Record<Group, CustomField[]> = {
     {
       id: 4,
       label: "Field 4",
-      name: "Internal Customer Field 4",
-      type: "Radio",
+      fieldName: "Internal Customer Field 4",
+      inputType: "Radio",
       dataGroup: "Internal Customer",
     },
   ],
@@ -120,8 +120,8 @@ const fieldData: Record<Group, CustomField[]> = {
     {
       id: 5,
       label: "Field 5",
-      name: "Internal Product Field 5",
-      type: "Radio",
+      fieldName: "Internal Product Field 5",
+      inputType: "Radio",
       dataGroup: "Internal Product",
     },
   ],
@@ -259,7 +259,7 @@ const FormBuilder = () => {
                 <HolderOutlined className="text-neutral-400" />
                 <div className="flex items-center justify-between flex-grow min-w-0">
                   <div className="truncate">{field.label}</div>
-                  {field.type === "Dropdown" && (
+                  {field.inputType === "Dropdown" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 16 16"
@@ -273,7 +273,7 @@ const FormBuilder = () => {
                       />
                     </svg>
                   )}
-                  {field.type === "Radio" && (
+                  {field.inputType === "Radio" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 16 16"
@@ -396,7 +396,7 @@ const FormBuilder = () => {
   const onDrawerFormFinish = (values: any) => {
     message.success(
       `${
-        formFields.find((field) => field.id === editFieldId)?.name
+        formFields.find((field) => field.id === editFieldId)?.fieldName
       } field updated`
     );
 
@@ -633,7 +633,7 @@ const FormBuilder = () => {
                                     {field.dataGroup}
                                   </Tag>
                                 </div>
-                                {field.type === "Dropdown" && (
+                                {field.inputType === "Dropdown" && (
                                   <Select
                                     style={{ width: 150 }}
                                     placeholder={`Select ${field.label.toLowerCase()}...`}
@@ -645,7 +645,7 @@ const FormBuilder = () => {
                                     ))}
                                   </Select>
                                 )}
-                                {field.type === "Radio" && (
+                                {field.inputType === "Radio" && (
                                   <div className="flex flex-col gap-0.5 -mt-0.5 pointer-events-none">
                                     {field.options?.map(
                                       (option, optionIndex) => (
@@ -711,7 +711,7 @@ const FormBuilder = () => {
       <Drawer
         destroyOnClose
         title={`Edit ${
-          formFields.find((field) => field.id === editFieldId)?.name
+          formFields.find((field) => field.id === editFieldId)?.fieldName
         } field`}
         placement="right"
         onClose={closeDrawer}
@@ -741,46 +741,15 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[48px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[57px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           {editFieldId && (
             <Form.Item label="Name">
               <div>
-                {formFields.find((field) => field.id === editFieldId)?.name}
-              </div>
-            </Form.Item>
-          )}
-
-          {editFieldId && (
-            <Form.Item label="Type" className="-mt-1">
-              <div className="flex items-center gap-2">
-                {formFields.find((field) => field.id === editFieldId)?.type ===
-                  "Dropdown" && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="relative w-4 h-4 left-px text-neutral-400"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
-                {formFields.find((field) => field.id === editFieldId)?.type ===
-                  "Radio" && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    className="w-4 h-4 text-neutral-400"
-                  >
-                    <path d="M3 4.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6.25 3a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 7.25a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 11.5a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM4 12.25a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM3 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
-                  </svg>
-                )}
-                {formFields.find((field) => field.id === editFieldId)?.type}
+                {
+                  formFields.find((field) => field.id === editFieldId)
+                    ?.fieldName
+                }
               </div>
             </Form.Item>
           )}
@@ -792,6 +761,17 @@ const FormBuilder = () => {
           >
             <Input />
           </Form.Item>
+
+          {editFieldId && (
+            <Form.Item label="Type">
+              <div>
+                {
+                  formFields.find((field) => field.id === editFieldId)
+                    ?.inputType
+                }
+              </div>
+            </Form.Item>
+          )}
 
           <Form.Item label="Options">
             <DragDropContext

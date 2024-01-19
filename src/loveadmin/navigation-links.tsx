@@ -16,6 +16,35 @@ export const navigationLinks = [
     key: "dashboard",
   },
   {
+    name: "Teams",
+    href: "/Teams",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M18.25 5.75H5.75a1 1 0 00-1 1v10.5a1 1 0 001 1h12.5a1 1 0 001-1V6.75a1 1 0 00-1-1z"
+        ></path>
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.5"
+          d="M5 9.75h2.25v4.5H5M12 6v3.5M12 15v3M14.25 12a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zM19.25 9.75h-2.5v4.5h2.5"
+        ></path>
+      </svg>
+    ),
+    key: "teams",
+  },
+  {
     name: "Timetable",
     href: "/Timetable",
     icon: (
@@ -115,6 +144,16 @@ export const navigationLinks = [
       { name: "Renewals", href: "#", key: "renewals" },
       { name: "Subscriptions", href: "#", key: "subscriptions" },
       { name: "Attendance", href: "#", key: "attendance" },
+      {
+        name: "Conditions of sale",
+        href: "/Reports/ConditionsOfSale",
+        key: "ConditionsOfSale",
+      },
+      {
+        name: "Enquiries",
+        href: "/Reports/Enquiries",
+        key: "Enquiries",
+      },
     ],
   },
   {
@@ -279,6 +318,12 @@ export const navigationLinks = [
             colour: "secondary",
             href: "#",
             key: "shopTiles",
+          },
+          {
+            name: "Enquiry Form",
+            colour: "secondary",
+            href: "/Settings/Organisation/EnquiryForm",
+            key: "enquiryForm",
           },
         ],
       },
@@ -445,13 +490,24 @@ export const navigationLinks = [
         key: "data",
         children: [
           {
-            name: "Forms & Fields",
-            href: "#",
+            name: "Customer Forms",
+            href: "/Settings/Data/CustomerForms",
             colour: "secondary",
-            key: "formsFields",
+            key: "customerForms",
+          },
+          {
+            name: "Internal Forms",
+            href: "/Settings/Data/InternalForms",
+            colour: "secondary",
+            key: "internalForms",
           },
           { name: "Consents", href: "#", colour: "secondary", key: "consents" },
-          { name: "Import", href: "#", colour: "secondary", key: "import" },
+          {
+            name: "Import Data",
+            href: "#",
+            colour: "secondary",
+            key: "import",
+          },
         ],
       },
       {
@@ -520,7 +576,7 @@ export const navigationLinks = [
             ></path>
           </svg>
         ),
-        href: "#",
+        href: "/Settings/Groups",
         colour: "secondary",
         key: "groups",
       },

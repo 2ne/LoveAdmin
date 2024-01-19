@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Tree, Input } from "antd";
+import React, { useEffect, useState } from "react";
+import { Tree, Input, Segmented } from "antd";
 import type { DataNode, TreeProps } from "antd/es/tree";
 import { SearchOutlined } from "@ant-design/icons";
-import Scrollbar from "perfect-scrollbar";
 
 const originalTreeData: DataNode[] = [
   {
@@ -61,12 +60,14 @@ const originalTreeData: DataNode[] = [
 ];
 
 interface ProductTreeProps {
+  showGroups?: boolean;
   hideFilters?: boolean;
 }
 
-const ProductTree: React.FC<ProductTreeProps> = ({ hideFilters = false }) => {
-  const scrollRef = useRef(null);
-
+const ProductTree: React.FC<ProductTreeProps> = ({
+  hideFilters = false,
+  showGroups,
+}) => {
   useEffect(() => {
     let filteredTreeData = [...originalTreeData];
     if (hideFilters) {
@@ -76,16 +77,6 @@ const ProductTree: React.FC<ProductTreeProps> = ({ hideFilters = false }) => {
     }
     setTreeData(filteredTreeData);
   }, [hideFilters]);
-
-  // Use perfectScroll for better UI
-  useEffect(() => {
-    if (scrollRef.current) {
-      const ps = new Scrollbar(scrollRef.current);
-      return () => {
-        ps.destroy();
-      };
-    }
-  }, []);
 
   const [treeData, setTreeData] = useState(originalTreeData);
 
@@ -98,10 +89,10 @@ const ProductTree: React.FC<ProductTreeProps> = ({ hideFilters = false }) => {
   };
 
   return (
-    <div
-      ref={scrollRef}
-      className="sticky top-0 max-h-screen p-4 overflow-hidden"
-    >
+    <div className="sticky top-0 max-h-screen p-4 overflow-hidden">
+      {showGroups && (
+        <Segmented options={["Products", "Groups"]} className="mb-4" block />
+      )}
       <Input
         placeholder="Search products..."
         prefix={<SearchOutlined className="mr-1" />}

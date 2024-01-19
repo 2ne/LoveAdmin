@@ -67,7 +67,7 @@ const ShopSettings = () => {
   ];
 
   const navigationSettings: ShopListItem[] = [
-    { id: "1", content: "Calendar", type: "navigation" },
+    { id: "1", content: "Timetable", type: "navigation" },
     { id: "2", content: "Events", type: "navigation", hidden: true },
     { id: "3", content: "Memberships", type: "navigation", hidden: true },
     { id: "4", content: "Shop", type: "navigation" },
@@ -101,7 +101,7 @@ const ShopSettings = () => {
   ];
 
   return (
-    <Layout className="min-h-screen bg-neutral-900">
+    <Layout className="min-h-screen bg-neutral-950">
       <LoveAdminHeader
         breadcrumbChildren={[
           <Breadcrumb.Item key="home">
@@ -114,7 +114,7 @@ const ShopSettings = () => {
         ]}
       ></LoveAdminHeader>
       <Content className="relative grid grid-cols-[21.25rem_1fr] bg-white rounded-t-lg">
-        <aside className="h-[calc(100vh-4rem)] overflow-y-auto border-r overflow-x-clip border-neutral-200 select-none">
+        <aside className="h-[calc(100vh-4rem)] overflow-y-auto border-r overflow-x-clip border-neutral-200">
           <div className="px-5 pt-[1.1rem] pb-[1.342rem]">
             <div className="mb-2 font-medium">Design shop</div>
             <p>

@@ -226,7 +226,7 @@ const ShopList: React.FC<ShopListProps> = ({ items, isDraggable = true }) => {
         )}
         {selectedType === "navigation" && (
           <div>
-            {selectedItem === "Calendar" && <CalendarNavigationSettings />}
+            {selectedItem === "Timetable" && <CalendarNavigationSettings />}
             {selectedItem === "Events" && <EventsNavigationSettings />}
             {selectedItem === "Memberships" && (
               <MembershipsNavigationSettings />

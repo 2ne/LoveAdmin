@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Collapse, Button } from "antd";
+import { Collapse, Button, Tooltip } from "antd";
 import React, { ReactElement, useState } from "react";
 import Notes from "./notes";
 import AddNoteModal from "./notes-modal";
@@ -26,7 +26,7 @@ function ContactSidebar(): ReactElement {
       <Collapse
         defaultActiveKey={["1"]}
         size="small"
-        className="rounded-none !border-neutral-200 !border-l-0 !border-t-0 !border-r-0"
+        className="rounded-none pt-0.5 !border-neutral-200 !border-l-0 !border-t-0 !border-r-0"
       >
         <Panel
           header={
@@ -41,18 +41,18 @@ function ContactSidebar(): ReactElement {
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-[calc(0.5rem+2px)] [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:bg-transparent [&_.ant-collapse-content]:border-t-0"
           extra={
             <>
-              <Button
-                type="primary"
-                size="small"
-                className="-mr-1.5"
-                icon={<PlusOutlined />}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  handleAddNoteClick();
-                }}
-              >
-                Add note
-              </Button>
+              <Tooltip title="Add note" placement="bottomRight">
+                <Button
+                  type="primary"
+                  size="small"
+                  className="-mr-1.5"
+                  icon={<PlusOutlined />}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleAddNoteClick();
+                  }}
+                ></Button>
+              </Tooltip>
             </>
           }
         >

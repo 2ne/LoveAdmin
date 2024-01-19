@@ -1,0 +1,159 @@
+.team-black .team-bg {
+  @apply bg-black;
+}
+
+.team-white .team-bg {
+  @apply bg-black;
+}
+
+.team-red .team-bg {
+  @apply bg-red-600;
+}
+
+.team-orange .team-bg {
+  @apply bg-orange-600;
+}
+
+.team-amber .team-bg {
+  @apply bg-amber-600;
+}
+
+.team-yellow .team-bg {
+  @apply bg-yellow-600;
+}
+
+.team-lime .team-bg {
+  @apply bg-lime-600;
+}
+
+.team-green .team-bg {
+  @apply bg-green-600;
+}
+
+.team-emerald .team-bg {
+  @apply bg-emerald-600;
+}
+
+.team-cyan .team-bg {
+  @apply bg-cyan-600;
+}
+
+.team-teal .team-bg {
+  @apply bg-teal-600;
+}
+
+.team-sky .team-bg {
+  @apply bg-sky-600;
+}
+
+.team-blue .team-bg {
+  @apply bg-blue-600;
+}
+
+.team-indigo .team-bg {
+  @apply bg-indigo-600;
+}
+
+.team-violet .team-bg {
+  @apply bg-violet-600;
+}
+
+.team-purple .team-bg {
+  @apply bg-purple-600;
+}
+
+.team-fuchsia .team-bg {
+  @apply bg-fuchsia-600;
+}
+
+.team-pink .team-bg {
+  @apply bg-pink-600;
+}
+
+.team-rose .team-bg {
+  @apply bg-rose-600;
+}
+
+.team-stone .team-bg {
+  @apply bg-stone-600;
+}
+
+.team-black .team-text {
+  @apply !text-black;
+}
+
+.team-white .team-text {
+  @apply !text-black;
+}
+
+.team-red .team-text {
+  @apply !text-red-600;
+}
+
+.team-orange .team-text {
+  @apply !text-orange-600;
+}
+
+.team-amber .team-text {
+  @apply !text-amber-600;
+}
+
+.team-yellow .team-text {
+  @apply !text-yellow-600;
+}
+
+.team-lime .team-text {
+  @apply !text-lime-600;
+}
+
+.team-green .team-text {
+  @apply !text-green-600;
+}
+
+.team-emerald .team-text {
+  @apply !text-emerald-600;
+}
+
+.team-cyan .team-text {
+  @apply !text-cyan-600;
+}
+
+.team-teal .team-text {
+  @apply !text-teal-600;
+}
+
+.team-sky .team-text {
+  @apply !text-sky-600;
+}
+
+.team-blue .team-text {
+  @apply !text-blue-600;
+}
+
+.team-indigo .team-text {
+  @apply !text-indigo-600;
+}
+
+.team-violet .team-text {
+  @apply !text-violet-600;
+}
+
+.team-purple .team-text {
+  @apply !text-purple-600;
+}
+
+.team-fuchsia .team-text {
+  @apply !text-fuchsia-600;
+}
+
+.team-pink .team-text {
+  @apply !text-pink-600;
+}
+
+.team-rose .team-text {
+  @apply !text-rose-600;
+}
+
+.team-stone .team-text {
+  @apply !text-stone-600;
+}

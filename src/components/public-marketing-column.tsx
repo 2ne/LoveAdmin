@@ -17,22 +17,25 @@ const PublicMarketingColumn: React.FC<PublicMarketingColumnProps> = ({
   messageBody,
 }) => {
   return (
-    <div className="sticky top-0 hidden max-h-screen basis-full lg:block">
+    <div className="sticky top-0 hidden max-h-screen overflow-hidden rounded-l-lg basis-full lg:block">
       <img
         className="absolute inset-0 object-cover w-full h-full"
         src={imgSrc}
         alt={imgAlt}
       />
-      <div className="absolute inset-0 grid w-full h-full p-8 bg-primary-500/70 place-items-center">
+      <div className="absolute inset-0 grid w-full h-full p-8 bg-primary-500/75 place-items-center">
         <div className="relative w-full mx-auto leading-normal text-white max-w-prose">
           <div className="flex items-center mb-6 text-3xl tracking-tight">
-            <Title level={2} className="my-0 text-white">
+            <Title
+              level={2}
+              className="my-0 font-medium text-white font-display"
+            >
               {messageTitle}
             </Title>
           </div>
-          <Title level={4} className="my-0 text-primary-50">
+          <div className="my-0 font-medium text-xl/8 text-primary-50">
             {messageBody}
-          </Title>
+          </div>
         </div>
       </div>
     </div>

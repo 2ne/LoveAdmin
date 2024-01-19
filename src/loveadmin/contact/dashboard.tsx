@@ -235,9 +235,7 @@ function ContactDashboard(): ReactElement {
       key: "4",
       label: `Events`,
       children: (
-        <div className="p-4 pt-2 @2xl:p-6 text-subtitle">
-          No events purchased
-        </div>
+        <div className="p-6 pb-12 text-subtitle">No events purchased</div>
       ),
     },
   ];
@@ -306,7 +304,7 @@ function ContactDashboard(): ReactElement {
       <div className="space-y-8">
         <section>
           <div className="text-base grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-4 gap-2 @2xl:gap-3">
-            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
+            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950 cursor-pointer hover:shadow-md hover:shadow-neutral-950/10 group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Outstanding
@@ -322,7 +320,7 @@ function ContactDashboard(): ReactElement {
                 <div className="">-100.00</div>
               </div>
             </div>
-            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
+            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950 cursor-pointer hover:shadow-md hover:shadow-neutral-950/10 group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Pending
@@ -338,7 +336,7 @@ function ContactDashboard(): ReactElement {
                 <div className="">100.00</div>
               </div>
             </div>
-            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
+            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950 cursor-pointer hover:shadow-md hover:shadow-neutral-950/10 group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Invoiced
@@ -354,7 +352,7 @@ function ContactDashboard(): ReactElement {
                 <div className="">520.00</div>
               </div>
             </div>
-            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
+            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950 cursor-pointer hover:shadow-md hover:shadow-neutral-950/10 group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">Paid</div>
                 <div className="transition-all text-neutral-400 -mt-px group-hover:text-neutral-800 -ml-1.5 group-hover:ml-0 h-6 w-6 rounded-full pl-px grid place-items-center group-hover:bg-neutral-100">
@@ -375,7 +373,7 @@ function ContactDashboard(): ReactElement {
             <Title level={5}>Invoices</Title>
           </div>
           <div className="grid grid-cols-1 @md:grid-cols-2 @xl:grid-cols-3 gap-2 @2xl:gap-3">
-            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
+            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950 cursor-pointer hover:shadow-md hover:shadow-neutral-950/10 group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Upcoming renewals
@@ -388,7 +386,7 @@ function ContactDashboard(): ReactElement {
                 <div className="">2</div>
               </div>
             </div>
-            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
+            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950 cursor-pointer hover:shadow-md hover:shadow-neutral-950/10 group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Awaiting approval
@@ -401,7 +399,7 @@ function ContactDashboard(): ReactElement {
                 <div className="">0</div>
               </div>
             </div>
-            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm cursor-pointer hover:shadow-md group rounded">
+            <div className="grid gap-3 p-4 @2xl:p-6 @2xl:gap-3 transition-all bg-white shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950 cursor-pointer hover:shadow-md hover:shadow-neutral-950/10 group rounded">
               <div className="flex min-w-0 gap-2 font-medium transition-all text-subtitle group-hover:text-neutral-800 group-hover:underline underline-offset-2">
                 <div className="truncate max-w-[calc(100%-1.25rem)]">
                   Scheduled orders
@@ -422,7 +420,7 @@ function ContactDashboard(): ReactElement {
               Active products
             </Title>
           </div>
-          <div className="grid gap-4 transition-all bg-white rounded shadow-sm">
+          <div className="grid gap-4 transition-all bg-white rounded shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950">
             <Tabs
               defaultActiveKey="1"
               items={activeProducts}

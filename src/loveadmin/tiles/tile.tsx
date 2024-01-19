@@ -62,10 +62,10 @@ const Tile: React.FC<TileProps> = (props) => {
         className={`relative aspect-[4/3] h-full py-5 px-4 rounded-xl text-lg sm:text-xl font-medium flex flex-col justify-center items-center group no-underline ${
           props.stack ? "ring-4 ring-inset" : ""
         } ${
-          props.stack && props.colour === "primary" ? "ring-primary-600/40" : ""
+          props.stack && props.colour === "primary" ? "ring-primary-600/50" : ""
         } ${
           props.stack && props.colour === "secondary"
-            ? "ring-orange-600/40"
+            ? "ring-orange-600/50"
             : ""
         } ${colourClassName}`}
       >

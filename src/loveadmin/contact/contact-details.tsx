@@ -1,6 +1,10 @@
 import {
+  CalendarOutlined,
   CheckCircleOutlined,
   CheckOutlined,
+  EditOutlined,
+  EnvironmentOutlined,
+  UserOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
 import {
@@ -11,6 +15,7 @@ import {
   Input,
   message,
   Typography,
+  Tabs,
 } from "antd";
 import React, { ReactElement, useState } from "react";
 import AddNoteModal from "./notes-modal";
@@ -174,7 +179,7 @@ function ContactDetails(): ReactElement {
         className="-mx-px rounded-none !border-neutral-200"
       >
         <Panel
-          header="Contact details"
+          header="Details"
           key="1"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
         >
@@ -186,21 +191,27 @@ function ContactDetails(): ReactElement {
               onOpenChange={handleOpenFirstNameChange}
               placement="right"
             >
-              <Button type="text" block className="ant-btn-input">
-                <div className="flex-grow min-w-0 text-left">
+              <Button type="text" block className="ant-btn-input group">
+                <div className="relative flex-grow min-w-0 text-left">
                   <div className="text-xs mb-0.5 text-subtitle">First name</div>
                   <div>{firstName}</div>
+                  <div className="absolute right-0 -translate-y-1/2 top-1/2">
+                    <EditOutlined className="transition-opacity opacity-0 group-hover:opacity-100" />
+                  </div>
                 </div>
               </Button>
             </Popover>
-            <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow min-w-0 text-left">
+            <Button type="text" block className="ant-btn-input group">
+              <div className="relative flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">Last name</div>
                 <div>Toone</div>
+                <div className="absolute right-0 -translate-y-1/2 top-1/2">
+                  <EditOutlined className="transition-opacity opacity-0 group-hover:opacity-100" />
+                </div>
               </div>
             </Button>
-            <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow min-w-0 text-left">
+            <Button type="text" block className="ant-btn-input group">
+              <div className="relative flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Date of birth
                 </div>
@@ -210,29 +221,37 @@ function ContactDetails(): ReactElement {
                     <span className="mx-1.5">·</span>37 years old
                   </span>
                 </div>
-              </div>
-            </Button>
-            <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow min-w-0 text-left">
-                <div className="text-xs mb-0.5 text-subtitle">Gender</div>
-                <div>Male</div>
-              </div>
-            </Button>
-            <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow min-w-0 text-left">
-                <div className="text-xs mb-0.5 text-subtitle">Email</div>
-                <div>
-                  <a href="mailto:jamestoone@me.com">jamestoone@me.com</a>
+                <div className="absolute right-0 -translate-y-1/2 top-1/2">
+                  <EditOutlined className="transition-opacity opacity-0 group-hover:opacity-100" />
                 </div>
               </div>
             </Button>
-            <Button type="text" block className="ant-btn-input">
-              <div className="flex-grow min-w-0 text-left">
+            <Button type="text" block className="ant-btn-input group">
+              <div className="relative flex-grow min-w-0 text-left">
+                <div className="text-xs mb-0.5 text-subtitle">Gender</div>
+                <div>Male</div>
+                <div className="absolute right-0 -translate-y-1/2 top-1/2">
+                  <EditOutlined className="transition-opacity opacity-0 group-hover:opacity-100" />
+                </div>
+              </div>
+            </Button>
+            <Button type="text" block className="ant-btn-input group">
+              <div className="relative flex-grow min-w-0 text-left">
+                <div className="text-xs mb-0.5 text-subtitle">Email</div>
+                <div>jamestoone@me.com</div>
+                <div className="absolute right-0 -translate-y-1/2 top-1/2">
+                  <EditOutlined className="transition-opacity opacity-0 group-hover:opacity-100" />
+                </div>
+              </div>
+            </Button>
+            <Button type="text" block className="ant-btn-input group">
+              <div className="relative flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Contact number
                 </div>
-                <div>
-                  <a href="tel:07994884991">07994884991</a>
+                <div>07994884991</div>
+                <div className="absolute right-0 -translate-y-1/2 top-1/2">
+                  <EditOutlined className="transition-opacity opacity-0 group-hover:opacity-100" />
                 </div>
               </div>
             </Button>
@@ -243,17 +262,27 @@ function ContactDetails(): ReactElement {
               onOpenChange={handleOpenAddressChange}
               placement="right"
             >
-              <Button type="text" block className="ant-btn-input">
-                <div className="flex-grow min-w-0 text-left">
+              <Button type="text" block className="ant-btn-input group">
+                <div className="relative flex-grow min-w-0 text-left">
                   <div className="text-xs mb-0.5 text-subtitle">Address</div>
-                  <div className="truncate">
+                  <div className="pr-10 truncate">
                     28 Longhurst, Burgess Hill, West Sussex, RH150 0TG, United
                     Kingdom
+                  </div>
+                  <div className="absolute right-0 -translate-y-1/2 top-1/2">
+                    <EditOutlined className="transition-opacity opacity-0 group-hover:opacity-100" />
                   </div>
                 </div>
               </Button>
             </Popover>
           </div>
+        </Panel>
+        <Panel
+          header="Account owner"
+          key="3"
+          className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
+        >
+          <p>1</p>
         </Panel>
         <Panel
           header={
@@ -265,28 +294,28 @@ function ContactDetails(): ReactElement {
             </>
           }
           extra={<CheckCircleOutlined className="-mr-1 text-primary-500" />}
-          key="3"
+          key="4"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
         >
           <div>
             <dl className="px-4 py-3 rounded-md bg-neutral-100">
-              <dt className="pb-2 mb-2.5 border-t-0 border-b border-solid border-b-neutral-300/75 border-x-0">
+              <dt className="pb-3">
                 <Title level={5} className="m-0">
                   GoCardless
                 </Title>
               </dt>
               <div className="grid grid-cols-2 gap-x-3">
-                <dt className="block">Mandate identifier</dt>
+                <dt className="block text-subtitle">Mandate identifier</dt>
                 <dd className="block w-full mb-1.5 text-right">
                   MD000SXP3DNAQ2
                 </dd>
               </div>
               <div className="grid grid-cols-2 gap-x-3">
-                <dt className="block">Status </dt>
+                <dt className="block text-subtitle">Status </dt>
                 <dd className="block w-full mb-1.5 text-right">Created</dd>
               </div>
               <div className="grid grid-cols-2 gap-x-3">
-                <dt className="block">Date created</dt>
+                <dt className="block text-subtitle">Date created</dt>
                 <dd className="block w-full mb-1.5 text-right">
                   27 Apr 2023 15:15:07
                 </dd>
@@ -304,11 +333,11 @@ function ContactDetails(): ReactElement {
             </>
           }
           extra={<WarningOutlined className="-mr-1 text-danger-500" />}
-          key="4"
+          key="5"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
         >
           <div className="-mt-1.5 space-y-1">
-            <Button type="text" block className="ant-btn-input">
+            <Button type="text" block className="ant-btn-input group">
               <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Behavioural conditions
@@ -316,46 +345,27 @@ function ContactDetails(): ReactElement {
                 <div>ADHD</div>
               </div>
             </Button>
-            <Button type="text" block className="ant-btn-input">
+            <Button type="text" block className="ant-btn-input group">
               <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">Allergies</div>
                 <div>Very allergic to bee stings</div>
               </div>
             </Button>
-            <Button type="text" block className="ant-btn-input">
+            <Button type="text" block className="ant-btn-input group">
               <div className="flex-grow min-w-0 text-left">
                 <div className="text-xs mb-0.5 text-subtitle">
                   Medical notes
                 </div>
-                <a onClick={handleAddNoteClick}>Add note</a>
+                <a onClick={handleAddNoteClick} className="font-medium">
+                  Add note
+                </a>
               </div>
             </Button>
           </div>
         </Panel>
         <Panel
           header="Emergency contacts"
-          key="5"
-          className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
-        >
-          <p>1</p>
-        </Panel>
-        <Panel
-          header="Account owner"
           key="6"
-          className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
-        >
-          <p>1</p>
-        </Panel>
-        <Panel
-          header={
-            <>
-              Linked accounts
-              <span className="text-subtitle">
-                <span className="mx-1.5">·</span>2
-              </span>
-            </>
-          }
-          key="7"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
         >
           <p>1</p>

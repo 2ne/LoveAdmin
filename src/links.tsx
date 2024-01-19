@@ -93,6 +93,11 @@ function LinksPage(): ReactElement {
               Product Settings
             </Link>
           </li>
+          <li>
+            <Link to="/Colours" className="">
+              Colours
+            </Link>
+          </li>
         </ul>
       </div>
     </Layout>

@@ -34,7 +34,7 @@ export const BannerSettings: FC<BannerSettingsProps> = ({ selectedItem }) => {
     "Suitable for swimmers of any level, we concentrate on improving confidence and technique. Prices start from £30 a session."
   );
   const [selectedSegment, setSelectedSegment] = useState<string | null>(
-    "calendar"
+    "timetable"
   );
   const [selectedProduct, setSelectedProduct] = useState<string[] | null>(null);
 
@@ -249,12 +249,12 @@ export const BannerSettings: FC<BannerSettingsProps> = ({ selectedItem }) => {
                 label: (
                   <Tooltip
                     title="Select the classes and events you would like to
-                        show on a calendar page"
+                        show on a timetable page"
                   >
-                    <div>Calendar</div>
+                    <div>timetable</div>
                   </Tooltip>
                 ),
-                value: "calendar",
+                value: "timetable",
               },
               {
                 label: (
@@ -277,7 +277,7 @@ export const BannerSettings: FC<BannerSettingsProps> = ({ selectedItem }) => {
               setSelectedSegment(selectedValue as string);
             }}
           />
-          {selectedSegment === "calendar" && (
+          {selectedSegment === "timetable" && (
             <div className="p-1.5 pt-0.5 rounded-b bg-neutral-100">
               <TreeSelect
                 className="rounded-full [&_.ant-select-selection-item-remove]:hidden [&_.ant-select-selection-item]:bg-transparent [&_.ant-select-selection-item]:p-0 [&_.ant-select-selection-item]:pl-1 [&_.ant-select-selection-item]:mr-0 [&_.ant-select-selection-item-content]:m-0 [&_.ant-select-selection-item-content]:font-medium [&_.ant-select-selection-item-content]:cursor-pointer"

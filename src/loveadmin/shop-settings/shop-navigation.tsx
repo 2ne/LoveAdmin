@@ -17,7 +17,7 @@ export const CalendarNavigationSettings = () => {
   return (
     <div>
       <p className="mb-6">
-        Calendar displays your classes organised by address and name. Only
+        Timetable displays your classes organised by address and name. Only
         classes that have both a schedule and address will be displayed.
       </p>
       <Form layout="vertical">
@@ -28,14 +28,14 @@ export const CalendarNavigationSettings = () => {
               <span>Label</span>
               <Tooltip
                 className="text-neutral-400 hover:text-neutral-500"
-                title="Personalise the label 'Calendar' to better align with your organisation. Options could include 'Timetable', 'Sessions', etc."
+                title="Personalise the label 'Timetable' to better align with your organisation. Options could include 'Timetable', 'Sessions', etc."
               >
                 <InfoCircleOutlined />
               </Tooltip>
             </span>
           }
         >
-          <Input placeholder="Calendar" />
+          <Input placeholder="Timetable" />
         </Form.Item>
         <Form.Item
           className="mb-1.5 ant-form-item-switch"

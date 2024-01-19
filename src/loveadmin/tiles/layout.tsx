@@ -91,7 +91,7 @@ const TileLayout: React.FC<TileLayoutProps> = ({
   };
 
   return (
-    <Layout className="min-h-screen bg-neutral-900">
+    <Layout className="min-h-screen bg-neutral-950">
       <LoveAdminHeader compact={true} />
       <Layout className="bg-white rounded-t-lg">
         <Content className="flex items-start w-full px-6 pt-6 mx-auto 2xl:pt-8 gap-9 max-w-screen-2xl">

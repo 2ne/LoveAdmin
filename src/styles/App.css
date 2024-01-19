@@ -1,6 +1,8 @@
 @import "reset.css";
 @import "layout.css";
 @import "perfectScroll.css";
+@import "colours.css";
+@import "teams.css";
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap");
 @font-face {
   font-family: "CircularStd";
@@ -12,8 +14,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 .min-h-screen {
-  @apply min-h-[100svh];
+  @apply !min-h-[100svh];
 }
 
 .h-screen {
@@ -27,12 +41,13 @@
 h1.ant-typography,
 h2.ant-typography,
 h3.ant-typography,
-h4.ant-typography {
-  @apply font-display font-medium text-lg;
+h4.ant-typography,
+h5.ant-typography {
+  @apply text-title;
 }
 
 h4.ant-typography {
-  @apply text-base font-display text-title;
+  @apply font-medium text-lg;
 }
 
 h5.ant-typography {
@@ -43,12 +58,20 @@ p {
   @apply text-sm text-neutral-700;
 }
 
+.ant-alert-message {
+  @apply text-sm py-1 [text-wrap:balance] pl-0.5;
+}
+
 a,
 a.ant-typography,
 .ant-typography a,
 .link,
 .ant-btn-link {
   @apply no-underline hover:underline text-primary-600 hover:text-primary-600 cursor-pointer;
+}
+
+.ant-btn-link:not(:disabled):not(.ant-btn-disabled):hover {
+  @apply text-primary-600;
 }
 
 table tbody a,
@@ -64,12 +87,16 @@ table tbody .ant-btn-link {
   @apply -mx-2.5 px-2.5 h-auto w-[calc(100%+1.25rem)];
 }
 
-.ant-btn-default:not(:disabled):not(.ant-btn-disabled) {
-  @apply hover:border-primary-500 hover:text-primary-500 active:border-primary-600 active:text-primary-600;
+.ant-btn-loading {
+  @apply pointer-events-none;
 }
 
 .ant-btn-primary {
-  @apply shadow-sm shadow-primary-700/10;
+  @apply shadow-[rgb(0_0_0_/_5%)_0_0_0_1px_inset,_rgba(0,_0,_0,_0)_0px_0px_0px_0px,_rgba(0,_0,_0,_0)_0px_0px_0px_0px,_rgba(2,_6,_23,_0.05)_0px_1px_2px_0px] border-0;
+}
+
+.ant-btn.ant-btn-icon-only {
+  @apply w-[2.125rem];
 }
 
 .ant-btn .ant-btn-icon {
@@ -77,8 +104,13 @@ table tbody .ant-btn-link {
 }
 
 .ant-input-affix-wrapper,
-.ant-select {
-  @apply shadow-sm shadow-neutral-950/5;
+.ant-select,
+.ant-input {
+  @apply shadow-sm shadow-neutral-950/5 rounded;
+}
+
+.ant-input-affix-wrapper .ant-input {
+  @apply shadow-none;
 }
 
 .ant-input:placeholder-shown + .ant-input-suffix {
@@ -115,7 +147,7 @@ table tbody .ant-btn-link {
 }
 
 .ant-form-vertical .ant-form-item-extra {
-  @apply pt-1;
+  @apply pt-1 text-sm;
 }
 
 .ant-form-item-required {
@@ -142,8 +174,22 @@ table tbody .ant-btn-link {
   @apply w-auto flex-grow-0;
 }
 
+/* Fix line-heights*/
+
+.ant-modal .ant-modal-body,
+.ant-radio-group,
+.ant-popconfirm,
+.ant-popover,
+textarea.ant-input {
+  @apply text-sm;
+}
+
 .ant-modal .ant-modal-header {
   @apply mb-6;
+}
+
+.ant-drawer {
+  @apply outline-none;
 }
 
 .ant-drawer-right > .ant-drawer-content-wrapper {
@@ -165,7 +211,7 @@ table tbody .ant-btn-link {
 
 .ant-modal .ant-modal-title,
 .ant-drawer .ant-drawer-title {
-  @apply font-medium;
+  @apply font-medium text-title;
 }
 
 .ant-modal .ant-modal-footer .ant-btn + .ant-btn:not(.ant-dropdown-trigger),
@@ -179,6 +225,11 @@ table tbody .ant-btn-link {
 
 .ant-table .ant-table-thead th {
   @apply before:hidden;
+}
+
+.ant-table-wrapper .ant-table-thead > tr > th,
+.ant-table-wrapper .ant-table-thead > tr > td {
+  @apply font-medium;
 }
 
 .ant-table-wrapper .ant-table-thead th.ant-table-column-has-sorters.ant-table-cell-fix-left:hover,
@@ -232,6 +283,14 @@ table tbody .ant-btn-link {
   @apply font-medium;
 }
 
+.ant-select-selection-placeholder {
+  @apply select-none;
+}
+
+.ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-group-title {
+  @apply text-xs font-medium text-neutral-400 tracking-wide;
+}
+
 .ant-select-dropdown-custom {
   @apply p-0;
 }
@@ -276,8 +335,16 @@ table tbody .ant-btn-link {
   @apply !w-full !max-w-none !p-0 !inset-0;
 }
 
+.ant-modal-fullscreen .ant-modal-wrap {
+  @apply lg:overflow-hidden;
+}
+
+.ant-modal-fullscreen .ant-modal-title {
+  @apply contents;
+}
+
 .ant-modal-fullscreen .ant-modal .ant-modal-header {
-  @apply !mb-0 !rounded-none !h-14 border-solid border-0 !border-b !border-b-neutral-200 !py-3 !px-4;
+  @apply !mb-0 !rounded-none !h-16 border-solid border-0 !border-b !border-b-neutral-200 !py-3 !px-4;
 }
 
 .ant-modal-fullscreen .ant-modal .ant-modal-content {
@@ -285,11 +352,7 @@ table tbody .ant-btn-link {
 }
 
 .ant-segmented {
-  @apply rounded-full bg-neutral-200/50;
-}
-
-.ant-segmented .ant-segmented-group > * {
-  @apply rounded-full;
+  @apply bg-neutral-200/50;
 }
 
 .ant-segmented .ant-segmented-item-label {
@@ -364,16 +427,16 @@ table tbody .ant-btn-link {
 }
 
 html:not(.scroll-overlay) .scrollbar-thin-x::-webkit-scrollbar {
-  @apply h-1.5 cursor-pointer rounded-full;
+  @apply h-2 cursor-pointer rounded-full;
 }
 
 html:not(.scroll-overlay) .scrollbar-thin-x::-webkit-scrollbar-track {
-  @apply shadow-none rounded-full;
+  @apply shadow-none rounded-full bg-neutral-100;
   -webkit-box-shadow: none;
 }
 
 html:not(.scroll-overlay) .scrollbar-thin-x::-webkit-scrollbar-thumb {
-  @apply h-1.5 bg-neutral-300 rounded-full;
+  @apply h-2 bg-neutral-400/50 rounded-full;
 }
 
 html:not(.scroll-overlay) .scrollbar-thin-x::-webkit-scrollbar-thumb:hover {
@@ -382,26 +445,34 @@ html:not(.scroll-overlay) .scrollbar-thin-x::-webkit-scrollbar-thumb:hover {
 
 html:not(.scroll-overlay) .scrollbar-thin-y::-webkit-scrollbar,
 html:not(.scroll-overlay) .rc-virtual-list-holder::-webkit-scrollbar,
-html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar {
-  @apply w-1.5 cursor-pointer rounded-full;
+html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar,
+html:not(.scroll-overlay) .ant-drawer .ant-drawer-body::-webkit-scrollbar,
+html:not(.scroll-overlay) .ant-dropdown-menu::-webkit-scrollbar {
+  @apply w-2 cursor-pointer rounded-full;
 }
 
 html:not(.scroll-overlay) .scrollbar-thin-y::-webkit-scrollbar-track,
 html:not(.scroll-overlay) .rc-virtual-list-holder::-webkit-scrollbar-track,
-html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar-track {
+html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar-track,
+html:not(.scroll-overlay) .ant-drawer .ant-drawer-body::-webkit-scrollbar-track,
+html:not(.scroll-overlay) .ant-dropdown-menu::-webkit-scrollbar-track {
   @apply rounded-full shadow-none;
   -webkit-box-shadow: none;
 }
 
 html:not(.scroll-overlay) .scrollbar-thin-y::-webkit-scrollbar-thumb,
 html:not(.scroll-overlay) .rc-virtual-list-holder::-webkit-scrollbar-thumb,
-html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar-thumb {
-  @apply w-1.5 bg-neutral-300 rounded-full;
+html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar-thumb,
+html:not(.scroll-overlay) .ant-drawer .ant-drawer-body::-webkit-scrollbar-thumb,
+html:not(.scroll-overlay) .ant-dropdown-menu::-webkit-scrollbar-thumb {
+  @apply w-2 bg-neutral-400/50 rounded-full;
 }
 
 html:not(.scroll-overlay) .scrollbar-thin-y::-webkit-scrollbar-thumb:hover,
 html:not(.scroll-overlay) .rc-virtual-list-holder::-webkit-scrollbar-thumb:hover,
-html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar-thumb:hover {
+html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar-thumb:hover,
+html:not(.scroll-overlay) .ant-drawer .ant-drawer-body::-webkit-scrollbar-thumb:hover,
+html:not(.scroll-overlay) .ant-dropdown-menu::-webkit-scrollbar-thumber:hover {
   @apply bg-neutral-400;
 }
 
@@ -500,7 +571,11 @@ html:not(.scroll-overlay) .ant-select-tree-list-holder::-webkit-scrollbar-thumb:
 }
 
 .ant-popconfirm-description {
-  @apply max-w-[30ch] [text-wrap:pretty] text-sm;
+  @apply max-w-[30ch] [text-wrap:pretty];
+}
+
+.ant-popconfirm .ant-popconfirm-message {
+  @apply mb-3;
 }
 
 .dim {
@@ -655,4 +730,111 @@ audio::-webkit-media-controls-time-remaining-display {
 
 .ant-message .ant-message-notice .ant-message-success > .anticon {
   @apply text-success-500;
+}
+
+/* Timetable */
+
+.morning + .morning > .time-period,
+.afternoon + .afternoon > .time-period,
+.evening + .evening > .time-period {
+  @apply !hidden;
+}
+
+.morning.hidden + .morning > .time-period,
+.afternoon.hidden + .afternoon > .time-period,
+.evening.hidden + .evening > .time-period {
+  @apply !block;
+}
+
+.time-period {
+  @apply mt-1.5 mb-1;
+}
+
+li + li .time-period {
+  @apply mt-2.5;
+}
+
+/* Antd tabs top - overrides */
+
+.ant-tabs-top-custom .ant-tabs-nav-list {
+  @apply gap-x-4 lg:gap-x-6 !important;
+}
+
+.ant-tabs-top-custom .ant-tabs-tab {
+  @apply mx-0 pb-4 !important;
+}
+
+.ant-tabs-top-custom .ant-tabs-tab:not(.ant-tabs-tab-active) .ant-tabs-tab-btn {
+  @apply text-neutral-800 !important;
+}
+
+.ant-tabs-top-custom .ant-tabs-tab:not(.ant-tabs-tab-active) .ant-tabs-tab-btn:hover {
+  @apply text-neutral-900 !important;
+}
+
+.ant-tabs-top-custom .ant-tabs-tab-btn {
+  @apply rounded-sm !important;
+}
+
+/* Antd tabs left - overrides */
+
+.ant-tabs-left-custom .ant-tabs-nav {
+  @apply mb-0 w-52 !important;
+}
+
+.ant-tabs-left-custom .ant-tabs-tab {
+  @apply z-10 justify-start p-2 px-3.5 m-0 rounded-md !important;
+}
+
+.ant-tabs-left-custom .ant-tabs-tab-active {
+  @apply text-neutral-900 font-medium !important;
+}
+
+.ant-tabs-left-custom .ant-tabs-tab-btn {
+  @apply transition-none !important;
+}
+
+.ant-tabs-left-custom .ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply text-neutral-800 !important;
+}
+
+.ant-tabs-left-custom .ant-tabs-content-holder {
+  @apply border-0 m-0 !important;
+}
+
+.ant-tabs-left-custom .ant-tabs-tabpane {
+  @apply p-0 !important;
+}
+
+.ant-tabs-left-custom .ant-tabs-ink-bar {
+  @apply rounded-md inset-x-0 w-auto bg-neutral-100/75 !important;
+}
+
+@supports (animation-timeline: scroll()) {
+  @property --hasScrolled {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+  body {
+    animation: onScroll both steps(1, end);
+    animation-timeline: scroll(root);
+    animation-range: 0px 1px;
+  }
+  .sidebar-height {
+    --size: 100vh;
+    --scrolled: 4rem;
+    overscroll-behavior: contain;
+    max-height: calc(var(--size) - (var(--scrolled) * (1 - (var(--hasScrolled) / 100)))) !important;
+  }
+
+  @keyframes onScroll {
+    to {
+      --hasScrolled: 100;
+    }
+  }
+}
+
+.ant-avatar-sm {
+  @apply text-[11px];
 }

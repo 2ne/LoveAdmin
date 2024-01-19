@@ -10,12 +10,13 @@ interface TableTitleProps {
   totalRecords?: number;
   hideCount?: boolean;
   recordsTerm?: { singular: string; plural: string };
+  small?: boolean;
   onSelectAll?: () => void;
   onUnselectAll?: () => void;
 }
 
-const Separator: React.FC = () => (
-  <span className="mx-1.5 text-subtitle">·</span>
+const Separator: React.FC<TableTitleProps> = (small) => (
+  <span className={`text-subtitle ${small ? "mx-1" : "mx-1.5"}`}>·</span>
 );
 
 const TableTitle: React.FC<TableTitleProps> = ({
@@ -27,6 +28,7 @@ const TableTitle: React.FC<TableTitleProps> = ({
   recordsTerm = { singular: "record", plural: "records" },
   onSelectAll,
   onUnselectAll,
+  small = false,
 }) => {
   const [selectedTitle, setSelectedTitle] = useState<ReactNode | null>(
     Array.isArray(title) ? title[0] : title
@@ -41,7 +43,10 @@ const TableTitle: React.FC<TableTitleProps> = ({
   const term = totalRecords === 1 ? recordsTerm.singular : recordsTerm.plural;
 
   return (
-    <Title level={5} className="relative flex min-w-0 m-0 top-px">
+    <Title
+      level={5}
+      className={`relative flex min-w-0 m-0 top-px ${small ? "text-sm" : ""}`}
+    >
       {Array.isArray(title) ? (
         <Select
           defaultValue={title[0]}
@@ -58,7 +63,7 @@ const TableTitle: React.FC<TableTitleProps> = ({
           })}
         </Select>
       ) : (
-        <div className="flex-grow min-w-0">
+        <div className="min-w-0">
           <div className="relative w-full truncate max-w-prose">{title}</div>
         </div>
       )}

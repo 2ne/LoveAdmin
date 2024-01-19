@@ -160,16 +160,8 @@ const SMSModal: React.FC<SMSModalProps> = ({ visible, onCancel }) => {
                   {!insufficientCredits ? (
                     <Popconfirm
                       icon={<CheckCircleFilled className="text-primary-500" />}
-                      title={
-                        <div className="mb-1">
-                          <div className="mb-0.5 font-medium">
-                            <span>Send SMS to 80 contacts</span>
-                          </div>
-                          <div className="text-neutral-700">
-                            Are you sure you want to send SMS?
-                          </div>
-                        </div>
-                      }
+                      title="Send SMS to 80 contacts"
+                      description="Are you sure you want to send SMS?"
                       okText="Send"
                       cancelText="Cancel"
                       onConfirm={sendConfirm}

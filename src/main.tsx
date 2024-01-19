@@ -44,10 +44,11 @@ createRoot(rootElement).render(
         Button: {
           defaultShadow:
             "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(2, 6, 23, 0.05) 0px 1px 2px 0px",
+          textHoverBg: "rgb(241 245 249 / 0.75)", // tw slate 100/0.75
         },
         Table: {
           headerBorderRadius: 6,
-          borderColor: "#e9eef4", // tw slate 200/75
+          borderColor: "rgba(2, 6, 23, 0.05)", // tw slate 950/0.05
           headerBg: "#f5f7fa", // tw slate 100/75
           headerColor: "#0f172a", // tw slate 900
           headerSortHoverBg: "#e9eef4", // tw slate 200/75

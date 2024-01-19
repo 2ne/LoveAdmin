@@ -59,10 +59,12 @@ const DateFilter: React.FC<DateFilterProps> = ({ defaultFilter }) => {
           key={option}
           onClick={() => handleFilterClick(option)}
           className={`justify-start px-2 ${
-            filter === option ? "font-medium bg-primary-50" : ""
+            filter === option
+              ? "[&_span]:relative font-medium shadow-none text-title before:absolute before:-inset-px before:bg-white/90 rounded-sm"
+              : ""
           }`}
           block
-          type="text"
+          type={filter === option ? "primary" : "text"}
         >
           {option}
         </Button>

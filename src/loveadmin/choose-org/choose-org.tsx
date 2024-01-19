@@ -110,7 +110,7 @@ const ChooseOrg = () => {
   );
 
   return (
-    <Layout className="min-h-screen bg-neutral-900">
+    <Layout className="min-h-screen bg-neutral-950">
       <LoveAdminHeader compact={true} hideMenuButton={true}></LoveAdminHeader>
       <Layout className="bg-white rounded-t-lg">
         <Content className="w-full px-6 mx-auto py-7 max-w-screen-2xl">

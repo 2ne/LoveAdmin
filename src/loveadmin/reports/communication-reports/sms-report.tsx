@@ -342,7 +342,7 @@ const SMSReport: React.FC = () => {
   ];
 
   return (
-    <Layout className="min-h-screen bg-neutral-900">
+    <Layout className="min-h-screen bg-neutral-950">
       <LoveAdminHeader
         breadcrumbChildren={[
           <Breadcrumb.Item key="home">
@@ -406,7 +406,7 @@ const SMSReport: React.FC = () => {
             closeModal={() => setMessageModalVisible(false)}
             modalData={modalData}
           />
-          <TableFooter hideEditColumns={true} />
+          <TableFooter hideManageColumns={true} />
         </Content>
       </Layout>
     </Layout>

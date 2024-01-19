@@ -1,13 +1,5 @@
 import React, { FC, useMemo, useState, useRef } from "react";
-import {
-  Modal,
-  Button,
-  Select,
-  Popconfirm,
-  message,
-  Drawer,
-  Tooltip,
-} from "antd";
+import { Button, Select, Popconfirm, message, Drawer, Tooltip } from "antd";
 import { HolderOutlined, WarningFilled } from "@ant-design/icons";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { AnimatePresence, motion } from "framer-motion";
@@ -190,7 +182,7 @@ const TableManageColumns: FC<TableManageColumnsProps> = ({ open, onClose }) => {
                 type="primary"
                 onClick={hasColumnsChanged ? onOk : undefined}
               >
-                Update
+                Save
               </Button>
             </Tooltip>
             <Button onClick={onCancel} className="ml-3">
@@ -246,7 +238,7 @@ const TableManageColumns: FC<TableManageColumnsProps> = ({ open, onClose }) => {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="rounded relative before:pointer-events-none before:[background-image:repeating-linear-gradient(rgb(241_245_249_/_0.75),rgb(241_245_249_/_0.75)_38px,white_39px,white_40px)] before:absolute before:inset-0 before:bottom-0.5 before:rounded select-none"
+                className="rounded relative before:pointer-events-none before:[background-image:repeating-linear-gradient(rgb(241_245_249_/1),rgb(241_245_249_/1)_38px,white_39px,white_40px)] before:absolute before:inset-0 before:bottom-0.5 before:rounded select-none"
               >
                 <AnimatePresence initial={false}>
                   {columns.map((column, index) => (

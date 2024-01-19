@@ -37,7 +37,7 @@ export const TileSettings: FC<TileSettingsProps> = ({ selectedItem }) => {
   );
   const [textColour, setTextColour] = useState<Color | string>("#005da2");
   const [selectedSegment, setSelectedSegment] = useState<string | null>(
-    "calendar"
+    "timetable"
   );
   const [selectedProduct, setSelectedProduct] = useState<string[] | null>(null);
 
@@ -274,12 +274,12 @@ export const TileSettings: FC<TileSettingsProps> = ({ selectedItem }) => {
                 label: (
                   <Tooltip
                     title="Select the classes and events you would like to
-                        show on a calendar page"
+                        show on a timetable page"
                   >
-                    <div>Calendar</div>
+                    <div>Timetable</div>
                   </Tooltip>
                 ),
-                value: "calendar",
+                value: "timetable",
               },
               {
                 label: (
@@ -302,7 +302,7 @@ export const TileSettings: FC<TileSettingsProps> = ({ selectedItem }) => {
               setSelectedSegment(selectedValue as string);
             }}
           />
-          {selectedSegment === "calendar" && (
+          {selectedSegment === "Timetable" && (
             <div className="p-1.5 pt-0.5 rounded-b bg-neutral-100">
               <TreeSelect
                 className="[&_.ant-select-selection-item-remove]:hidden [&_.ant-select-selection-item]:bg-transparent [&_.ant-select-selection-item]:p-0 [&_.ant-select-selection-item]:pl-1 [&_.ant-select-selection-item]:mr-0 [&_.ant-select-selection-item-content]:m-0 [&_.ant-select-selection-item-content]:font-medium [&_.ant-select-selection-item-content]:cursor-pointer"

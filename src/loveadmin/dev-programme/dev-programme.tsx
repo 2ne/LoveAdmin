@@ -572,7 +572,7 @@ const DevProgrammeModal: React.FC = () => {
   );
 
   return (
-    <div className="px-6 py-4">
+    <div className="min-h-screen px-6 py-4 bg-white">
       <header className="mb-7">
         <div className="flex items-center mb-5">
           <div>

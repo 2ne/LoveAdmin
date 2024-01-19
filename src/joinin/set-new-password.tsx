@@ -3,7 +3,6 @@ import { Layout, Typography, Button, Form, Input } from "antd";
 import PublicMarketingColumn from "../components/public-marketing-column";
 import PublicHeader from "../components/public-header";
 import PublicFormTemplate from "../components/public-form-template";
-import { Link } from "react-router-dom";
 const { Paragraph } = Typography;
 
 function SetNewPasswordJoinin(): ReactElement {
@@ -18,9 +17,9 @@ function SetNewPasswordJoinin(): ReactElement {
   };
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen bg-neutral-950">
       <PublicHeader product="joinin" />
-      <Layout className="flex-row">
+      <Layout className="flex-row px-2 pb-2 rounded-t-lg bg-neutral-950">
         <PublicMarketingColumn />
         <PublicFormTemplate
           title="Create a new password"

@@ -10,14 +10,14 @@ import TableManageColumns from "./table-manage-columns";
 
 interface TableFooterProps {
   hideExport?: boolean;
-  hideEditColumns?: boolean;
+  hideManageColumns?: boolean;
   collapsed?: boolean;
   sidebar?: boolean;
 }
 
 const TableFooter: React.FC<TableFooterProps> = ({
   hideExport,
-  hideEditColumns,
+  hideManageColumns,
   collapsed,
   sidebar,
 }) => {
@@ -39,7 +39,7 @@ const TableFooter: React.FC<TableFooterProps> = ({
         }`}
       >
         <div className="flex items-center gap-2 ml-auto">
-          {!hideEditColumns && (
+          {!hideManageColumns && (
             <Button onClick={showManageColumnsModal} icon={<HolderOutlined />}>
               Manage columns
             </Button>

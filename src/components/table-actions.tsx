@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import React, { ReactNode } from "react";
 
 interface TableActionsProps {
@@ -6,16 +5,21 @@ interface TableActionsProps {
   collapsed?: boolean;
   children: ReactNode;
   hasSidebar?: boolean;
+  className?: string;
 }
 
-const TableActions: React.FC<TableActionsProps> = ({ isVisible, children }) => {
+const TableActions: React.FC<TableActionsProps> = ({
+  isVisible,
+  children,
+  className,
+}) => {
   return (
     <div
-      className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-gradient-to-r from-[#f5f7fa] to-neutral-50/50 to-50% h-[38px] top-0 ml-7 rounded-tr-md transition-all z-20 flex items-center -mb-[38px] ${
+      className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-gradient-to-r to-50% h-[38px] top-0 ml-7 rounded-tr-md transition-all z-20 flex items-center -mb-[38px] ${
         isVisible
           ? "sticky--active opacity-100"
           : "opacity-0 pointer-events-none"
-      }`}
+      } ${className ? className : "from-[#f5f7fa] to-neutral-50/50"}`}
     >
       <div className="flex items-center gap-3 pl-3.5 bg-[#f5f7fa] h-[38px] relative after:absolute after:inset-0 after:-right-12 after:left-auto after:w-12 after:bg-gradient-to-r after:rounded-tr-md after:from-[#f5f7fa] after:via-neutral-100/95 after:to-transparent">
         {children}

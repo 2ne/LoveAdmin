@@ -2,6 +2,10 @@
   @apply max-md:min-w-[calc(100vw-20px)];
 }
 
+.ant-modal-body .ant-layout-content {
+  @apply min-w-0;
+}
+
 .ant-layout.ant-layout-has-sider {
   @apply overflow-clip;
 }

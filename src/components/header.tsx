@@ -292,7 +292,7 @@ const LoveAdminHeader: React.FC<LoveAdminHeaderProps> = ({
             <Button
               type="text"
               shape="circle"
-              className="flex items-center justify-center w-10 h-10 group"
+              className="flex items-center justify-center w-10 h-10 group hover:bg-transparent"
             >
               <img
                 src="https://pbs.twimg.com/profile_images/1602218293997322241/1uMPF_WC_400x400.jpg"

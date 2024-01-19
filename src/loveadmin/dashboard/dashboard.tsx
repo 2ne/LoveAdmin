@@ -7,7 +7,7 @@ const { Title } = Typography;
 
 const Dashboard = () => {
   return (
-    <Layout className="min-h-screen bg-neutral-900">
+    <Layout className="min-h-screen bg-neutral-950">
       <LoveAdminHeader
         breadcrumbChildren={[
           <Breadcrumb.Item key="home">

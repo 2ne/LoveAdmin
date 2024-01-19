@@ -129,7 +129,7 @@ const SMSReportInfoModal: React.FC<SMSReportInfoModalProps> = ({
       key: "mobileNumber",
       render: (mobileNumber: string | undefined) =>
         mobileNumber && mobileNumber.length > 0 ? (
-          <span className="tabular-nums">{mobileNumber}</span>
+          <span>{mobileNumber}</span>
         ) : (
           <div className="text-subtitle-light">-</div>
         ),
@@ -231,7 +231,13 @@ const SMSReportInfoModal: React.FC<SMSReportInfoModalProps> = ({
       align: "right" as const,
 
       render: (deliveryDate: Date | undefined) =>
-        deliveryDate ? formatDate(deliveryDate, "full") : "",
+        deliveryDate ? (
+          <div className="text-subtitle">
+            {formatDate(deliveryDate, "full")}
+          </div>
+        ) : (
+          ""
+        ),
     });
   }
 
@@ -291,7 +297,7 @@ const SMSReportInfoModal: React.FC<SMSReportInfoModalProps> = ({
             </div>
           </div>
           <Tooltip title={modalData?.message}>
-            <div className="ml-10 text-sm font-normal truncate text-subtitle max-w-[42vw]">
+            <div className="ml-[2.65rem] -mt-0.5 text-sm font-normal truncate text-subtitle max-w-[42vw]">
               {modalData?.message}
             </div>
           </Tooltip>
@@ -364,7 +370,7 @@ const SMSReportInfoModal: React.FC<SMSReportInfoModalProps> = ({
           />
         </div>
       )}
-      <TableFooter hideEditColumns={true} />
+      <TableFooter hideManageColumns={true} />
     </Modal>
   );
 };

@@ -24,6 +24,7 @@ import {
   Space,
 } from "antd";
 import { ColumnsType } from "antd/es/table/interface";
+import TableActions from "../../components/table-actions";
 const { Content } = Layout;
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -208,27 +209,36 @@ const ScheduledOrders: React.FC = () => {
       <div>
         <Content className="bg-white border border-solid rounded border-neutral-200">
           <div className="relative">
-            <div
-              className={`sticky overflow-x-auto overflow-y-hidden scrollbar-thin-x bg-neutral-50 h-[38px] top-0 ml-12 transition-all z-20 flex items-center -mb-[38px] " ${
-                hasSelected
-                  ? " opacity-100 "
-                  : " opacity-0 pointer-events-none "
-              }`}
+            <TableActions
+              isVisible={selectedRowKeys.length > 0}
+              className="!ml-[3.1rem]"
             >
-              <div className="flex items-center gap-4 ml-4">
-                <Button
-                  size="small"
-                  type="text"
-                  icon={<MailOutlined className="relative top-px" />}
-                  className="px-0 hover:bg-transparent hover:underline"
+              <div className="flex items-center gap-4">
+                <Dropdown
+                  placement="bottomLeft"
+                  getPopupContainer={() => document.body}
+                  overlayStyle={{ position: "fixed" }}
+                  overlay={
+                    <Menu>
+                      <Menu.Item key="1">Email</Menu.Item>
+                      <Menu.Item key="2">SMS</Menu.Item>
+                    </Menu>
+                  }
+                  trigger={["click"]}
                 >
-                  Send message
-                </Button>
+                  <a
+                    onClick={(e) => e.preventDefault()}
+                    className="flex gap-2 font-medium text-neutral-900"
+                  >
+                    <MailOutlined />
+                    <span>Message</span>
+                  </a>
+                </Dropdown>
                 <Button
                   size="small"
                   type="text"
                   icon={<PlusOutlined />}
-                  className="px-0 hover:bg-transparent hover:underline"
+                  className="px-0 font-medium hover:bg-transparent hover:underline"
                 >
                   Add beneficiary to...
                 </Button>
@@ -236,7 +246,7 @@ const ScheduledOrders: React.FC = () => {
                   size="small"
                   type="text"
                   icon={<UsergroupAddOutlined />}
-                  className="px-0 hover:bg-transparent hover:underline"
+                  className="px-0 font-medium hover:bg-transparent hover:underline"
                 >
                   Invite beneficiary to...
                 </Button>
@@ -244,7 +254,7 @@ const ScheduledOrders: React.FC = () => {
                   size="small"
                   type="text"
                   icon={<CreditCardOutlined />}
-                  className="px-0 hover:bg-transparent hover:underline"
+                  className="px-0 font-medium hover:bg-transparent hover:underline"
                 >
                   Request payment
                 </Button>
@@ -280,7 +290,7 @@ const ScheduledOrders: React.FC = () => {
                   </a>
                 </Dropdown>
               </div>
-            </div>
+            </TableActions>
             <Table
               rowSelection={rowSelection}
               size="small"
@@ -289,6 +299,7 @@ const ScheduledOrders: React.FC = () => {
               dataSource={data}
               pagination={false}
               className="ant-table-sticky"
+              sticky={true}
               onRow={(record) => ({
                 onContextMenu: (event) => handleContextMenu(event, record),
               })}

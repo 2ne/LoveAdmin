@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Tree, Input } from "antd";
 import type { DataNode, TreeProps } from "antd/es/tree";
 import { SearchOutlined } from "@ant-design/icons";
-import Scrollbar from "perfect-scrollbar";
 
 const originalTreeData: DataNode[] = [
   {
@@ -73,8 +72,6 @@ interface ClassTreeProps {
 }
 
 const ClassTree: React.FC<ClassTreeProps> = ({ hideFilters = false }) => {
-  const scrollRef = useRef(null);
-
   useEffect(() => {
     let filteredTreeData = [...originalTreeData];
     if (hideFilters) {
@@ -84,16 +81,6 @@ const ClassTree: React.FC<ClassTreeProps> = ({ hideFilters = false }) => {
     }
     setTreeData(filteredTreeData);
   }, [hideFilters]);
-
-  // Use perfectScroll for better UI
-  useEffect(() => {
-    if (scrollRef.current) {
-      const ps = new Scrollbar(scrollRef.current);
-      return () => {
-        ps.destroy();
-      };
-    }
-  }, []);
 
   const [treeData, setTreeData] = useState(originalTreeData);
 
@@ -106,10 +93,7 @@ const ClassTree: React.FC<ClassTreeProps> = ({ hideFilters = false }) => {
   };
 
   return (
-    <div
-      ref={scrollRef}
-      className="sticky top-0 max-h-screen p-4 overflow-hidden"
-    >
+    <div className="sticky top-0 max-h-screen p-4 overflow-hidden">
       <Input
         placeholder="Search classes & events..."
         prefix={<SearchOutlined className="mr-1" />}

@@ -60,7 +60,7 @@ const data = [
     name: "Thomas Williams",
     email: "thomaswilliams@gmail.com",
     address: "51 Church Lane",
-    town: "Liverpool",
+    town: "Development",
     accountOwner: "Emily Williams",
   },
   {
@@ -298,7 +298,7 @@ function Contacts(): ReactElement {
   };
 
   return (
-    <Layout className="min-h-screen bg-neutral-900">
+    <Layout className="min-h-screen bg-neutral-950">
       <LoveAdminHeader
         breadcrumbChildren={[
           <Breadcrumb.Item key="home">
@@ -309,7 +309,7 @@ function Contacts(): ReactElement {
       ></LoveAdminHeader>
       <Layout className="bg-white rounded-t-lg">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed}>
-          <ProductTree />
+          <ProductTree showGroups={true} />
         </Sidebar>
         <Content className="pb-40">
           <div className="p-4">
@@ -378,7 +378,6 @@ function Contacts(): ReactElement {
                     overlayStyle={{ position: "fixed" }}
                     overlay={
                       <Menu>
-                        <Menu.Item>Class</Menu.Item>
                         <Menu.Item>Product</Menu.Item>
                         <Menu.Item>Group</Menu.Item>
                       </Menu>

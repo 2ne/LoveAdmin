@@ -19,7 +19,8 @@ export type Colours =
   | "violet"
   | "purple"
   | "fuchsia"
-  | "pink";
+  | "pink"
+  | "stone";
 
 interface TagProps {
   colour: Colours;
@@ -47,13 +48,14 @@ const Tag: React.FC<TagProps> = ({ colour, children, className }) => {
     purple: "text-purple-700 bg-purple-50 ring-purple-600/10",
     fuchsia: "text-fuchsia-700 bg-fuchsia-50 ring-fuchsia-600/10",
     pink: "text-pink-700 bg-pink-50 ring-pink-600/10",
+    stone: "text-stone-700 bg-stone-50 ring-stone-600/10",
   };
 
   return (
     <div
       className={classNames(
         colours[colour],
-        "rounded-full py-1 px-2.5 text-xs font-medium ring-1 ring-inset inline-flex",
+        "rounded-full py-1 px-2.5 text-[13.5px] leading-4 tracking-[-0.001em] font-medium ring-1 ring-inset inline-flex",
         className
       )}
     >

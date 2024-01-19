@@ -1,18 +1,24 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Layout, Typography, Button, Form, Input, Modal, Collapse } from "antd";
 import PublicMarketingColumn from "../components/public-marketing-column";
 import PublicHeader from "../components/public-header";
 import PublicFormTemplate from "../components/public-form-template";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const { Paragraph } = Typography;
 const { Panel } = Collapse;
 
 function LoginJoinin(): ReactElement {
   const [loginJoininForm] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    setLoading(true);
+    setTimeout(() => {
+      navigate("/Home");
+    }, 2000);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -22,9 +28,9 @@ function LoginJoinin(): ReactElement {
   const [open, setOpen] = useState(false);
 
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen bg-neutral-950">
       <PublicHeader product="joinin" />
-      <Layout className="flex-row">
+      <Layout className="flex-row px-2 pb-2 rounded-t-lg bg-neutral-950">
         <PublicMarketingColumn />
         <PublicFormTemplate title="Sign into your JoinIn acount" center={true}>
           <Form
@@ -60,7 +66,7 @@ function LoginJoinin(): ReactElement {
               />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" block>
+              <Button type="primary" htmlType="submit" block loading={loading}>
                 Sign in
               </Button>
             </Form.Item>

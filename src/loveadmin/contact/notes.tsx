@@ -70,7 +70,7 @@ const Notes: React.FC = () => {
         >
           <div className="[&>*:not(:last-child)]:mb-5 mb-2 hover:bg-neutral-100 transition-colors px-3 py-2 rounded-md cursor-pointer">
             <div className="space-y-1.5">
-              <div>{note}</div>
+              <p>{note}</p>
               <div className="text-subtitle-light">
                 James Toone · 7 Feb 09:59
               </div>

@@ -471,14 +471,22 @@ const FormBuilder = () => {
   };
 
   const onDrawerAddFormFinish = (values: any) => {
-    message.success(`New field add in ${isAddDrawerTitle} field updated`);
+    const formattedGroupName = isAddDrawerTitle
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+    const formattedLabel = values.label.toLowerCase();
+    const combinedName = `${formattedGroupName} ${formattedLabel}`;
 
     const newField = {
       ...values,
       id: allFields.length + 1,
+      fieldName: combinedName,
       dataGroup: isAddDrawerTitle,
       options: [],
     };
+
+    message.success(`${combinedName} field created`);
 
     console.log("values", newField, formFields);
 
@@ -793,7 +801,7 @@ const FormBuilder = () => {
         destroyOnClose
         title={`Edit ${
           formFields.find((field) => field.id === editFieldId)?.fieldName
-        } field`}
+        }`}
         placement="right"
         onClose={closeDrawer}
         open={isDrawerVisible}
@@ -979,10 +987,18 @@ const FormBuilder = () => {
       {/* drawer to add new field */}
       <Drawer
         destroyOnClose
-        title={`Add new ${isAddDrawerTitle.toLocaleLowerCase()} field`}
-        placement="left"
+        title={`Create ${isAddDrawerTitle.toLocaleLowerCase()} field`}
+        placement="right"
         onClose={closeAddDrawer}
         open={isAddDrawerVisible}
+        footer={
+          <div className="flex">
+            <Button type="primary" onClick={() => form.submit()}>
+              Create
+            </Button>
+            <Button onClick={closeAddDrawer}>Cancel</Button>
+          </div>
+        }
       >
         <Form
           form={form}
@@ -990,7 +1006,7 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerAddFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[57px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[47px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           <Form.Item label="Group">
             <div>{isAddDrawerTitle}</div>
@@ -1009,28 +1025,12 @@ const FormBuilder = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item name="fieldName" label="Name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-
           <Form.Item
             label="Label"
             name="label"
             rules={[{ required: true, message: "Please enter a field label" }]}
           >
             <Input />
-          </Form.Item>
-
-          <Form.Item noStyle>
-            <Button className="mt-6 ml-6" type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-
-          <Form.Item noStyle>
-            <Button className="mt-6 ml-3" onClick={closeAddDrawer}>
-              Cancel
-            </Button>
           </Form.Item>
         </Form>
       </Drawer>

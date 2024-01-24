@@ -151,7 +151,8 @@ const FormBuilder = () => {
   const [editFieldId, setEditFieldId] = useState<number | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [isAddDrawerVisible, setIsAddDrawerVisible] = useState(false);
-  const [isAddDrawerTitle, setIsAddDrawerTitle] = useState("");
+  const [isAddDrawerTitle, setIsAddDrawerTitle] =
+    useState<Group>("Beneficiary");
   const [newOption, setNewOption] = useState<string>("");
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
@@ -389,7 +390,8 @@ const FormBuilder = () => {
     }
   };
 
-  const openDrawer = (fieldId: number) => {
+  const openDrawer = (fieldId: number, Group: Group) => {
+    setIsAddDrawerTitle(Group);
     const field = formFields.find((field) => field.id === fieldId);
     if (field) {
       const optionItems: OptionItem[] = field.options
@@ -409,19 +411,19 @@ const FormBuilder = () => {
     setEditFieldId(null);
   };
 
-  const openAddDrawer = (type: string) => {
+  const openAddDrawer = (type: Group) => {
     setIsAddDrawerTitle(type);
     setIsAddDrawerVisible(true);
   };
 
   const closeAddDrawer = () => {
-    setIsAddDrawerTitle("");
+    setIsAddDrawerTitle("Beneficiary");
     setIsAddDrawerVisible(false);
   };
 
   const updateFieldsDateSet = (
     groupId: Group,
-    fieldId: number,
+    fieldId: any,
     updatedField: Partial<CustomField>
   ) => {
     setFieldsDataSet((prevFieldsDataSet) => {
@@ -441,8 +443,6 @@ const FormBuilder = () => {
       } field updated`
     );
 
-    console.log("values", values);
-
     setFormFields((prevFields) =>
       prevFields.map((field) => {
         if (field.id === editFieldId) {
@@ -461,32 +461,11 @@ const FormBuilder = () => {
       editFieldId &&
       formFields.find((field) => field.id === editFieldId)?.originalId
     ) {
-      const group = formFields.find((field) => field.id === editFieldId);
-
-      const groupId = formFields.find(
-        (field) => field.id === editFieldId
-      )?.dataGroup;
-
       const fieldId = formFields.find(
         (field) => field.id === editFieldId
       )?.originalId;
 
-      // console.log("originalId", originalId, originalGroup);
-
-      updateFieldsDateSet(groupId, fieldId, values);
-
-      // Object.keys(fieldsDataSet).forEach((group) => {
-      //   fieldsDataSet[group as Group] = fieldsDataSet[group as Group].map(
-      //     (field) =>
-      //       field.id !== originalId
-      //         ? {
-      //             ...field,
-      //             ...values,
-      //             options: options.map((option) => option.value),
-      //           }
-      //         : field
-      //   );
-      // });
+      updateFieldsDateSet(isAddDrawerTitle, fieldId, values);
     }
     closeDrawer();
   };
@@ -768,7 +747,9 @@ const FormBuilder = () => {
                                     <Button
                                       type="text"
                                       icon={<EditOutlined />}
-                                      onClick={() => openDrawer(field.id)}
+                                      onClick={() =>
+                                        openDrawer(field.id, field.dataGroup)
+                                      }
                                     />
                                   </Tooltip>
                                   <Tooltip title="Remove field">

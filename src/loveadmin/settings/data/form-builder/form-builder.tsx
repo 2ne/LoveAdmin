@@ -444,6 +444,8 @@ const FormBuilder = () => {
 
   const closeAddDrawer = () => {
     setIsAddDrawerTitle("Beneficiary");
+    // Reset the form fields
+    form.resetFields();
     setIsAddDrawerVisible(false);
   };
 

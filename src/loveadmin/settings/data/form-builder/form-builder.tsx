@@ -495,27 +495,8 @@ const FormBuilder = () => {
       [isAddDrawerTitle]: [...prevFieldsDataSet[isAddDrawerTitle], newField],
     }));
 
-    // If the field is a clone, update the original in the sidebar as well
-    // if (
-    //   editFieldId &&
-    //   formFields.find((field) => field.id === editFieldId)?.originalId
-    // ) {
-    //   const originalId = formFields.find(
-    //     (field) => field.id === editFieldId
-    //   )?.originalId;
-
-    //   Object.keys(fieldsDataSet).forEach((group) => {
-    //     fieldsDataSet[group as Group] = fieldsDataSet[group as Group].map((field) =>
-    //       field.id === originalId
-    //         ? {
-    //             ...field,
-    //             ...values,
-    //             options: options.map((option) => option.value),
-    //           }
-    //         : field
-    //     );
-    //   });
-    // }
+    // Reset the form fields
+    form.resetFields();
 
     closeAddDrawer();
   };

@@ -815,18 +815,6 @@ const FormBuilder = () => {
         placement="right"
         onClose={closeDrawer}
         open={isDrawerVisible}
-        footer={
-          <div className="flex justify-between">
-            <div className="flex items-center flex-grow">
-              <Button onClick={onDrawerFormFinish} type="primary">
-                Save
-              </Button>
-              <Button className="ml-3" onClick={closeDrawer}>
-                Cancel
-              </Button>
-            </div>
-          </div>
-        }
       >
         <Alert
           message="This field is used on 2 other forms, all changes will be reflected on those forms."
@@ -888,6 +876,7 @@ const FormBuilder = () => {
               </div>
             </Form.Item>
           )}
+
           <Form.Item
             label="Label"
             name="label"
@@ -898,106 +887,112 @@ const FormBuilder = () => {
 
           {formFields.find((field) => field.id === editFieldId)?.inputType ===
             "Radio" ||
-            (formFields.find((field) => field.id === editFieldId)?.inputType ===
-              "Dropdown" && (
-              <Form.Item label="Options">
-                <DragDropContext
-                  onDragEnd={(result: { source: any; destination: any }) => {
-                    const { source, destination } = result;
-                    if (!destination) {
-                      return;
-                    }
-                    const reorderedOptions = Array.from(options);
-                    const [removed] = reorderedOptions.splice(source.index, 1);
-                    reorderedOptions.splice(destination.index, 0, removed);
-                    setOptions(reorderedOptions);
-                  }}
-                >
-                  <Droppable droppableId="optionsDroppable">
-                    {(provided: {
-                      innerRef: React.LegacyRef<HTMLDivElement> | undefined;
-                      droppableProps: JSX.IntrinsicAttributes &
-                        React.ClassAttributes<HTMLDivElement> &
-                        React.HTMLAttributes<HTMLDivElement>;
-                      placeholder:
-                        | boolean
-                        | React.ReactChild
-                        | React.ReactFragment
-                        | React.ReactPortal
-                        | null
-                        | undefined;
-                    }) => (
-                      <div ref={provided.innerRef} {...provided.droppableProps}>
-                        {options.map((option, index) => (
-                          <Draggable
-                            key={option.id}
-                            draggableId={option.id}
-                            index={index}
-                          >
-                            {(provided: {
-                              innerRef:
-                                | React.LegacyRef<HTMLDivElement>
-                                | undefined;
-                              draggableProps: JSX.IntrinsicAttributes &
-                                React.ClassAttributes<HTMLDivElement> &
-                                React.HTMLAttributes<HTMLDivElement>;
-                              dragHandleProps: JSX.IntrinsicAttributes &
-                                React.ClassAttributes<HTMLDivElement> &
-                                React.HTMLAttributes<HTMLDivElement>;
-                            }) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                className="mb-2"
-                              >
-                                <div className="flex items-center gap-2">
-                                  <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
-                                  <Input
-                                    value={option.value}
-                                    className="flex-grow pl-8"
+          formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Dropdown" ? (
+            <Form.Item label="Options">
+              <DragDropContext
+                onDragEnd={(result: { source: any; destination: any }) => {
+                  const { source, destination } = result;
+                  if (!destination) {
+                    return;
+                  }
+                  const reorderedOptions = Array.from(options);
+                  const [removed] = reorderedOptions.splice(source.index, 1);
+                  reorderedOptions.splice(destination.index, 0, removed);
+                  setOptions(reorderedOptions);
+                }}
+              >
+                <Droppable droppableId="optionsDroppable">
+                  {(provided: {
+                    innerRef: React.LegacyRef<HTMLDivElement> | undefined;
+                    droppableProps: JSX.IntrinsicAttributes &
+                      React.ClassAttributes<HTMLDivElement> &
+                      React.HTMLAttributes<HTMLDivElement>;
+                    placeholder:
+                      | boolean
+                      | React.ReactChild
+                      | React.ReactFragment
+                      | React.ReactPortal
+                      | null
+                      | undefined;
+                  }) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {options.map((option, index) => (
+                        <Draggable
+                          key={option.id}
+                          draggableId={option.id}
+                          index={index}
+                        >
+                          {(provided: {
+                            innerRef:
+                              | React.LegacyRef<HTMLDivElement>
+                              | undefined;
+                            draggableProps: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLDivElement> &
+                              React.HTMLAttributes<HTMLDivElement>;
+                            dragHandleProps: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLDivElement> &
+                              React.HTMLAttributes<HTMLDivElement>;
+                          }) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="mb-2"
+                            >
+                              <div className="flex items-center gap-2">
+                                <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
+                                <Input
+                                  value={option.value}
+                                  className="flex-grow pl-8"
+                                />
+                                <Tooltip title="Delete" className="shrink-0">
+                                  <Button
+                                    type="text"
+                                    className="hover:bg-danger-50 hover:text-danger-600"
+                                    icon={<DeleteOutlined />}
+                                    onClick={() =>
+                                      handleDeleteOption(option.value)
+                                    }
                                   />
-                                  <Tooltip title="Delete" className="shrink-0">
-                                    <Button
-                                      type="text"
-                                      className="hover:bg-danger-50 hover:text-danger-600"
-                                      icon={<DeleteOutlined />}
-                                      onClick={() =>
-                                        handleDeleteOption(option.value)
-                                      }
-                                    />
-                                  </Tooltip>
-                                </div>
+                                </Tooltip>
                               </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </DragDropContext>
-                <div className="flex items-center gap-2">
-                  <Input
-                    value={newOption}
-                    onChange={(e) => setNewOption(e.target.value)}
-                    placeholder="Add new option"
-                    className="flex-grow"
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newOption}
+                  onChange={(e) => setNewOption(e.target.value)}
+                  placeholder="Add new option"
+                  className="flex-grow"
+                />
+                <Tooltip title="Add option" className="shrink-0">
+                  <Button
+                    type="text"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddOption}
                   />
-                  <Tooltip title="Add option" className="shrink-0">
-                    <Button
-                      type="text"
-                      icon={<PlusOutlined />}
-                      onClick={handleAddOption}
-                    />
-                  </Tooltip>
-                </div>
-              </Form.Item>
-            ))}
+                </Tooltip>
+              </div>
+            </Form.Item>
+          ) : null}
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+          <Form.Item noStyle>
+            <Button className="ml-6 mt-6" type="primary" htmlType="submit">
               Submit
+            </Button>
+          </Form.Item>
+
+          <Form.Item noStyle>
+            <Button className="ml-3 mt-6" onClick={closeDrawer}>
+              Cancel
             </Button>
           </Form.Item>
         </Form>
@@ -1010,18 +1005,6 @@ const FormBuilder = () => {
         placement="left"
         onClose={closeAddDrawer}
         open={isAddDrawerVisible}
-        footer={
-          <div className="flex justify-between">
-            <div className="flex items-center flex-grow">
-              <Button onClick={onDrawerAddFormFinish} type="primary">
-                Save
-              </Button>
-              <Button className="ml-3" onClick={closeAddDrawer}>
-                Cancel
-              </Button>
-            </div>
-          </div>
-        }
       >
         <Form
           form={form}
@@ -1060,9 +1043,15 @@ const FormBuilder = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
+          <Form.Item noStyle>
+            <Button className="ml-6 mt-6" type="primary" htmlType="submit">
               Submit
+            </Button>
+          </Form.Item>
+
+          <Form.Item noStyle>
+            <Button className="ml-3 mt-6" onClick={closeAddDrawer}>
+              Cancel
             </Button>
           </Form.Item>
         </Form>

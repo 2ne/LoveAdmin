@@ -728,7 +728,7 @@ const FormBuilder = () => {
                                   <Select
                                     className="pointer-events-none"
                                     style={{ width: 150 }}
-                                    placeholder={`Select ${field.label.toLowerCase()}...`}
+                                    placeholder={`Select...`}
                                   >
                                     {field.options?.map((option) => (
                                       <Option key={option} value={option}>

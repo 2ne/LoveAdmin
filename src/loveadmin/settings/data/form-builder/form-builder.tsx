@@ -106,6 +106,13 @@ const fieldData: Record<Group, CustomField[]> = {
       options: ["Male", "Female", "Other"],
       dataGroup: "Account Owner",
     },
+    {
+      id: 6,
+      label: "Detail",
+      fieldName: "Account Owner Detail",
+      inputType: "TextInput",
+      dataGroup: "Account Owner",
+    },
   ],
   "Internal Customer": [
     {
@@ -129,19 +136,28 @@ const fieldData: Record<Group, CustomField[]> = {
 
 const FormBuilder = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [fieldsDataSet, setFieldsDataSet] =
+    useState<Record<Group, CustomField[]>>(fieldData);
+
   const [activePanels, setActivePanels] = useState<string[]>([
-    Object.keys(fieldData)[0],
+    Object.keys(fieldsDataSet)[0],
   ]);
   const [showDescription, setShowDescription] = useState(false);
   const [formFields, setFormFields] = useState<CustomField[]>([]);
+  const [addNewFormFields, setAddNewFormFields] = useState<CustomField[]>([]);
   const [clonedFields, setClonedFields] = useState<Record<number, boolean>>({});
   const [isDragging, setIsDragging] = useState(false);
   const [fieldIdCounter, setFieldIdCounter] = useState(1000); // Starting from 1000 for example
   const [editFieldId, setEditFieldId] = useState<number | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [isAddDrawerVisible, setIsAddDrawerVisible] = useState(false);
+  const [isAddDrawerTitle, setIsAddDrawerTitle] =
+    useState<Group>("Beneficiary");
   const [newOption, setNewOption] = useState<string>("");
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
+
+  // console.log("fieldsDataSet", fieldsDataSet);
 
   useEffect(() => {
     // Whenever editFieldId changes, set the form values accordingly
@@ -193,15 +209,15 @@ const FormBuilder = () => {
     if (searchTerm.length > 0) {
       // Open panels that have fields matching the search term
       setActivePanels(
-        Object.keys(fieldData).filter((type) =>
-          fieldData[type as Group].some((field) =>
+        Object.keys(fieldsDataSet).filter((type) =>
+          fieldsDataSet[type as Group].some((field) =>
             field.label.toLowerCase().includes(searchTerm.toLowerCase())
           )
         )
       );
     } else {
       // Default panel state when there is no search term
-      setActivePanels([Object.keys(fieldData)[0]]);
+      setActivePanels([Object.keys(fieldsDataSet)[0]]);
     }
   }, [searchTerm]);
 
@@ -212,20 +228,20 @@ const FormBuilder = () => {
 
   const shouldDisplayPanel = (type: Group) => {
     if (searchTerm.length === 0) return true; // Show all panels if no search term
-    return fieldData[type].some((field) =>
+    return fieldsDataSet[type].some((field) =>
       field.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
   };
 
   // Combine all fields into a single array for filtering
-  const allFields = Object.values(fieldData).flat();
+  const allFields = Object.values(fieldsDataSet).flat();
 
   const filteredFields = allFields.filter((field) =>
     field.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const renderFieldsByType = (type: Group) => {
-    const filteredFieldsByType = fieldData[type].filter((field) =>
+    const filteredFieldsByType = fieldsDataSet[type].filter((field) =>
       field.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -292,6 +308,7 @@ const FormBuilder = () => {
           type="link"
           className={`px-0 ${mapGroupToText[type]}`}
           icon={<PlusOutlined />}
+          onClick={() => openAddDrawer(type)}
         >
           {type} field
         </Button>
@@ -373,7 +390,8 @@ const FormBuilder = () => {
     }
   };
 
-  const openDrawer = (fieldId: number) => {
+  const openDrawer = (fieldId: number, Group: Group) => {
+    setIsAddDrawerTitle(Group);
     const field = formFields.find((field) => field.id === fieldId);
     if (field) {
       const optionItems: OptionItem[] = field.options
@@ -391,6 +409,31 @@ const FormBuilder = () => {
   const closeDrawer = () => {
     setIsDrawerVisible(false);
     setEditFieldId(null);
+  };
+
+  const openAddDrawer = (type: Group) => {
+    setIsAddDrawerTitle(type);
+    setIsAddDrawerVisible(true);
+  };
+
+  const closeAddDrawer = () => {
+    setIsAddDrawerTitle("Beneficiary");
+    setIsAddDrawerVisible(false);
+  };
+
+  const updateFieldsDateSet = (
+    groupId: Group,
+    fieldId: any,
+    updatedField: Partial<CustomField>
+  ) => {
+    setFieldsDataSet((prevFieldsDataSet) => {
+      return {
+        ...prevFieldsDataSet,
+        [groupId]: prevFieldsDataSet[groupId].map((field) =>
+          field.id === fieldId ? { ...field, ...updatedField } : field
+        ),
+      };
+    });
   };
 
   const onDrawerFormFinish = (values: any) => {
@@ -418,22 +461,55 @@ const FormBuilder = () => {
       editFieldId &&
       formFields.find((field) => field.id === editFieldId)?.originalId
     ) {
-      const originalId = formFields.find(
+      const fieldId = formFields.find(
         (field) => field.id === editFieldId
       )?.originalId;
-      Object.keys(fieldData).forEach((group) => {
-        fieldData[group as Group] = fieldData[group as Group].map((field) =>
-          field.id === originalId
-            ? {
-                ...field,
-                ...values,
-                options: options.map((option) => option.value),
-              }
-            : field
-        );
-      });
+
+      updateFieldsDateSet(isAddDrawerTitle, fieldId, values);
     }
     closeDrawer();
+  };
+
+  const onDrawerAddFormFinish = (values: any) => {
+    message.success(`New field add in ${isAddDrawerTitle} field updated`);
+
+    const newField = {
+      ...values,
+      id: allFields.length + 1,
+      dataGroup: isAddDrawerTitle,
+      options: [],
+    };
+
+    console.log("values", newField, formFields);
+
+    setFieldsDataSet((prevFieldsDataSet) => ({
+      ...prevFieldsDataSet,
+      [isAddDrawerTitle]: [...prevFieldsDataSet[isAddDrawerTitle], newField],
+    }));
+
+    // If the field is a clone, update the original in the sidebar as well
+    // if (
+    //   editFieldId &&
+    //   formFields.find((field) => field.id === editFieldId)?.originalId
+    // ) {
+    //   const originalId = formFields.find(
+    //     (field) => field.id === editFieldId
+    //   )?.originalId;
+
+    //   Object.keys(fieldsDataSet).forEach((group) => {
+    //     fieldsDataSet[group as Group] = fieldsDataSet[group as Group].map((field) =>
+    //       field.id === originalId
+    //         ? {
+    //             ...field,
+    //             ...values,
+    //             options: options.map((option) => option.value),
+    //           }
+    //         : field
+    //     );
+    //   });
+    // }
+
+    closeAddDrawer();
   };
 
   return (
@@ -490,13 +566,13 @@ const FormBuilder = () => {
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   {hasFilteredFields ? (
                     <Collapse
-                      defaultActiveKey={[Object.keys(fieldData)[0]]}
+                      defaultActiveKey={[Object.keys(fieldsDataSet)[0]]}
                       activeKey={activePanels}
                       onChange={handlePanelChange}
                       bordered={false}
                       className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
                     >
-                      {Object.entries(fieldData).map(([type, fields]) => {
+                      {Object.entries(fieldsDataSet).map(([type, fields]) => {
                         if (!shouldDisplayPanel(type as Group)) return null;
                         return (
                           <Panel
@@ -671,7 +747,9 @@ const FormBuilder = () => {
                                     <Button
                                       type="text"
                                       icon={<EditOutlined />}
-                                      onClick={() => openDrawer(field.id)}
+                                      onClick={() =>
+                                        openDrawer(field.id, field.dataGroup)
+                                      }
                                     />
                                   </Tooltip>
                                   <Tooltip title="Remove field">
@@ -708,6 +786,8 @@ const FormBuilder = () => {
           </Content>
         </Layout>
       </DragDropContext>
+
+      {/* drawer to edit field */}
       <Drawer
         destroyOnClose
         title={`Edit ${
@@ -715,19 +795,7 @@ const FormBuilder = () => {
         } field`}
         placement="right"
         onClose={closeDrawer}
-        visible={isDrawerVisible}
-        footer={
-          <div className="flex justify-between">
-            <div className="flex items-center flex-grow">
-              <Button onClick={onDrawerFormFinish} type="primary">
-                Save
-              </Button>
-              <Button className="ml-3" onClick={closeDrawer}>
-                Cancel
-              </Button>
-            </div>
-          </div>
-        }
+        open={isDrawerVisible}
       >
         <Alert
           message="This field is used on 2 other forms, all changes will be reflected on those forms."
@@ -789,6 +857,7 @@ const FormBuilder = () => {
               </div>
             </Form.Item>
           )}
+
           <Form.Item
             label="Label"
             name="label"
@@ -797,96 +866,174 @@ const FormBuilder = () => {
             <Input />
           </Form.Item>
 
-          <Form.Item label="Options">
-            <DragDropContext
-              onDragEnd={(result: { source: any; destination: any }) => {
-                const { source, destination } = result;
-                if (!destination) {
-                  return;
-                }
-                const reorderedOptions = Array.from(options);
-                const [removed] = reorderedOptions.splice(source.index, 1);
-                reorderedOptions.splice(destination.index, 0, removed);
-                setOptions(reorderedOptions);
-              }}
-            >
-              <Droppable droppableId="optionsDroppable">
-                {(provided: {
-                  innerRef: React.LegacyRef<HTMLDivElement> | undefined;
-                  droppableProps: JSX.IntrinsicAttributes &
-                    React.ClassAttributes<HTMLDivElement> &
-                    React.HTMLAttributes<HTMLDivElement>;
-                  placeholder:
-                    | boolean
-                    | React.ReactChild
-                    | React.ReactFragment
-                    | React.ReactPortal
-                    | null
-                    | undefined;
-                }) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {options.map((option, index) => (
-                      <Draggable
-                        key={option.id}
-                        draggableId={option.id}
-                        index={index}
-                      >
-                        {(provided: {
-                          innerRef: React.LegacyRef<HTMLDivElement> | undefined;
-                          draggableProps: JSX.IntrinsicAttributes &
-                            React.ClassAttributes<HTMLDivElement> &
-                            React.HTMLAttributes<HTMLDivElement>;
-                          dragHandleProps: JSX.IntrinsicAttributes &
-                            React.ClassAttributes<HTMLDivElement> &
-                            React.HTMLAttributes<HTMLDivElement>;
-                        }) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="mb-2"
-                          >
-                            <div className="flex items-center gap-2">
-                              <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
-                              <Input
-                                value={option.value}
-                                className="flex-grow pl-8"
-                              />
-                              <Tooltip title="Delete" className="shrink-0">
-                                <Button
-                                  type="text"
-                                  className="hover:bg-danger-50 hover:text-danger-600"
-                                  icon={<DeleteOutlined />}
-                                  onClick={() =>
-                                    handleDeleteOption(option.value)
-                                  }
+          {formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Radio" ||
+          formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Dropdown" ? (
+            <Form.Item label="Options">
+              <DragDropContext
+                onDragEnd={(result: { source: any; destination: any }) => {
+                  const { source, destination } = result;
+                  if (!destination) {
+                    return;
+                  }
+                  const reorderedOptions = Array.from(options);
+                  const [removed] = reorderedOptions.splice(source.index, 1);
+                  reorderedOptions.splice(destination.index, 0, removed);
+                  setOptions(reorderedOptions);
+                }}
+              >
+                <Droppable droppableId="optionsDroppable">
+                  {(provided: {
+                    innerRef: React.LegacyRef<HTMLDivElement> | undefined;
+                    droppableProps: JSX.IntrinsicAttributes &
+                      React.ClassAttributes<HTMLDivElement> &
+                      React.HTMLAttributes<HTMLDivElement>;
+                    placeholder:
+                      | boolean
+                      | React.ReactChild
+                      | React.ReactFragment
+                      | React.ReactPortal
+                      | null
+                      | undefined;
+                  }) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {options.map((option, index) => (
+                        <Draggable
+                          key={option.id}
+                          draggableId={option.id}
+                          index={index}
+                        >
+                          {(provided: {
+                            innerRef:
+                              | React.LegacyRef<HTMLDivElement>
+                              | undefined;
+                            draggableProps: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLDivElement> &
+                              React.HTMLAttributes<HTMLDivElement>;
+                            dragHandleProps: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLDivElement> &
+                              React.HTMLAttributes<HTMLDivElement>;
+                          }) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="mb-2"
+                            >
+                              <div className="flex items-center gap-2">
+                                <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
+                                <Input
+                                  value={option.value}
+                                  className="flex-grow pl-8"
                                 />
-                              </Tooltip>
+                                <Tooltip title="Delete" className="shrink-0">
+                                  <Button
+                                    type="text"
+                                    className="hover:bg-danger-50 hover:text-danger-600"
+                                    icon={<DeleteOutlined />}
+                                    onClick={() =>
+                                      handleDeleteOption(option.value)
+                                    }
+                                  />
+                                </Tooltip>
+                              </div>
                             </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-            <div className="flex items-center gap-2">
-              <Input
-                value={newOption}
-                onChange={(e) => setNewOption(e.target.value)}
-                placeholder="Add new option"
-                className="flex-grow"
-              />
-              <Tooltip title="Add option" className="shrink-0">
-                <Button
-                  type="text"
-                  icon={<PlusOutlined />}
-                  onClick={handleAddOption}
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newOption}
+                  onChange={(e) => setNewOption(e.target.value)}
+                  placeholder="Add new option"
+                  className="flex-grow"
                 />
-              </Tooltip>
-            </div>
+                <Tooltip title="Add option" className="shrink-0">
+                  <Button
+                    type="text"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddOption}
+                  />
+                </Tooltip>
+              </div>
+            </Form.Item>
+          ) : null}
+
+          <Form.Item noStyle>
+            <Button className="ml-6 mt-6" type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+
+          <Form.Item noStyle>
+            <Button className="ml-3 mt-6" onClick={closeDrawer}>
+              Cancel
+            </Button>
+          </Form.Item>
+        </Form>
+      </Drawer>
+
+      {/* drawer to add new field */}
+      <Drawer
+        destroyOnClose
+        title={`Add new ${isAddDrawerTitle.toLocaleLowerCase()} field`}
+        placement="left"
+        onClose={closeAddDrawer}
+        open={isAddDrawerVisible}
+      >
+        <Form
+          form={form}
+          layout="horizontal"
+          initialValues={getInitialValues()}
+          onFinish={onDrawerAddFormFinish}
+          requiredMark={false}
+          className="[&_.ant-form-item-label]:w-[57px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+        >
+          <Form.Item label="Group">
+            <div>{isAddDrawerTitle}</div>
+          </Form.Item>
+
+          <Form.Item
+            name="inputType"
+            label="Type"
+            rules={[{ required: true, message: "Please select an filed type" }]}
+          >
+            <Select placeholder="Please select an filed type">
+              <Option value="TextInput">Text Input</Option>
+              <Option value="Dropdown">Dropdown</Option>
+              <Option value="Textarea">Textarea</Option>
+              <Option value="Radio">Radio</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="fieldName" label="Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Label"
+            name="label"
+            rules={[{ required: true, message: "Please enter a field label" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item noStyle>
+            <Button className="ml-6 mt-6" type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+
+          <Form.Item noStyle>
+            <Button className="ml-3 mt-6" onClick={closeAddDrawer}>
+              Cancel
+            </Button>
           </Form.Item>
         </Form>
       </Drawer>

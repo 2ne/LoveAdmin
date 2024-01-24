@@ -711,6 +711,7 @@ const FormBuilder = () => {
                                 </div>
                                 {field.inputType === "Dropdown" && (
                                   <Select
+                                    className="pointer-events-none"
                                     style={{ width: 150 }}
                                     placeholder={`Select ${field.label.toLowerCase()}...`}
                                   >
@@ -796,6 +797,14 @@ const FormBuilder = () => {
         placement="right"
         onClose={closeDrawer}
         open={isDrawerVisible}
+        footer={
+          <div className="flex">
+            <Button type="primary" onClick={() => form.submit()}>
+              Save
+            </Button>
+            <Button onClick={closeDrawer}>Cancel</Button>
+          </div>
+        }
       >
         <Alert
           message="This field is used on 2 other forms, all changes will be reflected on those forms."
@@ -809,7 +818,7 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[57px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[47px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           {editFieldId && (
             <Form.Item label="Name">
@@ -964,18 +973,6 @@ const FormBuilder = () => {
               </div>
             </Form.Item>
           ) : null}
-
-          <Form.Item noStyle>
-            <Button className="ml-6 mt-6" type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-
-          <Form.Item noStyle>
-            <Button className="ml-3 mt-6" onClick={closeDrawer}>
-              Cancel
-            </Button>
-          </Form.Item>
         </Form>
       </Drawer>
 
@@ -1025,13 +1022,13 @@ const FormBuilder = () => {
           </Form.Item>
 
           <Form.Item noStyle>
-            <Button className="ml-6 mt-6" type="primary" htmlType="submit">
+            <Button className="mt-6 ml-6" type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
 
           <Form.Item noStyle>
-            <Button className="ml-3 mt-6" onClick={closeAddDrawer}>
+            <Button className="mt-6 ml-3" onClick={closeAddDrawer}>
               Cancel
             </Button>
           </Form.Item>

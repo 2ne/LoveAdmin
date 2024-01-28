@@ -277,28 +277,54 @@ const FormBuilder = () => {
                 <HolderOutlined className="text-neutral-400" />
                 <div className="flex items-center justify-between flex-grow min-w-0">
                   <div className="truncate">{field.label}</div>
+
+                  {field.inputType === "TextInput" && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                      className="w-4 h-4 text-neutral-400"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M48 80v48c0 13.3-10.7 24-24 24s-24-10.7-24-24V72C0 49.9 17.9 32 40 32H408c22.1 0 40 17.9 40 40v56c0 13.3-10.7 24-24 24s-24-10.7-24-24V80H248l0 352h48c13.3 0 24 10.7 24 24s-10.7 24-24 24H152c-13.3 0-24-10.7-24-24s10.7-24 24-24h48l0-352H48z"
+                      />
+                    </svg>
+                  )}
+
                   {field.inputType === "Dropdown" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      className="relative w-4 h-4 left-px text-neutral-400"
+                      viewBox="0 0 448 512"
+                      className="w-4 h-4 text-neutral-400"
                     >
                       <path
-                        fillRule="evenodd"
-                        d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
-                        clipRule="evenodd"
+                        fill="currentColor"
+                        d="M384 432c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0zm64-16c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320zM207 345L103 241c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l87 87 87-87c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L241 345c-9.4 9.4-24.6 9.4-33.9 0z"
+                      />
+                    </svg>
+                  )}
+                  {field.inputType === "Textarea" && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                      className="w-4 h-4 text-neutral-400"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M24 40C10.7 40 0 50.7 0 64S10.7 88 24 88H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H24zm0 128c-13.3 0-24 10.7-24 24s10.7 24 24 24H424c13.3 0 24-10.7 24-24s-10.7-24-24-24H24zM0 320c0 13.3 10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H24c-13.3 0-24 10.7-24 24zM24 424c-13.3 0-24 10.7-24 24s10.7 24 24 24H424c13.3 0 24-10.7 24-24s-10.7-24-24-24H24z"
                       />
                     </svg>
                   )}
                   {field.inputType === "Radio" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
+                      viewBox="0 0 512 512"
                       className="w-4 h-4 text-neutral-400"
                     >
-                      <path d="M3 4.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6.25 3a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 7.25a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM6.25 11.5a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7ZM4 12.25a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM3 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" />
+                      <path
+                        fill="currentColor"
+                        d="M64 32a64 64 0 1 0 0 128A64 64 0 1 0 64 32zM184 72c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zM64 280a24 24 0 1 1 0-48 24 24 0 1 1 0 48zm0-88a64 64 0 1 0 0 128 64 64 0 1 0 0-128zM40 416a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0A64 64 0 1 0 0 416a64 64 0 1 0 128 0z"
+                      />
                     </svg>
                   )}
                 </div>
@@ -420,6 +446,8 @@ const FormBuilder = () => {
 
   const closeAddDrawer = () => {
     setIsAddDrawerTitle("Beneficiary");
+    // Reset the form fields
+    form.resetFields();
     setIsAddDrawerVisible(false);
   };
 
@@ -473,41 +501,30 @@ const FormBuilder = () => {
   };
 
   const onDrawerAddFormFinish = (values: any) => {
-    message.success(`New field add in ${isAddDrawerTitle} field updated`);
+    const formattedGroupName = isAddDrawerTitle
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+    const formattedLabel = values.label.toLowerCase();
+    const combinedName = `${formattedGroupName} ${formattedLabel}`;
 
     const newField = {
       ...values,
       options: options.map((option) => option.value),
       id: allFields.length + 1,
+      fieldName: combinedName,
       dataGroup: isAddDrawerTitle,
     };
+
+    message.success(`${combinedName} field created`);
 
     setFieldsDataSet((prevFieldsDataSet) => ({
       ...prevFieldsDataSet,
       [isAddDrawerTitle]: [...prevFieldsDataSet[isAddDrawerTitle], newField],
     }));
 
-    // If the field is a clone, update the original in the sidebar as well
-    // if (
-    //   editFieldId &&
-    //   formFields.find((field) => field.id === editFieldId)?.originalId
-    // ) {
-    //   const originalId = formFields.find(
-    //     (field) => field.id === editFieldId
-    //   )?.originalId;
-
-    //   Object.keys(fieldsDataSet).forEach((group) => {
-    //     fieldsDataSet[group as Group] = fieldsDataSet[group as Group].map((field) =>
-    //       field.id === originalId
-    //         ? {
-    //             ...field,
-    //             ...values,
-    //             options: options.map((option) => option.value),
-    //           }
-    //         : field
-    //     );
-    //   });
-    // }
+    // Reset the form fields
+    form.resetFields();
 
     closeAddDrawer();
   };
@@ -716,8 +733,9 @@ const FormBuilder = () => {
                                 </div>
                                 {field.inputType === "Dropdown" && (
                                   <Select
+                                    className="pointer-events-none"
                                     style={{ width: 150 }}
-                                    placeholder={`Select ${field.label.toLowerCase()}...`}
+                                    placeholder={`Select...`}
                                   >
                                     {field.options?.map((option) => (
                                       <Option key={option} value={option}>
@@ -799,11 +817,12 @@ const FormBuilder = () => {
         destroyOnClose
         title={`Edit ${
           formFields.find((field) => field.id === editFieldId)?.fieldName
-        } field`}
+        }`}
         placement="right"
         onClose={closeDrawer}
         open={isDrawerVisible}
         footer={
+
           <div className="flex justify-between">
             <div className="flex items-center flex-grow">
               <Button
@@ -828,6 +847,7 @@ const FormBuilder = () => {
                 Delete
               </Button>
             </div>
+
           </div>
         }
       >
@@ -844,7 +864,7 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[57px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[47px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           {editFieldId && (
             <Form.Item label="Name">
@@ -1010,14 +1030,15 @@ const FormBuilder = () => {
               <RangePicker />
             </Form.Item>
           )}
+
         </Form>
       </Drawer>
 
       {/* drawer to add new field */}
       <Drawer
         destroyOnClose
-        title={`Add new ${isAddDrawerTitle.toLocaleLowerCase()} field`}
-        placement="left"
+        title={`Create ${isAddDrawerTitle.toLocaleLowerCase()} field`}
+        placement="right"
         onClose={closeAddDrawer}
         open={isAddDrawerVisible}
         footer={
@@ -1043,7 +1064,7 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerAddFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[57px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[47px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           <Form.Item label="Group">
             <div>{isAddDrawerTitle}</div>
@@ -1064,10 +1085,6 @@ const FormBuilder = () => {
               <Option value="Radio">Radio</Option>
               <Option value="Date">Date</Option>
             </Select>
-          </Form.Item>
-
-          <Form.Item name="fieldName" label="Name" rules={[{ required: true }]}>
-            <Input />
           </Form.Item>
 
           <Form.Item
@@ -1181,6 +1198,7 @@ const FormBuilder = () => {
               <RangePicker />
             </Form.Item>
           )}
+
         </Form>
       </Drawer>
     </div>

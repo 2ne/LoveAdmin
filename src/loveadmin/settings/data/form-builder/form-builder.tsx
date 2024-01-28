@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Button,
   Input,
+  DatePicker,
   Layout,
   Collapse,
   Select,
@@ -28,7 +29,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Tag, { Colours } from "../../../../components/tag";
 import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
-
+const { RangePicker } = DatePicker;
 const { Option } = Select;
 const { Content } = Layout;
 const { Panel } = Collapse;
@@ -60,7 +61,7 @@ const mapGroupToBorder: Record<NonNullable<Group>, string> = {
   "Internal Product": "border-neutral-400 hover:ring-neutral-400",
 };
 
-type InputType = "TextInput" | "Dropdown" | "Textarea" | "Radio";
+type InputType = "TextInput" | "Dropdown" | "Textarea" | "Radio" | "Date";
 
 interface CustomField {
   id: number;
@@ -135,6 +136,8 @@ const fieldData: Record<Group, CustomField[]> = {
 };
 
 const FormBuilder = () => {
+  const addFormRef = useRef<any>();
+  const editFormRef = useRef<any>();
   const [searchTerm, setSearchTerm] = useState("");
   const [fieldsDataSet, setFieldsDataSet] =
     useState<Record<Group, CustomField[]>>(fieldData);
@@ -153,11 +156,10 @@ const FormBuilder = () => {
   const [isAddDrawerVisible, setIsAddDrawerVisible] = useState(false);
   const [isAddDrawerTitle, setIsAddDrawerTitle] =
     useState<Group>("Beneficiary");
+  const [newInputType, setNewInputType] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
-
-  // console.log("fieldsDataSet", fieldsDataSet);
 
   useEffect(() => {
     // Whenever editFieldId changes, set the form values accordingly
@@ -508,15 +510,13 @@ const FormBuilder = () => {
 
     const newField = {
       ...values,
+      options: options.map((option) => option.value),
       id: allFields.length + 1,
       fieldName: combinedName,
       dataGroup: isAddDrawerTitle,
-      options: [],
     };
 
     message.success(`${combinedName} field created`);
-
-    console.log("values", newField, formFields);
 
     setFieldsDataSet((prevFieldsDataSet) => ({
       ...prevFieldsDataSet,
@@ -527,6 +527,11 @@ const FormBuilder = () => {
     form.resetFields();
 
     closeAddDrawer();
+  };
+
+  const handleInputTypeChange = (event: any) => {
+    setNewInputType(event);
+    if (event !== "Dropdown" || event !== "Radio") setNewOption("");
   };
 
   return (
@@ -750,6 +755,8 @@ const FormBuilder = () => {
                                     )}
                                   </div>
                                 )}
+                                {/* if want to add date picker in field list */}
+                                {/* {field.inputType === "Date" && <DatePicker />} */}
                               </div>
                               <div className="flex gap-2 py-2.5 transition-opacity border-t border-neutral-200">
                                 <div className="flex items-center min-w-0">
@@ -815,11 +822,32 @@ const FormBuilder = () => {
         onClose={closeDrawer}
         open={isDrawerVisible}
         footer={
-          <div className="flex">
-            <Button type="primary" onClick={() => form.submit()}>
-              Save
-            </Button>
-            <Button onClick={closeDrawer}>Cancel</Button>
+
+          <div className="flex justify-between">
+            <div className="flex items-center flex-grow">
+              <Button
+                onClick={() => editFormRef?.current?.submit()}
+                type="primary"
+              >
+                Save
+              </Button>
+              <Button className="ml-3" onClick={closeDrawer}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  if (editFieldId) {
+                    deleteField(editFieldId);
+                    closeDrawer();
+                  }
+                }}
+                danger
+                className="ml-3"
+              >
+                Delete
+              </Button>
+            </div>
+
           </div>
         }
       >
@@ -830,6 +858,7 @@ const FormBuilder = () => {
           className="mb-4"
         />
         <Form
+          ref={editFormRef}
           form={form}
           layout="horizontal"
           initialValues={getInitialValues()}
@@ -990,6 +1019,18 @@ const FormBuilder = () => {
               </div>
             </Form.Item>
           ) : null}
+
+          {formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Date" && (
+            <Form.Item
+              label="DateRange"
+              name="dateRange"
+              rules={[{ required: true, message: "Please enter a date range" }]}
+            >
+              <RangePicker />
+            </Form.Item>
+          )}
+
         </Form>
       </Drawer>
 
@@ -1001,15 +1042,23 @@ const FormBuilder = () => {
         onClose={closeAddDrawer}
         open={isAddDrawerVisible}
         footer={
-          <div className="flex">
-            <Button type="primary" onClick={() => form.submit()}>
-              Create
-            </Button>
-            <Button onClick={closeAddDrawer}>Cancel</Button>
+          <div className="flex justify-between">
+            <div className="flex items-center flex-grow">
+              <Button
+                onClick={() => addFormRef.current.submit()}
+                type="primary"
+              >
+                Add
+              </Button>
+              <Button className="ml-3" onClick={closeAddDrawer}>
+                Cancel
+              </Button>
+            </div>
           </div>
         }
       >
         <Form
+          ref={addFormRef}
           form={form}
           layout="horizontal"
           initialValues={getInitialValues()}
@@ -1026,11 +1075,15 @@ const FormBuilder = () => {
             label="Type"
             rules={[{ required: true, message: "Please select an filed type" }]}
           >
-            <Select placeholder="Please select an filed type">
+            <Select
+              onChange={handleInputTypeChange}
+              placeholder="Please select an filed type"
+            >
               <Option value="TextInput">Text Input</Option>
               <Option value="Dropdown">Dropdown</Option>
               <Option value="Textarea">Textarea</Option>
               <Option value="Radio">Radio</Option>
+              <Option value="Date">Date</Option>
             </Select>
           </Form.Item>
 
@@ -1041,6 +1094,111 @@ const FormBuilder = () => {
           >
             <Input />
           </Form.Item>
+
+          {newInputType === "Dropdown" || newInputType === "Radio" ? (
+            <Form.Item label="Options">
+              <DragDropContext
+                onDragEnd={(result: { source: any; destination: any }) => {
+                  const { source, destination } = result;
+                  if (!destination) {
+                    return;
+                  }
+                  const reorderedOptions = Array.from(options);
+                  const [removed] = reorderedOptions.splice(source.index, 1);
+                  reorderedOptions.splice(destination.index, 0, removed);
+                  setOptions(reorderedOptions);
+                }}
+              >
+                <Droppable droppableId="optionsDroppable">
+                  {(provided: {
+                    innerRef: React.LegacyRef<HTMLDivElement> | undefined;
+                    droppableProps: JSX.IntrinsicAttributes &
+                      React.ClassAttributes<HTMLDivElement> &
+                      React.HTMLAttributes<HTMLDivElement>;
+                    placeholder:
+                      | boolean
+                      | React.ReactChild
+                      | React.ReactFragment
+                      | React.ReactPortal
+                      | null
+                      | undefined;
+                  }) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {options.map((option, index) => (
+                        <Draggable
+                          key={option.id}
+                          draggableId={option.id}
+                          index={index}
+                        >
+                          {(provided: {
+                            innerRef:
+                              | React.LegacyRef<HTMLDivElement>
+                              | undefined;
+                            draggableProps: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLDivElement> &
+                              React.HTMLAttributes<HTMLDivElement>;
+                            dragHandleProps: JSX.IntrinsicAttributes &
+                              React.ClassAttributes<HTMLDivElement> &
+                              React.HTMLAttributes<HTMLDivElement>;
+                          }) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="mb-2"
+                            >
+                              <div className="flex items-center gap-2">
+                                <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
+                                <Input
+                                  value={option.value}
+                                  className="flex-grow pl-8"
+                                />
+                                <Tooltip title="Delete" className="shrink-0">
+                                  <Button
+                                    type="text"
+                                    className="hover:bg-danger-50 hover:text-danger-600"
+                                    icon={<DeleteOutlined />}
+                                    onClick={() =>
+                                      handleDeleteOption(option.value)
+                                    }
+                                  />
+                                </Tooltip>
+                              </div>
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newOption}
+                  onChange={(e) => setNewOption(e.target.value)}
+                  placeholder="Add new option"
+                  className="flex-grow"
+                />
+                <Tooltip title="Add option" className="shrink-0">
+                  <Button
+                    type="text"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddOption}
+                  />
+                </Tooltip>
+              </div>
+            </Form.Item>
+          ) : (
+            ""
+          )}
+
+          {newInputType === "Date" && (
+            <Form.Item label="DateRange" name="dateRange">
+              <RangePicker />
+            </Form.Item>
+          )}
+
         </Form>
       </Drawer>
     </div>

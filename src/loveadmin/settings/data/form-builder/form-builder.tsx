@@ -14,6 +14,7 @@ import {
   Tooltip,
   message,
   Alert,
+  Modal,
 } from "antd";
 import Sidebar from "../../../../components/sidebar";
 import {
@@ -159,6 +160,7 @@ const FormBuilder = () => {
   const [newInputType, setNewInputType] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
   const [options, setOptions] = useState<OptionItem[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<any>(false);
   const [form] = Form.useForm();
 
   console.log("forms", newOption);
@@ -420,6 +422,30 @@ const FormBuilder = () => {
     }
   };
 
+  const deleteFieldCompletely = (fieldId: number) => {
+    // Find and remove the field from formFields
+    const fieldToDelete = formFields.find((field) => field.id === fieldId);
+    setFormFields((prevFormFields) =>
+      prevFormFields.filter((field) => field.id !== fieldId)
+    );
+
+    // Update clonedFields based on whether the field is a clone
+
+    if (fieldToDelete && fieldToDelete.originalId !== undefined) {
+      const originalFieldId = fieldToDelete.originalId;
+      setClonedFields((prev) => ({ ...prev, [originalFieldId]: false }));
+    }
+
+    // delete from the original fields data set
+    const id = formFields.find((field) => field.id === fieldId)?.originalId;
+    setFieldsDataSet((prevFieldsDataSet) => ({
+      ...prevFieldsDataSet,
+      [isAddDrawerTitle]: prevFieldsDataSet[isAddDrawerTitle].filter(
+        (field) => field.id !== id
+      ),
+    }));
+  };
+
   const openDrawer = (fieldId: number, Group: Group) => {
     setIsAddDrawerTitle(Group);
     const field = formFields.find((field) => field.id === fieldId);
@@ -439,6 +465,7 @@ const FormBuilder = () => {
   const closeDrawer = () => {
     setIsDrawerVisible(false);
     setEditFieldId(null);
+    setIsDeleteModalOpen(false);
   };
 
   const openAddDrawer = (type: Group) => {
@@ -470,6 +497,15 @@ const FormBuilder = () => {
         ),
       };
     });
+  };
+
+  const deleteFieldsDateSet = (groupId: Group, fieldId: number) => {
+    setFieldsDataSet((prevFieldsDataSet) => ({
+      ...prevFieldsDataSet,
+      [groupId]: prevFieldsDataSet[groupId].filter(
+        (field) => field.id !== fieldId
+      ),
+    }));
   };
 
   const onDrawerFormFinish = (values: any) => {
@@ -843,10 +879,7 @@ const FormBuilder = () => {
               </Button>
               <Button
                 onClick={() => {
-                  if (editFieldId) {
-                    deleteField(editFieldId);
-                    closeDrawer();
-                  }
+                  setIsDeleteModalOpen(true);
                 }}
                 danger
                 className="ml-3"
@@ -1205,6 +1238,45 @@ const FormBuilder = () => {
           )}
         </Form>
       </Drawer>
+
+      {/* delete conformation model */}
+
+      <Modal
+        title="Delete Field"
+        zIndex={1001}
+        open={isDeleteModalOpen}
+        onCancel={() => {
+          setIsDeleteModalOpen(false);
+        }}
+        footer={[
+          <Button
+            onClick={() => {
+              setIsDeleteModalOpen(false);
+            }}
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            danger
+            onClick={() => {
+              if (editFieldId) {
+                deleteFieldCompletely(editFieldId);
+                closeDrawer();
+                setIsDeleteModalOpen(false);
+              }
+            }}
+          >
+            Delete
+          </Button>,
+        ]}
+      >
+        <p>
+          The field will be deleted permanently from you form and sidebar. Are
+          you still sure you want to delete it?
+        </p>
+      </Modal>
     </div>
   );
 };

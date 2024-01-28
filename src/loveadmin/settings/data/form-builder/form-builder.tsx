@@ -763,8 +763,11 @@ const FormBuilder = () => {
                                     )}
                                   </div>
                                 )}
-                                {/* if want to add date picker in field list */}
-                                {/* {field.inputType === "Date" && <DatePicker />} */}
+                                {field.inputType === "Date" && (
+                                  <div className="pointer-events-none">
+                                    <DatePicker className="w-40" />
+                                  </div>
+                                )}
                               </div>
                               <div className="flex gap-2 py-2.5 transition-opacity border-t border-neutral-200">
                                 <div className="flex items-center min-w-0">

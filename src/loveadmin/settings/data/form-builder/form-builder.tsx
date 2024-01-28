@@ -451,7 +451,9 @@ const FormBuilder = () => {
 
     // Reset the form fields
     form.resetFields();
+    setNewInputType("");
     setOptions([]);
+
     setIsAddDrawerVisible(false);
   };
 

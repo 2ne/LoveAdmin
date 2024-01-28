@@ -1027,7 +1027,7 @@ const FormBuilder = () => {
           {formFields.find((field) => field.id === editFieldId)?.inputType ===
             "Date" && (
             <Form.Item
-              label="DateRange"
+              label="Range"
               name="dateRange"
               rules={[{ required: true, message: "Please enter a date range" }]}
             >
@@ -1197,7 +1197,7 @@ const FormBuilder = () => {
           )}
 
           {newInputType === "Date" && (
-            <Form.Item label="DateRange" name="dateRange">
+            <Form.Item label="Range" name="dateRange">
               <RangePicker />
             </Form.Item>
           )}

@@ -161,6 +161,8 @@ const FormBuilder = () => {
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
 
+  console.log("forms", newOption);
+
   useEffect(() => {
     // Whenever editFieldId changes, set the form values accordingly
     if (editFieldId !== null) {
@@ -446,8 +448,10 @@ const FormBuilder = () => {
 
   const closeAddDrawer = () => {
     setIsAddDrawerTitle("Beneficiary");
+
     // Reset the form fields
     form.resetFields();
+    setOptions([]);
     setIsAddDrawerVisible(false);
   };
 
@@ -525,13 +529,15 @@ const FormBuilder = () => {
 
     // Reset the form fields
     form.resetFields();
-
     closeAddDrawer();
   };
 
   const handleInputTypeChange = (event: any) => {
     setNewInputType(event);
-    if (event !== "Dropdown" || event !== "Radio") setNewOption("");
+    if (event !== "Dropdown" || event !== "Radio") {
+      setNewOption("");
+      setOptions([]);
+    }
   };
 
   return (
@@ -822,7 +828,6 @@ const FormBuilder = () => {
         onClose={closeDrawer}
         open={isDrawerVisible}
         footer={
-
           <div className="flex justify-between">
             <div className="flex items-center flex-grow">
               <Button
@@ -847,7 +852,6 @@ const FormBuilder = () => {
                 Delete
               </Button>
             </div>
-
           </div>
         }
       >
@@ -1030,7 +1034,6 @@ const FormBuilder = () => {
               <RangePicker />
             </Form.Item>
           )}
-
         </Form>
       </Drawer>
 
@@ -1198,7 +1201,6 @@ const FormBuilder = () => {
               <RangePicker />
             </Form.Item>
           )}
-
         </Form>
       </Drawer>
     </div>

@@ -739,6 +739,14 @@ const FormBuilder = () => {
                                     {field.dataGroup}
                                   </Tag>
                                 </div>
+                                {field.inputType === "TextInput" && (
+                                  <div className="pointer-events-none">
+                                    <Input
+                                      className="w-72"
+                                      placeholder="Enter here..."
+                                    />
+                                  </div>
+                                )}
                                 {field.inputType === "Dropdown" && (
                                   <Select
                                     className="pointer-events-none"
@@ -751,6 +759,15 @@ const FormBuilder = () => {
                                       </Option>
                                     ))}
                                   </Select>
+                                )}
+                                {field.inputType === "Textarea" && (
+                                  <div className="pointer-events-none">
+                                    <TextArea
+                                      rows={3}
+                                      className="w-72"
+                                      placeholder="Enter here..."
+                                    />
+                                  </div>
                                 )}
                                 {field.inputType === "Radio" && (
                                   <div className="flex flex-col gap-0.5 -mt-0.5 pointer-events-none">

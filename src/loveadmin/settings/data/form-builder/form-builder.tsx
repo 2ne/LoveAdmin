@@ -665,9 +665,37 @@ const FormBuilder = () => {
                       })}
                     </Collapse>
                   ) : (
-                    <div className="px-4 py-2 text-subtitle">
-                      No fields found matching your search.
-                    </div>
+                    <>
+                      <div className="px-4 py-2 text-subtitle">
+                        No fields found matching your search.
+                      </div>
+                      <div>
+                        <div
+                          onClick={() => openAddDrawer("Beneficiary")}
+                          className="px-4 py-1 pt-2 text-subtitle font-bold"
+                        >
+                          <a>Add new Beneficiary</a>
+                        </div>
+                        <div
+                          onClick={() => openAddDrawer("Account Owner")}
+                          className="px-4 py-1 text-subtitle font-bold"
+                        >
+                          <a>Add new Account Owner</a>
+                        </div>
+                        <div
+                          onClick={() => openAddDrawer("Internal Customer")}
+                          className="px-4 py-1 text-subtitle font-bold"
+                        >
+                          <a>Add new Internal Customer</a>
+                        </div>
+                        <div
+                          onClick={() => openAddDrawer("Internal Product")}
+                          className="px-4 py-1 text-subtitle font-bold"
+                        >
+                          <a>Add new Internal Product</a>
+                        </div>
+                      </div>
+                    </>
                   )}
                   {provided.placeholder}
                 </div>

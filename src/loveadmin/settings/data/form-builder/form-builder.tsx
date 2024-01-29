@@ -82,57 +82,57 @@ interface OptionItem {
 
 const fieldData: Record<Group, CustomField[]> = {
   Beneficiary: [
-    {
-      id: 1,
-      label: "Gender",
-      fieldName: "Beneficiary Gender",
-      inputType: "Dropdown",
-      options: ["Male", "Female", "Other"],
-      dataGroup: "Beneficiary",
-    },
-    {
-      id: 2,
-      label: "Preferred pronouns",
-      fieldName: "Beneficiary preferred pronouns",
-      inputType: "Radio",
-      options: ["He/Him", "She/Her", "They/Them", "Other"],
-      dataGroup: "Beneficiary",
-    },
+    // {
+    //   id: 1,
+    //   label: "Gender",
+    //   fieldName: "Beneficiary Gender",
+    //   inputType: "Dropdown",
+    //   options: ["Male", "Female", "Other"],
+    //   dataGroup: "Beneficiary",
+    // },
+    // {
+    //   id: 2,
+    //   label: "Preferred pronouns",
+    //   fieldName: "Beneficiary preferred pronouns",
+    //   inputType: "Radio",
+    //   options: ["He/Him", "She/Her", "They/Them", "Other"],
+    //   dataGroup: "Beneficiary",
+    // },
   ],
   "Account Owner": [
-    {
-      id: 3,
-      label: "Gender",
-      fieldName: "Account Owner Gender",
-      inputType: "Radio",
-      options: ["Male", "Female", "Other"],
-      dataGroup: "Account Owner",
-    },
-    {
-      id: 6,
-      label: "Detail",
-      fieldName: "Account Owner Detail",
-      inputType: "TextInput",
-      dataGroup: "Account Owner",
-    },
+    // {
+    //   id: 3,
+    //   label: "Gender",
+    //   fieldName: "Account Owner Gender",
+    //   inputType: "Radio",
+    //   options: ["Male", "Female", "Other"],
+    //   dataGroup: "Account Owner",
+    // },
+    // {
+    //   id: 6,
+    //   label: "Detail",
+    //   fieldName: "Account Owner Detail",
+    //   inputType: "TextInput",
+    //   dataGroup: "Account Owner",
+    // },
   ],
   "Internal Customer": [
-    {
-      id: 4,
-      label: "Field 4",
-      fieldName: "Internal Customer Field 4",
-      inputType: "Radio",
-      dataGroup: "Internal Customer",
-    },
+    // {
+    //   id: 4,
+    //   label: "Field 4",
+    //   fieldName: "Internal Customer Field 4",
+    //   inputType: "Radio",
+    //   dataGroup: "Internal Customer",
+    // },
   ],
   "Internal Product": [
-    {
-      id: 5,
-      label: "Field 5",
-      fieldName: "Internal Product Field 5",
-      inputType: "Radio",
-      dataGroup: "Internal Product",
-    },
+    // {
+    //   id: 5,
+    //   label: "Field 5",
+    //   fieldName: "Internal Product Field 5",
+    //   inputType: "Radio",
+    //   dataGroup: "Internal Product",
+    // },
   ],
 };
 
@@ -665,9 +665,37 @@ const FormBuilder = () => {
                       })}
                     </Collapse>
                   ) : (
-                    <div className="px-4 py-2 text-subtitle">
-                      No fields found matching your search.
-                    </div>
+                    <>
+                      <div className="px-4 py-2 text-subtitle">
+                        No fields found matching your search.
+                      </div>
+                      <div>
+                        <div
+                          onClick={() => openAddDrawer("Beneficiary")}
+                          className="px-4 py-1 pt-2 text-subtitle font-bold"
+                        >
+                          <a>Add new Beneficiary</a>
+                        </div>
+                        <div
+                          onClick={() => openAddDrawer("Account Owner")}
+                          className="px-4 py-1 text-subtitle font-bold"
+                        >
+                          <a>Add new Account Owner</a>
+                        </div>
+                        <div
+                          onClick={() => openAddDrawer("Internal Customer")}
+                          className="px-4 py-1 text-subtitle font-bold"
+                        >
+                          <a>Add new Internal Customer</a>
+                        </div>
+                        <div
+                          onClick={() => openAddDrawer("Internal Product")}
+                          className="px-4 py-1 text-subtitle font-bold"
+                        >
+                          <a>Add new Internal Product</a>
+                        </div>
+                      </div>
+                    </>
                   )}
                   {provided.placeholder}
                 </div>

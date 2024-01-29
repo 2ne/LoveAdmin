@@ -26,8 +26,9 @@ import Players from "./players/players";
 import Header from "./header";
 import Coaches from "./coaches/coaches";
 import Events from "./events/events";
-import TeamSettings from "./settings/settings";
+import { SquadSettings, TeamSettings } from "./settings/settings";
 import Payments from "./payments/payments";
+import Messages from "./messages/messages";
 const { Content } = Layout;
 const { useToken } = theme;
 
@@ -254,14 +255,20 @@ const Teams = () => {
     {
       key: "Messages",
       label: "Messages",
-      children: <>Messages</>,
+      children: (
+        <>
+          {!selectedTeam && selectedSquad && <Messages squad={true} />}
+          {selectedTeam && selectedSquad && <Messages squad={false} />}
+        </>
+      ),
     },
     {
       key: "Settings",
       label: "Settings",
       children: (
         <>
-          <TeamSettings />
+          {!selectedTeam && selectedSquad && <SquadSettings />}
+          {selectedTeam && selectedSquad && <TeamSettings />}
         </>
       ),
     },

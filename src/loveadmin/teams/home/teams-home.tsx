@@ -136,18 +136,33 @@ const TeamHome: React.FC<TeamHomeProps> = ({
     <div className="grid auto-rows-[9rem] grid-cols-2 md:grid-cols-4 gap-4">
       <div className="col-span-2 row-span-2 p-5 overflow-y-auto bg-white rounded-lg shadow-sm scrollbar-thin-y md:row-span-3 ring-1 ring-black/5">
         <div className="relative flex flex-col justify-between h-full">
-          <div>
-            <button
-              type="button"
-              onClick={() => setActiveTab && setActiveTab("Events")}
-              style={teamColour}
-              className={`hover:underline flex items-center cursor-pointer gap-1 mb-4 group -mt-1.5 text-xl font-medium`}
+          <button
+            type="button"
+            onClick={() => setActiveTab && setActiveTab("Events")}
+            style={teamColour}
+            className={`hover:underline flex items-center cursor-pointer gap-1 mb-4 group -mt-1.5 text-xl font-medium`}
+          >
+            <div>Events</div>
+            <RightOutlined className="mt-1 text-base opacity-50" />
+          </button>
+          <div className="m-auto text-center text-neutral-400">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="mx-auto -mt-14 w-14 h-14"
             >
-              <div>Events</div>
-              <RightOutlined className="mt-1 text-base opacity-50" />
-            </button>
-            <div>
-              {/*   {sortedEvents.map((event) => (
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.25"
+                d="M4.75 8.75a2 2 0 012-2h10.5a2 2 0 012 2v8.5a2 2 0 01-2 2H6.75a2 2 0 01-2-2v-8.5zM8 4.75v3.5M16 4.75v3.5M7.75 10.75h8.5"
+              ></path>
+            </svg>
+            <div className="text-lg font-medium">No events</div>
+            {/*    {sortedEvents.map((event) => (
                 <div
                   key={event.id}
                   className="relative flex items-center py-4 bg-white border-t cursor-pointer group border-neutral-200/75"
@@ -208,7 +223,69 @@ const TeamHome: React.FC<TeamHomeProps> = ({
                   </div>
                 </div>
               ))} */}
-            </div>
+          </div>
+          <div>
+            {/*   {sortedEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="relative flex items-center py-4 bg-white border-t cursor-pointer group border-neutral-200/75"
+                >
+                  <div>
+                    <div className="space-y-1.5">
+                      <h2 className="flex items-center gap-2 mb-1 -mt-1 text-base font-medium">
+                        <div
+                          className="relative inline-block w-2 h-2 rounded-full top-px"
+                          style={{ backgroundColor: event.homeTeamColor }}
+                        ></div>
+                        <div className="group-hover:underline">
+                          {event.homeTeam}{" "}
+                          {event.type === "Training" && "Training"}
+                        </div>
+                        {event.type === "Fixtures" && (
+                          <>
+                            <div className="font-normal text-neutral-500">
+                              vs
+                            </div>
+                            <div className="group-hover:underline">
+                              {event.awayTeam}
+                            </div>
+                          </>
+                        )}
+                        <div
+                          className="relative inline-block w-2 h-2 rounded-full top-px"
+                          style={{ backgroundColor: event.awayTeamColor }}
+                        ></div>
+                      </h2>
+                    </div>
+                    <div className="space-y-0.5">
+                      <p className="text-neutral-500">
+                        <ClockCircleOutlined className="mr-1.5 text-xs text-neutral-400" />
+                        {event.date.toLocaleDateString("en-GB")},{" "}
+                        {new Date(event.date).toLocaleTimeString("en-GB", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                      <p className="text-neutral-500">
+                        <EnvironmentOutlined className="mr-1.5 text-xs text-neutral-400" />
+                        {event.location}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-1.5 ml-auto w-12 h-12">
+                    <PieChart
+                      data={[
+                        { title: "One", value: 8, color: "#10b981" },
+                        { title: "Two", value: 2, color: "#f43f5e" },
+                        { title: "Three", value: 4, color: "#94a3b8" },
+                      ]}
+                      lineWidth={16}
+                      paddingAngle={17}
+                      rounded
+                    />
+                  </div>
+                </div>
+              ))} */}
           </div>
         </div>
       </div>

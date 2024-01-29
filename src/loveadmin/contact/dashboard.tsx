@@ -15,6 +15,7 @@ import {
   TabsProps,
   Alert,
 } from "antd";
+import DateFilter from "../../components/date-filter";
 const { Title } = Typography;
 
 function ContactDashboard(): ReactElement {
@@ -281,24 +282,7 @@ function ContactDashboard(): ReactElement {
           </Title>
         </div>
         <div>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item>Last 28 days</Menu.Item>
-                <Menu.Item>Last 90 days</Menu.Item>
-                <Menu.Item>Last 6 months</Menu.Item>
-                <Menu.Item>Last 12 months</Menu.Item>
-                <Menu.Divider></Menu.Divider>
-                <Menu.Item>Select date range...</Menu.Item>
-              </Menu>
-            }
-            trigger={["click"]}
-          >
-            <Button onClick={(e) => e.preventDefault()} className="px-3">
-              <span>Last 12 months</span>
-              <CalendarOutlined className="ml-2" />
-            </Button>
-          </Dropdown>
+          <DateFilter defaultFilter="Last month" />
         </div>
       </section>
       <div className="space-y-8">

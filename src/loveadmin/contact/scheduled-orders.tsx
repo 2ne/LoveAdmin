@@ -211,7 +211,7 @@ const ScheduledOrders: React.FC = () => {
           <div className="relative">
             <TableActions
               isVisible={selectedRowKeys.length > 0}
-              className="!ml-[3.1rem]"
+              className="!ml-[3.25rem]"
             >
               <div className="flex items-center gap-4">
                 <Dropdown

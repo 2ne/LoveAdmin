@@ -22,7 +22,7 @@ export type Colour =
 
 export const colorHexMap: { [key in Colour]: string } = {
   black: "#000000",
-  white: "#000000",
+  white: "#FFFFFF",
   red: "#dc2626",
   orange: "#ea580c",
   amber: "#d97706",

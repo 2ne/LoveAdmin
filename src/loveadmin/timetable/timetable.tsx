@@ -16,6 +16,7 @@ import TimetableCalendar from "./timetable-calendar";
 import TimetableHeader from "./timetable-header";
 import TimetableAgenda from "./timetable-agenda";
 import { TimetableEvent, events } from "./events";
+import TimetableList from "./timetable-list";
 
 const { Content } = Layout;
 
@@ -36,7 +37,9 @@ const Timetable = () => {
 
   const initialView = location.pathname.includes("Calendar")
     ? "Calendar"
-    : "Agenda";
+    : location.pathname.includes("List") // Check if the URL includes "List"
+    ? "List" // Set the initial view to "List" if true
+    : "Agenda"; // Default to "Agenda" if neither "Calendar" nor "List" is in the URL
   const [selectedview, setSelectedView] = useState<SegmentedValue>(initialView);
   const isCalendarView = selectedview === "Calendar";
   const isAgendaView = selectedview === "Agenda";
@@ -217,6 +220,7 @@ const Timetable = () => {
               onToggleCapacityColours={handleToggleCapacityColours}
               onViewModeChange={handleViewModeChange}
               onCapacityLevelsChange={handleCapacityLevelsChange}
+              selectedview={selectedview}
             />
             {isAgendaView && (
               <div className="flex-grow min-w-0 px-4 -mx-4 overflow-y-auto overscroll-y-contain">
@@ -245,7 +249,18 @@ const Timetable = () => {
                 />
               </div>
             )}
-            {isListView && <>LIST VIEW</>}
+            {isListView && (
+              <div className="flex-grow min-w-0 px-4 -mx-4 overflow-y-auto overscroll-y-contain">
+                <TimetableList
+                  events={filteredEvents}
+                  eventRef={eventRef}
+                  selectedDate={datepicker}
+                  viewMode={viewMode}
+                  isCapacityColours={isCapacityColours}
+                  capacityLevels={capacityLevels}
+                />
+              </div>
+            )}
           </div>
           <div className="max-md:hidden md:contents">
             <footer

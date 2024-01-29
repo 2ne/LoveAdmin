@@ -1,10 +1,8 @@
 import {
-  CalendarOutlined,
   CheckCircleOutlined,
   CheckOutlined,
+  CompassOutlined,
   EditOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
 import {
@@ -15,26 +13,32 @@ import {
   Input,
   message,
   Typography,
-  Tabs,
+  Tooltip,
 } from "antd";
 import React, { ReactElement, useState } from "react";
 import AddNoteModal from "./notes-modal";
+import MandateDrawer from "./mandate-drawer";
 const { Panel } = Collapse;
 const { Title } = Typography;
 
 function ContactDetails(): ReactElement {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
+  const [isMandateModalVisible, setIsMandateModalVisible] = useState(false);
 
   const handleAddNoteClick = () => {
-    setIsModalVisible(true);
+    setIsNotesModalVisible(true);
   };
 
-  const handleModalOk = () => {
-    setIsModalVisible(false);
+  const handleNotesModalOk = () => {
+    setIsNotesModalVisible(false);
   };
 
-  const handleModalCancel = () => {
-    setIsModalVisible(false);
+  const handleNotesModalCancel = () => {
+    setIsNotesModalVisible(false);
+  };
+
+  const handleViewMandateHistoryClick = () => {
+    setIsMandateModalVisible(true);
   };
 
   const [openEditFirstName, setOpenEditFirstName] = useState(false);
@@ -286,14 +290,30 @@ function ContactDetails(): ReactElement {
         </Panel>
         <Panel
           header={
-            <>
-              Mandate
+            <div className="flex items-center">
+              <span>Mandate</span>
               <span className="text-subtitle">
                 <span className="mx-1.5">·</span>Active
               </span>
+              <Tooltip title="View history">
+                <Button
+                  className="ml-1.5"
+                  size="small"
+                  type="text"
+                  icon={<CompassOutlined />}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleViewMandateHistoryClick();
+                  }}
+                ></Button>
+              </Tooltip>
+            </div>
+          }
+          extra={
+            <>
+              <CheckCircleOutlined className="-mr-1 text-primary-500" />
             </>
           }
-          extra={<CheckCircleOutlined className="-mr-1 text-primary-500" />}
           key="4"
           className="px-2.5 bg-white rounded-none !border-neutral-200 [&_.ant-collapse-content]:-mx-3 [&_.ant-collapse-content]:px-3 [&_.ant-collapse-content]:border-t-0"
         >
@@ -317,7 +337,7 @@ function ContactDetails(): ReactElement {
               <div className="grid grid-cols-2 gap-x-3">
                 <dt className="block text-subtitle">Date created</dt>
                 <dd className="block w-full mb-1.5 text-right">
-                  27 Apr 2023 15:15:07
+                  27 Apr 2023 15:15
                 </dd>
               </div>
             </dl>
@@ -372,9 +392,13 @@ function ContactDetails(): ReactElement {
         </Panel>
       </Collapse>
       <AddNoteModal
-        visible={isModalVisible}
-        onOk={handleModalOk}
-        onCancel={handleModalCancel}
+        visible={isNotesModalVisible}
+        onOk={handleNotesModalOk}
+        onCancel={handleNotesModalCancel}
+      />
+      <MandateDrawer
+        visible={isMandateModalVisible}
+        onClose={() => setIsMandateModalVisible(false)}
       />
     </>
   );

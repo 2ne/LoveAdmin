@@ -36,6 +36,7 @@ interface DataType {
   address: string;
   town: string;
   accountOwner: string;
+  activeProducts?: string;
 }
 
 const data = [
@@ -46,6 +47,7 @@ const data = [
     address: "14 George Street",
     town: "Derby",
     accountOwner: "Ian Toone",
+    activeProducts: "Parent and Child Swim, Bubble the Seahorse",
   },
   {
     key: "2",
@@ -258,8 +260,12 @@ function Contacts(): ReactElement {
       ellipsis: true,
       sorter: (a, b) => a.accountOwner.length - b.accountOwner.length,
     },
+
     {
-      title: "Group",
+      title: "Active products",
+      dataIndex: "activeProducts",
+      key: "activeProducts",
+      width: 300,
     },
   ];
 

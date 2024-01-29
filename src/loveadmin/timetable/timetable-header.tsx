@@ -1,14 +1,9 @@
-import {
-  CalendarOutlined,
-  FilterOutlined,
-  LeftOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
+import { FilterOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, DatePicker, Segmented, Tooltip } from "antd";
 import dayjs from "dayjs";
 import { SegmentedValue } from "antd/es/segmented";
 import WeekDayLabels from "./week-day-labels";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import CapacityButton from "./capacity-button";
 
 const monthYearFormat = "MMMM YYYY";
@@ -31,6 +26,7 @@ type TimetableHeaderProps = {
   onToggleCapacityColours: () => void;
   onViewModeChange: (value: SegmentedValue) => void;
   onCapacityLevelsChange: (levels: string[]) => void;
+  selectedview: SegmentedValue;
 };
 
 const TimetableHeader: React.FC<TimetableHeaderProps> = ({
@@ -51,6 +47,7 @@ const TimetableHeader: React.FC<TimetableHeaderProps> = ({
   onToggleCapacityColours,
   onViewModeChange,
   onCapacityLevelsChange,
+  selectedview,
 }) => {
   const handleToggleSidebar = () => {
     setCollapsed(!collapsed);
@@ -124,15 +121,16 @@ const TimetableHeader: React.FC<TimetableHeaderProps> = ({
               <Button
                 type="text"
                 onClick={() => onDatePickerOpen(true)}
-                className="w-full md:w-[7.5rem] border-0 h-[30px] px-2 md:rounded-none"
+                className={`${
+                  viewMode === "day" ? "w-full lg:w-[9rem]" : "w-[7.5rem]"
+                } border-0 h-[30px] px-2 md:rounded-none`}
               >
                 <div>
-                  <span className="max-md:hidden">
-                    {formatWeekSpan(datepicker)}
-                  </span>
-                  <span className="md:hidden">
-                    {datepicker.format("dddd D MMMM")}
-                  </span>
+                  {viewMode === "day" ? (
+                    <span className="">{datepicker.format("dddd D MMMM")}</span>
+                  ) : (
+                    <span className="">{formatWeekSpan(datepicker)}</span>
+                  )}
                 </div>
               </Button>
             </div>
@@ -177,15 +175,17 @@ const TimetableHeader: React.FC<TimetableHeaderProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex-none px-4 -mx-4 bg-white border-b shadow-sm md:pb-2 border-neutral-200 shadow-neutral-950/5">
-        <div
-          className={`hidden md:grid text-sm text-neutral-500 pr-[var(--scrollbar-width)] ${
-            viewMode === "week" ? "grid-cols-7  gap-x-3" : "grid-cols-1"
-          }`}
-        >
-          <WeekDayLabels viewMode={viewMode} currentDate={datepicker} />
+      {selectedview !== "List" && (
+        <div className="flex-none px-4 -mx-4 bg-white border-b shadow-sm md:pb-2 border-neutral-200 shadow-neutral-950/5">
+          <div
+            className={`hidden md:grid text-sm text-neutral-500 pr-[var(--scrollbar-width)] ${
+              viewMode === "week" ? "grid-cols-7  gap-x-3" : "grid-cols-1"
+            }`}
+          >
+            <WeekDayLabels viewMode={viewMode} currentDate={datepicker} />
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };

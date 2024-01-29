@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Dropdown, Input, Menu, MenuProps, Table } from "antd";
+import { Button, Dropdown, Input, Menu, MenuProps, Modal, Table } from "antd";
 import { Player } from "../data";
 import {
   CreditCardOutlined,
@@ -13,6 +13,7 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import TableActions from "../../../components/table-actions";
+import InviteModal from "./invite";
 
 interface PlayersProps {
   squad?: boolean;
@@ -95,6 +96,19 @@ const playerItems: MenuProps["items"] = [
 
 const Players: React.FC<PlayersProps> = ({ squad, players }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const showInviteModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const columns = [
     {
@@ -182,8 +196,12 @@ const Players: React.FC<PlayersProps> = ({ squad, players }) => {
           />
         </div>
         <div className="flex items-center space-x-3">
-          <Button type="primary" className={!squad ? "team-bg" : ""}>
-            Invite player
+          <Button
+            type="primary"
+            className={!squad ? "team-bg" : ""}
+            onClick={showInviteModal}
+          >
+            Invite players
           </Button>
         </div>
       </div>
@@ -302,6 +320,12 @@ const Players: React.FC<PlayersProps> = ({ squad, players }) => {
           pagination={false}
         />
       </div>
+      <InviteModal
+        isVisible={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        coach={false}
+      />
     </>
   );
 };

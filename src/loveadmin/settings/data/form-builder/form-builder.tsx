@@ -615,6 +615,7 @@ const FormBuilder = () => {
                 allowClear
               />
             </div>
+
             <Droppable droppableId="sidebar" isDropDisabled={true}>
               {(provided: {
                 innerRef: React.LegacyRef<HTMLDivElement> | undefined;
@@ -666,35 +667,87 @@ const FormBuilder = () => {
                     </Collapse>
                   ) : (
                     <>
-                      <div className="px-4 py-2 text-subtitle">
-                        No fields found matching your search.
-                      </div>
-                      <div>
-                        <div
-                          onClick={() => openAddDrawer("Beneficiary")}
-                          className="px-4 py-1 pt-2 text-subtitle font-bold"
-                        >
-                          <a>Add new Beneficiary</a>
+                      {searchTerm && (
+                        <div className="px-4 py-2 text-subtitle">
+                          No fields found matching your search.
                         </div>
-                        <div
-                          onClick={() => openAddDrawer("Account Owner")}
-                          className="px-4 py-1 text-subtitle font-bold"
+                      )}
+                      {!searchTerm && (
+                        <Collapse
+                          defaultActiveKey={1}
+                          bordered={false}
+                          className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
                         >
-                          <a>Add new Account Owner</a>
-                        </div>
-                        <div
-                          onClick={() => openAddDrawer("Internal Customer")}
-                          className="px-4 py-1 text-subtitle font-bold"
-                        >
-                          <a>Add new Internal Customer</a>
-                        </div>
-                        <div
-                          onClick={() => openAddDrawer("Internal Product")}
-                          className="px-4 py-1 text-subtitle font-bold"
-                        >
-                          <a>Add new Internal Product</a>
-                        </div>
-                      </div>
+                          <Panel
+                            key={1}
+                            header={
+                              <span>
+                                <span>Beneficiary</span>
+                              </span>
+                            }
+                          >
+                            <Button
+                              type="link"
+                              className={`px-0 `}
+                              icon={<PlusOutlined />}
+                              onClick={() => openAddDrawer("Beneficiary")}
+                            >
+                              Beneficiary field
+                            </Button>
+                          </Panel>
+                          <Panel
+                            key={2}
+                            header={
+                              <span>
+                                <span>Account Owner</span>
+                              </span>
+                            }
+                          >
+                            <Button
+                              type="link"
+                              className={`px-0 `}
+                              icon={<PlusOutlined />}
+                              onClick={() => openAddDrawer("Account Owner")}
+                            >
+                              Account owner field
+                            </Button>
+                          </Panel>
+                          <Panel
+                            key={3}
+                            header={
+                              <span>
+                                <span>Internal Customer</span>
+                              </span>
+                            }
+                          >
+                            <Button
+                              type="link"
+                              className={`px-0 `}
+                              icon={<PlusOutlined />}
+                              onClick={() => openAddDrawer("Internal Customer")}
+                            >
+                              Internal customer field
+                            </Button>
+                          </Panel>
+                          <Panel
+                            key={4}
+                            header={
+                              <span>
+                                <span>Internal Product</span>
+                              </span>
+                            }
+                          >
+                            <Button
+                              type="link"
+                              className={`px-0 `}
+                              icon={<PlusOutlined />}
+                              onClick={() => openAddDrawer("Internal Product")}
+                            >
+                              Internal product field
+                            </Button>
+                          </Panel>
+                        </Collapse>
+                      )}
                     </>
                   )}
                   {provided.placeholder}

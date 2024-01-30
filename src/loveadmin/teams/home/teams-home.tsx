@@ -513,7 +513,7 @@ const TeamHome: React.FC<TeamHomeProps> = ({
       >
         <div className="relative flex flex-col justify-between h-full">
           <div className="-mt-1.5 text-xl font-bold text-white group-hover:underline">
-            Send message
+            Message team
           </div>
           <div className="-ml-2 -mb-1.5 flex items-center">
             <svg

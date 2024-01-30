@@ -536,6 +536,30 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
               <div className="font-medium">James Toone</div>
               <div className="text-subtitle">jamestoone@gmail.com</div>
             </div>
+            <div className="flex flex-wrap justify-center w-full max-w-sm gap-2 mx-auto mt-3 -mb-1 text-center">
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Under 40s Football
+              </Tag>
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Staff discount
+              </Tag>
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Monthly private product access
+              </Tag>
+              <a href="#">More...</a>
+            </div>
           </div>
 
           <Tabs

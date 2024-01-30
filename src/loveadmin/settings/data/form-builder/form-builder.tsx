@@ -14,7 +14,8 @@ import {
   Tooltip,
   message,
   Alert,
-  Modal,
+  Checkbox,
+  Popconfirm,
 } from "antd";
 import Sidebar from "../../../../components/sidebar";
 import {
@@ -22,8 +23,10 @@ import {
   DeleteOutlined,
   EditOutlined,
   HolderOutlined,
+  InfoCircleOutlined,
   PlusOutlined,
   SearchOutlined,
+  WarningFilled,
 } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -62,7 +65,13 @@ const mapGroupToBorder: Record<NonNullable<Group>, string> = {
   "Internal Product": "border-neutral-400 hover:ring-neutral-400",
 };
 
-type InputType = "TextInput" | "Dropdown" | "Textarea" | "Radio" | "Date";
+type InputType =
+  | "Text input"
+  | "Dropdown"
+  | "Text area"
+  | "Radio"
+  | "Checkbox"
+  | "Date";
 
 interface CustomField {
   id: number;
@@ -112,28 +121,12 @@ const fieldData: Record<Group, CustomField[]> = {
       id: 6,
       label: "Detail",
       fieldName: "Account Owner Detail",
-      inputType: "TextInput",
+      inputType: "Text input",
       dataGroup: "Account Owner",
     },
   ],
-  "Internal Customer": [
-    {
-      id: 4,
-      label: "Field 4",
-      fieldName: "Internal Customer Field 4",
-      inputType: "Radio",
-      dataGroup: "Internal Customer",
-    },
-  ],
-  "Internal Product": [
-    {
-      id: 5,
-      label: "Field 5",
-      fieldName: "Internal Product Field 5",
-      inputType: "Radio",
-      dataGroup: "Internal Product",
-    },
-  ],
+  "Internal Customer": [],
+  "Internal Product": [],
 };
 
 const FormBuilder = () => {
@@ -148,7 +141,6 @@ const FormBuilder = () => {
   ]);
   const [showDescription, setShowDescription] = useState(false);
   const [formFields, setFormFields] = useState<CustomField[]>([]);
-  const [addNewFormFields, setAddNewFormFields] = useState<CustomField[]>([]);
   const [clonedFields, setClonedFields] = useState<Record<number, boolean>>({});
   const [isDragging, setIsDragging] = useState(false);
   const [fieldIdCounter, setFieldIdCounter] = useState(1000); // Starting from 1000 for example
@@ -160,8 +152,8 @@ const FormBuilder = () => {
   const [newInputType, setNewInputType] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
   const [options, setOptions] = useState<OptionItem[]>([]);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<any>(false);
   const [form] = Form.useForm();
+  const [popConfirmVisible, setPopConfirmVisible] = useState(false);
 
   console.log("forms", newOption);
 
@@ -281,31 +273,31 @@ const FormBuilder = () => {
                 <HolderOutlined className="text-neutral-400" />
                 <div className="flex items-center justify-between flex-grow min-w-0">
                   <div className="truncate">{field.label}</div>
-                  {field.inputType === "TextInput" && (
+                  {field.inputType === "Text input" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
+                      viewBox="0 0 640 512"
                       className="w-4 h-4 text-neutral-400"
                     >
                       <path
                         fill="currentColor"
-                        d="M48 80v48c0 13.3-10.7 24-24 24s-24-10.7-24-24V72C0 49.9 17.9 32 40 32H408c22.1 0 40 17.9 40 40v56c0 13.3-10.7 24-24 24s-24-10.7-24-24V80H248l0 352h48c13.3 0 24 10.7 24 24s-10.7 24-24 24H152c-13.3 0-24-10.7-24-24s10.7-24 24-24h48l0-352H48z"
+                        d="M64 112c-8.8 0-16 7.2-16 16V384c0 8.8 7.2 16 16 16H576c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H64zM0 128C0 92.7 28.7 64 64 64H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zm184 32c9.5 0 18.1 5.6 21.9 14.3l64 144c5.4 12.1-.1 26.3-12.2 31.7s-26.3-.1-31.7-12.2l-4.3-9.7H146.3l-4.3 9.7c-5.4 12.1-19.6 17.6-31.7 12.2s-17.6-19.6-12.2-31.7l64-144c3.9-8.7 12.4-14.3 21.9-14.3zm0 83.1L167.6 280h32.8L184 243.1zM304 184c0-13.3 10.7-24 24-24h52c33.1 0 60 26.9 60 60c0 9.2-2.1 17.9-5.8 25.7c13.3 11 21.8 27.6 21.8 46.3c0 33.1-26.9 60-60 60H328c-13.3 0-24-10.7-24-24v-8V256 192v-8zm48 24v24h28c6.6 0 12-5.4 12-12s-5.4-12-12-12H352zm0 96h44c6.6 0 12-5.4 12-12s-5.4-12-12-12H380 352v24z"
                       />
                     </svg>
                   )}
                   {field.inputType === "Dropdown" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
+                      viewBox="0 0 512 512"
                       className="w-4 h-4 text-neutral-400"
                     >
                       <path
                         fill="currentColor"
-                        d="M384 432c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0zm64-16c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320zM207 345L103 241c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l87 87 87-87c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L241 345c-9.4 9.4-24.6 9.4-33.9 0z"
+                        d="M256 464a208 208 0 1 1 0-416 208 208 0 1 1 0 416zM256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM135 241L239 345c9.4 9.4 24.6 9.4 33.9 0L377 241c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-87 87-87-87c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"
                       />
                     </svg>
                   )}
-                  {field.inputType === "Textarea" && (
+                  {field.inputType === "Text area" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
@@ -326,6 +318,18 @@ const FormBuilder = () => {
                       <path
                         fill="currentColor"
                         d="M64 32a64 64 0 1 0 0 128A64 64 0 1 0 64 32zM184 72c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zM64 280a24 24 0 1 1 0-48 24 24 0 1 1 0 48zm0-88a64 64 0 1 0 0 128 64 64 0 1 0 0-128zM40 416a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0A64 64 0 1 0 0 416a64 64 0 1 0 128 0z"
+                      />
+                    </svg>
+                  )}
+                  {field.inputType === "Checkbox" && (
+                    <svg
+                      className="w-4 h-4 text-neutral-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
                       />
                     </svg>
                   )}
@@ -475,7 +479,6 @@ const FormBuilder = () => {
   const closeDrawer = () => {
     setIsDrawerVisible(false);
     setEditFieldId(null);
-    setIsDeleteModalOpen(false);
   };
 
   const openAddDrawer = (type: Group) => {
@@ -582,7 +585,7 @@ const FormBuilder = () => {
 
   const handleInputTypeChange = (event: any) => {
     setNewInputType(event);
-    if (event !== "Dropdown" || event !== "Radio") {
+    if (event !== "Dropdown" || event !== "Radio" || event !== "Checkbox") {
       setNewOption("");
       setOptions([]);
     }
@@ -866,7 +869,7 @@ const FormBuilder = () => {
                                     {field.dataGroup}
                                   </Tag>
                                 </div>
-                                {field.inputType === "TextInput" && (
+                                {field.inputType === "Text input" && (
                                   <div className="pointer-events-none">
                                     <Input
                                       className="w-72"
@@ -887,7 +890,7 @@ const FormBuilder = () => {
                                     ))}
                                   </Select>
                                 )}
-                                {field.inputType === "Textarea" && (
+                                {field.inputType === "Text area" && (
                                   <div className="pointer-events-none">
                                     <TextArea
                                       rows={3}
@@ -903,6 +906,19 @@ const FormBuilder = () => {
                                         <Radio.Group key={optionIndex}>
                                           <Radio value={option}>{option}</Radio>
                                         </Radio.Group>
+                                      )
+                                    )}
+                                  </div>
+                                )}
+                                {field.inputType === "Checkbox" && (
+                                  <div className="flex flex-col gap-0.5 -mt-0.5 pointer-events-none">
+                                    {field.options?.map(
+                                      (option, optionIndex) => (
+                                        <Checkbox.Group key={optionIndex}>
+                                          <Checkbox value={option}>
+                                            {option}
+                                          </Checkbox>
+                                        </Checkbox.Group>
                                       )
                                     )}
                                   </div>
@@ -974,29 +990,44 @@ const FormBuilder = () => {
           formFields.find((field) => field.id === editFieldId)?.fieldName
         }`}
         placement="right"
+        className={`${popConfirmVisible ? "dim" : ""}`}
         onClose={closeDrawer}
         open={isDrawerVisible}
         footer={
-          <div className="flex justify-between">
-            <div className="flex items-center flex-grow">
-              <Button
-                onClick={() => editFormRef?.current?.submit()}
-                type="primary"
-              >
-                Save
-              </Button>
-              <Button className="ml-3" onClick={closeDrawer}>
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  setIsDeleteModalOpen(true);
+          <div className="flex">
+            <Button
+              onClick={() => editFormRef?.current?.submit()}
+              type="primary"
+            >
+              Save
+            </Button>
+            <Button className="ml-3" onClick={closeDrawer}>
+              Cancel
+            </Button>
+            <div className="ml-auto">
+              <Popconfirm
+                icon={<WarningFilled className="text-danger-500" />}
+                title="Are you sure to delete this field?"
+                description="This action cannot be undone and will remove this field from all other forms."
+                onConfirm={() => {
+                  if (editFieldId) {
+                    deleteFieldCompletely(editFieldId);
+                    closeDrawer();
+
+                    message.success("Field deleted");
+                  }
                 }}
-                danger
-                className="ml-3"
+                okText="Delete"
+                cancelText="Cancel"
+                okButtonProps={{ danger: true }}
+                visible={popConfirmVisible}
+                onVisibleChange={setPopConfirmVisible}
               >
-                Delete
-              </Button>
+                <Button
+                  className="hover:text-danger-500 hover:border-danger-500"
+                  icon={<DeleteOutlined />}
+                ></Button>
+              </Popconfirm>
             </div>
           </div>
         }
@@ -1030,15 +1061,15 @@ const FormBuilder = () => {
             <Form.Item label="Type" className="-mt-1">
               <div className="flex items-center gap-2">
                 {formFields.find((field) => field.id === editFieldId)
-                  ?.inputType === "TextInput" && (
+                  ?.inputType === "Text input" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
+                    viewBox="0 0 640 512"
                     className="w-4 h-4 text-neutral-400"
                   >
                     <path
                       fill="currentColor"
-                      d="M48 80v48c0 13.3-10.7 24-24 24s-24-10.7-24-24V72C0 49.9 17.9 32 40 32H408c22.1 0 40 17.9 40 40v56c0 13.3-10.7 24-24 24s-24-10.7-24-24V80H248l0 352h48c13.3 0 24 10.7 24 24s-10.7 24-24 24H152c-13.3 0-24-10.7-24-24s10.7-24 24-24h48l0-352H48z"
+                      d="M64 112c-8.8 0-16 7.2-16 16V384c0 8.8 7.2 16 16 16H576c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H64zM0 128C0 92.7 28.7 64 64 64H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zm184 32c9.5 0 18.1 5.6 21.9 14.3l64 144c5.4 12.1-.1 26.3-12.2 31.7s-26.3-.1-31.7-12.2l-4.3-9.7H146.3l-4.3 9.7c-5.4 12.1-19.6 17.6-31.7 12.2s-17.6-19.6-12.2-31.7l64-144c3.9-8.7 12.4-14.3 21.9-14.3zm0 83.1L167.6 280h32.8L184 243.1zM304 184c0-13.3 10.7-24 24-24h52c33.1 0 60 26.9 60 60c0 9.2-2.1 17.9-5.8 25.7c13.3 11 21.8 27.6 21.8 46.3c0 33.1-26.9 60-60 60H328c-13.3 0-24-10.7-24-24v-8V256 192v-8zm48 24v24h28c6.6 0 12-5.4 12-12s-5.4-12-12-12H352zm0 96h44c6.6 0 12-5.4 12-12s-5.4-12-12-12H380 352v24z"
                     />
                   </svg>
                 )}
@@ -1046,17 +1077,17 @@ const FormBuilder = () => {
                   ?.inputType === "Dropdown" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 448 512"
+                    viewBox="0 0 512 512"
                     className="w-4 h-4 text-neutral-400"
                   >
                     <path
                       fill="currentColor"
-                      d="M384 432c8.8 0 16-7.2 16-16l0-320c0-8.8-7.2-16-16-16L64 80c-8.8 0-16 7.2-16 16l0 320c0 8.8 7.2 16 16 16l320 0zm64-16c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320zM207 345L103 241c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l87 87 87-87c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L241 345c-9.4 9.4-24.6 9.4-33.9 0z"
+                      d="M256 464a208 208 0 1 1 0-416 208 208 0 1 1 0 416zM256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM135 241L239 345c9.4 9.4 24.6 9.4 33.9 0L377 241c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-87 87-87-87c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"
                     />
                   </svg>
                 )}
                 {formFields.find((field) => field.id === editFieldId)
-                  ?.inputType === "Textarea" && (
+                  ?.inputType === "Text area" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
@@ -1078,6 +1109,19 @@ const FormBuilder = () => {
                     <path
                       fill="currentColor"
                       d="M64 32a64 64 0 1 0 0 128A64 64 0 1 0 64 32zM184 72c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zM64 280a24 24 0 1 1 0-48 24 24 0 1 1 0 48zm0-88a64 64 0 1 0 0 128 64 64 0 1 0 0-128zM40 416a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0A64 64 0 1 0 0 416a64 64 0 1 0 128 0z"
+                    />
+                  </svg>
+                )}
+                {formFields.find((field) => field.id === editFieldId)
+                  ?.inputType === "Checkbox" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
                     />
                   </svg>
                 )}
@@ -1112,6 +1156,8 @@ const FormBuilder = () => {
 
           {formFields.find((field) => field.id === editFieldId)?.inputType ===
             "Radio" ||
+          formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Checkbox" ||
           formFields.find((field) => field.id === editFieldId)?.inputType ===
             "Dropdown" ? (
             <Form.Item label="Options">
@@ -1215,8 +1261,9 @@ const FormBuilder = () => {
               label="Range"
               name="dateRange"
               rules={[{ required: true, message: "Please enter a date range" }]}
+              extra="To restrict the dates that can be selected set a start and end date."
             >
-              <RangePicker />
+              <RangePicker className="w-full" />
             </Form.Item>
           )}
         </Form>
@@ -1252,7 +1299,7 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerAddFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[47px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[48px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           <Form.Item label="Group">
             <div>{isAddDrawerTitle}</div>
@@ -1260,18 +1307,176 @@ const FormBuilder = () => {
 
           <Form.Item
             name="inputType"
-            label="Type"
-            rules={[{ required: true, message: "Please select an filed type" }]}
+            label={
+              <div className="flex items-center gap-1.5">
+                <div>Type</div>
+                <Tooltip
+                  rootClassName="pointer-events-auto"
+                  className="text-neutral-400 hover:text-neutral-500"
+                  title={
+                    <span>
+                      Select how you want to capture information. Visit our{" "}
+                      <a
+                        href="https://www.google.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white underline hover:text-primary-300"
+                      >
+                        help guide
+                      </a>{" "}
+                      for more information.
+                    </span>
+                  }
+                >
+                  <InfoCircleOutlined className="mt-px" />
+                </Tooltip>
+              </div>
+            }
+            rules={[{ required: true, message: "Please select a field type" }]}
           >
             <Select
               onChange={handleInputTypeChange}
-              placeholder="Please select an filed type"
+              placeholder="Select a field type..."
+              className="[&_.ant-select-selection-item_*]:contents [&_.ant-select-selection-item_.text-subtitle]:hidden [&_.ant-select-selection-item_svg]:hidden"
+              virtual={false}
+              listHeight={350}
             >
-              <Option value="TextInput">Text Input</Option>
-              <Option value="Dropdown">Dropdown</Option>
-              <Option value="Textarea">Textarea</Option>
-              <Option value="Radio">Radio</Option>
-              <Option value="Date">Date</Option>
+              <Option value="Text input">
+                <div className="flex items-center gap-4 leading-tight">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M64 112c-8.8 0-16 7.2-16 16V384c0 8.8 7.2 16 16 16H576c8.8 0 16-7.2 16-16V128c0-8.8-7.2-16-16-16H64zM0 128C0 92.7 28.7 64 64 64H576c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zm184 32c9.5 0 18.1 5.6 21.9 14.3l64 144c5.4 12.1-.1 26.3-12.2 31.7s-26.3-.1-31.7-12.2l-4.3-9.7H146.3l-4.3 9.7c-5.4 12.1-19.6 17.6-31.7 12.2s-17.6-19.6-12.2-31.7l64-144c3.9-8.7 12.4-14.3 21.9-14.3zm0 83.1L167.6 280h32.8L184 243.1zM304 184c0-13.3 10.7-24 24-24h52c33.1 0 60 26.9 60 60c0 9.2-2.1 17.9-5.8 25.7c13.3 11 21.8 27.6 21.8 46.3c0 33.1-26.9 60-60 60H328c-13.3 0-24-10.7-24-24v-8V256 192v-8zm48 24v24h28c6.6 0 12-5.4 12-12s-5.4-12-12-12H352zm0 96h44c6.6 0 12-5.4 12-12s-5.4-12-12-12H380 352v24z"
+                    />
+                  </svg>
+                  <div className="space-y-0.5">
+                    <div>Text input</div>
+                    <div className="text-xs text-subtitle">
+                      Short text answer
+                    </div>
+                  </div>
+                </div>
+              </Option>
+              <Option value="Text area">
+                <div className="flex items-center gap-4 leading-tight">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M24 40C10.7 40 0 50.7 0 64S10.7 88 24 88H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H24zm0 128c-13.3 0-24 10.7-24 24s10.7 24 24 24H424c13.3 0 24-10.7 24-24s-10.7-24-24-24H24zM0 320c0 13.3 10.7 24 24 24H264c13.3 0 24-10.7 24-24s-10.7-24-24-24H24c-13.3 0-24 10.7-24 24zM24 424c-13.3 0-24 10.7-24 24s10.7 24 24 24H424c13.3 0 24-10.7 24-24s-10.7-24-24-24H24z"
+                    />
+                  </svg>
+                  <div className="space-y-0.5">
+                    <div>Text area</div>
+                    <div className="text-xs text-subtitle">
+                      Long text answer
+                    </div>
+                  </div>
+                </div>
+              </Option>
+              <Option value="Number">
+                <div className="flex items-center gap-4 leading-tight">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M576 112c8.8 0 16 7.2 16 16V384c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V128c0-8.8 7.2-16 16-16H576zM64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H576c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm40 120c0 13.3 10.7 24 24 24h8v96H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24H184V184c0-13.3-10.7-24-24-24H128c-13.3 0-24 10.7-24 24zm190.6 30.4c5.7-8 17.5-8.6 24-1.2c5.2 5.9 5 14.7-.3 20.5l-72 78c-6.5 7-8.2 17.2-4.3 25.9s12.5 14.4 22 14.4h88c13.3 0 24-10.7 24-24s-10.7-24-24-24H318.8l34.8-37.7c22-23.8 22.4-60.3 1.1-84.7c-26.9-30.7-75.4-28.4-99.2 4.9l-11.1 15.6c-7.7 10.8-5.2 25.8 5.6 33.5s25.8 5.2 33.5-5.6l11.1-15.6z"
+                    />
+                  </svg>
+                  <div className="space-y-0.5">
+                    <div>Number</div>
+                    <div className="text-xs text-subtitle">
+                      Only allows a number input
+                    </div>
+                  </div>
+                </div>
+              </Option>
+              <Option value="Dropdown">
+                <div className="flex items-center gap-4 leading-tight">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M256 464a208 208 0 1 1 0-416 208 208 0 1 1 0 416zM256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM135 241L239 345c9.4 9.4 24.6 9.4 33.9 0L377 241c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-87 87-87-87c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"
+                    />
+                  </svg>
+                  <div className="space-y-0.5">
+                    <div>Dropdown</div>
+                    <div className="text-xs text-subtitle">
+                      Single selection menu
+                    </div>
+                  </div>
+                </div>
+              </Option>
+              <Option value="Radio">
+                <div className="flex items-center gap-4 leading-tight">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M64 32a64 64 0 1 0 0 128A64 64 0 1 0 64 32zM184 72c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zm0 160c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H184zM64 280a24 24 0 1 1 0-48 24 24 0 1 1 0 48zm0-88a64 64 0 1 0 0 128 64 64 0 1 0 0-128zM40 416a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0A64 64 0 1 0 0 416a64 64 0 1 0 128 0z"
+                    />
+                  </svg>
+                  <div className="space-y-0.5">
+                    <div>Radio</div>
+                    <div className="text-xs text-subtitle">Multiple choice</div>
+                  </div>
+                </div>
+              </Option>
+              <Option value="Checkbox">
+                <div className="flex items-center gap-4 leading-tight">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+                    />
+                  </svg>
+                  <div className="space-y-0.5">
+                    <div>Checkbox</div>
+                    <div className="text-xs text-subtitle">
+                      Select one or multiple options
+                    </div>
+                  </div>
+                </div>
+              </Option>
+              <Option value="Date">
+                <div className="flex items-center gap-4 leading-tight">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                    className="w-4 h-4 text-neutral-400"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"
+                    />
+                  </svg>
+                  <div className="space-y-0.5">
+                    <div>Date</div>
+                    <div className="text-xs text-subtitle">Select a date</div>
+                  </div>
+                </div>
+              </Option>
             </Select>
           </Form.Item>
 
@@ -1283,7 +1488,9 @@ const FormBuilder = () => {
             <Input />
           </Form.Item>
 
-          {newInputType === "Dropdown" || newInputType === "Radio" ? (
+          {newInputType === "Dropdown" ||
+          newInputType === "Radio" ||
+          newInputType === "Checkbox" ? (
             <Form.Item label="Options">
               <DragDropContext
                 onDragEnd={(result: { source: any; destination: any }) => {
@@ -1382,51 +1589,16 @@ const FormBuilder = () => {
           )}
 
           {newInputType === "Date" && (
-            <Form.Item label="Range" name="dateRange">
+            <Form.Item
+              label="Range"
+              name="dateRange"
+              extra="To restrict the dates that can be selected set a start and end date."
+            >
               <RangePicker />
             </Form.Item>
           )}
         </Form>
       </Drawer>
-
-      {/* delete conformation model */}
-
-      <Modal
-        title="Delete Field"
-        zIndex={1001}
-        open={isDeleteModalOpen}
-        onCancel={() => {
-          setIsDeleteModalOpen(false);
-        }}
-        footer={[
-          <Button
-            onClick={() => {
-              setIsDeleteModalOpen(false);
-            }}
-          >
-            Cancel
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            danger
-            onClick={() => {
-              if (editFieldId) {
-                deleteFieldCompletely(editFieldId);
-                closeDrawer();
-                setIsDeleteModalOpen(false);
-              }
-            }}
-          >
-            Delete
-          </Button>,
-        ]}
-      >
-        <p>
-          The field will be deleted permanently from you form and sidebar. Are
-          you still sure you want to delete it?
-        </p>
-      </Modal>
     </div>
   );
 };

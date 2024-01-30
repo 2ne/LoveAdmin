@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, Dropdown, Input, Menu, MenuProps, Table } from "antd";
 import { Coach } from "../data";
 import {
   DeleteOutlined,
   DownOutlined,
   EllipsisOutlined,
+  FilterOutlined,
   MailOutlined,
   PlusOutlined,
   SafetyCertificateOutlined,
@@ -109,6 +110,35 @@ const coachItems: MenuProps["items"] = [
 const Coaches: React.FC<CoachesProps> = ({ squad, coaches }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [filterType, setFilterType] = useState<string>("All teams");
+
+  const isFilterActive = filterType !== "All teams";
+
+  const filteredCoaches = useMemo(() => {
+    if (filterType === "All teams") {
+      return coaches;
+    }
+    return coaches.filter((coach) => coach.teamName === filterType);
+  }, [coaches, filterType]);
+
+  const uniqueTeamNames = Array.from(
+    new Set(
+      coaches.filter((coach) => coach.teamName).map((coach) => coach.teamName)
+    )
+  );
+
+  const FilterMenu = (
+    <Menu
+      onClick={({ key }) => setFilterType(key)}
+      items={[
+        { key: "All teams", label: "All teams" },
+        ...uniqueTeamNames.map((teamName: string | undefined) => ({
+          key: teamName ?? "Unknown",
+          label: teamName ?? "Unknown",
+        })),
+      ]}
+    />
+  );
 
   const showInviteModal = () => {
     setIsModalVisible(true);
@@ -221,6 +251,16 @@ const Coaches: React.FC<CoachesProps> = ({ squad, coaches }) => {
           />
         </div>
         <div className="flex items-center space-x-3">
+          <Dropdown overlay={FilterMenu} trigger={["click"]}>
+            <Button
+              icon={<FilterOutlined />}
+              type={isFilterActive ? "primary" : "default"}
+              ghost={isFilterActive}
+              className={isFilterActive ? "bg-white" : ""}
+            >
+              {filterType}
+            </Button>
+          </Dropdown>
           <Button
             type="primary"
             className={!squad ? "team-bg" : ""}
@@ -353,7 +393,7 @@ const Coaches: React.FC<CoachesProps> = ({ squad, coaches }) => {
           className="ant-table-sticky [&_.ant-table]:rounded-md [&_thead_th]:bg-white [&_thead_td]:bg-white [&_th]:px-4 [&_td]:px-4 [&_tbody_tr:last-child_td]:border-b-0 [&_table]:!visible"
           size="small"
           columns={columns}
-          dataSource={coaches}
+          dataSource={filteredCoaches}
           rowKey="id"
           pagination={false}
         />

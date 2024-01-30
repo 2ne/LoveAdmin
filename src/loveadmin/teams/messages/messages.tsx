@@ -125,13 +125,13 @@ const Messages: React.FC<MessagesProps> = ({ squad }) => {
       message:
         "This is a different really long message that is an example of how long a message could be. It may be even longer than this.",
       contacts: [
-        { id: "b1", name: "Jamie Smith" },
-        { id: "b2", name: "Ardur Ranesh" },
+        { id: "b1", name: "Andrew Mace" },
+        { id: "b2", name: "Phillip Snape" },
         { id: "b3", name: "Jamie Smith" },
-        { id: "b4", name: "Ardur Ranesh" },
-        { id: "b5", name: "Jamie Smith" },
-        { id: "b6", name: "Ardur Ranesh" },
-        { id: "b7", name: "Jamie Smith" },
+        { id: "b4", name: "Billy Turner" },
+        { id: "b5", name: "Josie Glow" },
+        { id: "b6", name: "Katie Holmes" },
+        { id: "b7", name: "Fred Howe" },
         { id: "b8", name: "Ardur Ranesh" },
       ],
       date: new Date(2023, 0, 4, 12, 35),
@@ -161,16 +161,28 @@ const Messages: React.FC<MessagesProps> = ({ squad }) => {
       title: "Contacts",
       dataIndex: "contacts",
       key: "contacts",
-      render: (contacts: Contact[], record: Message) => (
-        <a
-          className="link text-title"
-          onClick={() => showContactsModal(record)}
-        >
-          {contacts.length < 3 &&
-            contacts.map((contact) => contact.name).join(", ")}
-          {contacts.length >= 3 && contacts.length}
-        </a>
-      ),
+      render: (contacts: Contact[], record: Message) => {
+        const contactNames = contacts.map((contact) => contact.name);
+        let displayText = "";
+
+        if (contacts.length === 1) {
+          displayText = contactNames[0];
+        } else if (contacts.length === 2) {
+          displayText = contactNames.join(", ");
+        } else if (contacts.length > 2) {
+          const othersCount = contacts.length - 2; // Subtract the two displayed names
+          displayText = `${contactNames[0]}, ${contactNames[1]} + ${othersCount}`;
+        }
+
+        return (
+          <a
+            className="link text-title"
+            onClick={() => showContactsModal(record)}
+          >
+            {displayText}
+          </a>
+        );
+      },
     },
     {
       title: "Date",
@@ -254,20 +266,8 @@ const Messages: React.FC<MessagesProps> = ({ squad }) => {
 
   const messageMenu = (
     <Menu onClick={handleMessageMenuClick}>
-      {squad ? (
-        <>
-          <Menu.Item key="squad">Squad</Menu.Item>
-          <Menu.Item key="team">Teams</Menu.Item>
-          <Menu.Item key="players">Players</Menu.Item>
-          <Menu.Item key="coaches">Coaches</Menu.Item>
-        </>
-      ) : (
-        <>
-          <Menu.Item key="team">Team</Menu.Item>
-          <Menu.Item key="players">Players</Menu.Item>
-          <Menu.Item key="coaches">Coaches</Menu.Item>
-        </>
-      )}
+      <Menu.Item key="sms">Send SMS</Menu.Item>
+      <Menu.Item key="email">Send email</Menu.Item>
     </Menu>
   );
 
@@ -284,7 +284,11 @@ const Messages: React.FC<MessagesProps> = ({ squad }) => {
         <div className="flex gap-3">
           <DateFilter defaultFilter="This month" />
           <Dropdown overlay={messageMenu} trigger={["click"]}>
-            <Button type="primary">Message</Button>
+            {squad ? (
+              <Button type="primary">Message squad</Button>
+            ) : (
+              <Button type="primary">Message team</Button>
+            )}
           </Dropdown>
         </div>
       </div>

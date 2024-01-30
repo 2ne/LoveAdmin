@@ -285,7 +285,7 @@ const TimetableList: React.FC<TimetableListProps> = ({
     <div className="relative @container">
       <TableActions
         isVisible={selectedRowKeys.length > 0}
-        className="ml-[2.15rem] @[1200px]:ml-[2.68%] mt-0.5 !top-[3px] !from-white !to-white/50 [&>div]:bg-white [&>div:after]:from-white [&>div:after]:via-white/95"
+        className="ml-[2.15rem] @[1200px]:ml-[2.68%] !top-px !from-white !to-white/50 [&>div]:bg-white [&>div:after]:from-white [&>div:after]:via-white/95"
       >
         <div className="font-medium whitespace-nowrap ml-[-3px]">
           {selectedRowKeys.length} selected

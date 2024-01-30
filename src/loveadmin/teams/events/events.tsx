@@ -250,6 +250,7 @@ const Events: React.FC<EventsProps> = ({ squad, players }) => {
 
   return (
     <>
+      No events
       {/*       <div className="flex items-center justify-between mb-4 -mt-2.5">
         <div className="text-lg">
           <Select

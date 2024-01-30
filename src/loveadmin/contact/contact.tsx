@@ -24,6 +24,7 @@ import {
   Modal,
   Typography,
   Alert,
+  Tooltip,
 } from "antd";
 import { Link } from "react-router-dom";
 import ContactDashboard from "./dashboard";
@@ -34,6 +35,8 @@ import Messaging from "./messaging";
 import Attendance from "./attendance";
 import DevelopmentProgramme from "./development-programme";
 import LoveAdminHeader from "../../components/header";
+import Tag from "../../components/tag";
+import DateFilter from "../../components/date-filter";
 const { Sider, Content } = Layout;
 const { Title } = Typography;
 interface ContactProps {
@@ -170,6 +173,30 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
               <div className="font-medium">James Toone</div>
               <div className="text-subtitle">jamestoone@gmail.com</div>
             </div>
+            <div className="flex flex-wrap justify-center gap-2 mt-3 -mb-1 text-center">
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Under 40s Football
+              </Tag>
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Staff discount
+              </Tag>
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Monthly private product access
+              </Tag>
+              <a href="#">More...</a>
+            </div>
           </div>
         </>
       )}
@@ -246,7 +273,7 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
                 />
               </div>
               <div className="flex-grow">
-                <div className="font-medium">Parent and Child</div>
+                <div className="font-medium">Parent and Child Swim</div>
                 <div className="mt-0.5 space-y-px">
                   <div className="flex gap-1.5 text-subtitle">
                     <CalendarOutlined className="" />
@@ -341,24 +368,7 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
               </Title>
             </div>
             <div>
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item>Last 28 days</Menu.Item>
-                    <Menu.Item>Last 90 days</Menu.Item>
-                    <Menu.Item>Last 6 months</Menu.Item>
-                    <Menu.Item>Last 12 months</Menu.Item>
-                    <Menu.Divider></Menu.Divider>
-                    <Menu.Item>Select date range...</Menu.Item>
-                  </Menu>
-                }
-                trigger={["click"]}
-              >
-                <Button onClick={(e) => e.preventDefault()} className="px-3">
-                  <span>Last 12 months</span>
-                  <CalendarOutlined className="ml-2" />
-                </Button>
-              </Dropdown>
+              <DateFilter defaultFilter="Last month" />
             </div>
           </div>
           <div className="px-4 pb-6 space-y-8">
@@ -525,6 +535,30 @@ function Contact({ renderInModal = false }: ContactProps): ReactElement {
             <div className="text-center">
               <div className="font-medium">James Toone</div>
               <div className="text-subtitle">jamestoone@gmail.com</div>
+            </div>
+            <div className="flex flex-wrap justify-center w-full max-w-sm gap-2 mx-auto mt-3 -mb-1 text-center">
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Under 40s Football
+              </Tag>
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Staff discount
+              </Tag>
+              <Tag
+                link="/Contacts"
+                colour="primary"
+                className="[&>a]:truncate [&>a]:max-w-[20ch] [&>a]:block"
+              >
+                Monthly private product access
+              </Tag>
+              <a href="#">More...</a>
             </div>
           </div>
 

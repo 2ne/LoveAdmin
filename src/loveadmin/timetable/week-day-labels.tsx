@@ -39,7 +39,7 @@ const WeekDayLabels: React.FC<WeekDayLabelsProps> = ({
                 : "text-neutral-900 rounded-full w-4"
             }`}
           >
-            {day.format("DD")}
+            {day.format("D")}
           </span>
         </div>
       ))}

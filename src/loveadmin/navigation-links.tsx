@@ -501,6 +501,12 @@ export const navigationLinks = [
             colour: "secondary",
             key: "internalForms",
           },
+          {
+            name: "Custom Fields",
+            href: "#",
+            colour: "secondary",
+            key: "manageFields",
+          },
           { name: "Consents", href: "#", colour: "secondary", key: "consents" },
           {
             name: "Import Data",

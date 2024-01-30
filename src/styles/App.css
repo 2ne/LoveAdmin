@@ -103,9 +103,14 @@ table tbody .ant-btn-link {
   @apply -ml-px;
 }
 
+.ant-btn-background-ghost {
+  @apply border;
+}
+
 .ant-input-affix-wrapper,
 .ant-select,
-.ant-input {
+.ant-input,
+.ant-picker {
   @apply shadow-sm shadow-neutral-950/5 rounded;
 }
 
@@ -146,8 +151,8 @@ table tbody .ant-btn-link {
   @apply hidden;
 }
 
-.ant-form-vertical .ant-form-item-extra {
-  @apply pt-1 text-sm;
+.ant-form-item-extra {
+  @apply pt-1 !text-sm;
 }
 
 .ant-form-item-required {

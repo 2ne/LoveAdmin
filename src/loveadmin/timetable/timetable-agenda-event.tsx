@@ -29,10 +29,10 @@ const TimetableAgendaEvent: React.FC<TimetableAgendaEventProps> = ({
       return "bg-neutral-300 text-neutral-950 ring-neutral-300";
     }
 
-    const aapacityPercentage = event.signedUp / event.maxCapacity;
-    if (aapacityPercentage >= 0.75) {
+    const capacityPercentage = event.signedUp / event.maxCapacity;
+    if (capacityPercentage >= 0.75) {
       return "bg-success-400 text-success-950 ring-success-400";
-    } else if (aapacityPercentage <= 0.25) {
+    } else if (capacityPercentage <= 0.25) {
       return "bg-danger-400 text-danger-950 ring-danger-400";
     } else {
       return "bg-warning-400 text-warning-950 ring-warning-400";

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Button, Dropdown, Input, Menu, MenuProps, Table } from "antd";
+import React, { useMemo, useState } from "react";
+import { Button, Dropdown, Input, Menu, MenuProps, Modal, Table } from "antd";
 import { Player } from "../data";
 import {
   CreditCardOutlined,
   DeleteOutlined,
   DownOutlined,
   EllipsisOutlined,
+  FilterOutlined,
   MailOutlined,
   PlusOutlined,
   SearchOutlined,
@@ -13,6 +14,7 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import TableActions from "../../../components/table-actions";
+import InviteModal from "./invite";
 
 interface PlayersProps {
   squad?: boolean;
@@ -95,6 +97,52 @@ const playerItems: MenuProps["items"] = [
 
 const Players: React.FC<PlayersProps> = ({ squad, players }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [filterType, setFilterType] = useState<string>("All teams");
+
+  const filteredPlayers = useMemo(() => {
+    if (filterType === "All teams") {
+      return players;
+    } else if (filterType === "No team") {
+      return players.filter((player) => !player.teamName);
+    } else {
+      return players.filter((player) => player.teamName === filterType);
+    }
+  }, [players, filterType]);
+
+  // Use filter to remove undefined before converting to a Set
+  const teamNames = players
+    .map((player) => player.teamName)
+    .filter((name) => name) as string[];
+  const uniqueTeamNames: string[] = Array.from(new Set(teamNames));
+
+  const isFilterActive = filterType !== "All teams";
+
+  const FilterMenu = (
+    <Menu
+      onClick={({ key }) => setFilterType(key)}
+      items={[
+        { key: "All teams", label: "All teams" },
+        { key: "No team", label: "No team" }, // Option for players without a team
+        ...uniqueTeamNames.map((teamName) => ({
+          key: teamName,
+          label: teamName,
+        })),
+      ]}
+    />
+  );
+
+  const showInviteModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const columns = [
     {
@@ -182,8 +230,22 @@ const Players: React.FC<PlayersProps> = ({ squad, players }) => {
           />
         </div>
         <div className="flex items-center space-x-3">
-          <Button type="primary" className={!squad ? "team-bg" : ""}>
-            Invite player
+          <Dropdown overlay={FilterMenu} trigger={["click"]}>
+            <Button
+              icon={<FilterOutlined />}
+              type={isFilterActive ? "primary" : "default"}
+              ghost={isFilterActive}
+              className={isFilterActive ? "bg-white" : ""}
+            >
+              {filterType}
+            </Button>
+          </Dropdown>
+          <Button
+            type="primary"
+            className={!squad ? "team-bg" : ""}
+            onClick={showInviteModal}
+          >
+            Invite players
           </Button>
         </div>
       </div>
@@ -297,11 +359,17 @@ const Players: React.FC<PlayersProps> = ({ squad, players }) => {
           className="ant-table-sticky [&_.ant-table]:rounded-md [&_thead_th]:bg-white [&_thead_td]:bg-white [&_th]:px-4 [&_td]:px-4 [&_tbody_tr:last-child_td]:border-b-0 [&_table]:!visible"
           size="small"
           columns={columns}
-          dataSource={players}
+          dataSource={filteredPlayers}
           rowKey="id"
           pagination={false}
         />
       </div>
+      <InviteModal
+        isVisible={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        coach={false}
+      />
     </>
   );
 };

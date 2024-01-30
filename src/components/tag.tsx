@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
 
 export type Colours =
   | "primary"
@@ -26,9 +27,10 @@ interface TagProps {
   colour: Colours;
   children?: React.ReactNode;
   className?: string;
+  link?: string;
 }
 
-const Tag: React.FC<TagProps> = ({ colour, children, className }) => {
+const Tag: React.FC<TagProps> = ({ colour, children, className, link }) => {
   const colours: Record<Colours, string> = {
     primary: "text-primary-700 bg-primary-50 ring-primary-600/10",
     success: "text-success-700 bg-success-50 ring-success-600/10",
@@ -51,6 +53,8 @@ const Tag: React.FC<TagProps> = ({ colour, children, className }) => {
     stone: "text-stone-700 bg-stone-50 ring-stone-600/10",
   };
 
+  const content = link ? <Link to={link}>{children}</Link> : children;
+
   return (
     <div
       className={classNames(
@@ -59,7 +63,7 @@ const Tag: React.FC<TagProps> = ({ colour, children, className }) => {
         className
       )}
     >
-      {children}
+      {content}
     </div>
   );
 };

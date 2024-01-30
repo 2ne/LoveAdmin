@@ -5,9 +5,8 @@ import {
   ArrowRightOutlined,
   CreditCardOutlined,
   EllipsisOutlined,
+  FilterOutlined,
   MailOutlined,
-  MoneyCollectOutlined,
-  RightOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -52,6 +51,41 @@ const Payments: React.FC<PaymentsProps> = ({ squad, players }) => {
   const [playersWithDue, setPlayersWithDue] = useState<Player[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [filterType, setFilterType] = useState<string>("All products");
+
+  const filterPayments = (players: Player[]) => {
+    if (filterType === "All products") {
+      return players;
+    }
+
+    return players.filter((player) => {
+      switch (filterType) {
+        case "Product fee":
+          return (player.productFee ?? 0) > 0;
+        case "Red card":
+          return (player.redCards ?? 0) > 0;
+        case "Yellow card":
+          return (player.yellowCards ?? 0) > 0;
+        case "Late fee":
+          return (player.lateFees ?? 0) > 0;
+        default:
+          return true;
+      }
+    });
+  };
+
+  const FilterMenu = (
+    <Menu
+      onClick={({ key }) => setFilterType(key)}
+      items={[
+        { key: "All products", label: "All products" },
+        { key: "Product fee", label: "Product fee" },
+        { key: "Red card", label: "Red card" },
+        { key: "Yellow card", label: "Yellow card" },
+        { key: "Late fee", label: "Late fee" },
+      ]}
+    />
+  );
 
   useEffect(() => {
     const playersWithAmounts = players.map((player) => {
@@ -164,7 +198,7 @@ const Payments: React.FC<PaymentsProps> = ({ squad, players }) => {
           <Button
             type="link"
             onClick={() => showModal(player)}
-            className="px-0 team-text"
+            className="px-0 text-title"
           >
             £{text}
           </Button>
@@ -325,7 +359,10 @@ const Payments: React.FC<PaymentsProps> = ({ squad, players }) => {
             prefix={<SearchOutlined className="mr-1" />}
           />
         </div>
-        <div>
+        <div className="flex gap-3">
+          <Dropdown overlay={FilterMenu} trigger={["click"]}>
+            <Button icon={<FilterOutlined />}>{filterType}</Button>
+          </Dropdown>
           <DateFilter defaultFilter="This month" />
         </div>
       </div>
@@ -375,7 +412,7 @@ const Payments: React.FC<PaymentsProps> = ({ squad, players }) => {
           className="ant-table-sticky [&_.ant-table]:rounded-md [&_thead_th]:bg-white [&_thead_td]:bg-white [&_th]:px-4 [&_td]:px-4 [&_tbody_tr:last-child_td]:border-b-0 [&_table]:!visible"
           size="small"
           columns={columns}
-          dataSource={playersWithDue}
+          dataSource={filterPayments(playersWithDue)}
           rowKey="id"
           pagination={false}
         />

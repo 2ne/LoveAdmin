@@ -121,17 +121,32 @@ const SquadHome: React.FC<SquadHomeProps> = ({
     <div className="grid auto-rows-[9rem] grid-cols-2 md:grid-cols-4 gap-4">
       <div className="col-span-2 row-span-2 p-5 overflow-y-auto bg-white rounded-lg shadow-sm scrollbar-thin-y md:row-span-3 ring-1 ring-black/5">
         <div className="relative flex flex-col justify-between h-full">
-          <div>
-            <button
-              type="button"
-              onClick={() => setActiveTab && setActiveTab("Events")}
-              className={`hover:underline cursor-pointer flex items-center gap-1 -mt-1.5 mb-4 text-xl font-medium text-primary-500`}
+          <button
+            type="button"
+            onClick={() => setActiveTab && setActiveTab("Events")}
+            className={`hover:underline cursor-pointer flex items-center gap-1 -mt-1.5 mb-4 text-xl font-medium text-primary-500`}
+          >
+            <div>Events</div>
+            <RightOutlined className="mt-1 text-base opacity-50" />
+          </button>
+          <div className="m-auto text-center text-neutral-400">
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="mx-auto -mt-14 w-14 h-14"
             >
-              <div>Events</div>
-              <RightOutlined className="mt-1 text-base opacity-50" />
-            </button>
-            <div>
-              {/*    {sortedEvents.map((event) => (
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.25"
+                d="M4.75 8.75a2 2 0 012-2h10.5a2 2 0 012 2v8.5a2 2 0 01-2 2H6.75a2 2 0 01-2-2v-8.5zM8 4.75v3.5M16 4.75v3.5M7.75 10.75h8.5"
+              ></path>
+            </svg>
+            <div className="text-lg font-medium">No events</div>
+            {/*    {sortedEvents.map((event) => (
                 <div
                   key={event.id}
                   className="relative flex items-center py-4 bg-white border-t cursor-pointer group border-neutral-200/75"
@@ -192,7 +207,6 @@ const SquadHome: React.FC<SquadHomeProps> = ({
                   </div>
                 </div>
               ))} */}
-            </div>
           </div>
         </div>
       </div>

@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Button, Dropdown, Input, Menu, MenuProps, Table } from "antd";
 import { Coach } from "../data";
 import {
   DeleteOutlined,
   DownOutlined,
   EllipsisOutlined,
+  FilterOutlined,
   MailOutlined,
   PlusOutlined,
+  SafetyCertificateOutlined,
   SearchOutlined,
   StarOutlined,
   SwapOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import TableActions from "../../../components/table-actions";
+import InviteModal from "../players/invite";
 
 interface CoachesProps {
   squad?: boolean;
@@ -66,10 +69,21 @@ const coachItems: MenuProps["items"] = [
     ],
   },
   {
-    key: "99",
-    label: "Squad coach",
-    icon: <StarOutlined />,
+    key: "9-3",
+    label: "Manage roles",
+    icon: <SafetyCertificateOutlined />,
+    children: [
+      {
+        key: "9-3-1",
+        label: "Squad coach",
+      },
+      {
+        key: "9-3-2",
+        label: "Coach",
+      },
+    ],
   },
+
   {
     type: "divider",
   },
@@ -95,6 +109,48 @@ const coachItems: MenuProps["items"] = [
 
 const Coaches: React.FC<CoachesProps> = ({ squad, coaches }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [filterType, setFilterType] = useState<string>("All teams");
+
+  const isFilterActive = filterType !== "All teams";
+
+  const filteredCoaches = useMemo(() => {
+    if (filterType === "All teams") {
+      return coaches;
+    }
+    return coaches.filter((coach) => coach.teamName === filterType);
+  }, [coaches, filterType]);
+
+  const uniqueTeamNames = Array.from(
+    new Set(
+      coaches.filter((coach) => coach.teamName).map((coach) => coach.teamName)
+    )
+  );
+
+  const FilterMenu = (
+    <Menu
+      onClick={({ key }) => setFilterType(key)}
+      items={[
+        { key: "All teams", label: "All teams" },
+        ...uniqueTeamNames.map((teamName: string | undefined) => ({
+          key: teamName ?? "Unknown",
+          label: teamName ?? "Unknown",
+        })),
+      ]}
+    />
+  );
+
+  const showInviteModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const columns = [
     {
@@ -195,8 +251,22 @@ const Coaches: React.FC<CoachesProps> = ({ squad, coaches }) => {
           />
         </div>
         <div className="flex items-center space-x-3">
-          <Button type="primary" className={!squad ? "team-bg" : ""}>
-            Invite coach
+          <Dropdown overlay={FilterMenu} trigger={["click"]}>
+            <Button
+              icon={<FilterOutlined />}
+              type={isFilterActive ? "primary" : "default"}
+              ghost={isFilterActive}
+              className={isFilterActive ? "bg-white" : ""}
+            >
+              {filterType}
+            </Button>
+          </Dropdown>
+          <Button
+            type="primary"
+            className={!squad ? "team-bg" : ""}
+            onClick={showInviteModal}
+          >
+            Invite coaches
           </Button>
         </div>
       </div>
@@ -270,13 +340,26 @@ const Coaches: React.FC<CoachesProps> = ({ squad, coaches }) => {
                 <span>Move to</span>
               </a>
             </Dropdown>
-            <a
-              onClick={(e) => e.preventDefault()}
-              className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
+            <Dropdown
+              placement="bottomLeft"
+              getPopupContainer={() => document.body}
+              overlayStyle={{ position: "fixed" }}
+              overlay={
+                <Menu>
+                  <Menu.Item>Squad coach</Menu.Item>
+                  <Menu.Item>Coach</Menu.Item>
+                </Menu>
+              }
+              trigger={["click"]}
             >
-              <StarOutlined />
-              <span>Squad coach</span>
-            </a>
+              <a
+                onClick={(e) => e.preventDefault()}
+                className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
+              >
+                <SafetyCertificateOutlined />
+                <span>Manage roles</span>
+              </a>
+            </Dropdown>
             <div className="text-neutral-400">|</div>
             <Dropdown
               placement="bottomLeft"
@@ -310,11 +393,17 @@ const Coaches: React.FC<CoachesProps> = ({ squad, coaches }) => {
           className="ant-table-sticky [&_.ant-table]:rounded-md [&_thead_th]:bg-white [&_thead_td]:bg-white [&_th]:px-4 [&_td]:px-4 [&_tbody_tr:last-child_td]:border-b-0 [&_table]:!visible"
           size="small"
           columns={columns}
-          dataSource={coaches}
+          dataSource={filteredCoaches}
           rowKey="id"
           pagination={false}
         />
       </div>
+      <InviteModal
+        isVisible={isModalVisible}
+        onOk={handleModalOk}
+        onCancel={handleModalCancel}
+        coach={true}
+      />
     </>
   );
 };

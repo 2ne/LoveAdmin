@@ -182,6 +182,7 @@ const FormBuilder = () => {
       setOptions(updatedOptions);
       setNewOption("");
     }
+    form.validateFields(["options"]);
   };
 
   const handleDeleteOption = (value: string) => {
@@ -589,6 +590,40 @@ const FormBuilder = () => {
       setNewOption("");
       setOptions([]);
     }
+  };
+
+  const optionValidator = (value: any) => {
+    if (newInputType === "Dropdown" && options?.length < 2) {
+      return Promise.reject("You must add at least two options");
+    } else if (newInputType === "Radio" && options?.length < 2) {
+      return Promise.reject("You must add at least two options");
+    } else if (newInputType === "Checkbox" && options?.length < 1) {
+      return Promise.reject("You must add at least one options");
+    }
+    return Promise.resolve();
+  };
+
+  const optionValidatorEdit = (value: any) => {
+    if (
+      formFields.find((field) => field.id === editFieldId)?.inputType ===
+        "Dropdown" &&
+      options?.length < 2
+    ) {
+      return Promise.reject("You must add at least two options");
+    } else if (
+      formFields.find((field) => field.id === editFieldId)?.inputType ===
+        "Radio" &&
+      options?.length < 2
+    ) {
+      return Promise.reject("You must add at least two options");
+    } else if (
+      formFields.find((field) => field.id === editFieldId)?.inputType ===
+        "Checkbox" &&
+      options?.length < 1
+    ) {
+      return Promise.reject("You must add at least one options");
+    }
+    return Promise.resolve();
   };
 
   return (
@@ -1160,7 +1195,12 @@ const FormBuilder = () => {
             "Checkbox" ||
           formFields.find((field) => field.id === editFieldId)?.inputType ===
             "Dropdown" ? (
-            <Form.Item label="Options">
+            <Form.Item
+              label="Options"
+              name={"options"}
+              dependencies={["inputType"]}
+              rules={[{ required: true, validator: optionValidatorEdit }]}
+            >
               <DragDropContext
                 onDragEnd={(result: { source: any; destination: any }) => {
                   const { source, destination } = result;
@@ -1491,7 +1531,12 @@ const FormBuilder = () => {
           {newInputType === "Dropdown" ||
           newInputType === "Radio" ||
           newInputType === "Checkbox" ? (
-            <Form.Item label="Options">
+            <Form.Item
+              label="Options"
+              name={"options"}
+              dependencies={["inputType"]}
+              rules={[{ required: true, validator: optionValidator }]}
+            >
               <DragDropContext
                 onDragEnd={(result: { source: any; destination: any }) => {
                   const { source, destination } = result;

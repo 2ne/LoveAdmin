@@ -1593,6 +1593,7 @@ const FormBuilder = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className="mb-2"
+                              tabIndex={-1}
                             >
                               <div className="flex items-center gap-2">
                                 <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />

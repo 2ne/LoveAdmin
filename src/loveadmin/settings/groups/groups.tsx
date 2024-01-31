@@ -1101,7 +1101,7 @@ const SettingsGroups: React.FC = () => {
                           className="ml-px transition-all rounded-full opacity-0 hover:bg-neutral-100 hover:text-neutral-900 text-neutral-500 group-hover:opacity-100"
                           icon={
                             <svg
-                              fill-rule="evenodd"
+                              fillRule="evenodd"
                               viewBox="64 64 896 896"
                               focusable="false"
                               data-icon="close"

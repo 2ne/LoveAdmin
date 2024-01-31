@@ -1255,7 +1255,7 @@ const FormBuilder = () => {
                                 <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
                                 <Input
                                   value={option.value}
-                                  className="flex-grow pl-8"
+                                  className="flex-grow pl-8 remove-validation-style"
                                 />
                                 <Tooltip title="Delete" className="shrink-0">
                                   <Button
@@ -1282,7 +1282,7 @@ const FormBuilder = () => {
                   value={newOption}
                   onChange={(e) => setNewOption(e.target.value)}
                   placeholder="Add new option"
-                  className="flex-grow"
+                  className="flex-grow "
                 />
                 <Tooltip title="Add option" className="shrink-0">
                   <Button
@@ -1591,7 +1591,7 @@ const FormBuilder = () => {
                                 <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
                                 <Input
                                   value={option.value}
-                                  className="flex-grow pl-8"
+                                  className="flex-grow pl-8 remove-validation-style"
                                 />
                                 <Tooltip title="Delete" className="shrink-0">
                                   <Button

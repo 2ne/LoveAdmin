@@ -843,3 +843,13 @@ li + li .time-period {
 .ant-avatar-sm {
   @apply text-[11px];
 }
+
+
+.remove-validation-style {
+    border-color: rgba(2, 6, 23, 0.125) !important;
+}
+
+.remove-validation-style:focus, .remove-validation-style:focus-visible, .remove-validation-style:hover  {
+  border-color: #4ecdd9 !important;
+  outline: #4ecdd9 !important;
+}

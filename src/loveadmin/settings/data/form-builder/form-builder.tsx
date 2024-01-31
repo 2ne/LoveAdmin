@@ -190,14 +190,6 @@ const FormBuilder = () => {
     setOptions(updatedOptions);
   };
 
-  const updateFieldOptions = (updatedOptions: string[]) => {
-    setFormFields((prevFields) =>
-      prevFields.map((field) =>
-        field.id === editFieldId ? { ...field, options: updatedOptions } : field
-      )
-    );
-  };
-
   const navigate = useNavigate();
 
   const gotoCustomerForms = () => {
@@ -626,6 +618,14 @@ const FormBuilder = () => {
     return Promise.resolve();
   };
 
+  const handleOptionChange = (optionId: string, newValue: string) => {
+    setOptions((prevOptions) =>
+      prevOptions.map((option) =>
+        option.id === optionId ? { ...option, value: newValue } : option
+      )
+    );
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <header className="flex items-center gap-3 px-4 border-b h-14 border-neutral-200">
@@ -988,7 +988,7 @@ const FormBuilder = () => {
                                       type="text"
                                       icon={
                                         <svg
-                                          fill-rule="evenodd"
+                                          fillRule="evenodd"
                                           viewBox="64 64 896 896"
                                           focusable="false"
                                           data-icon="close"
@@ -1255,6 +1255,12 @@ const FormBuilder = () => {
                                 <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
                                 <Input
                                   value={option.value}
+                                  onChange={(e) =>
+                                    handleOptionChange(
+                                      option.id,
+                                      e.target.value
+                                    )
+                                  }
                                   className="flex-grow pl-8 remove-validation-style"
                                 />
                                 <Tooltip title="Delete" className="shrink-0">
@@ -1591,6 +1597,12 @@ const FormBuilder = () => {
                                 <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
                                 <Input
                                   value={option.value}
+                                  onChange={(e) =>
+                                    handleOptionChange(
+                                      option.id,
+                                      e.target.value
+                                    )
+                                  }
                                   className="flex-grow pl-8 remove-validation-style"
                                 />
                                 <Tooltip title="Delete" className="shrink-0">

@@ -47,7 +47,7 @@ interface Discount {
 
 interface Role {
   name: string;
-  description: string;
+  description?: string;
 }
 
 interface Member {
@@ -67,7 +67,7 @@ const allDiscounts: Discount[] = [
   { name: "50% off any class" },
 ];
 
-const allRoles: Role[] = [
+const defaultRoles: Role[] = [
   {
     name: "Admin (Full Access)",
     description: "Full administration access",
@@ -117,6 +117,24 @@ const allRoles: Role[] = [
   {
     name: "Schedule Admin",
     description: "Create and manage product schedules",
+  },
+];
+
+const applicationFeatures: Role[] = [
+  {
+    name: "feat_assets",
+  },
+  {
+    name: "feat_organisation",
+  },
+];
+
+const operations: Role[] = [
+  {
+    name: "ops_attendance",
+  },
+  {
+    name: "ops_file_upload",
   },
 ];
 
@@ -1158,13 +1176,11 @@ const SettingsGroups: React.FC = () => {
             className={selectedSegment === "Roles" ? "block" : "hidden"}
           >
             <ul className="divide-y divide-neutral-200/75 -mt-0.5">
-              {allRoles.map((role) => (
+              {defaultRoles.map((role) => (
                 <li key={role.name} className="py-3">
                   <label className="flex justify-between gap-4 cursor-pointer">
                     <div className="min-w-0">
-                      <div className="text-sm font-medium truncate">
-                        {role.name}
-                      </div>
+                      <div className="text-sm truncate">{role.name}</div>
                       <div className="mt-0.5 text-sm leading-tight text-subtitle [text-wrap:balance]">
                         {role.description}
                       </div>
@@ -1181,6 +1197,64 @@ const SettingsGroups: React.FC = () => {
                 </li>
               ))}
             </ul>
+            {applicationFeatures && (
+              <>
+                <div className="pb-3 mt-6 mb-1.5 font-medium border-b border-neutral-200/75">
+                  Application features
+                </div>
+                <ul className="divide-y divide-neutral-200/75 -mt-0.5">
+                  {applicationFeatures.map((role) => (
+                    <li key={role.name} className="py-3">
+                      <label className="flex justify-between gap-4 cursor-pointer">
+                        <div className="min-w-0">
+                          <div className="text-sm truncate">{role.name}</div>
+                          <div className="mt-0.5 text-sm leading-tight text-subtitle [text-wrap:balance]">
+                            {role.description}
+                          </div>
+                        </div>
+                        <Switch
+                          size="small"
+                          className="relative top-px"
+                          checked={selectedGroup?.roles?.includes(role.name)}
+                          onChange={(checked) =>
+                            handleRoleChange(role.name, checked)
+                          }
+                        />
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {operations && (
+              <>
+                <div className="pb-3 mt-6 mb-1.5 font-medium border-b border-neutral-200/75">
+                  Operations
+                </div>
+                <ul className="divide-y divide-neutral-200/75 -mt-0.5">
+                  {applicationFeatures.map((role) => (
+                    <li key={role.name} className="py-3">
+                      <label className="flex justify-between gap-4 cursor-pointer">
+                        <div className="min-w-0">
+                          <div className="text-sm truncate">{role.name}</div>
+                          <div className="mt-0.5 text-sm leading-tight text-subtitle [text-wrap:balance]">
+                            {role.description}
+                          </div>
+                        </div>
+                        <Switch
+                          size="small"
+                          className="relative top-px"
+                          checked={selectedGroup?.roles?.includes(role.name)}
+                          onChange={(checked) =>
+                            handleRoleChange(role.name, checked)
+                          }
+                        />
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </Form.Item>
 
           <Form.Item

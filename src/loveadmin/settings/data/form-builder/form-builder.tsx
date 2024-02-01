@@ -16,14 +16,21 @@ import {
   Alert,
   Checkbox,
   Popconfirm,
+  Modal,
+  InputNumber,
+  Menu,
+  Dropdown,
 } from "antd";
 import Sidebar from "../../../../components/sidebar";
 import {
+  AlignLeftOutlined,
   ArrowLeftOutlined,
   DeleteOutlined,
   EditOutlined,
+  FontSizeOutlined,
   HolderOutlined,
   InfoCircleOutlined,
+  LineOutlined,
   PlusOutlined,
   SearchOutlined,
   WarningFilled,
@@ -32,6 +39,8 @@ import TextArea from "antd/es/input/TextArea";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Tag, { Colours } from "../../../../components/tag";
 import { useNavigate } from "react-router-dom";
+import FormPreview from "./form-preview";
+import dayjs from "dayjs";
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -41,39 +50,40 @@ const { Panel } = Collapse;
 type Group =
   | "Beneficiary"
   | "Account Owner"
-  | "Internal Customer"
+  | "Internal Contact"
   | "Internal Product";
 
 const mapGroupToColour: Record<NonNullable<Group>, Colours> = {
   Beneficiary: "primary",
   "Account Owner": "pink",
-  "Internal Customer": "success",
+  "Internal Contact": "success",
   "Internal Product": "neutral",
 };
 
 const mapGroupToText: Record<NonNullable<Group>, string> = {
   Beneficiary: "text-primary-600 hover:text-primary-600",
   "Account Owner": "text-pink-600 hover:text-pink-600",
-  "Internal Customer": "text-success-600 hover:text-success-600",
+  "Internal Contact": "text-success-600 hover:text-success-600",
   "Internal Product": "text-neutral-600 hover:text-neutral-600",
 };
 
 const mapGroupToBorder: Record<NonNullable<Group>, string> = {
   Beneficiary: "border-primary-500 hover:ring-primary-500",
   "Account Owner": "border-pink-500 hover:ring-pink-500",
-  "Internal Customer": "border-success-500 hover:ring-success-500",
+  "Internal Contact": "border-success-500 hover:ring-success-500",
   "Internal Product": "border-neutral-400 hover:ring-neutral-400",
 };
 
 type InputType =
   | "Text input"
-  | "Dropdown"
   | "Text area"
+  | "Number"
+  | "Dropdown"
   | "Radio"
   | "Checkbox"
   | "Date";
 
-interface CustomField {
+export interface CustomField {
   id: number;
   dataGroup: Group;
   fieldName: string;
@@ -82,6 +92,7 @@ interface CustomField {
   options?: string[];
   originalId?: number;
   isDragged?: boolean;
+  dateRange?: [dayjs.Dayjs, dayjs.Dayjs];
 }
 
 interface OptionItem {
@@ -93,40 +104,71 @@ const fieldData: Record<Group, CustomField[]> = {
   Beneficiary: [
     {
       id: 1,
-      label: "Gender",
-      fieldName: "Beneficiary Gender",
-      inputType: "Dropdown",
-      options: ["Male", "Female", "Other"],
+      label: "Swim club ID",
+      fieldName: "Beneficiary Swim Club ID",
+      inputType: "Text input",
       dataGroup: "Beneficiary",
     },
     {
       id: 2,
-      label: "Preferred pronouns",
-      fieldName: "Beneficiary preferred pronouns",
-      inputType: "Radio",
-      options: ["He/Him", "She/Her", "They/Them", "Other"],
+      label: "Additional notes",
+      fieldName: "Beneficiary Additional Notes",
+      inputType: "Text area",
       dataGroup: "Beneficiary",
     },
-  ],
-  "Account Owner": [
     {
       id: 3,
-      label: "Gender",
-      fieldName: "Account Owner Gender",
+      label: "Years of swimming experience",
+      fieldName: "Beneficiary Years of Experience",
+      inputType: "Number",
+      dataGroup: "Beneficiary",
+    },
+    {
+      id: 4,
+      label: "Preferred swim category",
+      fieldName: "Beneficiary Preferred Swim Category",
+      inputType: "Dropdown",
+      options: ["Competitive", "Recreational", "Masters", "Open Water"],
+      dataGroup: "Beneficiary",
+    },
+    {
+      id: 5,
+      label: "Preferred training time",
+      fieldName: "Beneficiary Preferred Training Time",
       inputType: "Radio",
-      options: ["Male", "Female", "Other"],
-      dataGroup: "Account Owner",
+      options: ["Morning", "Afternoon", "Evening"],
+      dataGroup: "Beneficiary",
     },
     {
       id: 6,
-      label: "Detail",
-      fieldName: "Account Owner Detail",
-      inputType: "Text input",
-      dataGroup: "Account Owner",
+      label: "Equipment rental",
+      fieldName: "Beneficiary Equipment Rental",
+      inputType: "Checkbox",
+      options: ["Goggles", "Fins", "Kickboard", "Pull Buoy"],
+      dataGroup: "Beneficiary",
+    },
+    {
+      id: 7,
+      label: "Membership renewal date",
+      fieldName: "Beneficiary Membership Renewal Date",
+      inputType: "Date",
+      dataGroup: "Beneficiary",
     },
   ],
-  "Internal Customer": [],
-  "Internal Product": [],
+  "Account Owner": [],
+  "Internal Contact": [],
+  // "Internal Product": [],
+};
+
+const groupDescriptions: Record<NonNullable<Group>, string> = {
+  Beneficiary:
+    "Beneficiaries are participants of products, usually a child. Add a custom field to store more information about them",
+  "Account Owner":
+    "An Account Owner is the person paying for the product, usually the parent. Add a custom field to store more information about them",
+  "Internal Contact":
+    "Internal Contact fields are used to add more information to a contact. This field will not show on product forms and is only used to collect additional internal information",
+  "Internal Product":
+    "Internal Product fields are used to add more information to products. This field will not show on product forms and is only used to collect additional internal information",
 };
 
 const FormBuilder = () => {
@@ -154,6 +196,13 @@ const FormBuilder = () => {
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
   const [popConfirmVisible, setPopConfirmVisible] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [formName, setFormName] = useState<string>("Form name 1");
+  const [formDescription, setFormDescription] = useState<string>("");
+
+  const openPreview = () => {
+    setIsPreviewVisible(true);
+  };
 
   console.log("forms", newOption);
 
@@ -264,13 +313,13 @@ const FormBuilder = () => {
                 } `}
               >
                 <HolderOutlined className="text-neutral-400" />
-                <div className="flex items-center justify-between flex-grow min-w-0">
+                <div className="flex items-center justify-between flex-grow min-w-0 gap-2">
                   <div className="truncate">{field.label}</div>
                   {field.inputType === "Text input" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 640 512"
-                      className="w-4 h-4 text-neutral-400"
+                      className="w-4 h-4 text-neutral-400 shrink-0"
                     >
                       <path
                         fill="currentColor"
@@ -282,7 +331,7 @@ const FormBuilder = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
-                      className="w-4 h-4 text-neutral-400"
+                      className="w-4 h-4 text-neutral-400 shrink-0"
                     >
                       <path
                         fill="currentColor"
@@ -294,7 +343,7 @@ const FormBuilder = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
-                      className="w-4 h-4 text-neutral-400"
+                      className="w-4 h-4 text-neutral-400 shrink-0"
                     >
                       <path
                         fill="currentColor"
@@ -302,11 +351,23 @@ const FormBuilder = () => {
                       />
                     </svg>
                   )}
+                  {field.inputType === "Number" && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 640 512"
+                      className="w-4 h-4 text-neutral-400 shrink-0"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M576 112c8.8 0 16 7.2 16 16V384c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V128c0-8.8 7.2-16 16-16H576zM64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H576c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm40 120c0 13.3 10.7 24 24 24h8v96H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24H184V184c0-13.3-10.7-24-24-24H128c-13.3 0-24 10.7-24 24zm190.6 30.4c5.7-8 17.5-8.6 24-1.2c5.2 5.9 5 14.7-.3 20.5l-72 78c-6.5 7-8.2 17.2-4.3 25.9s12.5 14.4 22 14.4h88c13.3 0 24-10.7 24-24s-10.7-24-24-24H318.8l34.8-37.7c22-23.8 22.4-60.3 1.1-84.7c-26.9-30.7-75.4-28.4-99.2 4.9l-11.1 15.6c-7.7 10.8-5.2 25.8 5.6 33.5s25.8 5.2 33.5-5.6l11.1-15.6z"
+                      />
+                    </svg>
+                  )}
                   {field.inputType === "Radio" && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 512 512"
-                      className="w-4 h-4 text-neutral-400"
+                      className="w-4 h-4 text-neutral-400 shrink-0"
                     >
                       <path
                         fill="currentColor"
@@ -316,7 +377,7 @@ const FormBuilder = () => {
                   )}
                   {field.inputType === "Checkbox" && (
                     <svg
-                      className="w-4 h-4 text-neutral-400"
+                      className="w-4 h-4 text-neutral-400 shrink-0"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
                     >
@@ -330,7 +391,7 @@ const FormBuilder = () => {
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 448 512"
-                      className="w-4 h-4 text-neutral-400"
+                      className="w-4 h-4 text-neutral-400 shrink-0"
                     >
                       <path
                         fill="currentColor"
@@ -353,6 +414,77 @@ const FormBuilder = () => {
         </Button>
       </>
     );
+  };
+
+  // Adjusted generateMenuItems function
+  const generateMenuItems = () => {
+    return Object.entries(fieldsDataSet).map(([group, fields]) => (
+      <Menu.SubMenu key={group} title={group}>
+        {fields.length > 0 ? (
+          fields.map((field) => (
+            <Menu.Item
+              onClick={({ key }) => handleAddField(key)}
+              key={field.id.toString()}
+              disabled={clonedFields[field.id]}
+            >
+              {field.label}
+            </Menu.Item>
+          ))
+        ) : (
+          <Menu.Item key={`${group}-empty`} disabled>
+            No fields
+          </Menu.Item>
+        )}
+      </Menu.SubMenu>
+    ));
+  };
+
+  // Cascading Dropdown Menu
+  const menu = (
+    <Menu>
+      {generateMenuItems()}
+
+      {formFields.length > 0 && (
+        <>
+          <Menu.Divider />
+          <Menu.Item key={997} icon={<FontSizeOutlined />}>
+            Header
+          </Menu.Item>
+          <Menu.Item key={998} icon={<AlignLeftOutlined />}>
+            Description
+          </Menu.Item>
+          <Menu.Item key={999} icon={<LineOutlined />}>
+            Divider
+          </Menu.Item>
+        </>
+      )}
+    </Menu>
+  );
+
+  // Adjust the handleAddField function if necessary to accommodate the cascading menu structure
+  const handleAddField = (fieldId: React.Key) => {
+    const numericFieldId = Number(fieldId);
+    const fieldToAdd = Object.values(fieldsDataSet)
+      .flat()
+      .find((field) => field.id === numericFieldId);
+
+    if (fieldToAdd) {
+      // Assign a new unique ID for the formFields array
+      const newFieldId = fieldIdCounter;
+      setFieldIdCounter((prevId) => prevId + 1); // Increment the counter for next use
+
+      const newField = {
+        ...fieldToAdd,
+        id: newFieldId,
+        originalId: fieldToAdd.id,
+      };
+
+      // Add the new field to the formFields state
+      setFormFields((prevFields) => [...prevFields, newField]);
+
+      // Mark the original field as cloned
+      setClonedFields((prev) => ({ ...prev, [fieldToAdd.id]: true }));
+    }
   };
 
   const hasFilteredFields = filteredFields.length > 0;
@@ -465,6 +597,12 @@ const FormBuilder = () => {
         : [];
       setOptions(optionItems);
       setEditFieldId(fieldId);
+
+      // Set initial values for the form
+      form.setFieldsValue({
+        label: field.label,
+        dateRange: field.dateRange,
+      });
     }
     setIsDrawerVisible(true);
   };
@@ -505,15 +643,6 @@ const FormBuilder = () => {
     });
   };
 
-  const deleteFieldsDateSet = (groupId: Group, fieldId: number) => {
-    setFieldsDataSet((prevFieldsDataSet) => ({
-      ...prevFieldsDataSet,
-      [groupId]: prevFieldsDataSet[groupId].filter(
-        (field) => field.id !== fieldId
-      ),
-    }));
-  };
-
   const onDrawerFormFinish = (values: any) => {
     message.success(
       `${
@@ -526,8 +655,10 @@ const FormBuilder = () => {
         if (field.id === editFieldId) {
           return {
             ...field,
-            ...values, // Update other values of the field
-            options: options.map((option) => option.value), // Update options order
+            ...values,
+            options: options.map((option) => option.value),
+            dateRange:
+              field.inputType === "Date" ? values.dateRange : field.dateRange,
           };
         }
         return field;
@@ -562,6 +693,7 @@ const FormBuilder = () => {
       id: allFields.length + 1,
       fieldName: combinedName,
       dataGroup: isAddDrawerTitle,
+      dateRange: values.inputType === "Date" ? values.dateRange : undefined,
     };
 
     message.success(`${combinedName} field created`);
@@ -590,7 +722,7 @@ const FormBuilder = () => {
     } else if (newInputType === "Radio" && options?.length < 2) {
       return Promise.reject("You must add at least two options");
     } else if (newInputType === "Checkbox" && options?.length < 1) {
-      return Promise.reject("You must add at least one options");
+      return Promise.reject("You must add at least one option");
     }
     return Promise.resolve();
   };
@@ -628,7 +760,7 @@ const FormBuilder = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <header className="flex items-center gap-3 px-4 border-b h-14 border-neutral-200">
+      <header className="sticky top-0 z-10 flex items-center gap-3 px-4 border-b h-14 bg-white/95 border-neutral-200">
         <Button
           type="text"
           icon={<ArrowLeftOutlined />}
@@ -644,7 +776,7 @@ const FormBuilder = () => {
           </Text>
         </div>
         <div className="flex gap-3 ml-auto">
-          <Button>Preview</Button>
+          <Button onClick={openPreview}>Preview</Button>
           <Button type="primary" className="px-5">
             Save
           </Button>
@@ -654,162 +786,192 @@ const FormBuilder = () => {
       <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Layout className="flex-grow rounded-t-lg bg-neutral-50">
           <Sidebar hideButton={true} className="bg-white">
-            <div className="p-4 pb-1.5">
-              <Input
-                placeholder="Search custom fields..."
-                prefix={<SearchOutlined className="mr-2" />}
-                className="border-transparent shadow-none bg-neutral-200/50 focus-within:bg-white focus-within:border-primary-500 [&_.ant-input]:bg-transparent"
-                onChange={(e) => setSearchTerm(e.target.value)}
-                allowClear
-              />
-            </div>
-
-            <Droppable droppableId="sidebar" isDropDisabled={true}>
-              {(provided: {
-                innerRef: React.LegacyRef<HTMLDivElement> | undefined;
-                droppableProps: JSX.IntrinsicAttributes &
-                  React.ClassAttributes<HTMLDivElement> &
-                  React.HTMLAttributes<HTMLDivElement>;
-                placeholder:
-                  | boolean
-                  | React.ReactChild
-                  | React.ReactFragment
-                  | React.ReactPortal
-                  | null
-                  | undefined;
-              }) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
-                  {hasFilteredFields ? (
-                    <Collapse
-                      defaultActiveKey={[Object.keys(fieldsDataSet)[0]]}
-                      activeKey={activePanels}
-                      onChange={handlePanelChange}
-                      bordered={false}
-                      className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
-                    >
-                      {Object.entries(fieldsDataSet).map(([type, fields]) => {
-                        if (!shouldDisplayPanel(type as Group)) return null;
-                        return (
-                          <Panel
-                            key={type}
-                            header={
-                              <span>
-                                <span>{type}</span>
-                                {fields.length > 0 && (
+            <div className="sticky top-14 max-h-[calc(100svh-3.5rem)] overflow-y-auto scrollbar-thin-y">
+              <div className="p-4 pb-1.5">
+                <Input
+                  placeholder="Search custom fields..."
+                  prefix={<SearchOutlined className="mr-2" />}
+                  className="border-transparent shadow-none bg-neutral-200/50 focus-within:bg-white focus-within:border-primary-500 [&_.ant-input]:bg-transparent"
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  allowClear
+                />
+              </div>
+              <Droppable droppableId="sidebar" isDropDisabled={true}>
+                {(provided: {
+                  innerRef: React.LegacyRef<HTMLDivElement> | undefined;
+                  droppableProps: JSX.IntrinsicAttributes &
+                    React.ClassAttributes<HTMLDivElement> &
+                    React.HTMLAttributes<HTMLDivElement>;
+                  placeholder:
+                    | boolean
+                    | React.ReactChild
+                    | React.ReactFragment
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                }) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    {hasFilteredFields ? (
+                      <Collapse
+                        defaultActiveKey={[Object.keys(fieldsDataSet)[0]]}
+                        activeKey={activePanels}
+                        onChange={handlePanelChange}
+                        bordered={false}
+                        className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
+                      >
+                        {Object.entries(fieldsDataSet).map(([type, fields]) => {
+                          if (!shouldDisplayPanel(type as Group)) return null;
+                          return (
+                            <Panel
+                              key={type}
+                              header={
+                                <span>
+                                  <span>{type}</span>
                                   <>
-                                    <span className="text-subtitle mx-1.5">
-                                      ·
-                                    </span>
-                                    <span className="text-subtitle">
-                                      {fields.length}
-                                    </span>
+                                    {fields.length > 0 && (
+                                      <>
+                                        <span className="text-subtitle mx-1.5">
+                                          ·
+                                        </span>
+
+                                        <span className="text-subtitle">
+                                          {fields.length}
+                                        </span>
+                                      </>
+                                    )}
+                                    <Tooltip
+                                      rootClassName="pointer-events-auto"
+                                      className="ml-2 text-neutral-400 hover:text-neutral-500"
+                                      title={
+                                        <span>
+                                          {groupDescriptions[type as Group]}.
+                                          Visit our{" "}
+                                          <a
+                                            href="https://www.google.com"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-white underline hover:text-primary-300"
+                                          >
+                                            help guide
+                                          </a>{" "}
+                                          for more information.
+                                        </span>
+                                      }
+                                    >
+                                      <InfoCircleOutlined className="mt-px" />
+                                    </Tooltip>
                                   </>
-                                )}
-                              </span>
-                            }
-                          >
-                            {renderFieldsByType(type as Group)}
-                          </Panel>
-                        );
-                      })}
-                    </Collapse>
-                  ) : (
-                    <>
-                      {searchTerm && (
-                        <div className="px-4 py-2 text-subtitle">
-                          No fields found matching your search.
-                        </div>
-                      )}
-                      {!searchTerm && (
-                        <Collapse
-                          defaultActiveKey={1}
-                          bordered={false}
-                          className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
-                        >
-                          <Panel
-                            key={1}
-                            header={
-                              <span>
-                                <span>Beneficiary</span>
-                              </span>
-                            }
-                          >
-                            <Button
-                              type="link"
-                              className={`px-0 `}
-                              icon={<PlusOutlined />}
-                              onClick={() => openAddDrawer("Beneficiary")}
+                                </span>
+                              }
                             >
-                              Beneficiary field
-                            </Button>
-                          </Panel>
-                          <Panel
-                            key={2}
-                            header={
-                              <span>
-                                <span>Account Owner</span>
-                              </span>
-                            }
+                              {renderFieldsByType(type as Group)}
+                            </Panel>
+                          );
+                        })}
+                      </Collapse>
+                    ) : (
+                      <>
+                        {searchTerm && (
+                          <div className="px-4 py-2 text-subtitle">
+                            No fields found matching your search.
+                          </div>
+                        )}
+                        {!searchTerm && (
+                          <Collapse
+                            defaultActiveKey={1}
+                            bordered={false}
+                            className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
                           >
-                            <Button
-                              type="link"
-                              className={`px-0 `}
-                              icon={<PlusOutlined />}
-                              onClick={() => openAddDrawer("Account Owner")}
+                            <Panel
+                              key={1}
+                              header={
+                                <span>
+                                  <span>Beneficiary</span>
+                                </span>
+                              }
                             >
-                              Account owner field
-                            </Button>
-                          </Panel>
-                          <Panel
-                            key={3}
-                            header={
-                              <span>
-                                <span>Internal Customer</span>
-                              </span>
-                            }
-                          >
-                            <Button
-                              type="link"
-                              className={`px-0 `}
-                              icon={<PlusOutlined />}
-                              onClick={() => openAddDrawer("Internal Customer")}
+                              <Button
+                                type="link"
+                                className={`px-0`}
+                                icon={<PlusOutlined />}
+                                onClick={() => openAddDrawer("Beneficiary")}
+                              >
+                                Beneficiary field
+                              </Button>
+                            </Panel>
+                            <Panel
+                              key={2}
+                              header={
+                                <span>
+                                  <span>Account Owner</span>
+                                </span>
+                              }
                             >
-                              Internal customer field
-                            </Button>
-                          </Panel>
-                          <Panel
-                            key={4}
-                            header={
-                              <span>
-                                <span>Internal Product</span>
-                              </span>
-                            }
-                          >
-                            <Button
-                              type="link"
-                              className={`px-0 `}
-                              icon={<PlusOutlined />}
-                              onClick={() => openAddDrawer("Internal Product")}
+                              <Button
+                                type="link"
+                                className={`px-0 `}
+                                icon={<PlusOutlined />}
+                                onClick={() => openAddDrawer("Account Owner")}
+                              >
+                                Account owner field
+                              </Button>
+                            </Panel>
+                            <Panel
+                              key={3}
+                              header={
+                                <span>
+                                  <span>Internal Contact</span>
+                                </span>
+                              }
                             >
-                              Internal product field
-                            </Button>
-                          </Panel>
-                        </Collapse>
-                      )}
-                    </>
-                  )}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+                              <Button
+                                type="link"
+                                className={`px-0 `}
+                                icon={<PlusOutlined />}
+                                onClick={() =>
+                                  openAddDrawer("Internal Contact")
+                                }
+                              >
+                                Internal contact field
+                              </Button>
+                            </Panel>
+                            <Panel
+                              key={4}
+                              header={
+                                <span>
+                                  <span>Internal Product</span>
+                                </span>
+                              }
+                            >
+                              <Button
+                                type="link"
+                                className={`px-0 `}
+                                icon={<PlusOutlined />}
+                                onClick={() =>
+                                  openAddDrawer("Internal Product")
+                                }
+                              >
+                                Internal product field
+                              </Button>
+                            </Panel>
+                          </Collapse>
+                        )}
+                      </>
+                    )}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
           </Sidebar>
           <Content className="max-w-xl p-6 pb-16 mx-auto opacity-100 pointer-events-auto">
             <div className="mb-4">
               <Input
                 size="large"
                 placeholder="Enter a form name"
-                value="Form name 1"
-              ></Input>
+                value={formName}
+                onChange={(e) => setFormName(e.target.value)}
+              />
             </div>
             {!showDescription && (
               <Button
@@ -826,7 +988,9 @@ const FormBuilder = () => {
                   size="large"
                   placeholder="Enter a form description..."
                   rows={3}
-                ></TextArea>
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
+                />
               </div>
             )}
             <div className="mt-6 border-b border-neutral-200" />
@@ -865,7 +1029,15 @@ const FormBuilder = () => {
                           : ""
                       }`}
                     >
-                      Drag and drop your form fields here...
+                      Drag and drop your form fields here or{" "}
+                      <Dropdown overlay={menu} trigger={["click"]}>
+                        <Button
+                          type="link"
+                          className="!px-0 font-medium underline hover:no-underline"
+                        >
+                          select a field.
+                        </Button>
+                      </Dropdown>
                     </div>
                   ) : (
                     formFields.map((field, index) => (
@@ -903,6 +1075,12 @@ const FormBuilder = () => {
                                   >
                                     {field.dataGroup}
                                   </Tag>
+
+                                  {field.dataGroup ===
+                                    ("Internal Contact" ||
+                                      "Internal Product") && (
+                                    <Tag colour="neutral">Hidden</Tag>
+                                  )}
                                 </div>
                                 {field.inputType === "Text input" && (
                                   <div className="pointer-events-none">
@@ -931,6 +1109,19 @@ const FormBuilder = () => {
                                       rows={3}
                                       className="w-72"
                                       placeholder="Enter here..."
+                                    />
+                                  </div>
+                                )}
+                                {field.inputType === "Number" && (
+                                  <div className="pointer-events-none">
+                                    <InputNumber
+                                      className="w-40"
+                                      placeholder="Enter here..."
+                                      onKeyPress={(event) => {
+                                        if (!/[0-9]/.test(event.key)) {
+                                          event.preventDefault();
+                                        }
+                                      }}
                                     />
                                   </div>
                                 )}
@@ -1011,6 +1202,17 @@ const FormBuilder = () => {
                     ))
                   )}
                   {provided.placeholder}
+                  {formFields.length > 0 && (
+                    <Dropdown overlay={menu} trigger={["click"]}>
+                      <Button
+                        className="mb-4"
+                        type="primary"
+                        icon={<PlusOutlined />}
+                      >
+                        Add
+                      </Button>
+                    </Dropdown>
+                  )}
                 </div>
               )}
             </Droppable>
@@ -1040,29 +1242,31 @@ const FormBuilder = () => {
               Cancel
             </Button>
             <div className="ml-auto">
-              <Popconfirm
-                icon={<WarningFilled className="text-danger-500" />}
-                title="Are you sure to delete this field?"
-                description="This action cannot be undone and will remove this field from all other forms."
-                onConfirm={() => {
-                  if (editFieldId) {
-                    deleteFieldCompletely(editFieldId);
-                    closeDrawer();
+              <Tooltip title="Delete field" placement="left">
+                <Popconfirm
+                  icon={<WarningFilled className="text-danger-500" />}
+                  title="Are you sure to delete this field?"
+                  description="This action cannot be undone and will remove this field from all other forms."
+                  onConfirm={() => {
+                    if (editFieldId) {
+                      deleteFieldCompletely(editFieldId);
+                      closeDrawer();
 
-                    message.success("Field deleted");
-                  }
-                }}
-                okText="Delete"
-                cancelText="Cancel"
-                okButtonProps={{ danger: true }}
-                visible={popConfirmVisible}
-                onVisibleChange={setPopConfirmVisible}
-              >
-                <Button
-                  className="hover:text-danger-500 hover:border-danger-500"
-                  icon={<DeleteOutlined />}
-                ></Button>
-              </Popconfirm>
+                      message.success("Field deleted");
+                    }
+                  }}
+                  okText="Delete"
+                  cancelText="Cancel"
+                  okButtonProps={{ danger: true }}
+                  visible={popConfirmVisible}
+                  onVisibleChange={setPopConfirmVisible}
+                >
+                  <Button
+                    className="hover:text-danger-500 hover:border-danger-500"
+                    icon={<DeleteOutlined />}
+                  ></Button>
+                </Popconfirm>
+              </Tooltip>
             </div>
           </div>
         }
@@ -1100,7 +1304,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 640 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1113,7 +1317,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1126,7 +1330,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1135,11 +1339,24 @@ const FormBuilder = () => {
                   </svg>
                 )}
                 {formFields.find((field) => field.id === editFieldId)
+                  ?.inputType === "Number" && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 512"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M576 112c8.8 0 16 7.2 16 16V384c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V128c0-8.8 7.2-16 16-16H576zM64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H576c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm40 120c0 13.3 10.7 24 24 24h8v96H120c-13.3 0-24 10.7-24 24s10.7 24 24 24h80c13.3 0 24-10.7 24-24s-10.7-24-24-24H184V184c0-13.3-10.7-24-24-24H128c-13.3 0-24 10.7-24 24zm190.6 30.4c5.7-8 17.5-8.6 24-1.2c5.2 5.9 5 14.7-.3 20.5l-72 78c-6.5 7-8.2 17.2-4.3 25.9s12.5 14.4 22 14.4h88c13.3 0 24-10.7 24-24s-10.7-24-24-24H318.8l34.8-37.7c22-23.8 22.4-60.3 1.1-84.7c-26.9-30.7-75.4-28.4-99.2 4.9l-11.1 15.6c-7.7 10.8-5.2 25.8 5.6 33.5s25.8 5.2 33.5-5.6l11.1-15.6z"
+                    />
+                  </svg>
+                )}
+                {formFields.find((field) => field.id === editFieldId)
                   ?.inputType === "Radio" && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1152,7 +1369,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1165,7 +1382,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1302,17 +1519,20 @@ const FormBuilder = () => {
             </Form.Item>
           ) : null}
 
-          {formFields.find((field) => field.id === editFieldId)?.inputType ===
-            "Date" && (
-            <Form.Item
-              label="Range"
-              name="dateRange"
-              rules={[{ required: true, message: "Please enter a date range" }]}
-              extra="To restrict the dates that can be selected set a start and end date."
-            >
-              <RangePicker className="w-full" />
-            </Form.Item>
-          )}
+          {editFieldId &&
+            formFields.find((field) => field.id === editFieldId)?.inputType ===
+              "Date" && (
+              <Form.Item
+                label="Range"
+                name="dateRange"
+                rules={[
+                  { required: true, message: "Please enter a date range" },
+                ]}
+                extra="To restrict the dates that can be selected set a start and end date."
+              >
+                <RangePicker className="w-full" />
+              </Form.Item>
+            )}
         </Form>
       </Drawer>
 
@@ -1393,7 +1613,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 640 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1402,7 +1622,7 @@ const FormBuilder = () => {
                   </svg>
                   <div className="space-y-0.5">
                     <div>Text input</div>
-                    <div className="text-xs text-subtitle">
+                    <div className="text-sm text-subtitle">
                       Short text answer
                     </div>
                   </div>
@@ -1413,7 +1633,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1422,7 +1642,7 @@ const FormBuilder = () => {
                   </svg>
                   <div className="space-y-0.5">
                     <div>Text area</div>
-                    <div className="text-xs text-subtitle">
+                    <div className="text-sm text-subtitle">
                       Long text answer
                     </div>
                   </div>
@@ -1433,7 +1653,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 640 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1442,7 +1662,7 @@ const FormBuilder = () => {
                   </svg>
                   <div className="space-y-0.5">
                     <div>Number</div>
-                    <div className="text-xs text-subtitle">
+                    <div className="text-sm text-subtitle">
                       Only allows a number input
                     </div>
                   </div>
@@ -1453,7 +1673,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1462,7 +1682,7 @@ const FormBuilder = () => {
                   </svg>
                   <div className="space-y-0.5">
                     <div>Dropdown</div>
-                    <div className="text-xs text-subtitle">
+                    <div className="text-sm text-subtitle">
                       Single selection menu
                     </div>
                   </div>
@@ -1473,7 +1693,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1482,7 +1702,7 @@ const FormBuilder = () => {
                   </svg>
                   <div className="space-y-0.5">
                     <div>Radio</div>
-                    <div className="text-xs text-subtitle">Multiple choice</div>
+                    <div className="text-sm text-subtitle">Multiple choice</div>
                   </div>
                 </div>
               </Option>
@@ -1491,7 +1711,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1500,7 +1720,7 @@ const FormBuilder = () => {
                   </svg>
                   <div className="space-y-0.5">
                     <div>Checkbox</div>
-                    <div className="text-xs text-subtitle">
+                    <div className="text-sm text-subtitle">
                       Select one or multiple options
                     </div>
                   </div>
@@ -1511,7 +1731,7 @@ const FormBuilder = () => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
-                    className="w-4 h-4 text-neutral-400"
+                    className="w-4 h-4 text-neutral-400 shrink-0"
                   >
                     <path
                       fill="currentColor"
@@ -1520,7 +1740,7 @@ const FormBuilder = () => {
                   </svg>
                   <div className="space-y-0.5">
                     <div>Date</div>
-                    <div className="text-xs text-subtitle">Select a date</div>
+                    <div className="text-sm text-subtitle">Select a date</div>
                   </div>
                 </div>
               </Option>
@@ -1658,6 +1878,15 @@ const FormBuilder = () => {
           )}
         </Form>
       </Drawer>
+      <Modal
+        title={formName}
+        visible={isPreviewVisible}
+        onCancel={() => setIsPreviewVisible(false)}
+        footer={null}
+        width={425}
+      >
+        <FormPreview fields={formFields} description={formDescription} />
+      </Modal>
     </div>
   );
 };

@@ -445,10 +445,11 @@ const FormBuilder = () => {
     const newFieldId = fieldIdCounter;
     setFieldIdCounter((prevId) => prevId + 1); // Increment the counter for next use
 
-    let fieldToAdd;
+    let fieldToAdd: CustomField;
     if (type === "Header") {
       fieldToAdd = {
         id: 111,
+        dataGroup: "Contact",
         label: "form_title",
         value: "",
         fieldName: "Header",
@@ -457,19 +458,20 @@ const FormBuilder = () => {
     } else if (type === "Description") {
       fieldToAdd = {
         id: 112,
+        dataGroup: "Contact",
         label: "form_description",
         value: "",
         fieldName: "Description",
         inputType: "Text area",
       };
-    } else if (type === "Divider") {
-      fieldToAdd = {
-        id: 113,
-        label: "form_divider",
-        fieldName: "Divider",
-        inputType: "Divider",
-      };
-    }
+    } else type === "Divider";
+    fieldToAdd = {
+      id: 113,
+      dataGroup: "Contact",
+      label: "form_divider",
+      fieldName: "Divider",
+      inputType: "Divider",
+    };
 
     const newField = {
       ...fieldToAdd,

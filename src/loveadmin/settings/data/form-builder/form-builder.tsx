@@ -445,9 +445,8 @@ const FormBuilder = () => {
     const newFieldId = fieldIdCounter;
     setFieldIdCounter((prevId) => prevId + 1); // Increment the counter for next use
 
-    let fieldToAdd: CustomField;
     if (type === "Header") {
-      fieldToAdd = {
+      const fieldToAdd: CustomField = {
         id: 111,
         dataGroup: "Contact",
         label: "form_title",
@@ -455,8 +454,16 @@ const FormBuilder = () => {
         fieldName: "Header",
         inputType: "Text input",
       };
+      setFormFields((prevFields) => [
+        ...prevFields,
+        {
+          ...fieldToAdd,
+          id: newFieldId,
+          originalId: fieldToAdd?.id,
+        },
+      ]);
     } else if (type === "Description") {
-      fieldToAdd = {
+      const fieldToAdd: CustomField = {
         id: 112,
         dataGroup: "Contact",
         label: "form_description",
@@ -464,23 +471,33 @@ const FormBuilder = () => {
         fieldName: "Description",
         inputType: "Text area",
       };
-    } else type === "Divider";
-    fieldToAdd = {
-      id: 113,
-      dataGroup: "Contact",
-      label: "form_divider",
-      fieldName: "Divider",
-      inputType: "Divider",
-    };
+      setFormFields((prevFields) => [
+        ...prevFields,
+        {
+          ...fieldToAdd,
+          id: newFieldId,
+          originalId: fieldToAdd?.id,
+        },
+      ]);
+    } else if (type === "Divider") {
+      const fieldToAdd: CustomField = {
+        id: 113,
+        dataGroup: "Contact",
+        label: "form_divider",
+        fieldName: "Divider",
+        inputType: "Divider",
+      };
 
-    const newField = {
-      ...fieldToAdd,
-      id: newFieldId,
-      originalId: fieldToAdd?.id,
-    };
-
-    // Add the new field to the formFields state
-    setFormFields((prevFields) => [...prevFields, newField]);
+      // Add the new field to the formFields state
+      setFormFields((prevFields) => [
+        ...prevFields,
+        {
+          ...fieldToAdd,
+          id: newFieldId,
+          originalId: fieldToAdd?.id,
+        },
+      ]);
+    }
   };
 
   const handleUpdateAdditionalField = (editFieldId: number, value: string) => {

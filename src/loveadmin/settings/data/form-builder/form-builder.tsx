@@ -93,7 +93,60 @@ interface OptionItem {
 }
 
 const fieldData: Record<Group, CustomField[]> = {
-  Contact: [],
+  Contact: [
+    {
+      id: 1,
+      label: "Swim club ID",
+      fieldName: "Swim Club ID",
+      inputType: "Text input",
+      dataGroup: "Contact",
+    },
+    {
+      id: 2,
+      label: "Additional notes",
+      fieldName: "Additional Notes",
+      inputType: "Text area",
+      dataGroup: "Contact",
+    },
+    {
+      id: 3,
+      label: "Years of swimming experience",
+      fieldName: "Years of Experience",
+      inputType: "Number",
+      dataGroup: "Contact",
+    },
+    {
+      id: 4,
+      label: "Preferred swim category",
+      fieldName: "Preferred Swim Category",
+      inputType: "Dropdown",
+      options: ["Competitive", "Recreational", "Masters", "Open Water"],
+      dataGroup: "Contact",
+    },
+    {
+      id: 5,
+      label: "Preferred training time",
+      fieldName: "Preferred Training Time",
+      inputType: "Radio",
+      options: ["Morning", "Afternoon", "Evening"],
+      dataGroup: "Contact",
+    },
+    {
+      id: 6,
+      label: "Equipment rental",
+      fieldName: "Equipment Rental",
+      inputType: "Checkbox",
+      options: ["Goggles", "Fins", "Kickboard", "Pull Buoy"],
+      dataGroup: "Contact",
+    },
+    {
+      id: 7,
+      label: "Membership renewal date",
+      fieldName: "Membership Renewal Date",
+      inputType: "Date",
+      dataGroup: "Contact",
+    },
+  ],
   "Internal Contact": [],
   // "Internal Product": [],
 };

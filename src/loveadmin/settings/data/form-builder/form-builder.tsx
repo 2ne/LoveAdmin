@@ -1133,7 +1133,7 @@ const FormBuilder = () => {
                                   <div className="relative w-full text-center">
                                     <div className="w-full h-px mt-px bg-neutral-300/75"></div>
                                     <div className="absolute m-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                                      <div className="relative px-3 text-xs font-medium bg-white -top-px text-neutral-500">
+                                      <div className="relative px-3 text-xs font-medium bg-white -top-px text-neutral-400">
                                         Divider
                                       </div>
                                     </div>

@@ -81,7 +81,8 @@ type InputType =
   | "Dropdown"
   | "Radio"
   | "Checkbox"
-  | "Date";
+  | "Date"
+  | "Divider";
 
 export interface CustomField {
   id: number;
@@ -89,6 +90,7 @@ export interface CustomField {
   fieldName: string;
   label: string;
   inputType: InputType;
+  value?: string;
   options?: string[];
   originalId?: number;
   isDragged?: boolean;
@@ -439,6 +441,61 @@ const FormBuilder = () => {
     ));
   };
 
+  const addAdditionalFieldToFrom = (type: string) => {
+    const newFieldId = fieldIdCounter;
+    setFieldIdCounter((prevId) => prevId + 1); // Increment the counter for next use
+
+    let fieldToAdd;
+    if (type === "Header") {
+      fieldToAdd = {
+        id: 111,
+        label: "form_title",
+        value: "",
+        fieldName: "Header",
+        inputType: "Text input",
+      };
+    } else if (type === "Description") {
+      fieldToAdd = {
+        id: 112,
+        label: "form_description",
+        value: "",
+        fieldName: "Description",
+        inputType: "Text area",
+      };
+    } else if (type === "Divider") {
+      fieldToAdd = {
+        id: 113,
+        label: "form_divider",
+        fieldName: "Divider",
+        inputType: "Divider",
+      };
+    }
+
+    const newField = {
+      ...fieldToAdd,
+      id: newFieldId,
+      originalId: fieldToAdd?.id,
+    };
+
+    // Add the new field to the formFields state
+    setFormFields((prevFields) => [...prevFields, newField]);
+  };
+
+  const handleUpdateAdditionalField = (editFieldId: number, value: string) => {
+    console.log("form", editFieldId, value);
+    setFormFields((prevFields) =>
+      prevFields.map((field) => {
+        if (field.id === editFieldId) {
+          return {
+            ...field,
+            value: value,
+          };
+        }
+        return field;
+      })
+    );
+  };
+
   // Cascading Dropdown Menu
   const menu = (
     <Menu>
@@ -447,13 +504,25 @@ const FormBuilder = () => {
       {formFields.length > 0 && (
         <>
           <Menu.Divider />
-          <Menu.Item key={997} icon={<FontSizeOutlined />}>
+          <Menu.Item
+            onClick={() => addAdditionalFieldToFrom("Header")}
+            key={997}
+            icon={<FontSizeOutlined />}
+          >
             Header
           </Menu.Item>
-          <Menu.Item key={998} icon={<AlignLeftOutlined />}>
+          <Menu.Item
+            onClick={() => addAdditionalFieldToFrom("Description")}
+            key={998}
+            icon={<AlignLeftOutlined />}
+          >
             Description
           </Menu.Item>
-          <Menu.Item key={999} icon={<LineOutlined />}>
+          <Menu.Item
+            onClick={() => addAdditionalFieldToFrom("Divider")}
+            key={999}
+            icon={<LineOutlined />}
+          >
             Divider
           </Menu.Item>
         </>
@@ -1064,138 +1133,211 @@ const FormBuilder = () => {
                             }`}
                           >
                             <HolderOutlined className="text-neutral-400" />
-                            <div className="flex-grow">
-                              <div className="mt-5 mb-6">
-                                <div className="flex items-center gap-2 mb-2.5">
-                                  <div className="font-medium">
-                                    {field.label}
-                                  </div>
-                                  <Tag
-                                    colour={mapGroupToColour[field.dataGroup]}
-                                  >
-                                    {field.dataGroup}
-                                  </Tag>
-
-                                  {field.dataGroup ===
-                                    ("Internal Contact" ||
-                                      "Internal Product") && (
-                                    <Tag colour="neutral">Hidden</Tag>
-                                  )}
-                                </div>
+                            {field.label == "form_title" ||
+                            field.label === "form_description" ||
+                            field.label === "form_divider" ? (
+                              <div className="flex justify-center items-center w-full mt-5 mb-6">
+                                {/* Additional Field */}
                                 {field.inputType === "Text input" && (
-                                  <div className="pointer-events-none">
+                                  <div className=" w-full">
                                     <Input
-                                      className="w-72"
+                                      className="w-full"
                                       placeholder="Enter here..."
+                                      value={field?.value}
+                                      onChange={(e) =>
+                                        handleUpdateAdditionalField(
+                                          field?.id,
+                                          e.target.value
+                                        )
+                                      }
                                     />
                                   </div>
                                 )}
-                                {field.inputType === "Dropdown" && (
-                                  <Select
-                                    className="pointer-events-none"
-                                    style={{ width: 150 }}
-                                    placeholder={`Select...`}
-                                  >
-                                    {field.options?.map((option) => (
-                                      <Option key={option} value={option}>
-                                        {option}
-                                      </Option>
-                                    ))}
-                                  </Select>
-                                )}
+
                                 {field.inputType === "Text area" && (
-                                  <div className="pointer-events-none">
+                                  <div className="w-full">
                                     <TextArea
                                       rows={3}
-                                      className="w-72"
+                                      className="w-full"
                                       placeholder="Enter here..."
+                                      value={field?.value}
+                                      onChange={(e) =>
+                                        handleUpdateAdditionalField(
+                                          field?.id,
+                                          e.target.value
+                                        )
+                                      }
                                     />
                                   </div>
                                 )}
-                                {field.inputType === "Number" && (
-                                  <div className="pointer-events-none">
-                                    <InputNumber
-                                      className="w-40"
-                                      placeholder="Enter here..."
-                                      onKeyPress={(event) => {
-                                        if (!/[0-9]/.test(event.key)) {
-                                          event.preventDefault();
-                                        }
+
+                                {field.inputType === "Divider" && (
+                                  <div className="w-full pr-4">
+                                    <div
+                                      style={{
+                                        backgroundColor: "black",
                                       }}
-                                    />
+                                      className="h-[2px] w-full"
+                                    ></div>
                                   </div>
                                 )}
-                                {field.inputType === "Radio" && (
-                                  <div className="flex flex-col gap-0.5 -mt-0.5 pointer-events-none">
-                                    {field.options?.map(
-                                      (option, optionIndex) => (
-                                        <Radio.Group key={optionIndex}>
-                                          <Radio value={option}>{option}</Radio>
-                                        </Radio.Group>
-                                      )
-                                    )}
-                                  </div>
-                                )}
-                                {field.inputType === "Checkbox" && (
-                                  <div className="flex flex-col gap-0.5 -mt-0.5 pointer-events-none">
-                                    {field.options?.map(
-                                      (option, optionIndex) => (
-                                        <Checkbox.Group key={optionIndex}>
-                                          <Checkbox value={option}>
-                                            {option}
-                                          </Checkbox>
-                                        </Checkbox.Group>
-                                      )
-                                    )}
-                                  </div>
-                                )}
-                                {field.inputType === "Date" && (
-                                  <div className="pointer-events-none">
-                                    <DatePicker className="w-40" />
-                                  </div>
-                                )}
+
+                                <Tooltip title="Remove field">
+                                  <Button
+                                    type="text"
+                                    icon={
+                                      <svg
+                                        fillRule="evenodd"
+                                        viewBox="64 64 896 896"
+                                        focusable="false"
+                                        data-icon="close"
+                                        width="1em"
+                                        height="1em"
+                                        fill="currentColor"
+                                      >
+                                        <path d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"></path>
+                                      </svg>
+                                    }
+                                    onClick={() => deleteField(field.id)}
+                                  ></Button>
+                                </Tooltip>
                               </div>
-                              <div className="flex gap-2 py-2.5 transition-opacity border-t border-neutral-200">
-                                <div className="flex items-center min-w-0">
-                                  <Switch size="small"></Switch>
-                                  <div className="flex items-center min-w-0 cursor-default">
-                                    <div className="ml-2 mr-1.5 cursor-pointer truncate text-neutral-700 relative -top-px">
-                                      Required
+                            ) : (
+                              <div className="flex-grow">
+                                <div className="mt-5 mb-6">
+                                  <div className="flex items-center gap-2 mb-2.5">
+                                    <div className="font-medium">
+                                      {field.label}
+                                    </div>
+                                    <Tag
+                                      colour={mapGroupToColour[field.dataGroup]}
+                                    >
+                                      {field.dataGroup}
+                                    </Tag>
+
+                                    {field.dataGroup ===
+                                      ("Internal Contact" ||
+                                        "Internal Product") && (
+                                      <Tag colour="neutral">Hidden</Tag>
+                                    )}
+                                  </div>
+                                  {field.inputType === "Text input" && (
+                                    <div className="pointer-events-none">
+                                      <Input
+                                        className="w-72"
+                                        placeholder="Enter here..."
+                                      />
+                                    </div>
+                                  )}
+                                  {field.inputType === "Dropdown" && (
+                                    <Select
+                                      className="pointer-events-none"
+                                      style={{ width: 150 }}
+                                      placeholder={`Select...`}
+                                    >
+                                      {field.options?.map((option) => (
+                                        <Option key={option} value={option}>
+                                          {option}
+                                        </Option>
+                                      ))}
+                                    </Select>
+                                  )}
+                                  {field.inputType === "Text area" && (
+                                    <div className="pointer-events-none">
+                                      <TextArea
+                                        rows={3}
+                                        className="w-72"
+                                        placeholder="Enter here..."
+                                      />
+                                    </div>
+                                  )}
+                                  {field.inputType === "Number" && (
+                                    <div className="pointer-events-none">
+                                      <InputNumber
+                                        className="w-40"
+                                        placeholder="Enter here..."
+                                        onKeyPress={(event) => {
+                                          if (!/[0-9]/.test(event.key)) {
+                                            event.preventDefault();
+                                          }
+                                        }}
+                                      />
+                                    </div>
+                                  )}
+                                  {field.inputType === "Radio" && (
+                                    <div className="flex flex-col gap-0.5 -mt-0.5 pointer-events-none">
+                                      {field.options?.map(
+                                        (option, optionIndex) => (
+                                          <Radio.Group key={optionIndex}>
+                                            <Radio value={option}>
+                                              {option}
+                                            </Radio>
+                                          </Radio.Group>
+                                        )
+                                      )}
+                                    </div>
+                                  )}
+                                  {field.inputType === "Checkbox" && (
+                                    <div className="flex flex-col gap-0.5 -mt-0.5 pointer-events-none">
+                                      {field.options?.map(
+                                        (option, optionIndex) => (
+                                          <Checkbox.Group key={optionIndex}>
+                                            <Checkbox value={option}>
+                                              {option}
+                                            </Checkbox>
+                                          </Checkbox.Group>
+                                        )
+                                      )}
+                                    </div>
+                                  )}
+                                  {field.inputType === "Date" && (
+                                    <div className="pointer-events-none">
+                                      <DatePicker className="w-40" />
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex gap-2 py-2.5 transition-opacity border-t border-neutral-200">
+                                  <div className="flex items-center min-w-0">
+                                    <Switch size="small"></Switch>
+                                    <div className="flex items-center min-w-0 cursor-default">
+                                      <div className="ml-2 mr-1.5 cursor-pointer truncate text-neutral-700 relative -top-px">
+                                        Required
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                                <div className="flex gap-2 ml-auto">
-                                  <Tooltip title="Edit field">
-                                    <Button
-                                      type="text"
-                                      icon={<EditOutlined />}
-                                      onClick={() =>
-                                        openDrawer(field.id, field.dataGroup)
-                                      }
-                                    />
-                                  </Tooltip>
-                                  <Tooltip title="Remove field">
-                                    <Button
-                                      type="text"
-                                      icon={
-                                        <svg
-                                          fillRule="evenodd"
-                                          viewBox="64 64 896 896"
-                                          focusable="false"
-                                          data-icon="close"
-                                          width="1em"
-                                          height="1em"
-                                          fill="currentColor"
-                                        >
-                                          <path d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"></path>
-                                        </svg>
-                                      }
-                                      onClick={() => deleteField(field.id)}
-                                    ></Button>
-                                  </Tooltip>
+                                  <div className="flex gap-2 ml-auto">
+                                    <Tooltip title="Edit field">
+                                      <Button
+                                        type="text"
+                                        icon={<EditOutlined />}
+                                        onClick={() =>
+                                          openDrawer(field.id, field.dataGroup)
+                                        }
+                                      />
+                                    </Tooltip>
+                                    <Tooltip title="Remove field">
+                                      <Button
+                                        type="text"
+                                        icon={
+                                          <svg
+                                            fillRule="evenodd"
+                                            viewBox="64 64 896 896"
+                                            focusable="false"
+                                            data-icon="close"
+                                            width="1em"
+                                            height="1em"
+                                            fill="currentColor"
+                                          >
+                                            <path d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"></path>
+                                          </svg>
+                                        }
+                                        onClick={() => deleteField(field.id)}
+                                      ></Button>
+                                    </Tooltip>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
                           </div>
                         )}
                       </Draggable>

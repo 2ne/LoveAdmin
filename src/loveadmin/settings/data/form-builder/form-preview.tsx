@@ -22,9 +22,7 @@ interface FormPreviewProps {
 
 const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
   const visibleFields = fields.filter(
-    (field) =>
-      field.dataGroup !== "Internal Contact" &&
-      field.dataGroup !== "Internal Product"
+    (field) => field.dataGroup !== "Internal Contact"
   );
   return (
     <Form layout="vertical">

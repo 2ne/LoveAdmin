@@ -47,31 +47,21 @@ const { Option } = Select;
 const { Content } = Layout;
 const { Panel } = Collapse;
 
-type Group =
-  | "Beneficiary"
-  | "Account Owner"
-  | "Internal Contact"
-  | "Internal Product";
+type Group = "Contact" | "Internal Contact";
 
 const mapGroupToColour: Record<NonNullable<Group>, Colours> = {
-  Beneficiary: "primary",
-  "Account Owner": "pink",
-  "Internal Contact": "success",
-  "Internal Product": "neutral",
+  Contact: "primary",
+  "Internal Contact": "pink",
 };
 
 const mapGroupToText: Record<NonNullable<Group>, string> = {
-  Beneficiary: "text-primary-600 hover:text-primary-600",
-  "Account Owner": "text-pink-600 hover:text-pink-600",
-  "Internal Contact": "text-success-600 hover:text-success-600",
-  "Internal Product": "text-neutral-600 hover:text-neutral-600",
+  Contact: "text-primary-600 hover:text-primary-600",
+  "Internal Contact": "text-pink-600 hover:text-pink-600",
 };
 
 const mapGroupToBorder: Record<NonNullable<Group>, string> = {
-  Beneficiary: "border-l-4 border-primary-500 hover:ring-primary-500",
-  "Account Owner": "border-l-4 border-pink-500 hover:ring-pink-500",
-  "Internal Contact": "border-l-4 border-success-500 hover:ring-success-500",
-  "Internal Product": "border-l-4 border-neutral-400 hover:ring-neutral-400",
+  Contact: "border-l-4 border-primary-500 hover:ring-primary-500",
+  "Internal Contact": "border-l-4 border-pink-500 hover:ring-pink-500",
 };
 
 type InputType =
@@ -103,74 +93,69 @@ interface OptionItem {
 }
 
 const fieldData: Record<Group, CustomField[]> = {
-  Beneficiary: [
+  Contact: [
     {
       id: 1,
       label: "Swim club ID",
-      fieldName: "Beneficiary Swim Club ID",
+      fieldName: "Swim Club ID",
       inputType: "Text input",
-      dataGroup: "Beneficiary",
+      dataGroup: "Contact",
     },
     {
       id: 2,
       label: "Additional notes",
-      fieldName: "Beneficiary Additional Notes",
+      fieldName: "Additional Notes",
       inputType: "Text area",
-      dataGroup: "Beneficiary",
+      dataGroup: "Contact",
     },
     {
       id: 3,
       label: "Years of swimming experience",
-      fieldName: "Beneficiary Years of Experience",
+      fieldName: "Years of Experience",
       inputType: "Number",
-      dataGroup: "Beneficiary",
+      dataGroup: "Contact",
     },
     {
       id: 4,
       label: "Preferred swim category",
-      fieldName: "Beneficiary Preferred Swim Category",
+      fieldName: "Preferred Swim Category",
       inputType: "Dropdown",
       options: ["Competitive", "Recreational", "Masters", "Open Water"],
-      dataGroup: "Beneficiary",
+      dataGroup: "Contact",
     },
     {
       id: 5,
       label: "Preferred training time",
-      fieldName: "Beneficiary Preferred Training Time",
+      fieldName: "Preferred Training Time",
       inputType: "Radio",
       options: ["Morning", "Afternoon", "Evening"],
-      dataGroup: "Beneficiary",
+      dataGroup: "Contact",
     },
     {
       id: 6,
       label: "Equipment rental",
-      fieldName: "Beneficiary Equipment Rental",
+      fieldName: "Equipment Rental",
       inputType: "Checkbox",
       options: ["Goggles", "Fins", "Kickboard", "Pull Buoy"],
-      dataGroup: "Beneficiary",
+      dataGroup: "Contact",
     },
     {
       id: 7,
       label: "Membership renewal date",
-      fieldName: "Beneficiary Membership Renewal Date",
+      fieldName: "Membership Renewal Date",
       inputType: "Date",
-      dataGroup: "Beneficiary",
+      dataGroup: "Contact",
     },
   ],
-  "Account Owner": [],
   "Internal Contact": [],
   // "Internal Product": [],
 };
 
 const groupDescriptions: Record<NonNullable<Group>, string> = {
-  Beneficiary:
-    "Beneficiaries are participants of products, usually a child. Add a custom field to store more information about them",
-  "Account Owner":
-    "An Account Owner is the person paying for the product, usually the parent. Add a custom field to store more information about them",
+  Contact:
+    "Contacts are participants of products. Add a custom field to store more information about them",
   "Internal Contact":
-    "Internal Contact fields are used to add more information to a contact. This field will not show on product forms and is only used to collect additional internal information",
-  "Internal Product":
-    "Internal Product fields are used to add more information to products. This field will not show on product forms and is only used to collect additional internal information",
+    "Internal Contact fields are used to add more information to a contact. This field will not show on Customer Forms and are only viewable by the organisation",
 };
 
 const FormBuilder = () => {
@@ -191,8 +176,7 @@ const FormBuilder = () => {
   const [editFieldId, setEditFieldId] = useState<number | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [isAddDrawerVisible, setIsAddDrawerVisible] = useState(false);
-  const [isAddDrawerTitle, setIsAddDrawerTitle] =
-    useState<Group>("Beneficiary");
+  const [isAddDrawerTitle, setIsAddDrawerTitle] = useState<Group>("Contact");
   const [newInputType, setNewInputType] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
   const [options, setOptions] = useState<OptionItem[]>([]);
@@ -687,7 +671,7 @@ const FormBuilder = () => {
   };
 
   const closeAddDrawer = () => {
-    setIsAddDrawerTitle("Beneficiary");
+    setIsAddDrawerTitle("Contact");
 
     // Reset the form fields
     form.resetFields();
@@ -749,23 +733,16 @@ const FormBuilder = () => {
   };
 
   const onDrawerAddFormFinish = (values: any) => {
-    const formattedGroupName = isAddDrawerTitle
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-    const formattedLabel = values.label.toLowerCase();
-    const combinedName = `${formattedGroupName} ${formattedLabel}`;
-
     const newField = {
       ...values,
       options: options.map((option) => option.value),
       id: allFields.length + 1,
-      fieldName: combinedName,
+      fieldName: values.label,
       dataGroup: isAddDrawerTitle,
       dateRange: values.inputType === "Date" ? values.dateRange : undefined,
     };
 
-    message.success(`${combinedName} field created`);
+    message.success(`${values.label} field created`);
 
     setFieldsDataSet((prevFieldsDataSet) => ({
       ...prevFieldsDataSet,
@@ -914,16 +891,6 @@ const FormBuilder = () => {
                                       title={
                                         <span>
                                           {groupDescriptions[type as Group]}.
-                                          Visit our{" "}
-                                          <a
-                                            href="https://www.google.com"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-white underline hover:text-primary-300"
-                                          >
-                                            help guide
-                                          </a>{" "}
-                                          for more information.
                                         </span>
                                       }
                                     >
@@ -955,7 +922,7 @@ const FormBuilder = () => {
                               key={1}
                               header={
                                 <span>
-                                  <span>Beneficiary</span>
+                                  <span>Contact</span>
                                 </span>
                               }
                             >
@@ -963,30 +930,13 @@ const FormBuilder = () => {
                                 type="link"
                                 className={`px-0`}
                                 icon={<PlusOutlined />}
-                                onClick={() => openAddDrawer("Beneficiary")}
+                                onClick={() => openAddDrawer("Contact")}
                               >
-                                Beneficiary field
+                                Contact field
                               </Button>
                             </Panel>
                             <Panel
                               key={2}
-                              header={
-                                <span>
-                                  <span>Account Owner</span>
-                                </span>
-                              }
-                            >
-                              <Button
-                                type="link"
-                                className={`px-0 `}
-                                icon={<PlusOutlined />}
-                                onClick={() => openAddDrawer("Account Owner")}
-                              >
-                                Account owner field
-                              </Button>
-                            </Panel>
-                            <Panel
-                              key={3}
                               header={
                                 <span>
                                   <span>Internal Contact</span>
@@ -1002,25 +952,6 @@ const FormBuilder = () => {
                                 }
                               >
                                 Internal contact field
-                              </Button>
-                            </Panel>
-                            <Panel
-                              key={4}
-                              header={
-                                <span>
-                                  <span>Internal Product</span>
-                                </span>
-                              }
-                            >
-                              <Button
-                                type="link"
-                                className={`px-0 `}
-                                icon={<PlusOutlined />}
-                                onClick={() =>
-                                  openAddDrawer("Internal Product")
-                                }
-                              >
-                                Internal product field
                               </Button>
                             </Panel>
                           </Collapse>
@@ -1215,9 +1146,7 @@ const FormBuilder = () => {
                                       {field.dataGroup}
                                     </Tag>
 
-                                    {field.dataGroup ===
-                                      ("Internal Contact" ||
-                                        "Internal Product") && (
+                                    {field.dataGroup === "Internal Contact" && (
                                       <Tag colour="neutral">Hidden</Tag>
                                     )}
                                   </div>
@@ -1428,8 +1357,11 @@ const FormBuilder = () => {
           requiredMark={false}
           className="[&_.ant-form-item-label]:w-[47px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
+          <Form.Item label="Group" className="!mb-4">
+            <div>{isAddDrawerTitle}</div>
+          </Form.Item>
           {editFieldId && (
-            <Form.Item label="Name">
+            <Form.Item label="Name" className="!mb-4">
               <div>
                 {
                   formFields.find((field) => field.id === editFieldId)
@@ -1439,7 +1371,7 @@ const FormBuilder = () => {
             </Form.Item>
           )}
           {editFieldId && (
-            <Form.Item label="Type" className="-mt-1">
+            <Form.Item label="Type">
               <div className="flex items-center gap-2">
                 {formFields.find((field) => field.id === editFieldId)
                   ?.inputType === "Text input" && (

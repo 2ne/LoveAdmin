@@ -22,13 +22,14 @@ interface FormPreviewProps {
 
 const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
   const visibleFields = fields.filter(
-    (field) =>
-      field.dataGroup !== "Internal Contact" &&
-      field.dataGroup !== "Internal Product"
+    (field) => field.dataGroup !== "Internal Contact"
   );
   return (
     <Form layout="vertical">
-      {description && <Paragraph className="mb-6">{description}</Paragraph>}
+      {description && (
+        <Paragraph className="mb-6 text-sm">{description}</Paragraph>
+      )}
+      <Divider />
       {visibleFields.length === 0 && (
         <Paragraph className="p-8 text-center border rounded text-subtitle border-neutral-200">
           No fields have been added yet.
@@ -61,7 +62,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
               );
           case "Text area":
             if (field.label === "form_description") {
-              return <Paragraph>{field?.value}</Paragraph>;
+              return <Paragraph className="text-sm">{field?.value}</Paragraph>;
             } else
               return (
                 <Form.Item key={field.id} label={field.label}>
@@ -131,7 +132,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             );
 
           case "Divider":
-            return <Divider className="mb-3" />;
+            return <Divider />;
           default:
             return null;
         }

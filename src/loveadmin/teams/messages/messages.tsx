@@ -266,8 +266,8 @@ const Messages: React.FC<MessagesProps> = ({ squad }) => {
 
   const messageMenu = (
     <Menu onClick={handleMessageMenuClick}>
-      <Menu.Item key="sms">Send SMS</Menu.Item>
-      <Menu.Item key="email">Send email</Menu.Item>
+      <Menu.Item key="sms">SMS</Menu.Item>
+      <Menu.Item key="email">Email</Menu.Item>
     </Menu>
   );
 

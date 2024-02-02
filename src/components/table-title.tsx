@@ -15,7 +15,7 @@ interface TableTitleProps {
   onUnselectAll?: () => void;
 }
 
-const Separator: React.FC<TableTitleProps> = (small) => (
+const Separator: React.FC = (small) => (
   <span className={`text-subtitle ${small ? "mx-1" : "mx-1.5"}`}>·</span>
 );
 

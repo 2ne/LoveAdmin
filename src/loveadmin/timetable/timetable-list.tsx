@@ -3,13 +3,8 @@ import { TimetableEvent } from "./events";
 import { Dropdown, Menu, Table, Tooltip } from "antd";
 import {
   CheckSquareOutlined,
-  CreditCardOutlined,
-  DownOutlined,
   MailOutlined,
-  PlusOutlined,
   RightOutlined,
-  SwapOutlined,
-  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import TableActions from "../../components/table-actions";
@@ -19,9 +14,7 @@ const formatEventDate = (date?: Date) => {
 
   const dayjsDate = dayjs(date);
   const yearFormat =
-    dayjsDate.year() === dayjs().year()
-      ? "DD MMMM, dddd"
-      : "DD MMMM YYYY, dddd";
+    dayjsDate.year() === dayjs().year() ? "D MMMM, dddd" : "D MMMM YYYY, dddd";
   const formattedDate = dayjsDate.format(yearFormat);
 
   // Extract the day and the rest of the date
@@ -283,44 +276,46 @@ const TimetableList: React.FC<TimetableListProps> = ({
 
   return (
     <div className="relative @container">
-      <TableActions
-        isVisible={selectedRowKeys.length > 0}
-        className="ml-[2.15rem] @[1200px]:ml-[2.68%] !top-px !from-white !to-white/50 [&>div]:bg-white [&>div:after]:from-white [&>div:after]:via-white/95"
-      >
-        <div className="font-medium whitespace-nowrap ml-[-3px]">
-          {selectedRowKeys.length} selected
-        </div>
-        <div className="text-neutral-400">|</div>
-        <div className="flex items-center gap-4">
-          <Dropdown
-            placement="bottomLeft"
-            getPopupContainer={() => document.body}
-            overlayStyle={{ position: "fixed" }}
-            overlay={
-              <Menu>
-                <Menu.Item key="1">Email</Menu.Item>
-                <Menu.Item key="2">SMS</Menu.Item>
-              </Menu>
-            }
-            trigger={["click"]}
-          >
+      <div className="absolute left-0 right-0 overflow-hidden h-[36px] top-px">
+        <TableActions
+          isVisible={selectedRowKeys.length > 0}
+          className="ml-[2.15rem] @[1200px]:ml-[2.68%] !top-px !from-white !to-white/50 [&>div]:bg-white [&>div:after]:from-white [&>div:after]:via-white/95"
+        >
+          <div className="font-medium whitespace-nowrap ml-[-3px]">
+            {selectedRowKeys.length} selected
+          </div>
+          <div className="text-neutral-400">|</div>
+          <div className="flex items-center gap-4">
+            <Dropdown
+              placement="bottomLeft"
+              getPopupContainer={() => document.body}
+              overlayStyle={{ position: "fixed" }}
+              overlay={
+                <Menu>
+                  <Menu.Item key="1">Email</Menu.Item>
+                  <Menu.Item key="2">SMS</Menu.Item>
+                </Menu>
+              }
+              trigger={["click"]}
+            >
+              <a
+                onClick={(e) => e.preventDefault()}
+                className="flex gap-2 font-medium text-neutral-900"
+              >
+                <MailOutlined />
+                <span>Message class</span>
+              </a>
+            </Dropdown>
             <a
               onClick={(e) => e.preventDefault()}
               className="flex gap-2 font-medium text-neutral-900"
             >
-              <MailOutlined />
-              <span>Message class</span>
+              <CheckSquareOutlined />
+              <span>Attendance</span>
             </a>
-          </Dropdown>
-          <a
-            onClick={(e) => e.preventDefault()}
-            className="flex gap-2 font-medium text-neutral-900"
-          >
-            <CheckSquareOutlined />
-            <span>Attendance</span>
-          </a>
-        </div>
-      </TableActions>
+          </div>
+        </TableActions>
+      </div>
       <Table
         rowSelection={rowSelection}
         columns={columns}

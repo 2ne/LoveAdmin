@@ -14,24 +14,17 @@ import LoveAdminHeader from "../../../../components/header";
 import { Link } from "react-router-dom";
 import TableFooter from "../../../../components/table-footer";
 import {
-  CopyOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  EllipsisOutlined,
   InfoCircleOutlined,
-  MailOutlined,
   PlusOutlined,
   SearchOutlined,
-  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import TableTitle from "../../../../components/table-title";
 import { ColumnsType, SortOrder } from "antd/es/table/interface";
 import { formatDate } from "../../../../components/date-formatter";
-import TableActions from "../../../../components/table-actions";
 
 const { Content } = Layout;
 
-interface EnquiryCustomer {
+interface CustomerForm {
   id: number;
   name: string;
   associatedProducts: string[];
@@ -42,13 +35,11 @@ interface EnquiryCustomer {
 }
 
 const CustomerForms: React.FC = () => {
-  const [EnquiryCustomers, setEnquiryCustomers] = useState<EnquiryCustomer[]>(
-    []
-  );
+  const [customerForms, setCustomerForms] = useState<CustomerForm[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   useEffect(() => {
-    const fetchedData: EnquiryCustomer[] = [
+    const fetchedData: CustomerForm[] = [
       {
         id: 1,
         name: "Form name 1",
@@ -68,15 +59,15 @@ const CustomerForms: React.FC = () => {
         updatedBy: "Gareth Mace",
       },
     ];
-    setEnquiryCustomers(fetchedData);
+    setCustomerForms(fetchedData);
   }, []);
 
-  const columns: ColumnsType<EnquiryCustomer> = [
+  const columns: ColumnsType<CustomerForm> = [
     {
       title: "Name",
       dataIndex: "formName",
       key: "formName",
-      render: (_, record: EnquiryCustomer) => (
+      render: (_, record: CustomerForm) => (
         <Link to="/Settings/Data/FormBuilder">{record.name}</Link>
       ),
       width: 170,
@@ -102,7 +93,7 @@ const CustomerForms: React.FC = () => {
       key: "created",
       align: "right",
       width: 180,
-      render: (text: string, record: EnquiryCustomer) => (
+      render: (text: string, record: CustomerForm) => (
         <Tooltip
           title={record.created ? formatDate(record.created, "full") : ""}
           placement="topRight"
@@ -123,7 +114,7 @@ const CustomerForms: React.FC = () => {
       defaultSortOrder: "ascend" as SortOrder,
       align: "right",
       width: 180,
-      render: (text: string, record: EnquiryCustomer) => (
+      render: (text: string, record: CustomerForm) => (
         <Tooltip
           title={record.updated ? formatDate(record.updated, "full") : ""}
           placement="topRight"
@@ -137,7 +128,7 @@ const CustomerForms: React.FC = () => {
           </div>
         </Tooltip>
       ),
-      sorter: (a: EnquiryCustomer, b: EnquiryCustomer) => {
+      sorter: (a: CustomerForm, b: CustomerForm) => {
         const dateA = a.updated?.getTime() || 0;
         const dateB = b.updated?.getTime() || 0;
         return dateA - dateB;
@@ -165,11 +156,17 @@ const CustomerForms: React.FC = () => {
         <Content>
           <div className="max-w-screen-xl p-4 mx-auto">
             <div className="md:items-center md:flex md:gap-2.5 max-md:space-y-2">
-              <TableTitle
-                title="Customer Forms"
-                totalRecords={EnquiryCustomers.length}
-                selectable={false}
-              />
+              <div>
+                <TableTitle
+                  title="Customer Forms"
+                  totalRecords={customerForms.length}
+                  selectable={false}
+                />
+                <div className="mt-0.5 text-subtitle">
+                  Gather additional registration information when products are
+                  purchased in your JoinIn Shop.
+                </div>
+              </div>
               <div className="flex items-center gap-3 ml-auto">
                 <Input
                   placeholder="Search..."
@@ -186,9 +183,10 @@ const CustomerForms: React.FC = () => {
                 </Tooltip>
               </div>
             </div>
+
             <div className="relative mt-5 md:mt-4">
               <Table
-                dataSource={EnquiryCustomers}
+                dataSource={customerForms}
                 columns={columns}
                 rowKey="id"
                 pagination={false}

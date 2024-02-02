@@ -29,6 +29,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
   return (
     <Form layout="vertical">
       {description && <Paragraph className="mb-6">{description}</Paragraph>}
+      <Divider />
       {visibleFields.length === 0 && (
         <Paragraph className="p-8 text-center border rounded text-subtitle border-neutral-200">
           No fields have been added yet.
@@ -131,7 +132,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             );
 
           case "Divider":
-            return <Divider className="mb-3" />;
+            return <Divider />;
           default:
             return null;
         }

@@ -68,10 +68,10 @@ const mapGroupToText: Record<NonNullable<Group>, string> = {
 };
 
 const mapGroupToBorder: Record<NonNullable<Group>, string> = {
-  Beneficiary: "border-primary-500 hover:ring-primary-500",
-  "Account Owner": "border-pink-500 hover:ring-pink-500",
-  "Internal Contact": "border-success-500 hover:ring-success-500",
-  "Internal Product": "border-neutral-400 hover:ring-neutral-400",
+  Beneficiary: "border-l-4 border-primary-500 hover:ring-primary-500",
+  "Account Owner": "border-l-4 border-pink-500 hover:ring-pink-500",
+  "Internal Contact": "border-l-4 border-success-500 hover:ring-success-500",
+  "Internal Product": "border-l-4 border-neutral-400 hover:ring-neutral-400",
 };
 
 type InputType =
@@ -308,7 +308,7 @@ const FormBuilder = () => {
                 ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
-                className={`flex items-center mb-2 gap-2 px-2.5 py-2 text-sm bg-white border-l-4 rounded shadow cursor-grab ring-1 ring-neutral-950/5 ${
+                className={`flex items-center mb-2 gap-2 px-2.5 py-2 text-sm bg-white rounded shadow cursor-grab ring-1 ring-neutral-950/5 ${
                   mapGroupToBorder[field.dataGroup]
                 } ${
                   clonedFields[field.id] ? "opacity-50 pointer-events-none" : ""
@@ -1128,7 +1128,7 @@ const FormBuilder = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`mb-4 flex gap-6 pl-3 pr-4 text-sm bg-white border-l-4 rounded shadow cursor-grab ring-1 ring-neutral-950/5 w-full max-w-[524px] select-none ${
+                            className={`mb-4 flex gap-6 pl-3 pr-4 text-sm bg-white rounded shadow cursor-grab ring-1 ring-neutral-950/5 w-full max-w-[524px] select-none ${
                               mapGroupToBorder[field.dataGroup]
                             }`}
                           >
@@ -1136,13 +1136,13 @@ const FormBuilder = () => {
                             {field.label == "form_title" ||
                             field.label === "form_description" ||
                             field.label === "form_divider" ? (
-                              <div className="flex justify-center items-center w-full mt-5 mb-6">
+                              <div className="flex items-center justify-center w-full gap-4 my-5">
                                 {/* Additional Field */}
                                 {field.inputType === "Text input" && (
-                                  <div className=" w-full">
+                                  <div className="w-full ">
                                     <Input
                                       className="w-full"
-                                      placeholder="Enter here..."
+                                      placeholder="Enter header here..."
                                       value={field?.value}
                                       onChange={(e) =>
                                         handleUpdateAdditionalField(
@@ -1159,7 +1159,7 @@ const FormBuilder = () => {
                                     <TextArea
                                       rows={3}
                                       className="w-full"
-                                      placeholder="Enter here..."
+                                      placeholder="Enter description here..."
                                       value={field?.value}
                                       onChange={(e) =>
                                         handleUpdateAdditionalField(
@@ -1172,13 +1172,13 @@ const FormBuilder = () => {
                                 )}
 
                                 {field.inputType === "Divider" && (
-                                  <div className="w-full pr-4">
-                                    <div
-                                      style={{
-                                        backgroundColor: "black",
-                                      }}
-                                      className="h-[2px] w-full"
-                                    ></div>
+                                  <div className="relative w-full text-center">
+                                    <div className="w-full h-px mt-px bg-neutral-300/75"></div>
+                                    <div className="absolute m-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+                                      <div className="relative px-3 text-xs font-medium bg-white -top-px text-neutral-500">
+                                        Divider
+                                      </div>
+                                    </div>
                                   </div>
                                 )}
 

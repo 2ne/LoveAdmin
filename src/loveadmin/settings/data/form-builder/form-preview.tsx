@@ -29,7 +29,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
       {description && (
         <Paragraph className="mb-6 text-sm">{description}</Paragraph>
       )}
-      <Divider />
+      <Divider className="bg-neutral-200/75" />
       {visibleFields.length === 0 && (
         <Paragraph className="p-8 text-center border rounded text-subtitle border-neutral-200">
           No fields have been added yet.
@@ -132,7 +132,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             );
 
           case "Divider":
-            return <Divider />;
+            return <Divider className="bg-neutral-200/75" />;
           default:
             return null;
         }

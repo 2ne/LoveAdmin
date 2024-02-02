@@ -47,21 +47,24 @@ const { Option } = Select;
 const { Content } = Layout;
 const { Panel } = Collapse;
 
-type Group = "Contact" | "Internal Contact";
+type Group = "Contact" | "Internal Contact" | "Form";
 
 const mapGroupToColour: Record<NonNullable<Group>, Colours> = {
   Contact: "primary",
   "Internal Contact": "pink",
+  Form: "neutral",
 };
 
 const mapGroupToText: Record<NonNullable<Group>, string> = {
   Contact: "text-primary-600 hover:text-primary-600",
   "Internal Contact": "text-pink-600 hover:text-pink-600",
+  Form: "",
 };
 
 const mapGroupToBorder: Record<NonNullable<Group>, string> = {
   Contact: "border-l-4 border-primary-500 hover:ring-primary-500",
   "Internal Contact": "border-l-4 border-pink-500 hover:ring-pink-500",
+  Form: "",
 };
 
 type InputType =
@@ -148,6 +151,7 @@ const fieldData: Record<Group, CustomField[]> = {
     },
   ],
   "Internal Contact": [],
+  Form: [],
   // "Internal Product": [],
 };
 
@@ -156,6 +160,7 @@ const groupDescriptions: Record<NonNullable<Group>, string> = {
     "Contacts are participants of products. Add a custom field to store more information about them",
   "Internal Contact":
     "Internal Contact fields are used to add more information to a contact. This field will not show on Customer Forms and are only viewable by the organisation",
+  Form: "",
 };
 
 const FormBuilder = () => {
@@ -402,27 +407,32 @@ const FormBuilder = () => {
     );
   };
 
-  // Adjusted generateMenuItems function
   const generateMenuItems = () => {
-    return Object.entries(fieldsDataSet).map(([group, fields]) => (
-      <Menu.SubMenu key={group} title={group}>
-        {fields.length > 0 ? (
-          fields.map((field) => (
-            <Menu.Item
-              onClick={({ key }) => handleAddField(key)}
-              key={field.id.toString()}
-              disabled={clonedFields[field.id]}
-            >
-              {field.label}
-            </Menu.Item>
-          ))
-        ) : (
-          <Menu.Item key={`${group}-empty`} disabled>
-            No fields
-          </Menu.Item>
-        )}
-      </Menu.SubMenu>
-    ));
+    return Object.entries(fieldsDataSet)
+      .map(([group, fields]) => {
+        if (group === "Form") return null;
+
+        return (
+          <Menu.SubMenu key={group} title={group}>
+            {fields.length > 0 ? (
+              fields.map((field) => (
+                <Menu.Item
+                  onClick={({ key }) => handleAddField(key)}
+                  key={field.id.toString()}
+                  disabled={clonedFields[field.id]}
+                >
+                  {field.label}
+                </Menu.Item>
+              ))
+            ) : (
+              <Menu.Item key={`${group}-empty`} disabled>
+                No fields
+              </Menu.Item>
+            )}
+          </Menu.SubMenu>
+        );
+      })
+      .filter((menuItem) => menuItem !== null); // Filter out any nulls resulting from skipped groups
   };
 
   const addAdditionalFieldToFrom = (type: string) => {
@@ -432,7 +442,7 @@ const FormBuilder = () => {
     if (type === "Header") {
       const fieldToAdd: CustomField = {
         id: 111,
-        dataGroup: "Contact",
+        dataGroup: "Form",
         label: "form_title",
         value: "",
         fieldName: "Header",
@@ -449,7 +459,7 @@ const FormBuilder = () => {
     } else if (type === "Description") {
       const fieldToAdd: CustomField = {
         id: 112,
-        dataGroup: "Contact",
+        dataGroup: "Form",
         label: "form_description",
         value: "",
         fieldName: "Description",
@@ -466,7 +476,7 @@ const FormBuilder = () => {
     } else if (type === "Divider") {
       const fieldToAdd: CustomField = {
         id: 113,
-        dataGroup: "Contact",
+        dataGroup: "Form",
         label: "form_divider",
         fieldName: "Divider",
         inputType: "Divider",
@@ -885,7 +895,12 @@ const FormBuilder = () => {
                         className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
                       >
                         {Object.entries(fieldsDataSet).map(([type, fields]) => {
-                          if (!shouldDisplayPanel(type as Group)) return null;
+                          if (
+                            !shouldDisplayPanel(type as Group) ||
+                            type === "Form"
+                          )
+                            return null;
+
                           return (
                             <Panel
                               key={type}

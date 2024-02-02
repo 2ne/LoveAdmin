@@ -7,12 +7,13 @@ import {
   DatePicker,
   Typography,
   InputNumber,
+  Divider,
 } from "antd";
 import { CustomField } from "./form-builder";
 import { Dayjs } from "dayjs";
 const { Option } = Select;
 const { TextArea } = Input;
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 
 interface FormPreviewProps {
   fields: CustomField[];
@@ -50,21 +51,27 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
         }
         switch (field.inputType) {
           case "Text input":
-            return (
-              <Form.Item key={field.id} label={field.label}>
-                <Input className="w-full" placeholder="Enter here..." />
-              </Form.Item>
-            );
+            if (field.label === "form_title") {
+              return <Title level={5}>{field?.value}</Title>;
+            } else
+              return (
+                <Form.Item key={field.id} label={field.label}>
+                  <Input className="w-full" placeholder="Enter here..." />
+                </Form.Item>
+              );
           case "Text area":
-            return (
-              <Form.Item key={field.id} label={field.label}>
-                <TextArea
-                  className="w-full"
-                  rows={3}
-                  placeholder="Enter here..."
-                />
-              </Form.Item>
-            );
+            if (field.label === "form_description") {
+              return <Paragraph>{field?.value}</Paragraph>;
+            } else
+              return (
+                <Form.Item key={field.id} label={field.label}>
+                  <TextArea
+                    className="w-full"
+                    rows={3}
+                    placeholder="Enter here..."
+                  />
+                </Form.Item>
+              );
           case "Number":
             return (
               <Form.Item key={field.id} label={field.label}>
@@ -122,6 +129,9 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
                 <DatePicker className="w-full" disabledDate={disabledDate} />
               </Form.Item>
             );
+
+          case "Divider":
+            return <Divider className="mb-3" />;
           default:
             return null;
         }

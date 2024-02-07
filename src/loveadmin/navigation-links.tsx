@@ -490,22 +490,30 @@ export const navigationLinks = [
         key: "data",
         children: [
           {
-            name: "Customer Forms",
-            href: "/Settings/Data/CustomerForms",
+            name: "Forms",
             colour: "secondary",
-            key: "customerForms",
-          },
-          {
-            name: "Internal Forms",
-            href: "/Settings/Data/InternalForms",
-            colour: "secondary",
-            key: "internalForms",
-          },
-          {
-            name: "Custom Fields",
-            href: "#",
-            colour: "secondary",
-            key: "manageFields",
+            tileLink: "/Settings/Data/Forms",
+            key: "forms",
+            children: [
+              {
+                name: "Customer Forms",
+                href: "/Settings/Data/Forms/CustomerForms",
+                colour: "secondary",
+                key: "customerForms",
+              },
+              {
+                name: "Internal Contact Data",
+                href: "/Settings/Data/Forms/InternalContactForms",
+                colour: "secondary",
+                key: "internalContactForms",
+              },
+              {
+                name: "Product Data",
+                href: "/Settings/Data/Forms/InternalContactForms",
+                colour: "secondary",
+                key: "internalContactForms",
+              },
+            ],
           },
           { name: "Consents", href: "#", colour: "secondary", key: "consents" },
           {

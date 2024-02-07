@@ -46,7 +46,7 @@ const initialFormData: RegistrationForm[] = [
   },
 ];
 
-const RegistrationFormsComponent: React.FC = () => {
+const CustomerFormsComponent: React.FC = () => {
   const [forms, setForms] = useState<RegistrationForm[]>(initialFormData);
   const [isChanged, setIsChanged] = useState(false);
   const [showChangeModal, setShowChangeModal] = useState(false);
@@ -288,4 +288,4 @@ const RegistrationFormsComponent: React.FC = () => {
   );
 };
 
-export default RegistrationFormsComponent;
+export default CustomerFormsComponent;

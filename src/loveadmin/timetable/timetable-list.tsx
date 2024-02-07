@@ -45,9 +45,6 @@ interface TimetableListProps {
 
 const TimetableList: React.FC<TimetableListProps> = ({
   events,
-  eventRef,
-  selectedDate,
-  viewMode,
   isCapacityColours,
   capacityLevels,
 }) => {

@@ -115,8 +115,9 @@ const TimetableHeader: React.FC<TimetableHeaderProps> = ({
                 onOpenChange={onDatePickerOpen}
                 onChange={onDateChange}
                 showToday={isMobile}
+                placement="bottomLeft"
                 className="absolute inset-0 opacity-0 pointer-events-none"
-                popupClassName="max-md:left-1/2 max-md:-translate-x-1/2 max-md:ml-3"
+                popupClassName="max-md:left-1/2 max-md:-translate-x-1/2 max-md:ml-3 [&.ant-slide-up-enter]:supports-[-webkit-touch-callout:none]:!duration-[1ms] [&.ant-slide-up-enter]:supports-[-webkit-touch-callout:none]:!opactiy-0 [&.ant-slide-up-leave]:supports-[-webkit-touch-callout:none]:!duration-[1ms] [&.ant-slide-up-leave]:supports-[-webkit-touch-callout:none]:!opacity-0 !top-[115px]"
               />
               <Button
                 type="text"

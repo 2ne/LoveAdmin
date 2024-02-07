@@ -1,49 +1,33 @@
 import React, { useState, useEffect } from "react";
-import {
-  Breadcrumb,
-  Button,
-  Dropdown,
-  Input,
-  Layout,
-  Menu,
-  MenuProps,
-  Table,
-  Tooltip,
-} from "antd";
+import { Breadcrumb, Input, Layout, Table, Tooltip } from "antd";
 import LoveAdminHeader from "../../../../components/header";
 import { Link } from "react-router-dom";
 import TableFooter from "../../../../components/table-footer";
-import {
-  InfoCircleOutlined,
-  PlusOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import TableTitle from "../../../../components/table-title";
 import { ColumnsType, SortOrder } from "antd/es/table/interface";
 import { formatDate } from "../../../../components/date-formatter";
 
 const { Content } = Layout;
 
-interface CustomerForm {
+interface InternalForm {
   id: number;
   name: string;
-  associatedProducts: string[];
   created: Date;
   createdBy: string;
   updated: Date;
   updatedBy: string;
 }
 
-const CustomerForms: React.FC = () => {
-  const [customerForms, setCustomerForms] = useState<CustomerForm[]>([]);
+const InternalContactForms: React.FC = () => {
+  const [internalForms, setInternalForms] = useState<InternalForm[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   useEffect(() => {
-    const fetchedData: CustomerForm[] = [
+    const fetchedData: InternalForm[] = [
       {
         id: 1,
         name: "Form name 1",
-        associatedProducts: ["Product 1"],
         created: new Date(2023, 0, 4, 12, 35),
         createdBy: "James Toone",
         updated: new Date(2023, 0, 4, 12, 35),
@@ -52,39 +36,23 @@ const CustomerForms: React.FC = () => {
       {
         id: 2,
         name: "Form name 2",
-        associatedProducts: ["Product 1", "Product 2"],
         created: new Date(2023, 0, 4, 12, 35),
         createdBy: "James Toone",
         updated: new Date(2023, 0, 4, 12, 35),
         updatedBy: "Gareth Mace",
       },
     ];
-    setCustomerForms(fetchedData);
+    setInternalForms(fetchedData);
   }, []);
 
-  const columns: ColumnsType<CustomerForm> = [
+  const columns: ColumnsType<InternalForm> = [
     {
       title: "Name",
       dataIndex: "formName",
       key: "formName",
-      render: (_, record: CustomerForm) => (
+      render: (_, record: InternalForm) => (
         <Link to="/Settings/Data/FormBuilder">{record.name}</Link>
       ),
-      width: 170,
-      ellipsis: true,
-    },
-    {
-      title: (
-        <div className="flex items-center gap-1.5">
-          <div>Associated products</div>
-          <Tooltip title="To link forms to products, go to the product settings and choose the forms needed for that product.">
-            <InfoCircleOutlined className="mt-0.5 text-neutral-400 hover:text-neutral-500" />
-          </Tooltip>
-        </div>
-      ),
-      dataIndex: "associatedProducts",
-      key: "associatedProducts",
-      render: (associatedProducts: string[]) => associatedProducts.join(", "),
       width: 170,
       ellipsis: true,
     },
@@ -93,7 +61,7 @@ const CustomerForms: React.FC = () => {
       key: "created",
       align: "right",
       width: 180,
-      render: (text: string, record: CustomerForm) => (
+      render: (text: string, record: InternalForm) => (
         <Tooltip
           title={record.created ? formatDate(record.created, "full") : ""}
           placement="topRight"
@@ -114,7 +82,7 @@ const CustomerForms: React.FC = () => {
       defaultSortOrder: "ascend" as SortOrder,
       align: "right",
       width: 180,
-      render: (text: string, record: CustomerForm) => (
+      render: (text: string, record: InternalForm) => (
         <Tooltip
           title={record.updated ? formatDate(record.updated, "full") : ""}
           placement="topRight"
@@ -128,7 +96,7 @@ const CustomerForms: React.FC = () => {
           </div>
         </Tooltip>
       ),
-      sorter: (a: CustomerForm, b: CustomerForm) => {
+      sorter: (a: InternalForm, b: InternalForm) => {
         const dateA = a.updated?.getTime() || 0;
         const dateB = b.updated?.getTime() || 0;
         return dateA - dateB;
@@ -152,7 +120,9 @@ const CustomerForms: React.FC = () => {
           <Breadcrumb.Item key="forms">
             <Link to="/Settings/Data/Forms">Forms</Link>
           </Breadcrumb.Item>,
-          <Breadcrumb.Item key="customerForms">Customer Forms</Breadcrumb.Item>,
+          <Breadcrumb.Item key="internalContactForms">
+            Internal Contact Forms
+          </Breadcrumb.Item>,
         ]}
       />
       <Layout className="bg-white rounded-t-lg">
@@ -161,35 +131,26 @@ const CustomerForms: React.FC = () => {
             <div className="md:items-center md:flex md:gap-2.5 max-md:space-y-2">
               <div>
                 <TableTitle
-                  title="Customer Forms"
-                  totalRecords={customerForms.length}
+                  title="Internal Contact Forms"
+                  totalRecords={internalForms.length}
                   selectable={false}
                 />
                 <div className="mt-0.5 text-subtitle">
-                  Gather additional registration information when products are
-                  purchased in your JoinIn Shop.
+                  Record more information on contact records. Internal contact
+                  forms are visible to the organisation but not the contact.
                 </div>
               </div>
-              <div className="flex items-center gap-3 ml-auto">
+              <div className="flex items-center gap-2.5 ml-auto">
                 <Input
                   placeholder="Search..."
                   prefix={<SearchOutlined className="mr-1" />}
                   allowClear
                 />
-
-                <Tooltip
-                  title="New form"
-                  placement="topRight"
-                  className="shrink-0"
-                >
-                  <Button icon={<PlusOutlined />} type="primary"></Button>
-                </Tooltip>
               </div>
             </div>
-
             <div className="relative mt-5 md:mt-4">
               <Table
-                dataSource={customerForms}
+                dataSource={internalForms}
                 columns={columns}
                 rowKey="id"
                 pagination={false}
@@ -206,4 +167,4 @@ const CustomerForms: React.FC = () => {
   );
 };
 
-export default CustomerForms;
+export default InternalContactForms;

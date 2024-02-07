@@ -6,23 +6,23 @@ import {
   UserOutlined,
   WarningFilled,
 } from "@ant-design/icons";
-import {
-  Typography,
-  Button,
-  Dropdown,
-  Menu,
-  Tabs,
-  TabsProps,
-  Alert,
-} from "antd";
+import { Typography, Button, Tabs, TabsProps, Alert } from "antd";
 import DateFilter from "../../components/date-filter";
+import Tag from "../../components/tag";
 const { Title } = Typography;
 
 function ContactDashboard(): ReactElement {
   const activeProducts: TabsProps["items"] = [
     {
       key: "1",
-      label: `All`,
+      label: (
+        <div>
+          All
+          <span className="text-subtitle">
+            <span className="mx-1.5">·</span>4
+          </span>
+        </div>
+      ),
       children: (
         <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 @2xl:pt-2 [&>*:not(:last-child)]:pb-4 [&>*:not(:last-child)]:border-b [[&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
           <div className="flex gap-3.5">
@@ -106,6 +106,40 @@ function ContactDashboard(): ReactElement {
                   <span>Quaterway House, Ely Road, Little Thetford</span>
                 </div>
                 <div className="flex gap-1.5 text-subtitle">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-3.5 bg-warning-50 -mx-6 px-6 -top-4 py-4 -mb-10 relative">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1530549387789-4c1017266635?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="flex items-center gap-2 font-medium">
+                <span className="text-warning-700">Swim Training 18+</span>
+                <Tag colour="warning" className="absolute top-4 right-6">
+                  Waiting list
+                </Tag>
+              </div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-warning-700">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Tuesdays at 10:00 - 11:00
+                    <span className="mx-1.5">·</span>
+                    <span className="link text-warning-700">View dates</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-warning-700">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-warning-700">
                   <UserOutlined className="" />
                   <span>Jacob Toone</span>
                 </div>
@@ -239,6 +273,55 @@ function ContactDashboard(): ReactElement {
         <div className="p-6 pb-12 text-subtitle">No events purchased</div>
       ),
     },
+    {
+      key: "5",
+      label: (
+        <div>
+          Waiting list
+          <span className="text-subtitle">
+            <span className="mx-1.5">·</span>1
+          </span>
+        </div>
+      ),
+      children: (
+        <div className="p-4 @2xl:p-6 pt-2 [&>*:not(:first-child)]:mt-4 @2xl:pt-2 [&>*:not(:last-child)]:pb-4 [&>*:not(:last-child)]:border-b [[&>*:not(:last-child)]:border-solid [&>*]:border-0 [&>*:not(:last-child)]:border-b-neutral-100">
+          <div className="flex gap-3.5 bg-warning-50 -mx-6 px-6 -top-4 py-4 -mb-10 relative">
+            <div>
+              <img
+                className="object-cover object-center w-20 mt-0.5 rounded aspect-square"
+                src="https://images.unsplash.com/photo-1530549387789-4c1017266635?q=80&w=3870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              />
+            </div>
+            <div className="flex-grow">
+              <div className="flex items-center gap-2 font-medium">
+                <span className="text-warning-700">Swim Training 18+</span>
+                <Tag colour="warning" className="absolute top-4 right-6">
+                  Waiting list
+                </Tag>
+              </div>
+              <div className="mt-0.5 space-y-px">
+                <div className="flex gap-1.5 text-warning-700">
+                  <CalendarOutlined className="" />
+                  <span>
+                    Tuesdays at 10:00 - 11:00
+                    <span className="mx-1.5">·</span>
+                    <span className="link text-warning-700">View dates</span>
+                  </span>
+                </div>
+                <div className="flex gap-1.5 text-warning-700">
+                  <EnvironmentOutlined className="" />
+                  <span>Quaterway House, Ely Road, Little Thetford</span>
+                </div>
+                <div className="flex gap-1.5 text-warning-700">
+                  <UserOutlined className="" />
+                  <span>Jacob Toone</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
   ];
 
   const onChange = (key: string) => {
@@ -262,7 +345,7 @@ function ContactDashboard(): ReactElement {
           }
         />
         <Alert
-          message="New medical condition"
+          message="2 products awaiting approval"
           type="error"
           showIcon
           icon={<WarningFilled />}
@@ -401,7 +484,7 @@ function ContactDashboard(): ReactElement {
         <section>
           <div>
             <Title level={5} className="mb-4">
-              Active products
+              Products
             </Title>
           </div>
           <div className="grid gap-4 transition-all bg-white rounded shadow-sm shadow-neutral-950/10 ring-inset ring-opacity-10 ring-neutral-950">

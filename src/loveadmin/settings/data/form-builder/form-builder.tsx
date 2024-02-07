@@ -31,6 +31,7 @@ import {
   HolderOutlined,
   InfoCircleOutlined,
   LineOutlined,
+  MinusSquareOutlined,
   PlusOutlined,
   SearchOutlined,
   WarningFilled,
@@ -47,21 +48,24 @@ const { Option } = Select;
 const { Content } = Layout;
 const { Panel } = Collapse;
 
-type Group = "Contact" | "Internal Contact";
+type Group = "Customer" | "Internal contact" | "Form";
 
 const mapGroupToColour: Record<NonNullable<Group>, Colours> = {
-  Contact: "primary",
-  "Internal Contact": "pink",
+  Customer: "primary",
+  "Internal contact": "pink",
+  Form: "neutral",
 };
 
 const mapGroupToText: Record<NonNullable<Group>, string> = {
-  Contact: "text-primary-600 hover:text-primary-600",
-  "Internal Contact": "text-pink-600 hover:text-pink-600",
+  Customer: "text-primary-600 hover:text-primary-600",
+  "Internal contact": "text-pink-600 hover:text-pink-600",
+  Form: "",
 };
 
 const mapGroupToBorder: Record<NonNullable<Group>, string> = {
-  Contact: "border-l-4 border-primary-500 hover:ring-primary-500",
-  "Internal Contact": "border-l-4 border-pink-500 hover:ring-pink-500",
+  Customer: "border-l-4 border-primary-500 hover:ring-primary-500",
+  "Internal contact": "border-l-4 border-pink-500 hover:ring-pink-500",
+  Form: "",
 };
 
 type InputType =
@@ -85,6 +89,7 @@ export interface CustomField {
   originalId?: number;
   isDragged?: boolean;
   dateRange?: [dayjs.Dayjs, dayjs.Dayjs];
+  helpText?: string;
 }
 
 interface OptionItem {
@@ -93,27 +98,27 @@ interface OptionItem {
 }
 
 const fieldData: Record<Group, CustomField[]> = {
-  Contact: [
+  Customer: [
     {
       id: 1,
       label: "Swim club ID",
       fieldName: "Swim Club ID",
       inputType: "Text input",
-      dataGroup: "Contact",
+      dataGroup: "Customer",
     },
     {
       id: 2,
       label: "Additional notes",
       fieldName: "Additional Notes",
       inputType: "Text area",
-      dataGroup: "Contact",
+      dataGroup: "Customer",
     },
     {
       id: 3,
       label: "Years of swimming experience",
       fieldName: "Years of Experience",
       inputType: "Number",
-      dataGroup: "Contact",
+      dataGroup: "Customer",
     },
     {
       id: 4,
@@ -121,7 +126,7 @@ const fieldData: Record<Group, CustomField[]> = {
       fieldName: "Preferred Swim Category",
       inputType: "Dropdown",
       options: ["Competitive", "Recreational", "Masters", "Open Water"],
-      dataGroup: "Contact",
+      dataGroup: "Customer",
     },
     {
       id: 5,
@@ -129,7 +134,7 @@ const fieldData: Record<Group, CustomField[]> = {
       fieldName: "Preferred Training Time",
       inputType: "Radio",
       options: ["Morning", "Afternoon", "Evening"],
-      dataGroup: "Contact",
+      dataGroup: "Customer",
     },
     {
       id: 6,
@@ -137,25 +142,27 @@ const fieldData: Record<Group, CustomField[]> = {
       fieldName: "Equipment Rental",
       inputType: "Checkbox",
       options: ["Goggles", "Fins", "Kickboard", "Pull Buoy"],
-      dataGroup: "Contact",
+      dataGroup: "Customer",
     },
     {
       id: 7,
       label: "Membership renewal date",
       fieldName: "Membership Renewal Date",
       inputType: "Date",
-      dataGroup: "Contact",
+      dataGroup: "Customer",
     },
   ],
-  "Internal Contact": [],
+  "Internal contact": [],
+  Form: [],
   // "Internal Product": [],
 };
 
 const groupDescriptions: Record<NonNullable<Group>, string> = {
-  Contact:
-    "Contacts are participants of products. Add a custom field to store more information about them",
-  "Internal Contact":
-    "Internal Contact fields are used to add more information to a contact. This field will not show on Customer Forms and are only viewable by the organisation",
+  Customer:
+    "Customer fields allow you to collect more information about the members of your products",
+  "Internal contact":
+    "Internal contact fields are used to add more information to a contact. This field will not show on Customer Forms and are only viewable by the organisation",
+  Form: "",
 };
 
 const FormBuilder = () => {
@@ -176,7 +183,7 @@ const FormBuilder = () => {
   const [editFieldId, setEditFieldId] = useState<number | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [isAddDrawerVisible, setIsAddDrawerVisible] = useState(false);
-  const [isAddDrawerTitle, setIsAddDrawerTitle] = useState<Group>("Contact");
+  const [isAddDrawerTitle, setIsAddDrawerTitle] = useState<Group>("Customer");
   const [newInputType, setNewInputType] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
   const [options, setOptions] = useState<OptionItem[]>([]);
@@ -228,7 +235,7 @@ const FormBuilder = () => {
   const navigate = useNavigate();
 
   const gotoCustomerForms = () => {
-    navigate("/Settings/Data/CustomerForms");
+    navigate("/Settings/Data/Forms/CustomerForms");
   };
 
   useEffect(() => {
@@ -402,27 +409,32 @@ const FormBuilder = () => {
     );
   };
 
-  // Adjusted generateMenuItems function
   const generateMenuItems = () => {
-    return Object.entries(fieldsDataSet).map(([group, fields]) => (
-      <Menu.SubMenu key={group} title={group}>
-        {fields.length > 0 ? (
-          fields.map((field) => (
-            <Menu.Item
-              onClick={({ key }) => handleAddField(key)}
-              key={field.id.toString()}
-              disabled={clonedFields[field.id]}
-            >
-              {field.label}
-            </Menu.Item>
-          ))
-        ) : (
-          <Menu.Item key={`${group}-empty`} disabled>
-            No fields
-          </Menu.Item>
-        )}
-      </Menu.SubMenu>
-    ));
+    return Object.entries(fieldsDataSet)
+      .map(([group, fields]) => {
+        if (group === "Form") return null;
+
+        return (
+          <Menu.SubMenu key={group} title={group}>
+            {fields.length > 0 ? (
+              fields.map((field) => (
+                <Menu.Item
+                  onClick={({ key }) => handleAddField(key)}
+                  key={field.id.toString()}
+                  disabled={clonedFields[field.id]}
+                >
+                  {field.label}
+                </Menu.Item>
+              ))
+            ) : (
+              <Menu.Item key={`${group}-empty`} disabled>
+                No fields
+              </Menu.Item>
+            )}
+          </Menu.SubMenu>
+        );
+      })
+      .filter((menuItem) => menuItem !== null); // Filter out any nulls resulting from skipped groups
   };
 
   const addAdditionalFieldToFrom = (type: string) => {
@@ -432,7 +444,7 @@ const FormBuilder = () => {
     if (type === "Header") {
       const fieldToAdd: CustomField = {
         id: 111,
-        dataGroup: "Contact",
+        dataGroup: "Form",
         label: "form_title",
         value: "",
         fieldName: "Header",
@@ -449,7 +461,7 @@ const FormBuilder = () => {
     } else if (type === "Description") {
       const fieldToAdd: CustomField = {
         id: 112,
-        dataGroup: "Contact",
+        dataGroup: "Form",
         label: "form_description",
         value: "",
         fieldName: "Description",
@@ -466,7 +478,7 @@ const FormBuilder = () => {
     } else if (type === "Divider") {
       const fieldToAdd: CustomField = {
         id: 113,
-        dataGroup: "Contact",
+        dataGroup: "Form",
         label: "form_divider",
         fieldName: "Divider",
         inputType: "Divider",
@@ -690,7 +702,7 @@ const FormBuilder = () => {
   };
 
   const closeAddDrawer = () => {
-    setIsAddDrawerTitle("Contact");
+    setIsAddDrawerTitle("Customer");
 
     // Reset the form fields
     form.resetFields();
@@ -850,7 +862,7 @@ const FormBuilder = () => {
 
       <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Layout className="flex-grow rounded-t-lg bg-neutral-50">
-          <Sidebar hideButton={true} className="bg-white">
+          <Sidebar hideButton={true} className="bg-white max-md:hidden">
             <div className="sticky top-14 max-h-[calc(100svh-3.5rem)] overflow-y-auto scrollbar-thin-y">
               <div className="p-4 pb-1.5">
                 <Input
@@ -885,7 +897,12 @@ const FormBuilder = () => {
                         className="!bg-transparent [&_.ant-collapse-header]:flex-row-reverse [&_.ant-collapse-expand-icon]:p-0 [&_.ant-collapse-expand-icon]:text-subtitle [&_.ant-collapse-item-active_.ant-collapse-expand-icon]:text-title [&_.ant-collapse-item]:border-neutral-200"
                       >
                         {Object.entries(fieldsDataSet).map(([type, fields]) => {
-                          if (!shouldDisplayPanel(type as Group)) return null;
+                          if (
+                            !shouldDisplayPanel(type as Group) ||
+                            type === "Form"
+                          )
+                            return null;
+
                           return (
                             <Panel
                               key={type}
@@ -947,7 +964,8 @@ const FormBuilder = () => {
                                     className="ml-2 text-neutral-400 hover:text-neutral-500"
                                     title={
                                       <span>
-                                        {groupDescriptions["Contact" as Group]}.
+                                        {groupDescriptions["Customer" as Group]}
+                                        .
                                       </span>
                                     }
                                   >
@@ -960,7 +978,7 @@ const FormBuilder = () => {
                                 type="link"
                                 className={`px-0`}
                                 icon={<PlusOutlined />}
-                                onClick={() => openAddDrawer("Contact")}
+                                onClick={() => openAddDrawer("Customer")}
                               >
                                 Contact field
                               </Button>
@@ -969,7 +987,7 @@ const FormBuilder = () => {
                               key={2}
                               header={
                                 <span>
-                                  <span>Internal Contact</span>
+                                  <span>Internal contact</span>
                                   <Tooltip
                                     rootClassName="pointer-events-auto"
                                     className="ml-2 text-neutral-400 hover:text-neutral-500"
@@ -977,7 +995,7 @@ const FormBuilder = () => {
                                       <span>
                                         {
                                           groupDescriptions[
-                                            "Internal Contact" as Group
+                                            "Internal contact" as Group
                                           ]
                                         }
                                         .
@@ -994,7 +1012,7 @@ const FormBuilder = () => {
                                 className={`px-0 text-pink-600`}
                                 icon={<PlusOutlined />}
                                 onClick={() =>
-                                  openAddDrawer("Internal Contact")
+                                  openAddDrawer("Internal contact")
                                 }
                               >
                                 Internal contact field
@@ -1077,10 +1095,7 @@ const FormBuilder = () => {
                     >
                       Drag and drop your form fields here or{" "}
                       <Dropdown overlay={menu} trigger={["click"]}>
-                        <Button
-                          type="link"
-                          className="!px-0 font-medium underline hover:no-underline"
-                        >
+                        <Button type="link" className="!px-0 font-medium">
                           select a field.
                         </Button>
                       </Dropdown>
@@ -1186,16 +1201,18 @@ const FormBuilder = () => {
                                     <div className="font-medium">
                                       {field.label}
                                     </div>
+
                                     <Tag
                                       colour={mapGroupToColour[field.dataGroup]}
                                     >
                                       {field.dataGroup}
                                     </Tag>
 
-                                    {field.dataGroup === "Internal Contact" && (
+                                    {field.dataGroup === "Internal contact" && (
                                       <Tag colour="neutral">Hidden</Tag>
                                     )}
                                   </div>
+
                                   {field.inputType === "Text input" && (
                                     <div className="pointer-events-none">
                                       <Input
@@ -1268,8 +1285,16 @@ const FormBuilder = () => {
                                   {field.inputType === "Date" && (
                                     <div className="pointer-events-none">
                                       <DatePicker className="w-40" />
+                                      {field.helpText && (
+                                        <div className="text-subtitle">
+                                          {field.helpText}
+                                        </div>
+                                      )}
                                     </div>
                                   )}
+                                  <div className="mt-2 text-subtitle">
+                                    {field.helpText}
+                                  </div>
                                 </div>
                                 <div className="flex gap-2 py-2.5 transition-opacity border-t border-neutral-200">
                                   <div className="flex items-center min-w-0">
@@ -1359,20 +1384,20 @@ const FormBuilder = () => {
               Cancel
             </Button>
             <div className="ml-auto">
-              <Tooltip title="Delete field" placement="left">
+              <Tooltip title="Archive field" placement="left">
                 <Popconfirm
                   icon={<WarningFilled className="text-danger-500" />}
-                  title="Are you sure to delete this field?"
-                  description="This action cannot be undone and will remove this field from all other forms."
+                  title="Sure you want to archive this field?"
+                  description="This will remove this field from all other forms."
                   onConfirm={() => {
                     if (editFieldId) {
                       deleteFieldCompletely(editFieldId);
                       closeDrawer();
 
-                      message.success("Field deleted");
+                      message.success("Field archived");
                     }
                   }}
-                  okText="Delete"
+                  okText="Archive"
                   cancelText="Cancel"
                   okButtonProps={{ danger: true }}
                   visible={popConfirmVisible}
@@ -1401,13 +1426,13 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[47px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[68px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           <Form.Item label="Group" className="!mb-4">
             <div>{isAddDrawerTitle}</div>
           </Form.Item>
           {editFieldId && (
-            <Form.Item label="Name" className="!mb-4">
+            <Form.Item label="Field name" className="!mb-4">
               <div>
                 {
                   formFields.find((field) => field.id === editFieldId)
@@ -1523,6 +1548,10 @@ const FormBuilder = () => {
             name="label"
             rules={[{ required: true, message: "Please enter a field label" }]}
           >
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Help text" name="helpText">
             <Input />
           </Form.Item>
 
@@ -1686,7 +1715,7 @@ const FormBuilder = () => {
           initialValues={getInitialValues()}
           onFinish={onDrawerAddFormFinish}
           requiredMark={false}
-          className="[&_.ant-form-item-label]:w-[48px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
+          className="[&_.ant-form-item-label]:w-[68px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
           <Form.Item label="Group">
             <div>{isAddDrawerTitle}</div>
@@ -1872,6 +1901,10 @@ const FormBuilder = () => {
             name="label"
             rules={[{ required: true, message: "Please enter a field label" }]}
           >
+            <Input />
+          </Form.Item>
+
+          <Form.Item label="Help text" name="helpText">
             <Input />
           </Form.Item>
 

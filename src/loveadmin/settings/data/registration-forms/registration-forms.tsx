@@ -34,8 +34,8 @@ interface CustomerForm {
   updatedBy: string;
 }
 
-const CustomerForms: React.FC = () => {
-  const [customerForms, setCustomerForms] = useState<CustomerForm[]>([]);
+const RegistrationForms: React.FC = () => {
+  const [customerForms, setRegistrationForms] = useState<CustomerForm[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const CustomerForms: React.FC = () => {
         updatedBy: "Gareth Mace",
       },
     ];
-    setCustomerForms(fetchedData);
+    setRegistrationForms(fetchedData);
   }, []);
 
   const columns: ColumnsType<CustomerForm> = [
@@ -152,7 +152,9 @@ const CustomerForms: React.FC = () => {
           <Breadcrumb.Item key="forms">
             <Link to="/Settings/Data/Forms">Forms</Link>
           </Breadcrumb.Item>,
-          <Breadcrumb.Item key="customerForms">Customer Forms</Breadcrumb.Item>,
+          <Breadcrumb.Item key="customerForms">
+            Registration Forms
+          </Breadcrumb.Item>,
         ]}
       />
       <Layout className="bg-white rounded-t-lg">
@@ -161,7 +163,7 @@ const CustomerForms: React.FC = () => {
             <div className="md:items-center md:flex md:gap-2.5 max-md:space-y-2">
               <div>
                 <TableTitle
-                  title="Customer Forms"
+                  title="Registration Forms"
                   totalRecords={customerForms.length}
                   selectable={false}
                 />
@@ -206,4 +208,4 @@ const CustomerForms: React.FC = () => {
   );
 };
 
-export default CustomerForms;
+export default RegistrationForms;

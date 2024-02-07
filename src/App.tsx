@@ -40,8 +40,9 @@ import SettingsEnquiryForm from "./loveadmin/settings/organisation/enquiry-form/
 import Colours from "./loveadmin/colours";
 import SettingsGroups from "./loveadmin/settings/groups/groups";
 import CustomerForms from "./loveadmin/settings/data/customer-forms/customer-forms";
-import InternalForms from "./loveadmin/settings/data/internal-forms/internal-forms";
+import InternalContactForms from "./loveadmin/settings/data/internal-contact-forms/internal-contact-forms";
 import FormBuilder from "./loveadmin/settings/data/form-builder/form-builder";
+import SettingsDataForms from "./loveadmin/tiles/settings-data-forms";
 
 function App(): ReactElement {
   useEffect(() => {
@@ -96,13 +97,14 @@ function App(): ReactElement {
         />
         <Route path="/Settings/Communication/SMS" element={<SMS />} />
         <Route path="/Settings/Data" element={<SettingsData />} />
+        <Route path="/Settings/Data/Forms" element={<SettingsDataForms />} />
         <Route
-          path="/Settings/Data/CustomerForms"
+          path="/Settings/Data/Forms/CustomerForms"
           element={<CustomerForms />}
         />
         <Route
-          path="/Settings/Data/InternalForms"
-          element={<InternalForms />}
+          path="/Settings/Data/Forms/InternalContactForms"
+          element={<InternalContactForms />}
         />
         <Route path="/Settings/Data/FormBuilder" element={<FormBuilder />} />
         <Route path="/Settings/Groups" element={<SettingsGroups />} />

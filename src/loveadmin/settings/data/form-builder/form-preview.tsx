@@ -56,7 +56,11 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
               return <Title level={5}>{field?.value}</Title>;
             } else
               return (
-                <Form.Item key={field.id} label={field.label}>
+                <Form.Item
+                  extra={field.helpText}
+                  key={field.id}
+                  label={field.label}
+                >
                   <Input className="w-full" placeholder="Enter here..." />
                 </Form.Item>
               );
@@ -65,7 +69,11 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
               return <Paragraph className="text-sm">{field?.value}</Paragraph>;
             } else
               return (
-                <Form.Item key={field.id} label={field.label}>
+                <Form.Item
+                  extra={field.helpText}
+                  key={field.id}
+                  label={field.label}
+                >
                   <TextArea
                     className="w-full"
                     rows={3}
@@ -75,7 +83,11 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
               );
           case "Number":
             return (
-              <Form.Item key={field.id} label={field.label}>
+              <Form.Item
+                extra={field.helpText}
+                key={field.id}
+                label={field.label}
+              >
                 <InputNumber
                   className="w-full"
                   placeholder="Enter number here..."
@@ -89,7 +101,11 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             );
           case "Dropdown":
             return (
-              <Form.Item key={field.id} label={field.label}>
+              <Form.Item
+                extra={field.helpText}
+                key={field.id}
+                label={field.label}
+              >
                 <Select className="w-full" placeholder="Select...">
                   {field.options?.map((option) => (
                     <Option key={option} value={option}>
@@ -102,7 +118,11 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
 
           case "Radio":
             return (
-              <Form.Item key={field.id} label={field.label}>
+              <Form.Item
+                extra={field.helpText}
+                key={field.id}
+                label={field.label}
+              >
                 <Radio.Group className="flex flex-col gap-0.5">
                   {field.options?.map((option) => (
                     <Radio key={option} value={option}>
@@ -114,7 +134,11 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             );
           case "Checkbox":
             return (
-              <Form.Item key={field.id} label={field.label}>
+              <Form.Item
+                extra={field.helpText}
+                key={field.id}
+                label={field.label}
+              >
                 <Checkbox.Group className="flex flex-col gap-0.5">
                   {field.options?.map((option) => (
                     <Checkbox key={option} value={option}>
@@ -126,7 +150,11 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             );
           case "Date":
             return (
-              <Form.Item key={field.id} label={field.label}>
+              <Form.Item
+                extra={field.helpText}
+                key={field.id}
+                label={field.label}
+              >
                 <DatePicker className="w-full" disabledDate={disabledDate} />
               </Form.Item>
             );

@@ -103,8 +103,9 @@ const TeamSettings: React.FC = () => {
                 </label>
                 <div className="flex items-center gap-2 mt-2">
                   <Select
-                    placement="topRight"
-                    style={{ width: "100%" }}
+                    placement="topLeft"
+                    popupMatchSelectWidth
+                    className="w-full"
                     rootClassName="[&_.ant-select-selection-item]:flex"
                   >
                     {colorOptions}

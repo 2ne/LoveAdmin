@@ -94,7 +94,7 @@ const TileLayout: React.FC<TileLayoutProps> = ({
     <Layout className="min-h-screen bg-neutral-950">
       <LoveAdminHeader compact={true} />
       <Layout className="bg-white rounded-t-lg">
-        <Content className="flex items-start w-full px-6 pt-6 mx-auto 2xl:pt-8 gap-9 max-w-screen-2xl">
+        <Content className="flex items-start w-full pt-6 pl-6 mx-auto max-xl:pr-6 2xl:pt-8 gap-9 max-w-screen-2xl">
           <div className="flex-grow">
             <AnimatePresence initial={false}>
               {favouritedTiles.length > 0 && (
@@ -144,7 +144,7 @@ const TileLayout: React.FC<TileLayoutProps> = ({
               </div>
             </section>
           </div>
-          <aside className="hidden xl:block min-h-[calc(100vh-4rem)] max-h-screen -mt-6 2xl:-mt-8 py-8 pl-9 pb-10 w-[22.75rem] from-primary-50 to-transparent bg-gradient-to-r overflow-y-auto scrollbar-thin-y sticky top-0">
+          <aside className="hidden xl:block h-[calc(100svh-4rem)] -mt-6 2xl:-mt-8 py-8 pr-6 pl-9 pb-10 w-[22.75rem] from-primary-50 to-transparent bg-gradient-to-r overflow-y-auto scrollbar-thin-y sticky top-0">
             <LatestNews />
           </aside>
         </Content>

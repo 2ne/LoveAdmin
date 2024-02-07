@@ -88,7 +88,7 @@ const defaultRoles: Role[] = [
   {
     name: "Data Admin",
     description:
-      "Create and manage additional registration forms, consents and import users",
+      "Create and manage additional CustomerForms, consents and import users",
   },
   {
     name: "Finance Admin",

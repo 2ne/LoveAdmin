@@ -31,7 +31,6 @@ import {
   HolderOutlined,
   InfoCircleOutlined,
   LineOutlined,
-  MinusSquareOutlined,
   PlusOutlined,
   SearchOutlined,
   WarningFilled,
@@ -44,7 +43,6 @@ import FormPreview from "./form-preview";
 import dayjs from "dayjs";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Quill from "quill";
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -1070,7 +1068,7 @@ const FormBuilder = () => {
                   theme="snow"
                   value={formDescription}
                   onChange={(value) => setFormDescription(value)}
-                  className="bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
+                  className="[&_.ql-editor]:cursor-text [&_.ql-editor.ql-blank]:not-italic bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
                 />
               </div>
             )}
@@ -1168,7 +1166,7 @@ const FormBuilder = () => {
                                     <ReactQuill
                                       theme="snow"
                                       value={field?.value}
-                                      className="w-full"
+                                      className="[&_.ql-editor]:cursor-text [&_.ql-editor.ql-blank]:not-italic bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
                                       placeholder="Enter description here..."
                                       onChange={(value) =>
                                         handleUpdateAdditionalField(

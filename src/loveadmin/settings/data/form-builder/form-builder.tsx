@@ -1070,6 +1070,7 @@ const FormBuilder = () => {
                   theme="snow"
                   value={formDescription}
                   onChange={(value) => setFormDescription(value)}
+                  className="bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
                 />
               </div>
             )}

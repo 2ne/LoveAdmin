@@ -42,6 +42,9 @@ import Tag, { Colours } from "../../../../components/tag";
 import { useNavigate } from "react-router-dom";
 import FormPreview from "./form-preview";
 import dayjs from "dayjs";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import Quill from "quill";
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -197,7 +200,7 @@ const FormBuilder = () => {
     setIsPreviewVisible(true);
   };
 
-  console.log("forms", newOption);
+  console.log("forms", formFields);
 
   useEffect(() => {
     // Whenever editFieldId changes, set the form values accordingly
@@ -780,6 +783,21 @@ const FormBuilder = () => {
       [isAddDrawerTitle]: [...prevFieldsDataSet[isAddDrawerTitle], newField],
     }));
 
+    const newFieldId = fieldIdCounter;
+    setFieldIdCounter((prevId) => prevId + 1);
+
+    setFormFields((prevFields) => [
+      ...prevFields,
+      {
+        ...newField,
+        id: newFieldId,
+        originalId: allFields.length + 1,
+      },
+    ]);
+
+    // Mark the original field as cloned
+    setClonedFields((prev) => ({ ...prev, [allFields.length + 1]: true }));
+
     // Reset the form fields
     form.resetFields();
     closeAddDrawer();
@@ -1048,12 +1066,10 @@ const FormBuilder = () => {
             )}
             {showDescription && (
               <div>
-                <TextArea
-                  size="large"
-                  placeholder="Enter a form description..."
-                  rows={3}
+                <ReactQuill
+                  theme="snow"
                   value={formDescription}
-                  onChange={(e) => setFormDescription(e.target.value)}
+                  onChange={(value) => setFormDescription(value)}
                 />
               </div>
             )}
@@ -1148,15 +1164,15 @@ const FormBuilder = () => {
 
                                 {field.inputType === "Text area" && (
                                   <div className="w-full">
-                                    <TextArea
-                                      rows={3}
+                                    <ReactQuill
+                                      theme="snow"
+                                      value={field?.value}
                                       className="w-full"
                                       placeholder="Enter description here..."
-                                      value={field?.value}
-                                      onChange={(e) =>
+                                      onChange={(value) =>
                                         handleUpdateAdditionalField(
                                           field?.id,
-                                          e.target.value
+                                          value
                                         )
                                       }
                                     />

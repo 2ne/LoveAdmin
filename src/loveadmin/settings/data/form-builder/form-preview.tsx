@@ -27,7 +27,8 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
   return (
     <Form layout="vertical">
       {description && (
-        <Paragraph className="mb-6 text-sm">{description}</Paragraph>
+        // <Paragraph className="mb-6 text-sm">{description}</Paragraph>
+        <div dangerouslySetInnerHTML={{ __html: description }} />
       )}
       <Divider className="bg-neutral-200/75" />
       {visibleFields.length === 0 && (
@@ -66,7 +67,14 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
               );
           case "Text area":
             if (field.label === "form_description") {
-              return <Paragraph className="text-sm">{field?.value}</Paragraph>;
+              if (field?.value)
+                return (
+                  <div dangerouslySetInnerHTML={{ __html: field?.value }} />
+                );
+              else
+                return (
+                  <Paragraph className="text-sm">{field?.value}</Paragraph>
+                );
             } else
               return (
                 <Form.Item

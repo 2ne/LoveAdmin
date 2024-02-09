@@ -220,17 +220,17 @@ const FormBuilder = () => {
 
   const handleAddOption = () => {
     // if (newOption && !options.find((option) => option.value === newOption)) {
-    if (newOption) {
-      const newOptionId = optionIdCounter;
-      setOptionIdCounter((prevId) => prevId + 1); // Increment the counter for next use
-      const updatedOptions = [
-        ...options,
-        { id: `option-${newOptionId}`, value: newOption },
-      ];
-      setOptions(updatedOptions);
-      setNewOption("");
-      setShowAddOption(false);
-    }
+    // if (newOption) {
+    const newOptionId = optionIdCounter;
+    setOptionIdCounter((prevId) => prevId + 1); // Increment the counter for next use
+    const updatedOptions = [
+      ...options,
+      { id: `option-${newOptionId}`, value: newOption },
+    ];
+    setOptions(updatedOptions);
+    setNewOption("");
+    setShowAddOption(false);
+    // }
     form.validateFields(["options"]);
   };
 
@@ -1700,29 +1700,30 @@ const FormBuilder = () => {
                       placeholder="Add new option"
                       className="flex-grow"
                     />
-                    <Tooltip title="Add option" className="shrink-0">
-                      <Button
-                        type="text"
-                        icon={<PlusOutlined />}
-                        onClick={handleAddOption}
-                      />
-                    </Tooltip>
                   </div>
                 ) : (
                   ""
                 )}
-                <Button
-                  type="link"
-                  className={`px-0`}
-                  // icon={<PlusOutlined />}
-                  onClick={() => setShowAddOption(true)}
-                >
-                  Add option
-                </Button>
               </div>
             </Form.Item>
           ) : null}
-
+          {formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Radio" ||
+          formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Checkbox" ||
+          formFields.find((field) => field.id === editFieldId)?.inputType ===
+            "Dropdown" ? (
+            <div>
+              <Button
+                type="link"
+                className={`px-0 ml-[90px]`}
+                // icon={<PlusOutlined />}
+                onClick={handleAddOption}
+              >
+                Add option
+              </Button>
+            </div>
+          ) : null}
           {editFieldId &&
             formFields.find((field) => field.id === editFieldId)?.inputType ===
               "Date" && (
@@ -2064,30 +2065,30 @@ const FormBuilder = () => {
                       placeholder="Add new option"
                       className="flex-grow"
                     />
-                    <Tooltip title="Add option" className="shrink-0">
-                      <Button
-                        type="text"
-                        icon={<PlusOutlined />}
-                        onClick={handleAddOption}
-                      />
-                    </Tooltip>
                   </div>
                 ) : (
                   ""
                 )}
-                <Button
-                  type="link"
-                  className={`px-0`}
-                  // icon={<PlusOutlined />}
-                  onClick={() => setShowAddOption(true)}
-                >
-                  Add option
-                </Button>
               </div>
             </Form.Item>
           ) : (
             ""
           )}
+
+          {newInputType === "Dropdown" ||
+          newInputType === "Radio" ||
+          newInputType === "Checkbox" ? (
+            <div>
+              <Button
+                type="link"
+                className={`px-0 ml-[90px]`}
+                // icon={<PlusOutlined />}
+                onClick={handleAddOption}
+              >
+                Add option
+              </Button>
+            </div>
+          ) : null}
 
           {newInputType === "Date" && (
             <Form.Item

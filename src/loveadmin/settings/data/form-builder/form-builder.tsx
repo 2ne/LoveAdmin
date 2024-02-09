@@ -1606,6 +1606,7 @@ const FormBuilder = () => {
               label="Options"
               name={"options"}
               dependencies={["inputType"]}
+              className="!mb-0"
               rules={[{ required: true, validator: optionValidatorEdit }]}
             >
               <DragDropContext
@@ -1717,10 +1718,10 @@ const FormBuilder = () => {
               <Button
                 type="link"
                 className={`px-0 ml-[90px]`}
-                // icon={<PlusOutlined />}
+                icon={<PlusOutlined />}
                 onClick={handleAddOption}
               >
-                Add option
+                Add new option
               </Button>
             </div>
           ) : null}
@@ -1972,6 +1973,7 @@ const FormBuilder = () => {
               name={"options"}
               dependencies={["inputType"]}
               rules={[{ required: true, validator: optionValidator }]}
+              className="!mb-0.5"
             >
               <DragDropContext
                 onDragEnd={(result: { source: any; destination: any }) => {

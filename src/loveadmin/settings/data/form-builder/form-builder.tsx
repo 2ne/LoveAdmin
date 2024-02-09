@@ -180,6 +180,7 @@ const FormBuilder = () => {
   const [formFields, setFormFields] = useState<CustomField[]>([]);
   const [clonedFields, setClonedFields] = useState<Record<number, boolean>>({});
   const [isDragging, setIsDragging] = useState(false);
+  const [optionIdCounter, setOptionIdCounter] = useState(100); // Starting from 1000 for example
   const [fieldIdCounter, setFieldIdCounter] = useState(1000); // Starting from 1000 for example
   const [editFieldId, setEditFieldId] = useState<number | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -187,6 +188,7 @@ const FormBuilder = () => {
   const [isAddDrawerTitle, setIsAddDrawerTitle] = useState<Group>("Customer");
   const [newInputType, setNewInputType] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
+  const [showAddOption, setShowAddOption] = useState<Boolean>(false);
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
   const [popConfirmVisible, setPopConfirmVisible] = useState(false);
@@ -217,19 +219,25 @@ const FormBuilder = () => {
   };
 
   const handleAddOption = () => {
-    if (newOption && !options.find((option) => option.value === newOption)) {
+    // if (newOption && !options.find((option) => option.value === newOption)) {
+    if (newOption) {
+      const newOptionId = optionIdCounter;
+      setOptionIdCounter((prevId) => prevId + 1); // Increment the counter for next use
       const updatedOptions = [
         ...options,
-        { id: `option-${options.length + 1}`, value: newOption },
+        { id: `option-${newOptionId}`, value: newOption },
       ];
       setOptions(updatedOptions);
       setNewOption("");
+      setShowAddOption(false);
     }
     form.validateFields(["options"]);
   };
 
-  const handleDeleteOption = (value: string) => {
-    const updatedOptions = options.filter((option) => option.value !== value);
+  console.log(options);
+  const handleDeleteOption = (id: string) => {
+    console.log(id);
+    const updatedOptions = options.filter((option) => option.id !== id);
     setOptions(updatedOptions);
   };
 
@@ -810,7 +818,16 @@ const FormBuilder = () => {
   };
 
   const optionValidator = (value: any) => {
-    if (newInputType === "Dropdown" && options?.length < 2) {
+    const uniqueOptions = [...new Set(options.map((item) => item.value))];
+    const checkEmptyOption = options.filter(
+      (item: any) => item.value === ""
+    ).length;
+
+    if (checkEmptyOption !== 0) {
+      return Promise.reject("Options must not be empty");
+    } else if (uniqueOptions.length !== options.length) {
+      return Promise.reject("Options must be unique");
+    } else if (newInputType === "Dropdown" && options?.length < 2) {
       return Promise.reject("You must add at least two options");
     } else if (newInputType === "Radio" && options?.length < 2) {
       return Promise.reject("You must add at least two options");
@@ -821,7 +838,15 @@ const FormBuilder = () => {
   };
 
   const optionValidatorEdit = (value: any) => {
-    if (
+    const uniqueOptions = [...new Set(options.map((item) => item.value))];
+    const checkEmptyOption = options.filter(
+      (item: any) => item.value === ""
+    ).length;
+    if (checkEmptyOption !== 0) {
+      return Promise.reject("Options must not be empty");
+    } else if (uniqueOptions.length !== options.length) {
+      return Promise.reject("Options must be unique");
+    } else if (
       formFields.find((field) => field.id === editFieldId)?.inputType ===
         "Dropdown" &&
       options?.length < 2
@@ -849,6 +874,7 @@ const FormBuilder = () => {
         option.id === optionId ? { ...option, value: newValue } : option
       )
     );
+    form.validateFields(["options"]);
   };
 
   return (
@@ -1651,7 +1677,7 @@ const FormBuilder = () => {
                                     className="hover:bg-danger-50 hover:text-danger-600"
                                     icon={<DeleteOutlined />}
                                     onClick={() =>
-                                      handleDeleteOption(option.value)
+                                      handleDeleteOption(option.id)
                                     }
                                   />
                                 </Tooltip>
@@ -1665,20 +1691,34 @@ const FormBuilder = () => {
                   )}
                 </Droppable>
               </DragDropContext>
-              <div className="flex items-center gap-2">
-                <Input
-                  value={newOption}
-                  onChange={(e) => setNewOption(e.target.value)}
-                  placeholder="Add new option"
-                  className="flex-grow "
-                />
-                <Tooltip title="Add option" className="shrink-0">
-                  <Button
-                    type="text"
-                    icon={<PlusOutlined />}
-                    onClick={handleAddOption}
-                  />
-                </Tooltip>
+              <div>
+                {showAddOption || options.length == 0 ? (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={newOption}
+                      onChange={(e) => setNewOption(e.target.value)}
+                      placeholder="Add new option"
+                      className="flex-grow"
+                    />
+                    <Tooltip title="Add option" className="shrink-0">
+                      <Button
+                        type="text"
+                        icon={<PlusOutlined />}
+                        onClick={handleAddOption}
+                      />
+                    </Tooltip>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <Button
+                  type="link"
+                  className={`px-0`}
+                  // icon={<PlusOutlined />}
+                  onClick={() => setShowAddOption(true)}
+                >
+                  Add option
+                </Button>
               </div>
             </Form.Item>
           ) : null}
@@ -2001,7 +2041,7 @@ const FormBuilder = () => {
                                     className="hover:bg-danger-50 hover:text-danger-600"
                                     icon={<DeleteOutlined />}
                                     onClick={() =>
-                                      handleDeleteOption(option.value)
+                                      handleDeleteOption(option.id)
                                     }
                                   />
                                 </Tooltip>
@@ -2015,20 +2055,34 @@ const FormBuilder = () => {
                   )}
                 </Droppable>
               </DragDropContext>
-              <div className="flex items-center gap-2">
-                <Input
-                  value={newOption}
-                  onChange={(e) => setNewOption(e.target.value)}
-                  placeholder="Add new option"
-                  className="flex-grow"
-                />
-                <Tooltip title="Add option" className="shrink-0">
-                  <Button
-                    type="text"
-                    icon={<PlusOutlined />}
-                    onClick={handleAddOption}
-                  />
-                </Tooltip>
+              <div>
+                {showAddOption || options.length == 0 ? (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={newOption}
+                      onChange={(e) => setNewOption(e.target.value)}
+                      placeholder="Add new option"
+                      className="flex-grow"
+                    />
+                    <Tooltip title="Add option" className="shrink-0">
+                      <Button
+                        type="text"
+                        icon={<PlusOutlined />}
+                        onClick={handleAddOption}
+                      />
+                    </Tooltip>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <Button
+                  type="link"
+                  className={`px-0`}
+                  // icon={<PlusOutlined />}
+                  onClick={() => setShowAddOption(true)}
+                >
+                  Add option
+                </Button>
               </div>
             </Form.Item>
           ) : (

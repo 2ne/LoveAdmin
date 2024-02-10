@@ -1615,7 +1615,7 @@ const FormBuilder = () => {
               label="Options"
               name={"options"}
               dependencies={["inputType"]}
-              className="!mb-0 [&_.ant-form-item-explain-error]:-mt-1"
+              className="!-mb-1"
               rules={[{ required: true, validator: optionValidatorEdit }]}
             >
               <DragDropContext
@@ -1970,7 +1970,7 @@ const FormBuilder = () => {
               name={"options"}
               dependencies={["inputType"]}
               rules={[{ required: true, validator: optionValidator }]}
-              className="!-mb-1 [&_.ant-form-item-explain-error]:-mt-1"
+              className="!-mb-1"
             >
               <DragDropContext
                 onDragEnd={(result: { source: any; destination: any }) => {

@@ -191,6 +191,7 @@ const FormBuilder = () => {
   const [showAddOption, setShowAddOption] = useState<Boolean>(false);
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
+  const [isFromSubmitted, setIsFromSubmitted] = useState<Boolean>(false);
   const [popConfirmVisible, setPopConfirmVisible] = useState(false);
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [formName, setFormName] = useState<string>("Form name 1");
@@ -200,7 +201,7 @@ const FormBuilder = () => {
     setIsPreviewVisible(true);
   };
 
-  console.log("forms", formFields);
+  console.log("forms", form);
 
   useEffect(() => {
     // Whenever editFieldId changes, set the form values accordingly
@@ -231,10 +232,9 @@ const FormBuilder = () => {
     setNewOption("");
     setShowAddOption(false);
     // }
-    form.validateFields(["options"]);
+    if (isFromSubmitted == true) form.validateFields(["options"]);
   };
 
-  console.log(options);
   const handleDeleteOption = (id: string) => {
     console.log(id);
     const updatedOptions = options.filter((option) => option.id !== id);
@@ -703,6 +703,7 @@ const FormBuilder = () => {
   const closeDrawer = () => {
     setIsDrawerVisible(false);
     setEditFieldId(null);
+    setIsFromSubmitted(false);
   };
 
   const openAddDrawer = (type: Group) => {
@@ -711,6 +712,7 @@ const FormBuilder = () => {
   };
 
   const closeAddDrawer = () => {
+    setIsFromSubmitted(false);
     setIsAddDrawerTitle("Customer");
 
     // Reset the form fields
@@ -874,8 +876,10 @@ const FormBuilder = () => {
         option.id === optionId ? { ...option, value: newValue } : option
       )
     );
-    form.validateFields(["options"]);
+    if (isFromSubmitted == true) form.validateFields(["options"]);
   };
+
+  console.log("isFromSubmitted", isFromSubmitted);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -1466,6 +1470,7 @@ const FormBuilder = () => {
           layout="horizontal"
           initialValues={getInitialValues()}
           onFinish={onDrawerFormFinish}
+          onFinishFailed={() => setIsFromSubmitted(true)}
           requiredMark={false}
           className="[&_.ant-form-item-label]:w-[68px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >
@@ -1771,6 +1776,7 @@ const FormBuilder = () => {
           layout="horizontal"
           initialValues={getInitialValues()}
           onFinish={onDrawerAddFormFinish}
+          onFinishFailed={() => setIsFromSubmitted(true)}
           requiredMark={false}
           className="[&_.ant-form-item-label]:w-[68px] [&_.ant-form-item-label>label]:text-subtitle [&_.ant-form-item-label>label]:font-normal"
         >

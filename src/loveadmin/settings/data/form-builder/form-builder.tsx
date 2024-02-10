@@ -1615,7 +1615,7 @@ const FormBuilder = () => {
               label="Options"
               name={"options"}
               dependencies={["inputType"]}
-              className="!mb-0"
+              className="!mb-0 [&_.ant-form-item-explain-error]:-mt-1"
               rules={[{ required: true, validator: optionValidatorEdit }]}
             >
               <DragDropContext
@@ -1672,6 +1672,7 @@ const FormBuilder = () => {
                               <div className="flex items-center gap-2">
                                 <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
                                 <Input
+                                  placeholder="Enter option..."
                                   value={option.value}
                                   onChange={(e) =>
                                     handleOptionChange(
@@ -1969,7 +1970,7 @@ const FormBuilder = () => {
               name={"options"}
               dependencies={["inputType"]}
               rules={[{ required: true, validator: optionValidator }]}
-              className="!mb-0.5"
+              className="!-mb-1 [&_.ant-form-item-explain-error]:-mt-1"
             >
               <DragDropContext
                 onDragEnd={(result: { source: any; destination: any }) => {
@@ -2025,6 +2026,7 @@ const FormBuilder = () => {
                               <div className="flex items-center gap-2">
                                 <HolderOutlined className="absolute left-0 z-20 w-8 h-8 pl-2 text-neutral-500" />
                                 <Input
+                                  placeholder="Enter option..."
                                   value={option.value}
                                   onChange={(e) =>
                                     handleOptionChange(
@@ -2066,10 +2068,10 @@ const FormBuilder = () => {
               <Button
                 type="link"
                 className={`px-0 ml-[90px]`}
-                // icon={<PlusOutlined />}
+                icon={<PlusOutlined />}
                 onClick={handleAddOption}
               >
-                Add option
+                Add new option
               </Button>
             </div>
           ) : null}

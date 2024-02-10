@@ -201,8 +201,6 @@ const FormBuilder = () => {
     setIsPreviewVisible(true);
   };
 
-  console.log("forms", form);
-
   useEffect(() => {
     // Whenever editFieldId changes, set the form values accordingly
     if (editFieldId !== null) {
@@ -236,9 +234,16 @@ const FormBuilder = () => {
   };
 
   const handleDeleteOption = (id: string) => {
-    console.log(id);
-    const updatedOptions = options.filter((option) => option.id !== id);
-    setOptions(updatedOptions);
+    if (options.length == 1) {
+      setOptions((prevOptions) =>
+        prevOptions.map((option) =>
+          option.id === id ? { ...option, value: "" } : option
+        )
+      );
+    } else {
+      const updatedOptions = options.filter((option) => option.id !== id);
+      setOptions(updatedOptions);
+    }
   };
 
   const navigate = useNavigate();
@@ -506,7 +511,6 @@ const FormBuilder = () => {
   };
 
   const handleUpdateAdditionalField = (editFieldId: number, value: string) => {
-    console.log("form", editFieldId, value);
     setFormFields((prevFields) =>
       prevFields.map((field) => {
         if (field.id === editFieldId) {
@@ -814,8 +818,10 @@ const FormBuilder = () => {
   const handleInputTypeChange = (event: any) => {
     setNewInputType(event);
     if (event !== "Dropdown" || event !== "Radio" || event !== "Checkbox") {
+      const newOptionId = optionIdCounter;
+      setOptionIdCounter((prevId) => prevId + 1); // Increment the counter for next use
+      setOptions([{ id: `option-${newOptionId}`, value: "" }]);
       setNewOption("");
-      setOptions([]);
     }
   };
 
@@ -878,8 +884,6 @@ const FormBuilder = () => {
     );
     if (isFromSubmitted == true) form.validateFields(["options"]);
   };
-
-  console.log("isFromSubmitted", isFromSubmitted);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -1697,20 +1701,6 @@ const FormBuilder = () => {
                   )}
                 </Droppable>
               </DragDropContext>
-              <div>
-                {showAddOption || options.length == 0 ? (
-                  <div className="flex items-center gap-2">
-                    <Input
-                      value={newOption}
-                      onChange={(e) => setNewOption(e.target.value)}
-                      placeholder="Add new option"
-                      className="flex-grow"
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
             </Form.Item>
           ) : null}
           {formFields.find((field) => field.id === editFieldId)?.inputType ===
@@ -2064,20 +2054,6 @@ const FormBuilder = () => {
                   )}
                 </Droppable>
               </DragDropContext>
-              <div>
-                {showAddOption || options.length == 0 ? (
-                  <div className="flex items-center gap-2">
-                    <Input
-                      value={newOption}
-                      onChange={(e) => setNewOption(e.target.value)}
-                      placeholder="Add new option"
-                      className="flex-grow"
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
             </Form.Item>
           ) : (
             ""

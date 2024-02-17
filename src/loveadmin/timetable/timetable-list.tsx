@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { TimetableEvent } from "./events";
+import { EventColour, TimetableEvent, eventColourClasses } from "./events";
 import { Dropdown, Menu, Table, Tooltip } from "antd";
 import {
   CheckSquareOutlined,
@@ -86,6 +86,21 @@ const TimetableList: React.FC<TimetableListProps> = ({
     };
   }, []);
 
+  const getCapacityColourClasses = (event: TimetableEvent) => {
+    if (event.maxCapacity === null || event.signedUp === null) {
+      return "bg-neutral-300 text-neutral-950 ring-neutral-300";
+    }
+
+    const capacityPercentage = event.signedUp / event.maxCapacity;
+    if (capacityPercentage >= 0.75) {
+      return "bg-success-400 text-success-950 ring-success-400";
+    } else if (capacityPercentage <= 0.25) {
+      return "bg-danger-400 text-danger-950 ring-danger-400";
+    } else {
+      return "bg-warning-400 text-warning-950 ring-warning-400";
+    }
+  };
+
   const filterEvents = (event: TimetableEvent) => {
     if (!isCapacityColours) {
       return true;
@@ -157,7 +172,7 @@ const TimetableList: React.FC<TimetableListProps> = ({
       dataIndex: "date",
       key: "date",
       render: (date: Date) => (date ? formatEventDate(date) : ""),
-      width: 175,
+      width: 165,
       fixed: true,
     },
     {
@@ -179,7 +194,17 @@ const TimetableList: React.FC<TimetableListProps> = ({
       dataIndex: "description",
       key: "description",
       width: 300,
-      render: (text: string) => <a>{text}</a>,
+      render: (text: string, record: TimetableEvent) => (
+        <a
+          className={`rounded-full py-0.5 px-3 font-medium inline-flex ${
+            isCapacityColours
+              ? getCapacityColourClasses(record)
+              : eventColourClasses[record.eventColour as EventColour]
+          }`}
+        >
+          {text}
+        </a>
+      ),
     },
     {
       title: "Attending",
@@ -308,7 +333,7 @@ const TimetableList: React.FC<TimetableListProps> = ({
               className="flex gap-2 font-medium text-neutral-900"
             >
               <CheckSquareOutlined />
-              <span>Attendance</span>
+              <span>Mark attendance</span>
             </a>
           </div>
         </TableActions>
@@ -320,7 +345,7 @@ const TimetableList: React.FC<TimetableListProps> = ({
         rowKey="id"
         size="small"
         pagination={{ pageSize }}
-        className="[&_.ant-table-selection-column]:!p-0.5 [&_.ant-table-container]:border [&_.ant-table-container]:rounded-md ant-table-sticky [&_td]:border-0 [&_thead_th]:bg-white [&_thead_td]:bg-white [&_.ant-table-container]:border-neutral-200 [&_th]:px-3 [&_td]:px-3 [&_.ant-table-row.ant-table-row-selected>.ant-table-cell]:!bg-primary-100/75"
+        className="[&_.ant-table-selection-column]:!p-0.5 [&_.ant-table-container]:border [&_.ant-table-container]:rounded-md ant-table-sticky [&_td]:border-0 [&_thead_th]:bg-white [&_thead_td]:bg-white [&_.ant-table-container]:border-neutral-200 [&_th]:px-3 [&_td]:px-3 [&_.ant-table-row.ant-table-row-selected>.ant-table-cell]:!bg-primary-100/75 [&_.ant-table-tbody>tr>td]:py-[7px] [&_.ant-table-tbody>.ant-table-measure-row>td]:p-0"
         sticky={true}
         scroll={{ x: 800 }}
         rowClassName={getRowClassName}

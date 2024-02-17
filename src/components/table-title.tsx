@@ -13,6 +13,7 @@ interface TableTitleProps {
   small?: boolean;
   onSelectAll?: () => void;
   onUnselectAll?: () => void;
+  onTitleChange?: (selectedTitle: string) => void;
 }
 
 const Separator: React.FC = (small) => (
@@ -29,13 +30,17 @@ const TableTitle: React.FC<TableTitleProps> = ({
   onSelectAll,
   onUnselectAll,
   small = false,
+  onTitleChange,
 }) => {
   const [selectedTitle, setSelectedTitle] = useState<ReactNode | null>(
     Array.isArray(title) ? title[0] : title
   );
 
-  const handleChange = (value: ReactNode) => {
+  const handleChange = (value: string) => {
     setSelectedTitle(value);
+    if (onTitleChange) {
+      onTitleChange(value);
+    }
   };
 
   const noRowsSelected = selectedRowKeysLength === 0;
@@ -52,6 +57,7 @@ const TableTitle: React.FC<TableTitleProps> = ({
           defaultValue={title[0]}
           onChange={handleChange}
           bordered={false}
+          popupClassName="min-w-[6rem]"
           className="shadow-none h-7 [&_.ant-select-selection-item]:text-base [&_.ant-select-selection-item]:font-medium [&_.ant-select-selection-item]:text-primary-600 [&:hover_.ant-select-selection-item]:text-primary-600 [&:hover_.ant-select-selection-item]:underline [&_.ant-select-selector]:!pl-0 [&_.ant-select-selector]:!pr-2.5 -mr-2.5  [&_.ant-select-arrow]:text-primary-700/90 [&:hover_.ant-select-arrow]:text-primary-600 [&_.ant-select-selection-item]:underline-offset-2 [&_.ant-select-selection-item]:-top-0.5 [&_.ant-select-selection-item]:pr-[17px]"
         >
           {title.map((t, index) => {

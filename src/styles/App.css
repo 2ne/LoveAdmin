@@ -1,8 +1,9 @@
 @import "reset.css";
 @import "layout.css";
-@import "perfectScroll.css";
+@import "typography.css";
 @import "colours.css";
 @import "teams.css";
+@import "quill.css";
 @import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&display=swap");
 @font-face {
   font-family: "CircularStd";
@@ -38,30 +39,6 @@
   @apply max-h-[100dvh];
 }
 
-h1.ant-typography,
-h2.ant-typography,
-h3.ant-typography,
-h4.ant-typography,
-h5.ant-typography {
-  @apply text-title;
-}
-
-h4.ant-typography {
-  @apply font-medium text-lg;
-}
-
-h5.ant-typography {
-  @apply font-medium;
-}
-
-p {
-  @apply text-sm text-neutral-700;
-}
-
-.ant-alert-message {
-  @apply text-sm py-1 [text-wrap:balance] pl-0.5;
-}
-
 a,
 a.ant-typography,
 .ant-typography a,
@@ -83,6 +60,10 @@ table tbody .ant-btn-link {
   @apply inline-flex items-center justify-center;
 }
 
+.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+  @apply text-primary-500 border-primary-500;
+}
+
 .ant-btn.ant-btn-input {
   @apply -mx-2.5 px-2.5 h-auto w-[calc(100%+1.25rem)];
 }
@@ -92,7 +73,11 @@ table tbody .ant-btn-link {
 }
 
 .ant-btn-primary {
-  @apply shadow-[rgb(0_0_0_/_5%)_0_0_0_1px_inset,_rgba(0,_0,_0,_0)_0px_0px_0px_0px,_rgba(0,_0,_0,_0)_0px_0px_0px_0px,_rgba(2,_6,_23,_0.05)_0px_1px_2px_0px] border-0;
+  @apply bg-primary-500 shadow-[rgb(0_0_0_/_5%)_0_0_0_1px_inset,_rgba(0,_0,_0,_0)_0px_0px_0px_0px,_rgba(0,_0,_0,_0)_0px_0px_0px_0px,_rgba(2,_6,_23,_0.05)_0px_1px_2px_0px] border-0;
+}
+
+.ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+  @apply bg-primary-400;
 }
 
 .ant-btn.ant-btn-icon-only {
@@ -105,6 +90,14 @@ table tbody .ant-btn-link {
 
 .ant-btn-background-ghost {
   @apply border;
+}
+
+.ant-btn-default.ant-btn-dangerous {
+  @apply bg-danger-500 text-white border-danger-500;
+}
+
+.ant-btn-default.ant-btn-dangerous:not(:disabled):not(.ant-btn-disabled):hover {
+  @apply bg-danger-600 border-danger-600 text-white;
 }
 
 .ant-input-affix-wrapper,
@@ -179,18 +172,20 @@ table tbody .ant-btn-link {
   @apply w-auto flex-grow-0;
 }
 
-/* Fix line-heights*/
+.ant-alert-message {
+  @apply py-1 [text-wrap:balance] pl-0.5;
+}
 
-.ant-modal .ant-modal-body,
-.ant-radio-group,
-.ant-popconfirm,
-.ant-popover,
-textarea.ant-input {
-  @apply text-sm;
+.ant-modal {
+  @apply font-body;
 }
 
 .ant-modal .ant-modal-header {
   @apply mb-6;
+}
+
+.ant-modal-confirm .ant-modal-confirm-content {
+  @apply mb-4;
 }
 
 .ant-drawer {
@@ -215,7 +210,8 @@ textarea.ant-input {
 }
 
 .ant-modal .ant-modal-title,
-.ant-drawer .ant-drawer-title {
+.ant-drawer .ant-drawer-title,
+.ant-modal .ant-modal-confirm-title {
   @apply font-medium text-title;
 }
 
@@ -518,22 +514,6 @@ html:not(.scroll-overlay) .ant-dropdown-menu::-webkit-scrollbar-thumber:hover {
   overflow-y: auto !important;
 }
 
-.ql-toolbar {
-  @apply bg-neutral-50 rounded-t !border-neutral-200;
-}
-
-.ql-toolbar + .ql-container {
-  @apply !border-neutral-200 font-body text-sm;
-}
-
-.ql-editor {
-  @apply min-h-[116px] transition-shadow;
-}
-
-.ql-editor:focus {
-  box-shadow: 0 0 0 1px theme("colors.primary.500"), 0 0 0 3px rgba(5, 255, 255, 0.1);
-}
-
 .ant-checkbox .ant-checkbox-inner,
 .ant-tree .ant-tree-checkbox .ant-tree-checkbox-inner {
   @apply shadow-sm shadow-neutral-950/5;
@@ -600,6 +580,10 @@ html:not(.scroll-overlay) .ant-dropdown-menu::-webkit-scrollbar-thumber:hover {
 
 .ant-dropdown-menu {
   @apply min-w-[6.5rem];
+}
+
+.ant-dropdown-menu-submenu .ant-dropdown-menu {
+  @apply max-h-[45vh] overflow-y-auto overscroll-contain;
 }
 
 @keyframes custom {

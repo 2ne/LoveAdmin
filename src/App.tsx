@@ -43,6 +43,7 @@ import CustomerForms from "./loveadmin/settings/data/customer-forms/customer-for
 import InternalContactForms from "./loveadmin/settings/data/internal-contact-forms/internal-contact-forms";
 import FormBuilder from "./loveadmin/settings/data/form-builder/form-builder";
 import SettingsDataForms from "./loveadmin/tiles/settings-data-forms";
+import ManageFields from "./loveadmin/settings/data/manage-fields/manage-fields";
 
 function App(): ReactElement {
   useEffect(() => {
@@ -105,6 +106,10 @@ function App(): ReactElement {
         <Route
           path="/Settings/Data/Forms/InternalContactForms"
           element={<InternalContactForms />}
+        />
+        <Route
+          path="/Settings/Data/Forms/ManageFields"
+          element={<ManageFields />}
         />
         <Route path="/Settings/Data/FormBuilder" element={<FormBuilder />} />
         <Route path="/Settings/Groups" element={<SettingsGroups />} />

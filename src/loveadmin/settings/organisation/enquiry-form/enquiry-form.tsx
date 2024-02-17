@@ -121,7 +121,7 @@ const SettingsEnquiryForm: React.FC = () => {
                 }
                 name="label"
               >
-                <Input placeholder="Contact" />
+                <Input placeholder="Enquiry Form" />
               </Form.Item>
               <Form.Item
                 label={

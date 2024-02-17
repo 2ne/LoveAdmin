@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Breadcrumb,
-  Button,
-  Dropdown,
-  Input,
-  Layout,
-  Menu,
-  MenuProps,
-  Table,
-  Tooltip,
-} from "antd";
+import { Breadcrumb, Button, Input, Layout, Table, Tooltip } from "antd";
 import LoveAdminHeader from "../../../../components/header";
 import { Link } from "react-router-dom";
 import TableFooter from "../../../../components/table-footer";
@@ -28,15 +18,27 @@ interface CustomerForm {
   id: number;
   name: string;
   associatedProducts: string[];
-  created: Date;
-  createdBy: string;
   updated: Date;
   updatedBy: string;
 }
 
 const CustomerForms: React.FC = () => {
   const [customerForms, setCustomerForms] = useState<CustomerForm[]>([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+  useEffect(() => {
+    // Example data, replace with your data fetching logic
+    const fetchedData: CustomerForm[] = [
+      // Add your initial data here
+    ];
+    setCustomerForms(fetchedData);
+  }, []);
+
+  // Generate filters for associated products
+  const productFilters = Array.from(
+    new Set(
+      customerForms.flatMap(({ associatedProducts }) => associatedProducts)
+    )
+  ).map((product) => ({ text: product, value: product }));
 
   useEffect(() => {
     const fetchedData: CustomerForm[] = [
@@ -44,8 +46,6 @@ const CustomerForms: React.FC = () => {
         id: 1,
         name: "Form name 1",
         associatedProducts: ["Product 1"],
-        created: new Date(2023, 0, 4, 12, 35),
-        createdBy: "James Toone",
         updated: new Date(2023, 0, 4, 12, 35),
         updatedBy: "Gareth Mace",
       },
@@ -53,8 +53,6 @@ const CustomerForms: React.FC = () => {
         id: 2,
         name: "Form name 2",
         associatedProducts: ["Product 1", "Product 2"],
-        created: new Date(2023, 0, 4, 12, 35),
-        createdBy: "James Toone",
         updated: new Date(2023, 0, 4, 12, 35),
         updatedBy: "Gareth Mace",
       },
@@ -70,7 +68,7 @@ const CustomerForms: React.FC = () => {
       render: (_, record: CustomerForm) => (
         <Link to="/Settings/Data/FormBuilder">{record.name}</Link>
       ),
-      width: 170,
+      width: 250,
       ellipsis: true,
     },
     {
@@ -82,38 +80,20 @@ const CustomerForms: React.FC = () => {
           </Tooltip>
         </div>
       ),
+      width: 205,
       dataIndex: "associatedProducts",
       key: "associatedProducts",
+      filters: productFilters,
+      onFilter: (value, record) =>
+        record.associatedProducts.includes(value as string),
       render: (associatedProducts: string[]) => associatedProducts.join(", "),
-      width: 170,
       ellipsis: true,
-    },
-    {
-      title: "Created",
-      key: "created",
-      align: "right",
-      width: 180,
-      render: (text: string, record: CustomerForm) => (
-        <Tooltip
-          title={record.created ? formatDate(record.created, "full") : ""}
-          placement="topRight"
-        >
-          <div className="flex justify-end truncate text-subtitle">
-            <span>{record.createdBy}</span>
-            <span className="mx-1.5">·</span>
-            <span>
-              {record.created ? formatDate(record.created, "short") : ""}
-            </span>
-          </div>
-        </Tooltip>
-      ),
     },
     {
       title: "Updated",
       key: "updated",
       defaultSortOrder: "ascend" as SortOrder,
       align: "right",
-      width: 180,
       render: (text: string, record: CustomerForm) => (
         <Tooltip
           title={record.updated ? formatDate(record.updated, "full") : ""}
@@ -194,7 +174,7 @@ const CustomerForms: React.FC = () => {
                 rowKey="id"
                 pagination={false}
                 size="small"
-                scroll={{ x: 800 }}
+                scroll={{ x: 700 }}
                 className="ant-table-sticky ant-table-bg-reset"
               />
             </div>

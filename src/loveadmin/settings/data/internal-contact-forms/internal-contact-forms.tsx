@@ -13,31 +13,24 @@ const { Content } = Layout;
 interface InternalForm {
   id: number;
   name: string;
-  created: Date;
-  createdBy: string;
   updated: Date;
   updatedBy: string;
 }
 
 const InternalContactForms: React.FC = () => {
   const [internalForms, setInternalForms] = useState<InternalForm[]>([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   useEffect(() => {
     const fetchedData: InternalForm[] = [
       {
         id: 1,
         name: "Form name 1",
-        created: new Date(2023, 0, 4, 12, 35),
-        createdBy: "James Toone",
         updated: new Date(2023, 0, 4, 12, 35),
         updatedBy: "Gareth Mace",
       },
       {
         id: 2,
         name: "Form name 2",
-        created: new Date(2023, 0, 4, 12, 35),
-        createdBy: "James Toone",
         updated: new Date(2023, 0, 4, 12, 35),
         updatedBy: "Gareth Mace",
       },
@@ -56,26 +49,7 @@ const InternalContactForms: React.FC = () => {
       width: 170,
       ellipsis: true,
     },
-    {
-      title: "Created",
-      key: "created",
-      align: "right",
-      width: 180,
-      render: (text: string, record: InternalForm) => (
-        <Tooltip
-          title={record.created ? formatDate(record.created, "full") : ""}
-          placement="topRight"
-        >
-          <div className="flex justify-end truncate text-subtitle">
-            <span>{record.createdBy}</span>
-            <span className="mx-1.5">·</span>
-            <span>
-              {record.created ? formatDate(record.created, "short") : ""}
-            </span>
-          </div>
-        </Tooltip>
-      ),
-    },
+
     {
       title: "Updated",
       key: "updated",

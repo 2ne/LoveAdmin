@@ -1,0 +1,28 @@
+h1.ant-typography,
+h2.ant-typography,
+h3.ant-typography,
+h4.ant-typography,
+h5.ant-typography {
+  @apply text-title font-medium;
+}
+
+/* Fix line-heights and text colour */
+
+.ant-modal .ant-modal-body,
+.ant-radio-group,
+.ant-popconfirm,
+.ant-popover,
+.ant-modal-confirm .ant-modal-confirm-content,
+textarea.ant-input,
+.ant-alert-message,
+p {
+  @apply text-sm text-neutral-700;
+}
+
+.prose {
+  @apply !text-sm/tight !font-body;
+}
+
+.prose p {
+  @apply text-current;
+}

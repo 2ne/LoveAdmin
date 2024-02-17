@@ -88,7 +88,7 @@ const defaultRoles: Role[] = [
   {
     name: "Data Admin",
     description:
-      "Create and manage additional CustomerForms, consents and import users",
+      "Create and manage additional registration forms, consents and import users",
   },
   {
     name: "Finance Admin",
@@ -796,9 +796,10 @@ const SettingsGroups: React.FC = () => {
       key: "name",
       width: 180,
       fixed: true,
+      sorter: (a: Group, b: Group) => a.name.localeCompare(b.name),
       render: (text: string) => (
         <a
-          className="inline-flex my-[3px]"
+          className="my-[3px] line-clamp-3"
           onClick={() => handleGroupClick(text)}
         >
           {text}
@@ -810,6 +811,8 @@ const SettingsGroups: React.FC = () => {
       dataIndex: "members",
       key: "members",
       width: 115,
+      sorter: (a: Group, b: Group) =>
+        (a.members?.length || 0) - (b.members?.length || 0),
       render: (members: Member[] | undefined) => {
         return members && members.length > 0 ? members.length : null;
       },
@@ -818,6 +821,12 @@ const SettingsGroups: React.FC = () => {
       title: "Discounts",
       dataIndex: "discounts",
       key: "discounts",
+      filters: allDiscounts.map((discount) => ({
+        text: discount.name,
+        value: discount.name,
+      })),
+      onFilter: (value: string, record: Group) =>
+        record.discounts?.includes(value) ?? false,
       width: 400,
       render: (discounts: string[] | undefined) => (
         <ul className="flex flex-wrap gap-1.5">
@@ -837,6 +846,12 @@ const SettingsGroups: React.FC = () => {
       dataIndex: "roles",
       key: "roles",
       width: 180,
+      filters: defaultRoles.map((role) => ({
+        text: role.name,
+        value: role.name,
+      })),
+      onFilter: (value: string, record: Group) =>
+        record.roles?.includes(value) ?? false,
       render: (roles: string[] | undefined) => (
         <div className="[text-wrap:pretty] text-sm">
           {roles?.map((role, index) => (
@@ -850,6 +865,15 @@ const SettingsGroups: React.FC = () => {
       dataIndex: "privateProducts",
       key: "privateProducts",
       width: 200,
+      filters: swimmingClasses.flatMap((swimClass) => [
+        { text: swimClass.title, value: swimClass.value },
+        ...swimClass.children.map((child) => ({
+          text: child.title,
+          value: child.value,
+        })),
+      ]),
+      onFilter: (value: string, record: Group) =>
+        record.privateProducts?.includes(value) ?? false,
       render: (privateProducts: string[] | undefined) => (
         <div className="[text-wrap:pretty] text-sm">
           {privateProducts?.map((productValue, index) => {
@@ -953,7 +977,6 @@ const SettingsGroups: React.FC = () => {
                 placement="topLeft"
               >
                 <Button
-                  danger
                   icon={<DeleteOutlined />}
                   className="text-neutral-600 border-neutral-300 hover:text-danger-500 hover:border-danger-400"
                   onClick={(e) => e.preventDefault()}

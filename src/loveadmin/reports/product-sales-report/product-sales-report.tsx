@@ -49,6 +49,9 @@ const data = [
 ];
 
 function ProductSalesReport(): ReactElement {
+  const ref1 = useRef(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [tourEnabled, setTourEnabled] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [visible, setVisible] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -150,9 +153,6 @@ function ProductSalesReport(): ReactElement {
         ),
     },
   ];
-  const ref1 = useRef(null);
-  const [open, setOpen] = useState<boolean>(false);
-  const [tourEnabled, setTourEnabled] = useState(false);
 
   const handleClose = () => {
     setOpen(false);

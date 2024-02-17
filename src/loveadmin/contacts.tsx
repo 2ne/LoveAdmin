@@ -317,7 +317,7 @@ function Contacts(): ReactElement {
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed}>
           <ProductTree showGroups={true} />
         </Sidebar>
-        <Content className="pb-40">
+        <Content className="pb-40 relative !pointer-events-auto">
           <div className="p-4">
             <div className="md:items-center md:flex md:gap-2.5 max-md:space-y-2.5">
               <div className="relative flex items-center">
@@ -459,6 +459,12 @@ function Contacts(): ReactElement {
               />
             </div>
           </div>
+          {!collapsed && (
+            <div
+              className="absolute inset-0 z-50 md:hidden"
+              onClick={() => setCollapsed(true)}
+            ></div>
+          )}
           <TableFooter collapsed={collapsed} sidebar={true} />
         </Content>
       </Layout>

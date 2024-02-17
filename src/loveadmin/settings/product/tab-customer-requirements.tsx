@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Tabs, TabsProps } from "antd";
-import CustomerForms from "./tab-customer-requirements-form";
+import RegistrationForms from "./tab-customer-requirements-form";
 
 const TabCustomerRequirements: React.FC = () => {
   const [activeTabKey, setActiveTabKey] = useState<string>("1");
@@ -10,7 +10,7 @@ const TabCustomerRequirements: React.FC = () => {
   };
 
   const items: TabsProps["items"] = [
-    { label: "Forms", key: "1", children: <CustomerForms /> },
+    { label: "Forms", key: "1", children: <RegistrationForms /> },
     { label: "Consents", key: "2", children: <div>Consents Content</div> },
     {
       label: "Emergency contacts",

@@ -20,7 +20,7 @@ const PublicFormTemplate: React.FC<PublicFormTemplateProps> = ({
   return (
     <div
       className={classNames(
-        "bg-white p-12 sm:p-14 basis-full max-lg:rounded-lg rounded-r-lg",
+        "col-span-1 lg:col-span-2 z-10 xl:col-span-1 bg-white p-12 basis-full rounded-lg",
         {
           "sm:pt-[10vh]": !center,
           "grid place-items-center": center,

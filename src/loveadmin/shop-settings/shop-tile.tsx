@@ -205,7 +205,7 @@ export const TileSettings: FC<TileSettingsProps> = ({ selectedItem }) => {
             onChange={(e) => setLabelValue(e.target.value)}
           />
         </Form.Item>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           <Form.Item
             className="mb-4"
             label={
@@ -229,6 +229,29 @@ export const TileSettings: FC<TileSettingsProps> = ({ selectedItem }) => {
               <span className="flex gap-1.5">
                 <span>Text</span>
               </span>
+            }
+          >
+            <ColorPicker
+              className="justify-start w-full [&_.ant-color-picker-color-block]:w-full"
+              showText={() => (
+                <DownOutlined className="w-3 h-3 text-black/25" />
+              )}
+              value={textColour}
+              onChange={setTextColour}
+            />
+          </Form.Item>
+          <Form.Item
+            className="mb-4"
+            label={
+              <div className="flex gap-1.5 w-full">
+                <span>Events</span>
+                <Tooltip
+                  className="text-neutral-400 hover:text-neutral-500"
+                  title={`Choose the colour events show as on your "View all" timetable`}
+                >
+                  <InfoCircleOutlined />
+                </Tooltip>
+              </div>
             }
           >
             <ColorPicker

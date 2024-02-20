@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { ResponsiveLine, Serie } from "@nivo/line";
+import { linearGradientDef } from "@nivo/core";
+import { color } from "framer-motion";
 
 interface LineChartProps {
   className?: string;
@@ -30,12 +32,47 @@ const LineChart: FC<LineChartProps> = ({ className, data, colors }) => {
       </div>
 
       <ResponsiveLine
+        animate
+        curve="monotoneX"
         data={data}
         colors={colors}
+        defs={[
+          {
+            colors: [
+              {
+                color: colors[0],
+                offset: 0,
+              },
+              {
+                color: colors[1],
+                offset: 100,
+                opacity: 0,
+              },
+            ],
+            id: "gradientA",
+            type: "linearGradient",
+          },
+          {
+            id: "gradientC",
+            type: "linearGradient",
+            colors: [
+              { offset: 0, color: "#fff" },
+              { offset: 100, color: "#fff" },
+            ],
+          },
+        ]}
+        enableArea
+        enableSlices="x"
+        fill={[
+          { match: { id: "Previous" }, id: "gradientA" },
+          {
+            id: "gradientC",
+            match: "*",
+          },
+        ]}
         margin={{ top: 10, right: 18, bottom: 38, left: 38 }}
         xScale={{ type: "point" }}
         yScale={{ type: "linear", min: 0, max: "auto" }}
-        curve="monotoneX"
         axisTop={null}
         axisRight={null}
         axisBottom={{

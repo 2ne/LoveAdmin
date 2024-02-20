@@ -21,7 +21,7 @@ function ResetPasswordJoinin(): ReactElement {
   return (
     <Layout className="min-h-screen bg-neutral-950">
       <PublicHeader product="joinin" />
-      <Layout className="flex-row px-2 pb-2 rounded-t-lg bg-neutral-950">
+      <Layout className="grid grid-cols-1 rounded-t-lg lg:grid-cols-5 xl:grid-cols-3 bg-neutral-950">
         <PublicMarketingColumn />
         <PublicFormTemplate title="Reset your password" center={true}>
           <Paragraph>

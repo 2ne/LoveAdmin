@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   ConfigProvider,
@@ -37,15 +37,32 @@ const Teams = () => {
   const [selectedSquad, setSelectedSquad] = useState<Squad | null>(null);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [activeTabKey, setActiveTabKey] = useState("Home");
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1400);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 1400);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const onSquadSelect = (squad: Squad) => {
     setSelectedSquad(squad);
     setSelectedTeam(null);
+    if (isMobile) {
+      setCollapsed(true);
+    }
   };
 
   const onTeamSelect = (team: Team, squad: Squad) => {
     setSelectedSquad(squad);
     setSelectedTeam(team);
+    if (isMobile) {
+      setCollapsed(true);
+    }
   };
 
   const getTotalTeams = (squad: Squad): string => {
@@ -352,7 +369,7 @@ const Teams = () => {
           )}
         </ConfigProvider>
         {!selectedSquad && !selectedTeam && (
-          <div className="max-md:hidden max-w-sm mx-auto mt-[25vh] text-center place-content-center">
+          <div className="max-w-sm mx-auto text-center max-md:hidden place-content-center">
             <div className="flex w-20 h-20 mx-auto mb-3 border rounded-full place-items-center border-neutral-200">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

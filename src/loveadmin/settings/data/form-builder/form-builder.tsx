@@ -27,6 +27,7 @@ import {
   ArrowLeftOutlined,
   DeleteOutlined,
   EditOutlined,
+  EyeOutlined,
   FontSizeOutlined,
   HolderOutlined,
   InfoCircleOutlined,
@@ -42,7 +43,6 @@ import { useNavigate } from "react-router-dom";
 import FormPreview from "./form-preview";
 import dayjs from "dayjs";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -155,7 +155,7 @@ const fieldData: Record<Group, CustomField[]> = {
   ],
   "Internal contact": [],
   Form: [],
-  // "Internal Product": [],
+  // "Internal product": [],
 };
 
 const groupDescriptions: Record<NonNullable<Group>, string> = {
@@ -188,10 +188,10 @@ const FormBuilder = () => {
   const [isAddDrawerTitle, setIsAddDrawerTitle] = useState<Group>("Customer");
   const [newInputType, setNewInputType] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
-  const [showAddOption, setShowAddOption] = useState<Boolean>(false);
+  const [showAddOption, setShowAddOption] = useState<boolean>(false);
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [form] = Form.useForm();
-  const [isFromSubmitted, setIsFromSubmitted] = useState<Boolean>(false);
+  const [isFromSubmitted, setIsFromSubmitted] = useState<boolean>(false);
   const [popConfirmVisible, setPopConfirmVisible] = useState(false);
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [formName, setFormName] = useState<string>("Form name 1");
@@ -529,32 +529,28 @@ const FormBuilder = () => {
     <Menu>
       {generateMenuItems()}
 
-      {formFields.length > 0 && (
-        <>
-          <Menu.Divider />
-          <Menu.Item
-            onClick={() => addAdditionalFieldToFrom("Header")}
-            key={997}
-            icon={<FontSizeOutlined />}
-          >
-            Header
-          </Menu.Item>
-          <Menu.Item
-            onClick={() => addAdditionalFieldToFrom("Description")}
-            key={998}
-            icon={<AlignLeftOutlined />}
-          >
-            Description
-          </Menu.Item>
-          <Menu.Item
-            onClick={() => addAdditionalFieldToFrom("Divider")}
-            key={999}
-            icon={<LineOutlined />}
-          >
-            Divider
-          </Menu.Item>
-        </>
-      )}
+      <Menu.Divider />
+      <Menu.Item
+        onClick={() => addAdditionalFieldToFrom("Header")}
+        key={997}
+        icon={<FontSizeOutlined />}
+      >
+        Header
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => addAdditionalFieldToFrom("Description")}
+        key={998}
+        icon={<AlignLeftOutlined />}
+      >
+        Description
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => addAdditionalFieldToFrom("Divider")}
+        key={999}
+        icon={<LineOutlined />}
+      >
+        Divider
+      </Menu.Item>
     </Menu>
   );
 
@@ -891,19 +887,24 @@ const FormBuilder = () => {
         <Button
           type="text"
           icon={<ArrowLeftOutlined />}
-          className="relative -ml-1 rounded-full top-px"
+          className="relative -ml-1 rounded-full top-px shrink-0"
           onClick={gotoCustomerForms}
         />
-        <div className="-space-y-0.5 -mt-px">
-          <Title level={5} className="mb-0">
-            Form name 1
+        <div className="-space-y-0.5 -mt-px min-w-0">
+          <Title level={5} className="mb-0 truncate">
+            {formName}
           </Title>
-          <Text className="flex items-center text-subtitle">
-            Customer Forms
-          </Text>
+          <Text className="block truncate text-subtitle">Customer Forms</Text>
         </div>
         <div className="flex gap-3 ml-auto">
-          <Button onClick={openPreview}>Preview</Button>
+          <Button onClick={openPreview} className="max-md:hidden">
+            Preview
+          </Button>
+          <Button
+            onClick={openPreview}
+            icon={<EyeOutlined />}
+            className="md:hidden"
+          ></Button>
           <Button type="primary" className="px-5">
             Save
           </Button>
@@ -1078,7 +1079,7 @@ const FormBuilder = () => {
               </Droppable>
             </div>
           </Sidebar>
-          <Content className="max-w-xl p-6 pb-16 mx-auto opacity-100 pointer-events-auto">
+          <Content className="max-w-xl px-4 py-6 pb-16 mx-auto opacity-100 pointer-events-auto md:p-6">
             <div className="mb-4">
               <Input
                 size="large"
@@ -1102,7 +1103,7 @@ const FormBuilder = () => {
                   theme="snow"
                   value={formDescription}
                   onChange={(value) => setFormDescription(value)}
-                  className="[&_.ql-editor]:cursor-text [&_.ql-editor.ql-blank]:not-italic bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
+                  className="prose [&_.ql-editor]:cursor-text [&_.ql-editor.ql-blank:before]:not-italic bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
                 />
               </div>
             )}
@@ -1169,15 +1170,15 @@ const FormBuilder = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className={`mb-4 flex gap-6 pl-3 pr-4 text-sm bg-white rounded shadow cursor-grab ring-1 ring-neutral-950/5 w-full max-w-[524px] select-none ${
+                            className={`mb-4 flex gap-6 pl-3 pr-4 text-sm bg-white rounded shadow cursor-grab ring-1 ring-neutral-950/5 w-full md:max-w-[524px] select-none ${
                               mapGroupToBorder[field.dataGroup]
                             }`}
                           >
-                            <HolderOutlined className="text-neutral-400" />
+                            <HolderOutlined className="text-neutral-400 max-sm:hidden" />
                             {field.label == "form_title" ||
                             field.label === "form_description" ||
                             field.label === "form_divider" ? (
-                              <div className="flex items-center justify-center w-full gap-4 my-5">
+                              <div className="flex items-center justify-center w-full gap-4 my-3 md:my-5">
                                 {/* Additional Field */}
                                 {field.inputType === "Text input" && (
                                   <div className="w-full ">
@@ -1200,7 +1201,7 @@ const FormBuilder = () => {
                                     <ReactQuill
                                       theme="snow"
                                       value={field?.value}
-                                      className="[&_.ql-editor]:cursor-text [&_.ql-editor.ql-blank]:not-italic bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
+                                      className="prose [&_.ql-editor]:cursor-text [&_.ql-editor.ql-blank:before]:not-italic bg-white [&_.ql-container]:rounded-b [&_.ql-editor]:rounded-b"
                                       placeholder="Enter description here..."
                                       onChange={(value) =>
                                         handleUpdateAdditionalField(
@@ -1245,23 +1246,29 @@ const FormBuilder = () => {
                               </div>
                             ) : (
                               <div className="flex-grow">
-                                <div className="mt-5 mb-6">
-                                  <div className="flex items-center gap-2 mb-2.5">
-                                    <div className="font-medium">
-                                      {field.label}
+                                <div className="mt-4 mb-5 md:mt-5 md:mb-6">
+                                  <div className="mb-2.5">
+                                    <div className="flex items-center gap-2">
+                                      <div className="font-medium">
+                                        {field.label}
+                                      </div>
+                                      <Tag
+                                        colour={
+                                          mapGroupToColour[field.dataGroup]
+                                        }
+                                      >
+                                        {field.dataGroup}
+                                      </Tag>
+
+                                      {field.dataGroup ===
+                                        "Internal contact" && (
+                                        <Tag colour="neutral">Hidden</Tag>
+                                      )}
                                     </div>
-
-                                    <Tag
-                                      colour={mapGroupToColour[field.dataGroup]}
-                                    >
-                                      {field.dataGroup}
-                                    </Tag>
-
-                                    {field.dataGroup === "Internal contact" && (
-                                      <Tag colour="neutral">Hidden</Tag>
-                                    )}
+                                    <div className="text-subtitle">
+                                      {field.helpText}
+                                    </div>
                                   </div>
-
                                   {field.inputType === "Text input" && (
                                     <div className="pointer-events-none">
                                       <Input
@@ -1334,16 +1341,8 @@ const FormBuilder = () => {
                                   {field.inputType === "Date" && (
                                     <div className="pointer-events-none">
                                       <DatePicker className="w-40" />
-                                      {field.helpText && (
-                                        <div className="text-subtitle">
-                                          {field.helpText}
-                                        </div>
-                                      )}
                                     </div>
                                   )}
-                                  <div className="mt-2 text-subtitle">
-                                    {field.helpText}
-                                  </div>
                                 </div>
                                 <div className="flex gap-2 py-2.5 transition-opacity border-t border-neutral-200">
                                   <div className="flex items-center min-w-0">
@@ -1396,7 +1395,7 @@ const FormBuilder = () => {
                   {formFields.length > 0 && (
                     <Dropdown overlay={menu} trigger={["click"]}>
                       <Button
-                        className="mb-4"
+                        className="mt-1 mb-4"
                         type="primary"
                         icon={<PlusOutlined />}
                       >
@@ -1481,18 +1480,9 @@ const FormBuilder = () => {
           <Form.Item label="Group" className="!mb-4">
             <div>{isAddDrawerTitle}</div>
           </Form.Item>
+
           {editFieldId && (
-            <Form.Item label="Field name" className="!mb-4">
-              <div>
-                {
-                  formFields.find((field) => field.id === editFieldId)
-                    ?.fieldName
-                }
-              </div>
-            </Form.Item>
-          )}
-          {editFieldId && (
-            <Form.Item label="Type">
+            <Form.Item label="Type" className="!mb-4">
               <div className="flex items-center gap-2">
                 {formFields.find((field) => field.id === editFieldId)
                   ?.inputType === "Text input" && (
@@ -1593,6 +1583,17 @@ const FormBuilder = () => {
             </Form.Item>
           )}
 
+          {editFieldId && (
+            <Form.Item label="Field name">
+              <div>
+                {
+                  formFields.find((field) => field.id === editFieldId)
+                    ?.fieldName
+                }
+              </div>
+            </Form.Item>
+          )}
+
           <Form.Item
             label="Label"
             name="label"
@@ -1615,7 +1616,7 @@ const FormBuilder = () => {
               label="Options"
               name={"options"}
               dependencies={["inputType"]}
-              className="!mb-0 [&_.ant-form-item-explain-error]:-mt-1"
+              className="!-mb-1"
               rules={[{ required: true, validator: optionValidatorEdit }]}
             >
               <DragDropContext
@@ -1728,7 +1729,7 @@ const FormBuilder = () => {
                 label="Range"
                 name="dateRange"
                 rules={[
-                  { required: true, message: "Please enter a date range" },
+                  { required: false, message: "Please enter a date range" },
                 ]}
                 extra="To restrict the dates that can be selected set a start and end date."
               >
@@ -1970,7 +1971,7 @@ const FormBuilder = () => {
               name={"options"}
               dependencies={["inputType"]}
               rules={[{ required: true, validator: optionValidator }]}
-              className="!-mb-1 [&_.ant-form-item-explain-error]:-mt-1"
+              className="!-mb-1"
             >
               <DragDropContext
                 onDragEnd={(result: { source: any; destination: any }) => {
@@ -2092,7 +2093,7 @@ const FormBuilder = () => {
         visible={isPreviewVisible}
         onCancel={() => setIsPreviewVisible(false)}
         footer={null}
-        width={425}
+        width={450}
       >
         <FormPreview fields={formFields} description={formDescription} />
       </Modal>

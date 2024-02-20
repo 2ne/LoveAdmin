@@ -17,7 +17,7 @@ const PublicMarketingColumn: React.FC<PublicMarketingColumnProps> = ({
   messageBody,
 }) => {
   return (
-    <div className="sticky top-0 hidden max-h-screen overflow-hidden rounded-l-lg basis-full lg:block">
+    <div className="sticky top-0 hidden max-h-screen -mr-2 overflow-hidden rounded-l-lg lg:col-span-3 xl:col-span-2 basis-full lg:block">
       <img
         className="absolute inset-0 object-cover w-full h-full"
         src={imgSrc}

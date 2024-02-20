@@ -17,6 +17,7 @@ import DateFilter from "../../../components/date-filter";
 import {
   CheckCircleOutlined,
   DeleteOutlined,
+  DownOutlined,
   EllipsisOutlined,
   MailOutlined,
   SearchOutlined,
@@ -552,7 +553,10 @@ const Enquiries: React.FC = () => {
                     overlayStyle={{ position: "fixed" }}
                     overlay={
                       <Menu>
-                        <Menu.Item>Product</Menu.Item>
+                        <Menu.Item icon={<MailOutlined />}>Open</Menu.Item>
+                        <Menu.Item icon={<CheckCircleOutlined />}>
+                          Replied
+                        </Menu.Item>
                       </Menu>
                     }
                     trigger={["click"]}
@@ -561,8 +565,8 @@ const Enquiries: React.FC = () => {
                       onClick={(e) => e.preventDefault()}
                       className="flex gap-1.5 font-medium text-neutral-900 whitespace-nowrap"
                     >
-                      <CheckCircleOutlined />
-                      <span>Mark as replied</span>
+                      <span>Mark as</span>
+                      <DownOutlined />
                     </a>
                   </Dropdown>
                   <div className="text-neutral-400">|</div>

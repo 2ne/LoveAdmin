@@ -17,8 +17,8 @@ export const CalendarNavigationSettings = () => {
   return (
     <div>
       <p className="mb-6">
-        Timetable displays your classes organised by address and name. Only
-        classes that have both a schedule and address will be displayed.
+        Timetable displays your products organised by location and name. Only
+        products that a schedule will be displayed.
       </p>
       <Form layout="vertical">
         <Form.Item
@@ -38,20 +38,14 @@ export const CalendarNavigationSettings = () => {
           <Input placeholder="Timetable" />
         </Form.Item>
         <Form.Item
-          className="mb-1.5 ant-form-item-switch"
+          className="mb-1.5 [&_.ant-form-item-row]:gap-5 [&_.ant-form-item-row]:flex-row [&_.ant-form-item-row]:flex-nowrap [&_.ant-form-item-control]:w-auto [&_.ant-form-item-control]:flex [&_.ant-form-item-control]:items-end"
           label={
-            <span
-              className="flex gap-1.5 cursor-pointer"
-              onClick={toggleGroupByAddress}
-            >
-              <span>Group by address</span>
-              <Tooltip
-                className="text-neutral-400 hover:text-neutral-500"
-                title="Group products by their address to help customers find products easily. Items without an address won't be shown. Addresses are set within schedules."
-              >
-                <InfoCircleOutlined />
-              </Tooltip>
-            </span>
+            <div className="cursor-pointer" onClick={toggleGroupByAddress}>
+              <div>Enable timetable</div>
+              <div className="text-sm font-normal text-subtitle">
+                Show a link to the timetable in your shop.
+              </div>
+            </div>
           }
           valuePropName="checked"
         >
@@ -62,24 +56,60 @@ export const CalendarNavigationSettings = () => {
           />
         </Form.Item>
         <Form.Item
-          className="ant-form-item-switch"
+          className="mb-1.5 [&_.ant-form-item-row]:gap-5 [&_.ant-form-item-row]:flex-row [&_.ant-form-item-row]:flex-nowrap [&_.ant-form-item-control]:w-auto [&_.ant-form-item-control]:flex [&_.ant-form-item-control]:items-end"
           label={
-            <span
-              className="flex gap-1.5 cursor-pointer"
-              onClick={toggleIsHidden}
-            >
-              <span>Hidden</span>
-              <Tooltip
-                className="text-neutral-400 hover:text-neutral-500"
-                title="Hide this navigation item from your shop."
-              >
-                <InfoCircleOutlined />
-              </Tooltip>
-            </span>
+            <div className="cursor-pointer" onClick={toggleGroupByAddress}>
+              <div>Group by location</div>
+              <div className="text-sm font-normal text-subtitle">
+                Products will be grouped by location in the menu. Items without
+                a location won't be shown.
+              </div>
+            </div>
           }
           valuePropName="checked"
         >
-          <Switch size="small" checked={isHidden} onChange={toggleIsHidden} />
+          <Switch
+            size="small"
+            checked={groupByAddress}
+            onChange={toggleGroupByAddress}
+          />
+        </Form.Item>
+        <Form.Item
+          className="mb-1.5 [&_.ant-form-item-row]:gap-5 [&_.ant-form-item-row]:flex-row [&_.ant-form-item-row]:flex-nowrap [&_.ant-form-item-control]:w-auto [&_.ant-form-item-control]:flex [&_.ant-form-item-control]:items-end"
+          label={
+            <div className="cursor-pointer" onClick={toggleGroupByAddress}>
+              <div>View all</div>
+              <div className="text-sm font-normal text-subtitle">
+                Allow your members to view all products across all locations.
+              </div>
+            </div>
+          }
+          valuePropName="checked"
+        >
+          <Switch
+            size="small"
+            checked={groupByAddress}
+            onChange={toggleGroupByAddress}
+          />
+        </Form.Item>
+        <Form.Item
+          className="mb-1.5 [&_.ant-form-item-row]:gap-5 [&_.ant-form-item-row]:flex-row [&_.ant-form-item-row]:flex-nowrap [&_.ant-form-item-control]:w-auto [&_.ant-form-item-control]:flex [&_.ant-form-item-control]:items-end"
+          label={
+            <div className="cursor-pointer" onClick={toggleGroupByAddress}>
+              <div>Hide images in group view</div>
+              <div className="text-sm font-normal text-subtitle">
+                When viewing groups of products you can hide images to allow
+                more space to view events.
+              </div>
+            </div>
+          }
+          valuePropName="checked"
+        >
+          <Switch
+            size="small"
+            checked={groupByAddress}
+            onChange={toggleGroupByAddress}
+          />
         </Form.Item>
       </Form>
     </div>

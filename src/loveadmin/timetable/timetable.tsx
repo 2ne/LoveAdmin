@@ -200,7 +200,7 @@ const Timetable = () => {
         >
           <ClassTree />
         </Sidebar>
-        <Content className="p-4 pb-0">
+        <Content className="relative p-4 pb-0 !pointer-events-auto">
           <div className="flex flex-col max-md:h-[calc(100dvh-5rem)] h-[calc(100vh-8.25rem)]">
             <TimetableHeader
               datepicker={datepicker}
@@ -260,6 +260,12 @@ const Timetable = () => {
                   capacityLevels={capacityLevels}
                 />
               </div>
+            )}
+            {!collapsed && (
+              <div
+                className="absolute inset-0 z-50 md:hidden"
+                onClick={() => setCollapsed(true)}
+              ></div>
             )}
           </div>
           <div className="max-md:hidden md:contents">

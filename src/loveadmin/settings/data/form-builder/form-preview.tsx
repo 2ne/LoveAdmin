@@ -22,13 +22,18 @@ interface FormPreviewProps {
 
 const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
   const visibleFields = fields.filter(
-    (field) => field.dataGroup !== "Internal Contact"
+    (field) => field.dataGroup !== "Internal contact"
   );
   return (
-    <Form layout="vertical">
+    <Form
+      layout="vertical"
+      className="[&_.ant-form-item-control]:flex [&_.ant-form-item-control]:flex-col-reverse [&_.ant-form-item-label]:pb-0 [&_.ant-form-item-control-input]:pt-1 [&_.ant-form-item-margin-offset]:!mb-0"
+    >
       {description && (
-        // <Paragraph className="mb-6 text-sm">{description}</Paragraph>
-        <div dangerouslySetInnerHTML={{ __html: description }} />
+        <div
+          className="prose"
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
       )}
       <Divider className="bg-neutral-200/75" />
       {visibleFields.length === 0 && (
@@ -58,7 +63,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             } else
               return (
                 <Form.Item
-                  extra={field.helpText}
+                  help={field.helpText}
                   key={field.id}
                   label={field.label}
                 >
@@ -69,7 +74,10 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             if (field.label === "form_description") {
               if (field?.value)
                 return (
-                  <div dangerouslySetInnerHTML={{ __html: field?.value }} />
+                  <div
+                    className="prose"
+                    dangerouslySetInnerHTML={{ __html: field?.value }}
+                  />
                 );
               else
                 return (
@@ -78,7 +86,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
             } else
               return (
                 <Form.Item
-                  extra={field.helpText}
+                  help={field.helpText}
                   key={field.id}
                   label={field.label}
                 >
@@ -92,7 +100,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
           case "Number":
             return (
               <Form.Item
-                extra={field.helpText}
+                help={field.helpText}
                 key={field.id}
                 label={field.label}
               >
@@ -110,7 +118,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
           case "Dropdown":
             return (
               <Form.Item
-                extra={field.helpText}
+                help={field.helpText}
                 key={field.id}
                 label={field.label}
               >
@@ -127,7 +135,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
           case "Radio":
             return (
               <Form.Item
-                extra={field.helpText}
+                help={field.helpText}
                 key={field.id}
                 label={field.label}
               >
@@ -143,7 +151,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
           case "Checkbox":
             return (
               <Form.Item
-                extra={field.helpText}
+                help={field.helpText}
                 key={field.id}
                 label={field.label}
               >
@@ -159,7 +167,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ fields, description }) => {
           case "Date":
             return (
               <Form.Item
-                extra={field.helpText}
+                help={field.helpText}
                 key={field.id}
                 label={field.label}
               >

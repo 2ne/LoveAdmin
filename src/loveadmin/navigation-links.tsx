@@ -343,7 +343,7 @@ export const navigationLinks = [
             <circle cx="17" cy="19" r="1" fill="currentColor"></circle>
           </svg>
         ),
-        href: "#",
+        href: "/Settings/Products",
         colour: "secondary",
         key: "products",
       },
@@ -512,6 +512,12 @@ export const navigationLinks = [
                 href: "/Settings/Data/Forms/InternalContactForms",
                 colour: "secondary",
                 key: "internalContactForms",
+              },
+              {
+                name: "Manage Fields",
+                href: "/Settings/Data/Forms/ManageFields",
+                colour: "secondary",
+                key: "manageFields",
               },
             ],
           },

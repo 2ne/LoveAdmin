@@ -10,7 +10,7 @@ interface PublicHeaderProps {
 
 const PublicHeader: React.FC<PublicHeaderProps> = ({ product }) => {
   return (
-    <Header className="flex items-center px-8 border-none shadow-none bg-neutral-950">
+    <Header className="flex items-center px-6 border-none shadow-none bg-neutral-950">
       {product === "loveadmin" && (
         <h1 className="contents">
           <img
